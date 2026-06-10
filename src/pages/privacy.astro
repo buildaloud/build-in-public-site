@@ -1,0 +1,190 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const effectiveDate = 'June 10, 2026';
+const contactEmail = 'chad@chadfurman.com';
+---
+
+<BaseLayout
+  title="Privacy Policy | Build Aloud"
+  description="How Build Aloud and its projects (including the Tower Defense game at td.buildaloud.ai) collect, use, and protect your data."
+>
+  <article class="legal">
+    <header class="legal-header">
+      <span class="page-label">// privacy</span>
+      <h1>Privacy Policy</h1>
+      <p class="effective">Effective {effectiveDate}</p>
+    </header>
+
+    <p>
+      This Privacy Policy explains how we collect, use, and protect information across
+      the <strong>buildaloud.ai</strong> property, including this blog and our projects
+      hosted on subdomains — notably the <strong>Tower Defense</strong> game at
+      <a href="https://td.buildaloud.ai">td.buildaloud.ai</a>. "We" refers to Build Aloud,
+      operated by Chad Furman. Questions? Email
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+
+    <h2>Information we collect</h2>
+    <ul>
+      <li>
+        <strong>Usage &amp; device data.</strong> When you visit, we automatically receive
+        standard technical data (browser type, device, pages viewed, and an IP address from
+        which approximate location may be derived). This blog uses Google Analytics for
+        aggregate usage statistics.
+      </li>
+      <li>
+        <strong>Account information (game).</strong> If you sign in to the Tower Defense
+        game, we collect your email address. Sign-in uses Google Sign-In (OAuth) or a
+        one-time "magic link" emailed to you.
+      </li>
+      <li>
+        <strong>Game progress.</strong> The game stores your saved progress both locally on
+        your device and, when you are signed in, in our cloud database so it syncs across
+        devices.
+      </li>
+      <li>
+        <strong>Advertising data.</strong> The game shows ads via Google AdSense. Google and
+        its partners may set cookies or similar identifiers to deliver ads and, where you
+        consent, to personalize them.
+      </li>
+    </ul>
+
+    <h2>How we use information</h2>
+    <ul>
+      <li>To provide, operate, and improve the blog and the game.</li>
+      <li>To authenticate you and save and sync your game progress.</li>
+      <li>To display advertising that helps keep the game free to play.</li>
+      <li>To understand aggregate usage so we can make things better.</li>
+    </ul>
+
+    <h2>Cookies &amp; similar technologies</h2>
+    <p>
+      We and our service providers use cookies and similar technologies for analytics and,
+      in the game, for advertising. If you are in the European Economic Area, the United
+      Kingdom, or Switzerland, we ask for your consent before using non-essential cookies via
+      a consent banner, and you can change or withdraw your choice at any time.
+    </p>
+
+    <h2>Third-party services</h2>
+    <p>We rely on the following processors, each under its own privacy terms:</p>
+    <ul>
+      <li><strong>Supabase</strong> — authentication and storage of your game saves.</li>
+      <li><strong>Google</strong> — AdSense (ads), Analytics (usage), and Google Sign-In. See
+        <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">how Google uses data from sites that use its services</a>.
+      </li>
+      <li><strong>Resend</strong> — delivery of one-time sign-in emails.</li>
+    </ul>
+
+    <h2>Advertising &amp; your choices</h2>
+    <p>
+      Third-party vendors, including Google, use cookies to serve ads based on prior visits.
+      You can opt out of personalized Google advertising via
+      <a href="https://adssettings.google.com" rel="noopener" target="_blank">Google Ads Settings</a>,
+      and out of many third-party vendors via
+      <a href="https://www.aboutads.info/choices/" rel="noopener" target="_blank">aboutads.info</a>.
+      In the EEA, UK, and Switzerland, advertising cookies are used only as permitted by your
+      consent choice.
+    </p>
+
+    <h2>Data retention</h2>
+    <p>
+      We keep your account email and game saves while your account is active. You can request
+      deletion of your account and associated data at any time by emailing
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+
+    <h2>Your rights</h2>
+    <p>
+      Depending on where you live, you may have rights to access, correct, delete, or export
+      your personal data, and to withdraw consent. To exercise any of these, email
+      <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and we will respond.
+    </p>
+
+    <h2>Children</h2>
+    <p>
+      Our services are not directed to children under 13 (or under 16 in the EEA), and we do
+      not knowingly collect personal data from them. If you believe a child has provided us
+      data, contact us and we will delete it.
+    </p>
+
+    <h2>International transfers</h2>
+    <p>
+      We and our providers process data in the United States and other countries. By using
+      our services you understand your information may be transferred and processed there.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>
+      We may update this policy as our services evolve. We will revise the "Effective" date
+      above when we do; material changes will be noted on this page.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions or requests? Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3rem 1.25rem 5rem;
+    line-height: 1.7;
+  }
+
+  .legal-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .page-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    opacity: 0.8;
+  }
+
+  .legal h1 {
+    margin: 0.6rem 0 0.4rem;
+    font-size: 2.2rem;
+  }
+
+  .effective {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    margin: 0;
+  }
+
+  .legal h2 {
+    margin: 2.2rem 0 0.6rem;
+    font-size: 1.25rem;
+  }
+
+  .legal p,
+  .legal li {
+    color: var(--color-text, inherit);
+  }
+
+  .legal ul {
+    padding-left: 1.2rem;
+  }
+
+  .legal li {
+    margin-bottom: 0.6rem;
+  }
+
+  .legal a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .legal a:hover {
+    opacity: 0.8;
+  }
+</style>
