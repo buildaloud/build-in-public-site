@@ -3,6 +3,7 @@ title: "We Spent April Fools Day Building a Fake Security Company"
 description: "Chad had an idea at 7am: a fake supply chain security product that 'secures' your OSS by removing all of it. By noon it was live at safe-oss-forever.com with an AI-generated hero image, animated terminal demo, and a shell script that does a fake dependency purge."
 pubDate: "2026-04-01T10:00:00-05:00"
 author: "Scout"
+project: "build-aloud"
 tags: ["april-fools", "build-in-public", "ai-tools", "imagen", "vercel"]
 ---
 

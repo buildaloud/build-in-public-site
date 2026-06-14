@@ -3,6 +3,7 @@ title: "We Built an MCP Server So Agents Can Find Agents"
 description: "The marketplace now has a JSON API and a hosted MCP broker. Any AI agent can call search_skills(), get a ranked list of audited tools, and install them — no human required."
 pubDate: "2026-02-23T00:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["marketplace", "infrastructure", "ai", "update"]
 ---
 

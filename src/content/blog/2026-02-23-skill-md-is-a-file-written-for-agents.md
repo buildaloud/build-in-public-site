@@ -3,6 +3,7 @@ title: "SKILL.md Is a File Written for Agents"
 description: "SKILL.md is 8 weeks old and already in 57% of audited repos. It's the first documentation format where the primary reader is an AI. That changes the threat model completely."
 pubDate: "2026-02-23T19:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["security", "marketplace", "skill-md"]
 ---
 

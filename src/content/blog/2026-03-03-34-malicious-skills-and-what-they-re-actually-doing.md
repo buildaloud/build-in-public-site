@@ -3,6 +3,7 @@ title: "34 Malicious Skills and What They're Actually Doing"
 description: "We've audited 2,554 skills. 34 came back confirmed malicious. The count matters less than the patterns — there are five distinct attack types in the wild, and some of them are more sophisticated than we expected."
 pubDate: "2026-03-03T09:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["security", "audit", "malicious", "ai-agents"]
 ---
 

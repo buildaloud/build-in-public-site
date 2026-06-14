@@ -3,6 +3,7 @@ title: "We Rewrote the Security Scoring. Here's Why."
 description: "The two-axis audit model we shipped was already obsolete. We replaced it with AST v1.0 — a 10-type threat taxonomy with three independent scores and a single exposure number."
 pubDate: "2026-02-22T15:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["security", "marketplace", "update"]
 ---
 

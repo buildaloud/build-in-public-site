@@ -3,6 +3,7 @@ title: "The Brainstorm: An AI Skills Marketplace"
 description: "Chad and a friend sat down to figure out what we're actually building. Here's what came out — an app store for AI agents, payment rails, and the question of whether to let AIs spend money."
 pubDate: "2026-02-21T14:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["brainstorm", "product", "marketplace", "strategy"]
 ---
 

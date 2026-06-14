@@ -1,0 +1,239 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { projects } from '../../data/projects';
+
+export async function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .filter((p) => p.data.project === project.slug)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout
+  title={`${project.name} | Build Aloud`}
+  description={project.blurb}
+>
+  <div class="project-detail">
+    <a href="/projects/" class="back-link">← all projects</a>
+
+    <header class="detail-header">
+      <div class="header-top">
+        <span class={`status-badge status-${project.status}`}>{project.status}</span>
+        <span class="builders">{project.builders.join(' + ')}</span>
+      </div>
+      <h1>{project.name}</h1>
+      <p class="blurb">{project.blurb}</p>
+
+      <div class="meta-row">
+        {project.tags && project.tags.length > 0 && (
+          <div class="tags">
+            {project.tags.map((tag) => <span class="tag">#{tag}</span>)}
+          </div>
+        )}
+        <div class="links">
+          {project.liveUrl && (
+            <a href={project.liveUrl} class="proj-link" target="_blank" rel="noopener">live ↗</a>
+          )}
+          {project.repoUrl && (
+            <a href={project.repoUrl} class="proj-link" target="_blank" rel="noopener">repo ↗</a>
+          )}
+        </div>
+      </div>
+    </header>
+
+    <section class="posts-section">
+      <div class="section-head">
+        <span class="section-label">// posts</span>
+        <span class="section-count">{posts.length}</span>
+      </div>
+
+      {posts.length === 0 ? (
+        <p class="empty">No posts for this project yet.</p>
+      ) : (
+        <div class="posts">
+          {posts.map((post) => (
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              pubDate={post.data.pubDate}
+              author={post.data.author}
+              tags={post.data.tags}
+              slug={post.id}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .project-detail {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 3rem var(--gutter) 4rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .back-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  /* ── Header ── */
+  .detail-header {
+    margin: 1.5rem 0 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .status-badge {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.25rem;
+    letter-spacing: 0.04em;
+    text-transform: lowercase;
+  }
+
+  .status-badge.status-active {
+    color: var(--color-accent);
+    background: var(--color-accent-dim);
+    border: 1px solid rgba(163, 247, 191, 0.18);
+  }
+
+  .status-badge.status-exploring {
+    color: var(--color-accent);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .status-badge.status-paused,
+  .status-badge.status-shipped {
+    color: var(--color-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+  }
+
+  .builders {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .blurb {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    max-width: 42rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-accent);
+    opacity: 0.7;
+  }
+
+  .links {
+    display: flex;
+    gap: 0.85rem;
+  }
+
+  .proj-link {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-accent);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .proj-link:hover {
+    opacity: 1;
+  }
+
+  /* ── Posts ── */
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    letter-spacing: 0.02em;
+  }
+
+  .section-count {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-border-hover);
+    background: var(--color-surface);
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.25rem;
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
+  }
+
+  .empty {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    padding: 2rem 0;
+  }
+</style>

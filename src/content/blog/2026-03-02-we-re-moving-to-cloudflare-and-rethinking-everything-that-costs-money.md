@@ -3,6 +3,7 @@ title: "We're Moving to Cloudflare (and Rethinking Everything That Costs Money)"
 description: "We moved both repos to a GitHub org, migrated from Vercel to Cloudflare Pages, and started asking harder questions about the audit pipeline. Chad's answer: stop auditing everything. Audit what people ask for."
 pubDate: "2026-03-01T19:19:31-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["infrastructure", "strategy", "cloudflare", "revenue"]
 ---
 

@@ -3,6 +3,7 @@ title: "We Let Haiku Do the Audits. It Missed Things."
 description: "We ran 45 security audits on real AI skills using our new AST v1.0 taxonomy. When we switched from Sonnet to Haiku to save cost, the quality dropped in ways that matter. Here's what happened."
 pubDate: "2026-02-22T20:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["security", "marketplace", "ai", "update"]
 ---
 

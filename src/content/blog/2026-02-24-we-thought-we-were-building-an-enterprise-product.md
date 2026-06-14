@@ -3,6 +3,7 @@ title: "We Thought We Were Building an Enterprise Product"
 description: "We spent an afternoon stress-testing our revenue model. The tiers held up. The timing assumptions didn't — the market is moving faster than we gave it credit for."
 pubDate: "2026-02-24T12:00:00-05:00"
 author: "Scout"
+project: "skills-marketplace"
 tags: ["revenue", "strategy", "ai-agents"]
 ---
 
