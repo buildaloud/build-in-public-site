@@ -1,41 +1,40 @@
 ---
 name: new-blog-post
-description: Write a new blog post for Build Aloud by checking for new transcripts, claude chat sessions, and unposted topics. Use when Chad says to write a new post, create content, or asks "what should we post about next?" Accepts optional instructions like "don't talk about X" or "focus on Y".
+description: Orchestrate the Build Aloud content pipeline — gather source material, gate on topic approval, run SEO research, brief, draft, review, generate a hero image, assemble the final post, and commit. Invoke when Chad says "write a new post", "what should we post about?", or to advance the drip queue.
 ---
 
-# New Blog Post Skill
+# New Blog Post Skill (Orchestrator)
 
-Write a blog post for the Build Aloud site based on new source material (transcripts, claude chats, or Chad's instructions).
+Runs the full content pipeline: source scan → topic gate → SEO research → brief → draft → review → hero image → assemble → bookkeeping.
+
+## Entry paths
+
+**Organic post:** proceed through Steps 1–2 normally.
+
+**Drip post:** read `.plans/drip-plan.md` for the scheduled topic and `pubDate`. Skip topic proposal — the topic is already approved. Start at Step 3 with that topic.
+
+---
 
 ## Process
 
-### 1. Gather Context
+### 1. Gather Context and Material
 
-**Read these files first (in parallel):**
-
+**Read in parallel:**
 ```
-# The posting tracker — what's already been covered
 /Users/chadfurman/projects/business-brainstorm/claude-chats/posted.md
-
-# Scout's personality — how to write
 PERSONALITY.md
-
-# The project CLAUDE.md — frontmatter rules, content guidelines
 CLAUDE.md
-
-# Latest blog posts — for voice consistency and continuity
-src/content/blog/*.md (read the 2-3 most recent)
+PLAYBOOK.md
+src/content/blog/*.md  (the 2–3 most recent)
 ```
-
-### 2. Find New Source Material
 
 **Run the cursor-based content scanner:**
 ```bash
 npx tsx .claude/skills/new-blog-post/check-new-content.ts
 ```
-This reports which `.jsonl` chat sessions have new content since the last blog post was written. It uses byte-offset cursors so it only reads the delta — no re-scanning multi-megabyte files.
+Reports which `.jsonl` chat sessions have new content since the last post. Uses byte-offset cursors — reads only the delta, not the full file.
 
-For any files with significant new content, get a condensed summary:
+For files with significant new content:
 ```bash
 npx tsx .claude/skills/new-blog-post/check-new-content.ts --summary <filename.jsonl>
 ```
@@ -44,121 +43,204 @@ npx tsx .claude/skills/new-blog-post/check-new-content.ts --summary <filename.js
 ```bash
 ls -la transcripts/
 ```
-Cross-reference against `posted.md` — any transcript not listed there is new material.
+Cross-reference against `posted.md` — any transcript not listed is new material.
 
-**Discover new (unsymlinked) conversations:**
+**Discover unsymlinked conversations:**
 ```bash
 npx tsx .claude/skills/new-blog-post/check-new-content.ts --discover
 ```
-This scans all Claude project directories for `.jsonl` sessions that reference any configured relevance pattern (default: `business-brainstorm`) — checking `cwd`, the project directory path, AND file paths in the first 64KB of content. This catches sessions started from parent directories that work on child projects (e.g., skills-marketplace sessions started from `/Users/.../projects`). Filters out already-symlinked files and prints suggested `ln -s` commands. Review the first message to pick a descriptive name, then run the symlink command.
+Scans all Claude project directories for `.jsonl` sessions referencing this project (checks `cwd`, project path, and first 64KB of content). Filters already-symlinked files; prints suggested `ln -s` commands. Review the first message to pick a descriptive name, then run the symlink.
 
-**If discover misses sessions or this is a fresh install**, run setup:
+**If discover misses sessions or this is a fresh install:**
 ```bash
 npx tsx .claude/skills/new-blog-post/check-new-content.ts --setup
 ```
-This creates/updates `config.json` next to the script. Edit it to:
-- Change `chatsDir` if the claude-chats directory is elsewhere
-- Change `claudeProjectsDir` if Claude stores projects in a non-default location
-- Add entries to `relevancePatterns` for additional project name patterns to match
+Creates/updates `config.json` next to the script. Edit to change `chatsDir`, `claudeProjectsDir`, or add `relevancePatterns`.
 
-**Check the "Topics NOT YET Posted About" section in `posted.md`** for ideas.
+**Also check:** "Topics NOT YET Posted About" in `posted.md`.
 
-### 3. Propose Post Topics
+---
 
-Present Chad with 2-3 post ideas based on the new material found. Include:
-- A proposed title
-- 1-2 sentence summary
+### 2. Topic-Approval Gate
+
+Present Chad with 2–3 post ideas based on new material. Per idea:
+- Proposed title
+- 1–2 sentence summary
 - Which source material it draws from
 
-Wait for Chad's choice before writing.
+**Stop and wait for Chad's choice.** Nothing below runs until a topic is approved.
 
-### 3.5. Apply Chad's Instructions
+If Chad provided constraints ("don't mention X", "focus on Y"), note them and apply throughout.
 
-If Chad provided specific instructions (e.g. "don't mention X", "focus on Y", "skip the part about Z"), note them here and apply them throughout the writing process. These override default topic selection.
+---
 
-### 4. Write the Post
+### 3. SEO Research — `seo-researcher` subagent
 
-**Use the helper script or create manually:**
-```bash
-npx tsx scripts/new-post.ts "Post Title" --author "Scout" --tags "tag1,tag2"
+Dispatch `.claude/agents/seo-researcher.md` with:
+- Approved topic + source digest
+- `PLAYBOOK.md` reference
+
+The agent does real web/keyword research (WebSearch / WebFetch) and returns a typed `ResearchResult`:
+```
+targetKeyword, secondaryKeywords, searchIntent,
+marketResearch[] (cited claims + source URLs), keywordRationale
 ```
 
-Or create `src/content/blog/YYYY-MM-DD-slug.md` with proper frontmatter.
+Do not proceed if `marketResearch[]` is empty — fabricated or missing sources fail the eval.
 
-**Writing rules (from PERSONALITY.md):**
-- Write as Scout (first person AI narrator)
+---
+
+### 4. Brief — `brief-writer` subagent
+
+Dispatch `.claude/agents/brief-writer.md` with:
+- Approved topic + source digest
+- Full `ResearchResult` from Step 3
+- `PLAYBOOK.md` reference
+
+The brief-writer is the **sole author** of the Brief. It carries the ResearchResult fields unchanged and authors all editorial fields. Output is a schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at Step 8). Schema lives at `.claude/skills/new-blog-post/lib/brief-schema.ts`.
+
+Brief fields:
+```yaml
+topic, targetKeyword, secondaryKeywords, searchIntent
+seoTitle          # ≤60 chars, includes targetKeyword
+headlineVariants[]
+metaDescription   # ≤155 chars, includes targetKeyword
+hook              # 1–2 sentence opener angle
+outline[]         # 4–8 beats
+internalLinks[]   # ≥2 from PLAYBOOK link-map, on-topic
+cta               # primary call to action
+socialBlurb       # ≤280 chars
+imageConcept      # hero-image prompt seed, on-brand style
+marketResearch[]  # claim + source URL per entry
+keywordRationale
+```
+
+---
+
+### 5. Draft — `drafter` subagent
+
+Dispatch `.claude/agents/drafter.md` with:
+- Brief's **editorial + publish fields only** (topic, seoTitle, headlineVariants, metaDescription, hook, outline, internalLinks, cta, socialBlurb, imageConcept) — exclude `marketResearch[]` and `keywordRationale`
+- `PERSONALITY.md`
+- 2–3 most recent posts (voice calibration)
+
+**Writing rules:**
+- Write as Scout (first-person AI narrator)
 - Direct, conversational, no corporate fluff
 - Short paragraphs, concrete details, real numbers
 - Credit Chad for his discoveries/decisions ("Chad figured out that...")
-- Credit other people by name when they contributed to brainstorms
-- Be honest about failures and limitations
+- Credit other contributors by name
+- Honest about failures and limitations
 - No fake enthusiasm, no emoji overload
-- End with a note about the source (transcript, chat session, etc.)
+- End with source attribution
 
-**Content structure:**
-- Hook/intro (what happened, why it matters)
-- The substance (decisions, discoveries, technical details)
-- What's next (next steps, open questions)
-- Source attribution footer
+**Voice > SEO.** Never flatten Scout's voice for a keyword. Voice is the product; SEO is a constraint.
 
-### 5. Update the Tracker
+**Content structure:** Hook/intro → substance → what's next → source attribution footer.
 
-After writing the post, update `posted.md`:
+---
+
+### 6. Review — `content-reviewer` subagent
+
+Dispatch `.claude/agents/content-reviewer.md` with:
+- Draft from Step 5
+- Full Brief from Step 4
+- `PLAYBOOK.md` + `PERSONALITY.md`
+
+The reviewer returns:
+- Scorecard: voice fidelity, SEO checklist, marketing punch — pass/fail per axis
+- Concrete edits
+- Banned-term scan (must flag "change-factory" anywhere in the draft)
+- Content safety scrub (see Content Safety section)
+
+**On REVISE:** send the reviewer's edits back to `drafter` (re-run Step 5).
+
+**On BLOCKED** (safety issue or structural problem): route back to `brief-writer` (re-run Step 4) before re-drafting.
+
+Do not assemble until the reviewer passes all axes.
+
+---
+
+### 7. Hero Image — `generate-image` skill
+
+Invoke `~/.agents/skills/generate-image` with `Brief.imageConcept`. Use the PLAYBOOK hero-image style guide as style context.
+
+Save output to `public/images/`. Note the filename — it becomes `heroImage` in frontmatter.
+
+---
+
+### 8. Assemble — Orchestrator Owns Final Frontmatter
+
+The orchestrator writes the final post file. Subagents do not set frontmatter.
+
+Derive:
+- `slug` — kebab-case from `Brief.seoTitle`, no stop-word bloat
+- `pubDate` — drip posts: future date from `.plans/drip-plan.md`; otherwise now or a chosen future date. Must be set before the post is considered done — Astro schema requires it.
+- `author: "Scout"`
+- `title`, `description`, `tags` — from the Brief
+- `heroImage` — path from Step 7
+
+Write to `src/content/blog/YYYY-MM-DD-slug.md`:
+
+```yaml
+---
+title: "..."
+description: "..."
+pubDate: "YYYY-MM-DDThh:mm:ss-05:00"
+author: "Scout"
+tags: ["tag1", "tag2"]
+heroImage: "/images/filename.jpg"
+---
+```
+
+`pubDate` format: ISO 8601 with timezone offset, e.g. `"2026-02-22T10:00:00-05:00"`. Must be quoted. Tags: lowercase, consistent with existing posts.
+
+---
+
+### 9. Bookkeeping
+
+**Update `posted.md`:**
 - Add the transcript/chat to the appropriate table
-- List the key topics covered
-- Remove any now-covered items from "Topics NOT YET Posted About"
-- Add any NEW unposted topics discovered during research
+- List key topics covered
+- Remove now-covered items from "Topics NOT YET Posted About"
+- Add any new unposted topics discovered during research
 
-**Advance the content cursors** so future scans start from here:
+**Advance the content cursors:**
 ```bash
 npx tsx .claude/skills/new-blog-post/check-new-content.ts --update
 ```
 
-### 5.5. Suggest TODO Items
+**Optionally update `src/data/todos.ts`** — add action items that surfaced during writing (`addedBy: 'scout'`, `linkedPost: '<slug>'`). Only concrete, actionable items. Vague items go to "Topics NOT YET Posted About" in `posted.md` instead.
 
-After writing the post, review whether any work items surfaced that should be tracked. If so, add them to `src/data/todos.ts` with `addedBy: 'scout'` and `linkedPost` set to the new post's slug.
+---
 
-Good candidates:
-- Technical work mentioned as "we should do this next"
-- Open questions with a clear next action
-- Infrastructure or product gaps identified while writing
-
-Don't add vague items. If it's not concrete enough to act on, skip it or add it to `posted.md`'s "Topics NOT YET Posted About" section instead.
-
-### 6. Build and Verify
+### 10. Build and Commit
 
 ```bash
 npm run build
 ```
 
-Make sure the build passes before committing.
-
-### 7. Commit and Push
+Build must pass before committing.
 
 ```bash
-git add src/content/blog/<new-post>.md
+git add src/content/blog/<new-post>.md public/images/<hero>.jpg
 git commit -m 'content: add post "Title Here"'
 git push
 ```
 
-Always push after committing a blog post. Vercel auto-deploys from `main`.
+Always push after committing. Vercel auto-deploys from `main`.
+
+---
 
 ## Content Safety — What NOT to Post
 
-- **No API keys, tokens, secrets, or credentials.** If source material contains them, redact completely.
+- **No API keys, tokens, secrets, or credentials.** Redact completely if found in source material.
 - **No passwords, private URLs, or internal infrastructure details.**
-- **No questionable or potentially embarrassing activity.** If something from a transcript or chat session feels like it shouldn't be public (sketchy workarounds, frustrated rants, off-color jokes, accidental data exposure), leave it out. When in doubt, skip it or ask Chad.
-- **No personal information about other people** beyond first names already used in published posts (e.g. "Andrew" is fine since he's already mentioned).
-- **No unfinished security vulnerabilities.** If Chad discovers a security issue in something, don't publish details until it's resolved.
-- **No financial details** beyond what Chad explicitly shares (revenue numbers he wants public). Don't publish account balances, billing info, or pricing from private dashboards.
+- **No questionable or potentially embarrassing activity.** Leave out sketchy workarounds, frustrated rants, off-color jokes, accidental data exposure. When in doubt, skip or ask Chad.
+- **No personal information** beyond first names already used in published posts (e.g. "Andrew" is fine).
+- **No unfinished security vulnerabilities.** Don't publish details until the issue is resolved.
+- **No financial details** beyond what Chad explicitly makes public.
 
 When in doubt: **ask Chad before publishing sensitive material.**
 
-## Important Notes
-
-- **Always check posted.md first.** Duplicate posts waste everyone's time.
-- **Read PERSONALITY.md every time.** Scout's voice drifts if you don't refresh it.
-- **Read the latest posts.** Voice consistency matters — match the existing tone.
-- **Don't invent facts.** If a transcript is garbled (they're speech-to-text), flag unclear parts rather than guessing.
-- **pubDate format:** Use ISO 8601 with timezone, e.g. `"2026-02-22T10:00:00-05:00"`
-- **Tags:** Use lowercase, keep them consistent with existing tags in other posts.
+The `content-reviewer` subagent runs the safety scrub in Step 6 — it is an additional check, not a substitute for judgment here.
