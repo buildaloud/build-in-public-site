@@ -69,7 +69,7 @@ Link generously to on-site targets. One or two internal links per post is the fl
 |---|---|
 | Build Aloud home | https://buildaloud.ai |
 | Skills Marketplace | https://marketplace.buildaloud.ai |
-| Tower Defense game | https://td.buildaloud.com |
+| Tower Defense game | https://td.buildaloud.ai |
 | Project index | /projects |
 
 **Other targets (not yet in projects.ts — link when the post references them):**

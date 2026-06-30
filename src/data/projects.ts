@@ -54,7 +54,7 @@ export const projects: Project[] = [
       'A browser tower-defense game built in public — tuning waves, towers, and feel one ticket at a time. Auth, rewarded ads, and a custom domain along the way.',
     status: 'active',
     builders: ['Chad'],
-    liveUrl: 'https://td.buildaloud.com',
+    liveUrl: 'https://td.buildaloud.ai',
     startedDate: '2026-05-01',
     tags: ['game', 'web', 'gamedev'],
   },

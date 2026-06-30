@@ -14,8 +14,8 @@ You need four things before starting. If any are missing, ask:
 
 1. **Drafted post** — the markdown file path (or raw content)
 2. **Brief** — the planning brief this post was written against
-3. **PLAYBOOK.md** — `/Users/chadfurman/projects/business-brainstorm/build-in-public-site/PLAYBOOK.md`
-4. **PERSONALITY.md** — `/Users/chadfurman/projects/business-brainstorm/build-in-public-site/PERSONALITY.md`
+3. **PLAYBOOK.md** — `/Users/chadfurman/projects/build-aloud/PLAYBOOK.md`
+4. **PERSONALITY.md** — `/Users/chadfurman/projects/build-aloud/PERSONALITY.md`
 
 Read all four before scoring anything.
 

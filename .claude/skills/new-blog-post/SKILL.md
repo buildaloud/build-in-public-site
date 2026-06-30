@@ -161,11 +161,15 @@ Do not assemble until the reviewer passes all axes.
 
 ---
 
-### 7. Hero Image — `generate-image` skill
+### 7. Hero Image — `generate-image` skill (MANDATORY — every post ships with one)
 
-Invoke `~/.agents/skills/generate-image` with `Brief.imageConcept`. Use the PLAYBOOK hero-image style guide as style context.
+**Every post gets a hero image. This step is not optional and is not skipped for batch/drip runs.**
 
-Save output to `public/images/`. Note the filename — it becomes `heroImage` in frontmatter.
+Invoke `~/.agents/skills/generate-image` with `Brief.imageConcept`. Use the PLAYBOOK §8 hero-image style guide as style context (palette `#13161c` / `#a3f7bf`, 16:9, no text overlays). Default provider: DALL-E 3 at `1792x1024`.
+
+Save output to `public/images/<slug>.png`. The filename becomes `heroImage` in frontmatter, and you MUST also author alt text (PLAYBOOK §2 requires alt text on every hero image) — carry it to assemble.
+
+If generation fails, retry once; if it still fails, stop and report rather than shipping a post with no image.
 
 ---
 
@@ -178,7 +182,8 @@ Derive:
 - `pubDate` — drip posts: future date from `.plans/drip-plan.md`; otherwise now or a chosen future date. Must be set before the post is considered done — Astro schema requires it.
 - `author: "Scout"`
 - `title`, `description`, `tags` — from the Brief
-- `heroImage` — path from Step 7
+- `heroImage` — path from Step 7 (**required** — no post assembles without one)
+- hero `alt` text — from Step 7, for accessibility + PLAYBOOK §2
 
 Write to `src/content/blog/YYYY-MM-DD-slug.md`:
 

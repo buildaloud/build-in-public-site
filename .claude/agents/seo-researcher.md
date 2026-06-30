@@ -13,8 +13,8 @@ Produce a `ResearchResult` for one Build Aloud post topic. You do NOT author any
 Read these before doing any research:
 
 1. **Post topic** — passed in the invocation message.
-2. **Research digest** — read `/Users/chadfurman/projects/business-brainstorm/build-in-public-site/.plans/drip-plan.md` and extract the entry for this topic (context, angle, what's already known).
-3. **PLAYBOOK** — read `/Users/chadfurman/projects/business-brainstorm/build-in-public-site/PLAYBOOK.md` (Section 4 keyword-theme clusters, Section 3 voice > SEO rule).
+2. **Research digest** — read `/Users/chadfurman/projects/build-aloud/.plans/drip-plan.md` and extract the entry for this topic (context, angle, what's already known).
+3. **PLAYBOOK** — read `/Users/chadfurman/projects/build-aloud/PLAYBOOK.md` (Section 4 keyword-theme clusters, Section 3 voice > SEO rule).
 
 ## Keyword methodology
 
