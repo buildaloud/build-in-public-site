@@ -1,6 +1,55 @@
 # Build Aloud Content Pipeline — Design Spec
 
-Date: 2026-06-14 · Status: proposed (awaiting Chad approval)
+Date: 2026-06-14 · Status: approved + revised by spec review (see Revisions)
+
+## Revisions from spec review (2026-06-14)
+
+Six-agent spec-stage review (architecture, simplicity, tests/eval, prior-art,
+devil's advocate, decomposer). Locked decisions:
+
+**Adopted:**
+1. **Eval judge stability** — LLM-judge runs temperature=0 with binary yes/no
+   defect-detection prompts (NOT a 1-5 scale). It is *advisory*; the deterministic
+   layer is the real gate. (tests, architecture)
+2. **Real-research enforcement** — cited `marketResearch[]` URLs are HTTP-probed (or
+   domain-allowlisted) so fabricated sources FAIL. Presence alone is not enough.
+   A fabricated-URL case is a seeded defect in gold-bad. (tests, devil's advocate)
+3. **Clean agent contract** — seo-researcher emits a typed `ResearchResult`;
+   brief-writer is the SOLE author of the Brief (removes dual-owner / dual-slug
+   ambiguity). Both agents kept (Chad wants both evaluated). (architecture, simplicity)
+4. **Orchestrator keeps the existing skill's guts** — the cheap topic-approval gate
+   runs BEFORE the expensive pipeline; posted.md/cursor state, the content-safety
+   scrub, and build/commit are mapped onto the new steps, not dropped. (architecture)
+5. **Reuse seo-audit skill** (`~/.agents/skills/seo-audit`) — PLAYBOOK references it
+   and carries only Build Aloud deltas; seo-researcher grounds its keyword
+   methodology in it. Cite content-strategy skill's searchable-vs-shareable framing.
+   (prior-art)
+6. **BriefSchema in Zod**, mirroring `skills-marketplace/pipeline/schemas.ts`; graders
+   parse against it instead of ad-hoc checks. (prior-art)
+7. **Shared `web-researcher` sub-harness** — fan-out/verify/cite logic lives in one
+   place; both seo-researcher and the keyword-refresh use it. (prior-art)
+8. **Trim ceremony** — derive `slug` at assemble; `headlineVariants` is optional
+   ideation, not a graded exactly-3; the drafter receives only the editorial+publish
+   subset of the Brief, not research provenance. (simplicity, architecture)
+9. **Voice > SEO** — PLAYBOOK + drafter state plainly: never flatten Scout's voice for
+   a keyword. Voice is the product; SEO is a constraint. (devil's advocate)
+10. **Bootstrap graders against gold-bad before locking the manifest** (so the
+    manifest reflects real grader behavior, not assumption). (tests)
+
+**Kept against review pushback (Chad's deliberate calls):**
+- Gold-bad brief + known-defects manifest — kept (hardened via #2/#10).
+- Keyword research as a workflow — kept, but reframed as a one-off refresh that
+  populates a PLAYBOOK keyword section via the `web-researcher` harness (not a
+  per-post staleness dependency).
+- Build whole pipeline → then eval — kept; the first real drip topics double as the
+  eval's live validation, which also answers the devil's-advocate voice-risk.
+
+**Dependencies:** add `zod` + `vitest` to the blog repo (neither present).
+`generate-image` skill confirmed reachable.
+
+---
+
+Date: 2026-06-14 · Status: original design below (superseded where Revisions differ)
 
 ## Goal
 
