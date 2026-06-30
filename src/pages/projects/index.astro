@@ -2,8 +2,9 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { projects, type Project } from '../../data/projects';
+import { isPublished } from '../../utils/posts';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }) => isPublished(data));
 
 const postCount = (slug: string) =>
   posts.filter((p) => p.data.project === slug).length;

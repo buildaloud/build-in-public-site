@@ -3,6 +3,10 @@ name: Deploy to Cloudflare Pages
 on:
   push:
     branches: [main]
+  schedule:
+    # Daily rebuild so scheduled (future-dated) posts publish on their own.
+    - cron: '0 13 * * *' # ~9am ET
+  workflow_dispatch:
 
 jobs:
   deploy:
