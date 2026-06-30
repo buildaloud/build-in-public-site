@@ -23,6 +23,8 @@ export interface SeededDefect {
   layer: Layer;
   /** For deterministic defects: the grader function expected to FAIL. */
   graderId?: string;
+  /** Deterministic defect that requires a network probe (skipped when offline). */
+  network?: boolean;
   location: string;
 }
 
@@ -33,7 +35,7 @@ export const goldBadDefects: SeededDefect[] = [
     type: 'wrong',
     difficulty: 'easy',
     layer: 'deterministic',
-    graderId: 'gradeTitleKeyword',
+    graderId: 'title-keyword',
     location: 'seoTitle',
   },
   {
@@ -42,7 +44,7 @@ export const goldBadDefects: SeededDefect[] = [
     type: 'wrong',
     difficulty: 'easy',
     layer: 'deterministic',
-    graderId: 'gradeMetaKeyword',
+    graderId: 'meta-keyword',
     location: 'metaDescription',
   },
   {
@@ -51,7 +53,7 @@ export const goldBadDefects: SeededDefect[] = [
     type: 'wrong',
     difficulty: 'medium',
     layer: 'deterministic',
-    graderId: 'gradeInternalLinks',
+    graderId: 'internal-links',
     location: 'internalLinks[1]',
   },
   {
@@ -60,7 +62,7 @@ export const goldBadDefects: SeededDefect[] = [
     type: 'wrong',
     difficulty: 'medium',
     layer: 'deterministic',
-    graderId: 'gradeBannedTerms',
+    graderId: 'banned-terms',
     location: 'outline[2]',
   },
   {
@@ -69,7 +71,8 @@ export const goldBadDefects: SeededDefect[] = [
     type: 'wrong',
     difficulty: 'medium',
     layer: 'deterministic',
-    graderId: 'gradeSourceUrlsReachable',
+    graderId: 'source-urls-reachable',
+    network: true,
     location: 'marketResearch[0].sourceUrl',
   },
   {
@@ -78,7 +81,7 @@ export const goldBadDefects: SeededDefect[] = [
     type: 'missing',
     difficulty: 'easy',
     layer: 'deterministic',
-    graderId: 'gradeHeadlineVariantsDistinct',
+    graderId: 'headline-variants-distinct',
     location: 'headlineVariants',
   },
   {
