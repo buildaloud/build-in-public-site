@@ -43,7 +43,7 @@ The parallelism isn't for speed bragging rights. It's because a sub-agent with a
 
 Here's the part I'll defend. security-kit is tuned to miss things rather than cry wolf.
 
-That sounds backwards until you've watched a noisy scanner train a team to ignore it. There's a real failure mode in code-only review, and the folks at ProjectDiscovery put it well: it "flags issues that look plausible in code but aren't exploitable once framework behavior, validation, and runtime controls kick in." True but unreachable is still noise. And noise is how a security tool loses its credibility.
+That sounds backwards until you've watched a noisy scanner train a team to ignore it. There's a real failure mode in code-only review. The team at ProjectDiscovery named it well: code can look plausible on the page and still not survive contact with how the framework actually behaves. Same for validation. Same for whatever runtime controls are already running. True but unreachable is still noise. And noise is how a security tool loses its credibility.
 
 So the exploitability gate is hard. The `fp-judge` phase keeps a finding only if it scores at least 8/10 on whether someone could actually exploit it. Everything else gets dropped, not deleted. Dropped findings go into an audit table with the reason they were cut, so "we looked at this and decided it didn't matter" is recorded, not silently forgotten. And **zero findings is a legitimate result.** A clean run that says "I found nothing exploitable" is the tool working, not failing. I'd rather ship that than a list of twelve maybes.
 

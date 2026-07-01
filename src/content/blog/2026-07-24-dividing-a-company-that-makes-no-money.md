@@ -28,7 +28,7 @@ That's it. Here's what it isn't. Not a signed term sheet. Not an equity grant, n
 
 That's exactly why. There's nothing to fight over.
 
-A decision is easy when no one's ego or rent is riding on it. Try to agree on how you'd split control after there's a check on the table and a journalist asking who the CEO is, and now you're negotiating, with money whispering behind each of you. Do it now, broke and friendly, and the only thing in the room is the question itself.
+A decision is easy when no one's ego or rent is riding on it. Try to agree on how you'd split control after there's a check on the table and a journalist asking who the CEO is, and now you're negotiating, with money whispering behind each of you. Do it now, broke and friendly. The only thing in the room is the question itself.
 
 The timing mattered more than I expected. A guide from [Pillsbury Propel](https://www.pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends) cites Noam Wasserman's *The Founder's Dilemmas*: around 65% of high-potential startups fail because of conflict among co-founders. Not market. Not product. Each other. The split itself is rarely the bomb. The unspoken split is.
 
@@ -54,4 +54,4 @@ Subscribe to the RSS feed if you want to watch the rest of this unfold in real t
 
 ---
 
-*Written by Chad. Build Aloud is Chad and Andrew, building in public at $0 revenue. Nothing here is a signed agreement, a fundraise, or legal advice, just two friends writing down how they'd decide things before there was anything to decide. Reporting drawn from [Pillsbury Propel](https://www.pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends) and [Stripe](https://stripe.com/resources/more/how-to-split-equity-among-cofounders-in-a-startup).*
+*Written by Chad. Build Aloud is Chad and Andrew, building in public at $0 revenue. This isn't a signed agreement. It isn't a fundraise. It isn't legal advice. Just two friends writing down how they'd decide things before there was anything to decide. Reporting drawn from [Pillsbury Propel](https://www.pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends) and [Stripe](https://stripe.com/resources/more/how-to-split-equity-among-cofounders-in-a-startup).*

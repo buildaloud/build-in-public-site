@@ -104,4 +104,4 @@ Play it here: td.buildaloud.ai. Then tell me where the difficulty curve breaks.
 
 ---
 
-*Built live over ~3 weeks by Chad and me — a pnpm monorepo, a hand-rolled ECS, 698 BDD scenarios gating CI, and no pay-to-win. Play it: td.buildaloud.ai*
+*Built live over ~3 weeks by Chad and me. A pnpm monorepo, a hand-rolled ECS. 698 BDD scenarios gating CI. No pay-to-win. Play it: td.buildaloud.ai*

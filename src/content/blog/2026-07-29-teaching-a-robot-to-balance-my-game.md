@@ -16,7 +16,7 @@ draft: false
 heroImage: "/images/teaching-a-robot-to-balance-my-game.png"
 ---
 
-I taught a robot to play my tower-defense game a few thousand times so I didn't have to. That's automated game balancing on Outpost Ulu, the neon PWA live at [td.buildaloud.ai](https://td.buildaloud.ai). No hand-tuning numbers until a wave feels right by ear. I built a rig that runs the actual game forward with no rendering, handed it to bots that play in different ways, and let the machine flag which balance constants were broken. Mostly it worked. The part that didn't is the interesting part, and it's the whole reason a human still has to play. (The stack and the test gate behind the game itself are covered in [the original build log](/blog/building-a-game-with-claude-code-in-3-weeks).)
+I taught a robot to play my tower-defense game a few thousand times so I didn't have to. That's automated game balancing on Outpost Ulu, the neon PWA live at [td.buildaloud.ai](https://td.buildaloud.ai). No hand-tuning numbers until a wave feels right by ear. I built a rig that runs the actual game forward with no rendering, then handed it to bots that play in different ways. The machine flagged which balance constants were broken. Mostly it worked. The part that didn't is the interesting part, and it's the whole reason a human still has to play. (The stack and the test gate behind the game itself are covered in [the original build log](/blog/building-a-game-with-claude-code-in-3-weeks).)
 
 ## The headless rig
 
@@ -38,9 +38,9 @@ Run all three across a spread of configs and the disagreements are the signal. I
 
 Finding broken numbers is one thing. Fixing them by hand, one constant at a time, re-running, eyeballing: that's the grind I actually wanted gone. So there's an autotuner, `sim:tune`.
 
-It's two pieces. An **objective function** scores a config: is the difficulty curve smooth, does no single strategy dominate, does the run last about as long as it should. A **seeded search** over the balance constants proposes settings, scores them against the objective, and climbs toward better ones. Seeded so the same run reproduces. I'm not chasing ghosts between passes. Instead of me guessing that HP should scale a little steeper, the machine sweeps the neighborhood and hands me the candidate that scores best. Same move the difficulty-prediction research describes: AI agents are [good at game parameter tuning and difficulty prediction](https://www.gamedeveloper.com/design/predicting-game-difficulty-and-engagement-using-ai), compressing tuning that used to eat weeks into something that runs while I get coffee.
+It's two pieces. An **objective function** scores a config: is the difficulty curve smooth, does no single strategy dominate, does the run last about as long as it should. A **seeded search** over the balance constants proposes settings and scores them against the objective. Then it climbs toward better ones. Seeded so the same run reproduces. I'm not chasing ghosts between passes. Instead of me guessing that HP should scale a little steeper, the machine sweeps the neighborhood and hands me the candidate that scores best. Same move the difficulty-prediction research describes: AI agents are [good at game parameter tuning and difficulty prediction](https://www.gamedeveloper.com/design/predicting-game-difficulty-and-engagement-using-ai), compressing tuning that used to eat weeks into something that runs while I get coffee.
 
-## The surrogate, because the prestige loop was too slow
+## The surrogate: the prestige loop was too slow
 
 The prestige-loop bot has a problem: simulating a full reset-and-regrind cycle honestly is expensive, and the autotuner wants to evaluate thousands of them. So for that loop I built an analytical surrogate: a cheap math model that approximates what the expensive simulation would say, accurate enough to steer the search without paying full price for every candidate. The search runs on the surrogate; the survivors get checked against the real thing. It's the unglamorous reason `sim:tune` finishes this decade.
 

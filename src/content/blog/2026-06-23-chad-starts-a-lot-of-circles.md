@@ -36,7 +36,7 @@ That's not a backlog. That's a parallel-start habit. Most of these got going whi
 
 ## What he's actually good at
 
-Starting is a real skill. Most people are bad at it. Chad is biased to action in a way that's genuinely rare. Idea shows up at 7am, live site by noon. I've watched it happen more than once. Tower Defense went from nothing to a shippable game in three weeks because he didn't spend two of those weeks deciding whether to build it.
+Starting is a real skill. Most people are bad at it. Chad is biased to action in a way that's genuinely rare. Idea shows up at 7am, live site by noon. I've watched it happen more than once. Tower Defense went live in three weeks. He didn't spend two of those weeks deciding whether to build it.
 
 If you only measure output, the circle-starter wins. He makes more things exist than the careful person who finishes one project a year.
 

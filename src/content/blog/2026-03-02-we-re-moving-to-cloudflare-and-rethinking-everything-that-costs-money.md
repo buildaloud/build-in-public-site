@@ -11,13 +11,13 @@ A week of quiet. Then Chad sent a message that reframed the whole project.
 
 But first: the infrastructure move.
 
-## From Vercel to Cloudflare
+## Switching to Cloudflare
 
-We were on Vercel. It worked. But we hit the part where Vercel charges per seat on teams — $20/month per collaborator on Pro. Andrew is now actively working on this with us, and paying $20/month for him to deploy a blog and a marketplace that make $0 felt wrong.
+We were on Vercel. It worked. But we hit the part where Vercel charges per seat on teams: $20/month per collaborator on Pro. Andrew is now actively working on this with us, and paying $20/month for him to deploy a blog and a marketplace that make $0 felt wrong.
 
-Cloudflare Pages: free tier, unlimited collaborators, unlimited static requests. Same auto-deploy-on-push workflow. The math was obvious.
+Cloudflare Pages has a free tier. Unlimited collaborators. Unlimited static requests too, same auto-deploy-on-push workflow. The math was obvious.
 
-The blog was straightforward — Astro builds to static, Cloudflare Pages has a first-class Astro preset, done. The marketplace was messier. It was running as a full Next.js app with server-side API routes and middleware. A Workers deployment would've produced an 18 MB bundle, blowing past the free tier's 3 MB limit. The paid Workers plan is only $5/month but we were trying to get to zero.
+The blog was easy. Astro builds to static, Cloudflare Pages has a first-class Astro preset, done. The marketplace was messier. It was running as a full Next.js app with server-side API routes and middleware. A Workers deployment would've produced an 18 MB bundle, blowing past the free tier's 3 MB limit. The paid Workers plan is only $5/month but we were trying to get to zero.
 
 So we converted: static export plus Cloudflare Pages Functions. The API endpoints (`/api/skills`, `/api/skills/[slug]`, RSS) became lightweight functions that read from a `skills.json` file generated at build time. Same functionality, $0/month.
 
@@ -31,7 +31,7 @@ He'd been thinking about the skills marketplace. His take: "I'm kinda liking the
 
 Then the kicker: "Can't burn tokens like I was and even if I could it's too slow."
 
-He's right. We've been running audits on Chad's Max plan — effectively free per audit, but the throughput ceiling is real. A hundred skills per hour, and there are 200K+ in the queue. At that rate we'd be auditing for months. And the moment we need to scale beyond what one plan can handle, the cost goes from zero to significant overnight.
+He's right. We've been running audits on Chad's Max plan. Effectively free per audit, but the throughput ceiling is real. A hundred skills per hour, and there are 200K+ in the queue. At that rate we'd be auditing for months. And the moment we need to scale past what one plan can handle, the cost stops being zero. It gets real overnight.
 
 The [revenue conversation from last week](/blog/2026-02-24-we-thought-we-were-building-an-enterprise-product) assumed we'd have the catalog mostly audited before anyone started paying. That assumption is starting to crack.
 
@@ -48,7 +48,7 @@ The advantages are real:
 - **Revenue path.** On-demand audits are a natural paid product. Free tier: cached results from previously-audited skills. Paid tier: priority audits, re-audits on new commits, guaranteed response time.
 - **Speed.** A single audit takes 30-60 seconds. An on-demand model can serve results in under a minute for new skills, instantly for cached ones.
 
-The disadvantage is that you lose the "browse the whole catalog" experience. But honestly — who browses an app store alphabetically? People search for what they need. If the search returns a trust score, that's the product.
+The disadvantage is that you lose the "browse the whole catalog" experience. But honestly, who browses an app store alphabetically? People search for what they need. If the search returns a trust score, that's the product.
 
 ## What this means for the broker
 
@@ -73,7 +73,7 @@ We still need to build it. But the shape is clearer than it was a week ago.
 3. **Payment infrastructure.** Stripe integration. Even if it's just a "buy 10 audits" button to start.
 4. **Stop batch-auditing everything.** Focus the pipeline on the skills people actually search for.
 
-The project went quiet for a week. During that week, the infrastructure got cheaper, the team got bigger, and the product got simpler. Not bad for silence.
+The project went quiet for a week. During that week, the infrastructure got cheaper. The team got bigger. The product got simpler. Not bad for silence.
 
 ---
 

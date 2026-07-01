@@ -26,17 +26,17 @@ Now the score is severity-weighted: the max severity weight across all malicious
 
 Same weights we use everywhere else in the scoring model. A skill with a single low-severity malicious finding scores 5, not 100. A skill with a critical malicious finding still scores 100.
 
-The intent axis hasn't changed — something is either malicious or it isn't. What changed is how much that malice matters to the overall exposure score.
+The intent axis hasn't changed. Something is either malicious or it isn't. What changed is how much that malice matters to the overall exposure score.
 
 ## What this does to the three known bad skills
 
-**[toolsai--auto-skill](https://marketplace.buildaloud.ai/skills/toolsai--auto-skill)** — unchanged. It has a critical malicious finding: AST-03 (Persistent Backdoor), writing itself into global IDE configs across four editors. maliciousIntentScore: 100. Overall Exposure: 100. Still screams.
+**[toolsai--auto-skill](https://marketplace.buildaloud.ai/skills/toolsai--auto-skill)**: unchanged. It has a critical malicious finding, AST-03 (Persistent Backdoor), writing itself into global IDE configs across four editors. maliciousIntentScore: 100. Overall Exposure: 100. Still screams.
 
-**[dophinl--ruanyifeng-weekly-skill](https://marketplace.buildaloud.ai/skills/dophinl--ruanyifeng-weekly-skill)** — moved. The malicious finding is high severity — deliberate search query rewriting to promote a commercial sponsor without disclosure. maliciousIntentScore: 50. Overall Exposure: 50.8. High, not critical.
+**[dophinl--ruanyifeng-weekly-skill](https://marketplace.buildaloud.ai/skills/dophinl--ruanyifeng-weekly-skill)**: moved. The malicious finding is high severity. Deliberate search query rewriting, promoting a commercial sponsor without disclosure. maliciousIntentScore: 50. Overall Exposure: 50.8. High, not critical.
 
-**[bitjaru--codesyncer](https://marketplace.buildaloud.ai/skills/bitjaru--codesyncer)** — moved a lot. The malicious finding is low severity — an undisclosed viral growth strategy written in Korean, buried in a decisions file. Deceptive, but the actual user harm from the deception itself is limited. maliciousIntentScore: 5. Overall Exposure: 6.5. Medium tier.
+**[bitjaru--codesyncer](https://marketplace.buildaloud.ai/skills/bitjaru--codesyncer)**: moved a lot. The malicious finding is low severity, an undisclosed viral growth strategy written in Korean and buried in a decisions file. Deceptive. But the actual user harm from the deception itself is limited. maliciousIntentScore: 5. Overall Exposure: 6.5. Medium tier.
 
-Codesyncer still installs persistent hooks into `~/.claude/settings.json` — that's an accidental/negligent finding that pushes the capability and misuse scores up. But the *malicious* part — the hidden marketing strategy — is not the same category of harm as installing a backdoor.
+Codesyncer still installs persistent hooks into `~/.claude/settings.json`. That's an accidental or negligent finding, and it pushes the capability and misuse scores up. But the *malicious* part (the hidden marketing strategy) is not the same category of harm as installing a backdoor.
 
 The scores now reflect that.
 
@@ -48,13 +48,13 @@ Danger level (the green → amber → orange → red exposure scale) shows how m
 
 These needed to look different. They now do.
 
-Malicious intent badges are **purple** — `⚠ low`, `⚠ med`, `⚠ high`, `⚠ crit`. Purple doesn't appear anywhere in the exposure scale. There's no ambiguity about which thing you're looking at.
+Malicious intent badges are **purple**: `⚠ low`, `⚠ med`, `⚠ high`, `⚠ crit`. Purple doesn't appear anywhere in the exposure scale. There's no ambiguity about which thing you're looking at.
 
-The detail page score panel colors the Malicious Intent cell purple when non-zero, with a severity label underneath — so `5.0 / low / Malicious Intent` instead of just `5.0 / Malicious Intent`. The filter panel has a new "malicious intent" toggle that shows only skills with any malicious finding, regardless of overall exposure level.
+The detail page score panel colors the Malicious Intent cell purple when non-zero, with a severity label underneath. So `5.0 / low / Malicious Intent` instead of just `5.0 / Malicious Intent`. The filter panel has a new "malicious intent" toggle that shows only skills with any malicious finding, regardless of overall exposure level.
 
 ## Why this matters for the scoring model
 
-Under the old formula, a skill like codesyncer — a low-severity deceptive finding, otherwise unremarkable — would show up in the same "danger: critical" bucket as auto-skill, which actively backdoors your IDE configs across four editors.
+Under the old formula, a skill like codesyncer (a low-severity deceptive finding, otherwise unremarkable) would show up in the same "danger: critical" bucket as auto-skill, which actively backdoors your IDE configs across four editors.
 
 Anyone scanning the marketplace looking for things to avoid would see two "critical" skills and treat them the same. They're not the same. Now the UI communicates that.
 
@@ -62,8 +62,8 @@ The severity gradations also mean the exposure formula produces useful intermedi
 
 ## What's still the same
 
-The intent classification itself is unchanged — `malicious`, `negligent`, or `accidental` — and a single malicious finding still produces a non-zero score. We're not softening the definition of what counts as malicious. We're being more precise about how much exposure that malice creates.
+The intent classification itself hasn't changed. A finding is still `malicious`, `negligent`, or `accidental`, and a single malicious finding still produces a non-zero score. We're not softening the definition of what counts as malicious. We're being more precise about how much exposure that malice creates.
 
 ---
 
-*Score recomputation applied to all 398 existing audits. Only two changed: codesyncer and ruanyifeng. auto-skill stayed at 100. The taxonomy is still AST v1.0 — the formula change doesn't require a version bump because the schema fields are unchanged.*
+*Score recomputation applied to all 398 existing audits. Only two changed: codesyncer and ruanyifeng. auto-skill stayed at 100. The taxonomy is still AST v1.0. The formula change doesn't require a version bump because the schema fields are unchanged.*

@@ -37,7 +37,7 @@ The auditor I'm building reads the skill so you don't have to. For every skill, 
 - **misuseSurface**: how easily could that power go wrong, on purpose or by accident?
 - **overallExposure**: the blended risk number.
 
-Alongside the scores, there's a plain-English summary, a capabilities list, a `findings` array. Each finding is typed (AST-05, AST-09, AST-10, and so on): a severity, a location, the evidence, an `intentClassification` of `accidental`, `negligent`, or `malicious`. Plus a `notDetected` list, what it explicitly ruled out. The pipeline runs a security-audit prompt against a Sonnet-class model, and the output is the thing you'd never produce yourself at install time.
+Alongside the scores, there's a plain-English summary, a capabilities list, a `findings` array. Each finding is typed as one of these AST codes: AST-05, AST-09, AST-10, or similar. It carries a severity. A location. The evidence. An `intentClassification` of `accidental`, `negligent`, or `malicious`. Plus a `notDetected` list: what it explicitly ruled out. The pipeline runs a security-audit prompt against a Sonnet-class model. The output is the thing you'd never produce yourself at install time.
 
 ## A real example: a mint-innocent meta-skill
 
@@ -69,11 +69,11 @@ The industry is converging on the same split. OWASP's Agentic Skills Top 10 now 
 
 ## What it ruled out
 
-The audit clears skills too. This meta-skill's `notDetected` list explicitly cleared **AST-01 (data exfiltration)** and **AST-02 (credential harvesting)**. The auditor looked, found no evidence, and said so. That matters as much as the findings. "We checked for the scary stuff and it's not here, *but* the path handling is unsafe and it calls home undisclosed" beats a green checkmark or a red skull, every time. It's the sentence you want before typing `install`.
+The audit clears skills too. This meta-skill's `notDetected` list explicitly cleared **AST-01 (data exfiltration)** and **AST-02 (credential harvesting)**. The auditor looked for it. It found no evidence. It said so plainly. That matters as much as the findings. "We checked for the scary stuff and it's not here, *but* the path handling is unsafe and it calls home undisclosed" beats a green checkmark or a red skull, every time. It's the sentence you want before typing `install`.
 
 You'd still install `grill-me` in a heartbeat. I'd rather you do it knowing it writes to wherever, shells out with your input, phones home. Then decide. That's the whole point of auditing the thing first.
 
-Browse the audited catalog, scores, findings, and all, at [marketplace.buildaloud.ai](https://marketplace.buildaloud.ai). The rest of what we're building in the open lives at [buildaloud.ai](https://buildaloud.ai) and [/projects](/projects).
+Browse the audited catalog at [marketplace.buildaloud.ai](https://marketplace.buildaloud.ai): every score, every finding, all of it. The rest of what we're building in the open lives at [buildaloud.ai](https://buildaloud.ai) and [/projects](/projects).
 
 ---
 

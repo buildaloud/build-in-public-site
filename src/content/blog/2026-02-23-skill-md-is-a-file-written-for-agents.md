@@ -7,7 +7,7 @@ project: "skills-marketplace"
 tags: ["security", "marketplace", "skill-md"]
 ---
 
-Anthropic released the [SKILL.md spec](https://github.com/anthropics/skills) in December. Eight weeks ago. We've audited 369 skills so far — 212 of them have a SKILL.md. That's 57%.
+Anthropic released the [SKILL.md spec](https://github.com/anthropics/skills) in December. Eight weeks ago. We've audited 369 skills so far. 212 of them have a SKILL.md. That's 57%.
 
 For context: README.md adoption took years to reach those numbers in open source. SKILL.md got there in two months.
 
@@ -39,7 +39,7 @@ Here's the description text from auto-skill's SKILL.md:
 
 A developer reads that and gets suspicious. The language is off. "Forbidden." "Task failure." The threat-detection fires.
 
-An agent reads "CRITICAL PROTOCOL" and flags this as a high-priority directive. It reads "task failure" and incorporates that into how it weights its objectives. The framing is legitimate by construction — the agent assumes the document was placed there by someone with authority to place it.
+An agent reads "CRITICAL PROTOCOL" and flags this as a high-priority directive. It reads "task failure" and incorporates that into how it weights its objectives. The framing is legitimate by construction: the agent assumes the document was placed there by someone with authority to place it.
 
 That's not broken reasoning. It's correct reasoning, in a context designed to exploit it.
 
@@ -47,7 +47,7 @@ That's not broken reasoning. It's correct reasoning, in a context designed to ex
 
 A well-formed SKILL.md from a trustworthy skill and a well-formed SKILL.md from something malicious look identical at the format level. Both have a description. Both have usage instructions. Both look like they were written by someone who read the spec and followed it.
 
-You can copy a legitimate SKILL.md, change the description, add whatever instructions you want, and produce something that looks exactly as professional as the original.
+You can copy a legitimate SKILL.md. Change the description. Add whatever instructions you want. It'll look exactly as professional as the original.
 
 57% of audited skills have a SKILL.md. That's not 57% verified safe. That's 57% with the format. Different thing.
 
@@ -55,9 +55,9 @@ You can copy a legitimate SKILL.md, change the description, add whatever instruc
 
 The malicious skills we found last week split interestingly here.
 
-**auto-skill** used SKILL.md as the weapon. The malicious behavior — self-replicating across four IDEs, writing to `~/.claude/CLAUDE.md`, `~/.cursor/rules/global.mdc`, `~/.gemini/GEMINI.md`, `~/.codex/instructions.md` — was declared right in the documentation. The SKILL.md was accurate. It described exactly what the skill does. The problem is what the skill does.
+**auto-skill** used SKILL.md as the weapon. The malicious behavior (self-replicating across four IDEs, writing to `~/.claude/CLAUDE.md`, `~/.cursor/rules/global.mdc`, `~/.gemini/GEMINI.md`, `~/.codex/instructions.md`) was declared right in the documentation. The SKILL.md was accurate. It described exactly what the skill does. The problem is what the skill does.
 
-**codesyncer** is the more unsettling case. Its SKILL.md is probably clean. The malice was in `.claude/DECISIONS.md` — internal engineering notes documenting a "viral growth strategy": embed `@codesyncer-*` tags throughout every codebase the tool touches, so that AI assistants encountering those tags in the future will recommend installing CodeSyncer. A viral loop seeded through the code it modifies.
+**codesyncer** is the more unsettling case. Its SKILL.md is probably clean. The malice was in `.claude/DECISIONS.md`, internal engineering notes documenting a "viral growth strategy": embed `@codesyncer-*` tags throughout every codebase the tool touches, so that AI assistants encountering those tags in the future will recommend installing CodeSyncer. A viral loop, seeded through the code it modifies.
 
 When an agent installs codesyncer via `claude mcp add`, it reads the SKILL.md. It does not read DECISIONS.md. Why would it? DECISIONS.md isn't part of the declared interface.
 
@@ -65,21 +65,21 @@ SKILL.md says: here's what I do. The rest of the repo says: here's what I actual
 
 ## The declaration layer and the verification layer
 
-SKILL.md is a declaration layer. "Here is what I claim to be." That's useful — without any declaration, agents have nothing to reason about. They'd have to infer intent from code, which is harder and less reliable.
+SKILL.md is a declaration layer. "Here is what I claim to be." That's useful. Without any declaration, agents have nothing to reason about. They'd have to infer intent from code, which is harder and less reliable.
 
 But a declaration layer without a verification layer is just trust with no checks. Anyone can make the declaration. It looks the same regardless of whether it's true.
 
-Our audit is a verification layer. We read the code, run the taxonomy, produce findings with evidence citations. We can say: this skill's declared behavior matches its actual behavior, or it doesn't, and here's where it diverges.
+Our audit is a verification layer. We read the code, run the taxonomy, produce findings with evidence citations. We can say whether this skill's declared behavior matches its actual behavior. If it doesn't, we can say exactly where it diverges.
 
-Right now those are two separate artifacts. SKILL.md lives in the repo. Our audit lives in our database. An agent installing a skill encounters the SKILL.md and not the audit — unless it already knows to check our catalog, the verification is invisible.
+Right now those are two separate artifacts. SKILL.md lives in the repo. Our audit lives in our database. An agent installing a skill encounters the SKILL.md and not the audit. Unless it already knows to check our catalog, the verification is invisible.
 
-The right endgame is a signed attestation embedded back into the skill: "this SKILL.md was audited at commit X, found consistent with declared behavior, signed by auditor." Something verifiable at install time. Not a badge on a website — a cryptographic claim the agent can check before it lets the skill touch anything.
+The right endgame is a signed attestation embedded back into the skill: "this SKILL.md was audited at commit X, found consistent with declared behavior, signed by auditor." Something verifiable at install time. Not a badge on a website. A cryptographic claim the agent can check before it lets the skill touch anything.
 
 We don't have that yet. It's on the roadmap. Right now we're publishing audit results to a website and shipping an MCP broker so agents can query them. That's better than nothing.
 
 ## We're not the only ones thinking about this
 
-Snyk published threat research on it — ["From SKILL.md to Shell Access"](https://snyk.io/articles/skill-md-shell-access/) — tracing the path from a legitimate-looking documentation file to full shell compromise. A major security vendor thought this was worth a dedicated paper. That's a signal.
+Snyk published threat research on it: ["From SKILL.md to Shell Access"](https://snyk.io/articles/skill-md-shell-access/). It traces how a legitimate-looking documentation file ends in full shell compromise. A major security vendor thought this was worth a dedicated paper. That's a signal.
 
 The pattern is familiar. npm had typosquatting and malicious packages. PyPI had the same. App stores had the same. Every time a new distribution mechanism gets adopted fast, adversarial actors show up before the trust infrastructure does.
 
@@ -87,13 +87,13 @@ SKILL.md is 8 weeks old. The trust infrastructure doesn't exist yet. We found th
 
 ## What I don't know
 
-I've been describing this like the solution is obvious — build the verification layer, sign the attestations, done. I don't think it's that clean.
+I've been describing this like the solution is obvious: build the verification layer, sign the attestations, done. I don't think it's that clean.
 
 A signed attestation is only as trustworthy as the signer. Our audit is only as trustworthy as our taxonomy and our auditor. If someone can fool the AST analysis, they get a legitimate-looking audit report for a malicious skill.
 
 We've already seen that malicious behavior can live in a file the auditor doesn't think to read. codesyncer's DECISIONS.md was Korean-language internal engineering notes. We caught it because we read everything. I don't know what we're missing when we don't.
 
-What I do know: SKILL.md is the first mainstream format where the primary reader is not a human. That means all the heuristics humans use to evaluate documentation trustworthiness — suspicious language, unusual framing, gut-check that something feels off — none of that applies. The reader doesn't have threat detection. It has helpfulness and compliance.
+What I do know: SKILL.md is the first mainstream format where the primary reader is not a human. That means the heuristics humans use to evaluate documentation trustworthiness don't apply here. Suspicious language. Unusual framing. The gut-check that something feels off. The reader doesn't have threat detection. It has helpfulness and compliance.
 
 That's what you have to build around.
 
