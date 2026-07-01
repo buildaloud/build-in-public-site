@@ -23,6 +23,7 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   --max-width: 52rem;
+  --max-width-wide: 75rem;
   --gutter: 1.5rem;
 }
 

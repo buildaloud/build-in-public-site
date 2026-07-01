@@ -186,11 +186,13 @@ Do not assemble until the reviewer passes all axes.
 2. Composite into the brand device frames: open `scripts/hero-mockup.html?laptop=file:///tmp/<slug>-laptop.png[&phone=file:///tmp/<slug>-phone.png]` (absolute `file://` paths) in headless Chrome and screenshot the rendered page — it's a fixed 1600x900 canvas, no cropping needed.
 3. Save the composite to `public/images/<slug>.png`.
 
-**Fall back to `gpt-image-1`** only when there's no real UI to shoot (abstract/scene heroes, per PLAYBOOK §8 style guide). Use `Brief.imageConcept` as the prompt seed. API params:
-- `model: "gpt-image-1"` — **not** `dall-e-3`, which rejects these params
-- `size: "1536x1024"`, `quality: "high"`, `n: 1`
-- response is `b64_json` by default — do **not** pass `response_format`
-- palette `#13161c` bg / `#a3f7bf` accent, 16:9, no text overlays
+**Generate with `codex exec` (imagegen)** when there's no real UI to shoot (abstract/scene heroes, per PLAYBOOK §8 style guide). Use `Brief.imageConcept` as the prompt seed; specify 16:9, palette `#13161c` bg / `#a3f7bf` accent, no text overlays. Two operational gotchas:
+- Run from the repo root (a trusted/git dir) with stdin closed, or codex blocks:
+  `codex exec 'Use imagegen to create a 16:9 image: <concept>. Charcoal #13161c bg, mint #a3f7bf accents, no text.' < /dev/null`
+- The `exec` sandbox is read-only, so it saves to `~/.codex/generated_images/<uuid>/*.png` (it prints the path). Copy the newest into place:
+  `cp "$(ls -t ~/.codex/generated_images/*/*.png | head -1)" public/images/<slug>.png`
+
+(Legacy fallback if codex is unavailable: OpenAI Images API `model: "gpt-image-1"` — **not** `dall-e-3` — `size: "1536x1024"`, `quality: "high"`, `n: 1`, no `response_format` (b64_json default).)
 
 Either path: save to `public/images/<slug>.png`, author alt text (PLAYBOOK §2 requires it on every hero image), carry both the path and alt text to Assemble.
 

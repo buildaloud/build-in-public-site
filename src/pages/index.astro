@@ -4,7 +4,6 @@ import { isPublished } from '../utils/posts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import LocalTime from '../components/LocalTime.astro';
-import NewsletterSignup from '../components/NewsletterSignup.astro';
 import SubmitSkill from '../components/SubmitSkill.astro';
 import digests from '../data/digests.json';
 
@@ -15,7 +14,7 @@ const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const featured = posts[0];
 const rest = posts.slice(1);
-const topTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].slice(0, 12);
+const topTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].slice(0, 6);
 
 const liveBuilds = [
   { name: 'Outpost Ulu', note: 'neon tower-defense game', url: 'https://td.buildaloud.ai' },
@@ -177,7 +176,6 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
   </div>
 
   <SubmitSkill />
-  <NewsletterSignup />
 </BaseLayout>
 
 <script>
@@ -225,7 +223,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
 
 <style>
   .page {
-    max-width: 1200px;
+    max-width: var(--max-width-wide);
     margin: 0 auto;
     padding: 3rem var(--gutter) 1rem;
     display: grid;
@@ -329,8 +327,9 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
   .side-nav a { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-text-secondary); text-decoration: none; transition: color 0.2s ease; }
   .side-nav a:hover { color: var(--color-accent); }
 
-  .side-tags { display: flex; flex-wrap: wrap; gap: 0.4rem 0.65rem; }
-  .side-tag { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent); opacity: 0.75; }
+  .side-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .side-tag { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-text-secondary); border: 1px solid var(--color-border); border-radius: 999px; padding: 0.2rem 0.6rem; transition: border-color 0.2s ease, color 0.2s ease; }
+  .side-tag:hover { border-color: var(--color-accent); color: var(--color-accent); }
 
   @media (max-width: 980px) {
     .page { grid-template-columns: 1fr; gap: 2rem; }
