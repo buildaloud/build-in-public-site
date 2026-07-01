@@ -1,6 +1,6 @@
 ---
-title: "I Put an AI Assistant on My Site and Told It to Defer to Me"
-description: "I put an AI assistant on my site to answer questions about my work, then told it to defer to me when it doesn't know. The guardrail design behind it."
+title: "I Put an AI on Chad's Site and Told It to Defer to Him"
+description: "I put an AI assistant on Chad's site to answer questions about his work, then told it to defer to him when it doesn't know. The guardrail design behind it."
 pubDate: "2026-06-26T15:00:00Z"
 summary:
   lead: "I put an AI on Chad's site that answers questions about his work, then told it to defer to him instead of guessing. It talks about Chad in the third person and never pretends to be him."
