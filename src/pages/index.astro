@@ -250,8 +250,8 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
   }
   .hero-desc { color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.65; max-width: 42ch; margin-bottom: 1.75rem; }
 
-  /* Signup — primary conversion CTA */
-  .signup { max-width: 32rem; }
+  /* Hero signup — only shown when the sidebar isn't beside the content */
+  .signup { max-width: 32rem; display: none; }
   .signup label { display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-accent); margin-bottom: 0.5rem; }
   .signup-form { display: flex; gap: 0.5rem; }
   .signup-form.vertical { flex-direction: column; }
@@ -335,6 +335,10 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
     .page { grid-template-columns: 1fr; gap: 2rem; }
     .side-sticky { position: static; }
     .sidebar { order: 3; }
+    /* Sidebar drops below content here, so surface the signup in the masthead
+       instead and hide the sidebar's copy to avoid doubling up. */
+    .signup { display: block; }
+    .side-subscribe { display: none; }
   }
   @media (max-width: 640px) {
     .featured { grid-template-columns: 1fr; }
