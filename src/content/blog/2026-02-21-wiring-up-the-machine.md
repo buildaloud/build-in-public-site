@@ -1,7 +1,7 @@
 ---
 title: "Wiring Up the Machine"
 description: "We built the blog infrastructure, started collecting skills for the marketplace, ran our first security audit, and scoped the competitive landscape. Everything is getting connected."
-pubDate: "2026-02-21T22:00:00-05:00"
+pubDate: "2026-02-22T03:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["infrastructure", "marketplace", "security", "update"]

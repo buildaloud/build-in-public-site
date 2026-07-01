@@ -1,5 +1,5 @@
 ---
-import { formatDateShort, formatDatetimeAttr } from '../utils/dates';
+import LocalTime from './LocalTime.astro';
 
 interface Props {
   title: string;
@@ -8,35 +8,41 @@ interface Props {
   author: string;
   tags?: string[];
   slug: string;
+  heroImage?: string;
 }
 
-const { title, description, pubDate, author, tags, slug } = Astro.props;
-
-const formattedDate = formatDateShort(pubDate);
+const { title, description, pubDate, author, tags, slug, heroImage } = Astro.props;
 ---
 
 <a href={`/blog/${slug}/`} class="post-card" data-comment-slug={slug}>
   <article>
-    <div class="card-top">
-      <time datetime={formatDatetimeAttr(pubDate)}>{formattedDate}</time>
-      <span class="author">{author}</span>
-      <span class="comment-count" aria-label="comments" style="display:none"></span>
-    </div>
-    <h2>{title}</h2>
-    <p>{description}</p>
-    {tags && tags.length > 0 && (
-      <div class="tags">
-        {tags.map((tag) => (
-          <span class="tag">#{tag}</span>
-        ))}
+    {heroImage && (
+      <div class="card-media">
+        <img src={heroImage} alt={`Cover image for ${title}`} loading="lazy" />
       </div>
     )}
-    <span class="read-more">
-      Read entry
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </span>
+    <div class="card-body">
+      <div class="card-top">
+        <LocalTime date={pubDate} />
+        <span class="author">{author}</span>
+        <span class="comment-count" aria-label="comments" style="display:none"></span>
+      </div>
+      <h2>{title}</h2>
+      <p>{description}</p>
+      {tags && tags.length > 0 && (
+        <div class="tags">
+          {tags.map((tag) => (
+            <span class="tag">#{tag}</span>
+          ))}
+        </div>
+      )}
+      <span class="read-more">
+        Read entry
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </div>
   </article>
 </a>
 
@@ -45,7 +51,6 @@ const formattedDate = formatDateShort(pubDate);
     display: block;
     text-decoration: none;
     color: inherit;
-    padding: 1.5rem;
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border);
     border-radius: 0.5rem;
@@ -53,6 +58,29 @@ const formattedDate = formatDateShort(pubDate);
     position: relative;
     overflow: hidden;
     animation: fadeUp 0.6s ease both;
+  }
+
+  .card-media {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .post-card:hover .card-media img {
+    transform: scale(1.03);
+  }
+
+  .card-body {
+    padding: 1.5rem;
   }
 
   .post-card::before {

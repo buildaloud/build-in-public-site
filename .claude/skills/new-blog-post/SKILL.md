@@ -1,17 +1,17 @@
 ---
 name: new-blog-post
-description: Orchestrate the Build Aloud content pipeline — gather source material, gate on topic approval, run SEO research, brief, draft, review, generate a hero image, assemble the final post, and commit. Invoke when Chad says "write a new post", "what should we post about?", or to advance the drip queue.
+description: Orchestrate the Build Aloud content pipeline — gather source material, gate on topic approval, run SEO research, brief, draft, tone-gate, review, generate a hero image, author the structured summary + rolling digest, assemble the final post, and commit. Invoke when Chad says "write a new post", "what should we post about?", or to advance the drip queue.
 ---
 
 # New Blog Post Skill (Orchestrator)
 
-Runs the full content pipeline: source scan → topic gate → SEO research → brief → draft → review → hero image → assemble → bookkeeping.
+Runs the full content pipeline: source scan → topic gate → SEO research → brief → draft → tone gate → review → hero image → summary + digest → assemble → bookkeeping.
 
 ## Entry paths
 
 **Organic post:** proceed through Steps 1–2 normally.
 
-**Drip post:** read `.plans/drip-plan.md` for the scheduled topic and `pubDate`. Skip topic proposal — the topic is already approved. Start at Step 3 with that topic.
+**Drip post:** read `.plans/drip-plan.md` for the scheduled topic and `pubDate`. Skip topic proposal — the topic is already approved. Start at Step 3 with that topic. Perspective (Step 2) still applies — infer Chad vs Scout from the topic digest.
 
 ---
 
@@ -72,11 +72,15 @@ Present Chad with 2–3 post ideas based on new material. Per idea:
 
 If Chad provided constraints ("don't mention X", "focus on Y"), note them and apply throughout.
 
+**Perspective call.** Decide now, per topic, and carry it through every downstream step (drafter voice, Assemble's `author` field):
+- Subject is **Chad's own personal work/decisions** → Chad's first person, `author: "Chad"`.
+- Subject is **Scout's own building work** (the pipeline, the products, the AI's process) → Scout's first person, `author: "Scout"`.
+
 ---
 
-### 3. SEO Research — `seo-researcher` subagent
+### 3. SEO Research — `seo-researcher` subagent (Opus)
 
-Dispatch `.claude/agents/seo-researcher.md` with:
+Dispatch `.claude/agents/seo-researcher.md` via the Agent tool with `model: "opus"` (deep SEO/market research warrants the bigger model) and:
 - Approved topic + source digest
 - `PLAYBOOK.md` reference
 
@@ -90,14 +94,14 @@ Do not proceed if `marketResearch[]` is empty — fabricated or missing sources 
 
 ---
 
-### 4. Brief — `brief-writer` subagent
+### 4. Brief — `brief-writer` subagent (Sonnet)
 
-Dispatch `.claude/agents/brief-writer.md` with:
+Dispatch `.claude/agents/brief-writer.md` via the Agent tool with `model: "sonnet"` and:
 - Approved topic + source digest
 - Full `ResearchResult` from Step 3
 - `PLAYBOOK.md` reference
 
-The brief-writer is the **sole author** of the Brief. It carries the ResearchResult fields unchanged and authors all editorial fields. Output is a schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at Step 8). Schema lives at `.claude/skills/new-blog-post/lib/brief-schema.ts`.
+The brief-writer is the **sole author** of the Brief. It carries the ResearchResult fields unchanged and authors all editorial fields. Output is a schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at Step 10). Schema lives at `.claude/skills/new-blog-post/lib/brief-schema.ts`.
 
 Brief fields:
 ```yaml
@@ -117,33 +121,45 @@ keywordRationale
 
 ---
 
-### 5. Draft — `drafter` subagent
+### 5. Draft — `drafter` subagent (Sonnet)
 
-Dispatch `.claude/agents/drafter.md` with:
+Dispatch `.claude/agents/drafter.md` via the Agent tool with `model: "sonnet"` and:
+- The perspective call from Step 2 (`author: "Scout"` or `"Chad"`) — the drafter writes in whichever first person you assign
 - Brief's **editorial + publish fields only** (topic, seoTitle, headlineVariants, metaDescription, hook, outline, internalLinks, cta, socialBlurb, imageConcept) — exclude `marketResearch[]` and `keywordRationale`
 - `PERSONALITY.md`
 - 2–3 most recent posts (voice calibration)
 
 **Writing rules:**
-- Write as Scout (first-person AI narrator)
+- Write in the assigned first person (Scout, the AI narrator, by default; Chad when the topic is his own work)
 - Direct, conversational, no corporate fluff
 - Short paragraphs, concrete details, real numbers
-- Credit Chad for his discoveries/decisions ("Chad figured out that...")
+- Credit Chad for his discoveries/decisions ("Chad figured out that...") when writing as Scout
 - Credit other contributors by name
 - Honest about failures and limitations
 - No fake enthusiasm, no emoji overload
 - End with source attribution
 
-**Voice > SEO.** Never flatten Scout's voice for a keyword. Voice is the product; SEO is a constraint.
+**Voice > SEO.** Never flatten the narrator's voice for a keyword. Voice is the product; SEO is a constraint.
 
 **Content structure:** Hook/intro → substance → what's next → source attribution footer.
 
 ---
 
-### 6. Review — `content-reviewer` subagent
+### 6. Tone Gate — hard gate, not optional
 
-Dispatch `.claude/agents/content-reviewer.md` with:
-- Draft from Step 5
+The draft does not proceed to Review until it passes both checks below. Loop until clean — do not skip or cap retries.
+
+1. **Score it.** Run `npx tsx .claude/skills/human-tone/eval/run.ts` (scores every post in `src/content/blog/`, ranks worst-first) or grade just this draft with `eval/tone-grader.ts`'s `scoreText`. Require **aiScore < 15**.
+2. **Sonnet tone double-check.** Dispatch an Agent (`model: "sonnet"`) to read the draft cold against `.claude/skills/human-tone/SKILL.md` — the tell table (em-dash, rule-of-three, hedging, signposting, AI-vocab, negative parallelism, tidy-bow) AND the texture checklist (a fragment? a real number? a flat opinion?). A draft that scores clean but reads voiceless still fails here.
+
+If either check fails: dispatch a Sonnet tone-fix pass (`model: "sonnet"`) against `.claude/skills/human-tone/SKILL.md`'s tell→fix table, rewrite the flagged passages, then re-run both checks.
+
+---
+
+### 7. Review — `content-reviewer` subagent (Sonnet)
+
+Dispatch `.claude/agents/content-reviewer.md` via the Agent tool with `model: "sonnet"` and:
+- Draft from Step 5 (post-Tone-Gate)
 - Full Brief from Step 4
 - `PLAYBOOK.md` + `PERSONALITY.md`
 
@@ -153,7 +169,7 @@ The reviewer returns:
 - Banned-term scan (must flag "change-factory" anywhere in the draft)
 - Content safety scrub (see Content Safety section)
 
-**On REVISE:** send the reviewer's edits back to `drafter` (re-run Step 5).
+**On REVISE:** send the reviewer's edits back to `drafter` (re-run Step 5), then re-run the Tone Gate (Step 6) before returning here.
 
 **On BLOCKED** (safety issue or structural problem): route back to `brief-writer` (re-run Step 4) before re-drafting.
 
@@ -161,29 +177,62 @@ Do not assemble until the reviewer passes all axes.
 
 ---
 
-### 7. Hero Image — `generate-image` skill (MANDATORY — every post ships with one)
+### 8. Hero Image — mandatory, every post ships with one
 
 **Every post gets a hero image. This step is not optional and is not skipped for batch/drip runs.**
 
-Invoke `~/.agents/skills/generate-image` with `Brief.imageConcept`. Use the PLAYBOOK §8 hero-image style guide as style context (palette `#13161c` / `#a3f7bf`, 16:9, no text overlays). Default provider: DALL-E 3 at `1792x1024`.
+**Prefer a real screenshot when the post has real UI to show:**
+1. Capture it headless: `--headless --disable-gpu --window-size=1600,900 --screenshot=/tmp/<slug>-laptop.png <URL>` using Chrome or Playwright's `headless_shell` binary. Add a portrait shot (`--window-size=390,844 --screenshot=/tmp/<slug>-phone.png <URL>`) if a mobile view is worth showing too.
+2. Composite into the brand device frames: open `scripts/hero-mockup.html?laptop=file:///tmp/<slug>-laptop.png[&phone=file:///tmp/<slug>-phone.png]` (absolute `file://` paths) in headless Chrome and screenshot the rendered page — it's a fixed 1600x900 canvas, no cropping needed.
+3. Save the composite to `public/images/<slug>.png`.
 
-Save output to `public/images/<slug>.png`. The filename becomes `heroImage` in frontmatter, and you MUST also author alt text (PLAYBOOK §2 requires alt text on every hero image) — carry it to assemble.
+**Fall back to `gpt-image-1`** only when there's no real UI to shoot (abstract/scene heroes, per PLAYBOOK §8 style guide). Use `Brief.imageConcept` as the prompt seed. API params:
+- `model: "gpt-image-1"` — **not** `dall-e-3`, which rejects these params
+- `size: "1536x1024"`, `quality: "high"`, `n: 1`
+- response is `b64_json` by default — do **not** pass `response_format`
+- palette `#13161c` bg / `#a3f7bf` accent, 16:9, no text overlays
 
-If generation fails, retry once; if it still fails, stop and report rather than shipping a post with no image.
+Either path: save to `public/images/<slug>.png`, author alt text (PLAYBOOK §2 requires it on every hero image), carry both the path and alt text to Assemble.
+
+If both the screenshot path and generation fail, retry once; if it still fails, stop and report rather than shipping a post with no image.
 
 ---
 
-### 8. Assemble — Orchestrator Owns Final Frontmatter
+### 9. Structured Summary & Rolling Digest — Sonnet, at creation time
+
+Both are authored now, as part of the pipeline — not computed at build time.
+
+**Structured summary.** Dispatch a Sonnet agent (`model: "sonnet"`) with the final draft, the `summary` schema from `src/content.config.ts`, and the human-tone skill. It returns:
+```yaml
+summary:
+  lead: "1-2 sentences, no 'TL;DR' label"
+  points:
+    - "concrete, uneven bullet"
+    - "another — 2-4 total, let the count be arbitrary"
+  whatYouGet: "one sentence"
+```
+No em-dashes, no rule-of-three. Goes straight into the post's frontmatter at Assemble.
+
+**Rolling digest.** Dispatch a Sonnet agent (or reuse the one above) to read every post whose `pubDate` falls in the trailing `windowDays` (30, per `src/data/digests.json`) ending at this post's `pubDate`, then append one new entry:
+```json
+{ "asOf": "<this post's pubDate, UTC>", "count": <posts published in that trailing window>, "paragraph": "<fresh synthesis>" }
+```
+`paragraph` is a fresh synthesis of every post in the window (Scout voice, human-tone rules, no em-dashes) — not a concatenation of past paragraphs. `src/pages/index.astro` rolls entries forward by the visitor's local clock automatically; nothing else to wire up.
+
+---
+
+### 10. Assemble — Orchestrator Owns Final Frontmatter
 
 The orchestrator writes the final post file. Subagents do not set frontmatter.
 
 Derive:
 - `slug` — kebab-case from `Brief.seoTitle`, no stop-word bloat
-- `pubDate` — drip posts: future date from `.plans/drip-plan.md`; otherwise now or a chosen future date. Must be set before the post is considered done — Astro schema requires it.
-- `author: "Scout"`
+- `pubDate` — **UTC, ISO 8601 ending in `Z`** (e.g. `"2026-08-07T15:00:00Z"`). Never a local offset. Drip posts: the future date from `.plans/drip-plan.md`; otherwise now. Must be set — Astro schema requires it.
+- `author` — `"Scout"` or `"Chad"`, from the Step 2 perspective call
 - `title`, `description`, `tags` — from the Brief
-- `heroImage` — path from Step 7 (**required** — no post assembles without one)
-- hero `alt` text — from Step 7, for accessibility + PLAYBOOK §2
+- `summary` — from Step 9, verbatim
+- `heroImage` — path from Step 8 (**required** — no post assembles without one)
+- hero `alt` text — from Step 8, for accessibility + PLAYBOOK §2
 
 Write to `src/content/blog/YYYY-MM-DD-slug.md`:
 
@@ -191,18 +240,23 @@ Write to `src/content/blog/YYYY-MM-DD-slug.md`:
 ---
 title: "..."
 description: "..."
-pubDate: "YYYY-MM-DDThh:mm:ss-05:00"
+pubDate: "YYYY-MM-DDThh:mm:ssZ"
 author: "Scout"
 tags: ["tag1", "tag2"]
-heroImage: "/images/filename.jpg"
+summary:
+  lead: "..."
+  points:
+    - "..."
+  whatYouGet: "..."
+heroImage: "/images/filename.png"
 ---
 ```
 
-`pubDate` format: ISO 8601 with timezone offset, e.g. `"2026-02-22T10:00:00-05:00"`. Must be quoted. Tags: lowercase, consistent with existing posts.
+Tags: lowercase, consistent with existing posts.
 
 ---
 
-### 9. Bookkeeping
+### 11. Bookkeeping
 
 **Update `posted.md`:**
 - Add the transcript/chat to the appropriate table
@@ -219,7 +273,7 @@ npx tsx .claude/skills/new-blog-post/check-new-content.ts --update
 
 ---
 
-### 10. Build and Commit
+### 12. Build and Commit
 
 ```bash
 npm run build
@@ -228,7 +282,7 @@ npm run build
 Build must pass before committing.
 
 ```bash
-git add src/content/blog/<new-post>.md public/images/<hero>.jpg
+git add src/content/blog/<new-post>.md public/images/<hero>.png src/data/digests.json
 git commit -m 'content: add post "Title Here"'
 git push
 ```
@@ -240,12 +294,13 @@ Always push after committing. Vercel auto-deploys from `main`.
 ## Content Safety — What NOT to Post
 
 - **No API keys, tokens, secrets, or credentials.** Redact completely if found in source material.
+- **No literal `change-factory` string (or an obvious alias)** anywhere in content. It's a private internal tool name — talk about "specialized sub-agents" or "domain experts" generically instead. content-reviewer's banned-term scan (Step 7) gates on this.
 - **No passwords, private URLs, or internal infrastructure details.**
 - **No questionable or potentially embarrassing activity.** Leave out sketchy workarounds, frustrated rants, off-color jokes, accidental data exposure. When in doubt, skip or ask Chad.
 - **No personal information** beyond first names already used in published posts (e.g. "Andrew" is fine).
 - **No unfinished security vulnerabilities.** Don't publish details until the issue is resolved.
-- **No financial details** beyond what Chad explicitly makes public.
+- **No sensitive business specifics** — dollar splits, equity percentages, surnames, legal/vesting terms — beyond what Chad explicitly makes public.
 
 When in doubt: **ask Chad before publishing sensitive material.**
 
-The `content-reviewer` subagent runs the safety scrub in Step 6 — it is an additional check, not a substitute for judgment here.
+The `content-reviewer` subagent runs the safety scrub in Step 7 — it is an additional check, not a substitute for judgment here.

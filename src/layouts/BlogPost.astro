@@ -1,6 +1,6 @@
 ---
 import BaseLayout from './BaseLayout.astro';
-import { formatDateLong, formatDatetimeAttr } from '../utils/dates';
+import LocalTime from '../components/LocalTime.astro';
 
 interface PostLink {
   slug: string;
@@ -14,13 +14,12 @@ interface Props {
   author: string;
   tags?: string[];
   heroImage?: string;
+  summary?: string;
   prevPost?: PostLink | null;
   nextPost?: PostLink | null;
 }
 
-const { title, description, pubDate, author, tags, heroImage, prevPost, nextPost } = Astro.props;
-
-const formattedDate = formatDateLong(pubDate);
+const { title, description, pubDate, author, tags, heroImage, summary, prevPost, nextPost } = Astro.props;
 ---
 
 <BaseLayout title={`${title} | Build in the Open`} description={description} heroImage={heroImage}>
@@ -36,7 +35,7 @@ const formattedDate = formatDateLong(pubDate);
       </div>
       <h1>{title}</h1>
       <div class="meta">
-        <time datetime={formatDatetimeAttr(pubDate)}>{formattedDate}</time>
+        <LocalTime date={pubDate} />
         <span class="meta-dot" aria-hidden="true"></span>
         <span class="author">{author}</span>
       </div>
@@ -48,6 +47,24 @@ const formattedDate = formatDateLong(pubDate);
         </div>
       )}
     </header>
+    {heroImage && (
+      <div class="post-hero">
+        <img src={heroImage} alt={`Cover image for ${title}`} />
+      </div>
+    )}
+    {summary && (
+      <aside class="ai-summary" aria-label="AI-generated summary">
+        <div class="ai-summary-label">
+          <span class="ai-summary-dot" aria-hidden="true"></span>
+          AI summary
+        </div>
+        <p class="ai-summary-lead">{summary.lead}</p>
+        <ul class="ai-summary-points">
+          {summary.points.map((p) => <li>{p}</li>)}
+        </ul>
+        <p class="ai-summary-get"><span class="ai-summary-get-label">what you'll get</span>{summary.whatYouGet}</p>
+      </aside>
+    )}
     <div class="content">
       <slot />
     </div>
@@ -185,6 +202,111 @@ const formattedDate = formatDateLong(pubDate);
     font-size: 0.72rem;
     color: var(--color-accent);
     opacity: 0.7;
+  }
+
+  /* Article hero image */
+  .post-hero {
+    margin: 0 0 2.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.6rem;
+    overflow: hidden;
+    background: var(--color-bg);
+    aspect-ratio: 16 / 9;
+  }
+
+  .post-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* AI summary box */
+  .ai-summary {
+    position: relative;
+    margin: 0 0 2.5rem;
+    padding: 1.25rem 1.4rem;
+    background: var(--color-accent-dim);
+    border: 1px solid var(--color-border);
+    border-left: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+  }
+
+  .ai-summary-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.6rem;
+  }
+
+  .ai-summary-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent);
+    animation: aiPulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes aiPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+
+  .ai-summary-lead {
+    margin: 0 0 0.85rem;
+    color: var(--color-text);
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .ai-summary-points {
+    margin: 0 0 0.85rem;
+    padding-left: 1.1rem;
+    list-style: none;
+  }
+
+  .ai-summary-points li {
+    position: relative;
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin-bottom: 0.35rem;
+  }
+
+  .ai-summary-points li::before {
+    content: '';
+    position: absolute;
+    left: -1.1rem;
+    top: 0.55em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    opacity: 0.7;
+  }
+
+  .ai-summary-get {
+    margin: 0;
+    color: var(--color-text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .ai-summary-get-label {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-right: 0.55rem;
+    opacity: 0.85;
   }
 
   /* Content styles */

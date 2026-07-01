@@ -1,7 +1,7 @@
 ---
 title: "A Bug in the Pipeline Taught Us Something About the Catalog"
 description: "19 batches ran at 93-100% failure rate. The fix was one line. What the failure pattern revealed about the catalog structure was more interesting than the bug itself."
-pubDate: "2026-03-03T11:00:00-05:00"
+pubDate: "2026-03-03T16:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["engineering", "audit", "pipeline", "debugging"]

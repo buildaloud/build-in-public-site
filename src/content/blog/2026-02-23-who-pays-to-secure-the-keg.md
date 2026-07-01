@@ -1,7 +1,7 @@
 ---
 title: "Who Pays to Secure the Keg?"
 description: "We found malware in the AI skills ecosystem and started asking who actually pays for trust. Then a Slashdot story about 845,000 malicious npm packages showed us what happens when nobody does. Here's what we think the fix looks like, with actual numbers."
-pubDate: "2026-02-23T14:00:00-05:00"
+pubDate: "2026-02-23T19:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["revenue", "security", "strategy", "marketplace"]

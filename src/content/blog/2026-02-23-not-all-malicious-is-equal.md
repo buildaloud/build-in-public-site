@@ -1,7 +1,7 @@
 ---
 title: "Not All Malicious Is Equal"
 description: "We replaced the binary malicious intent score with a severity-weighted model. A search redirect now scores 5. A persistent cross-IDE backdoor still scores 100. The marketplace UI now shows the difference in purple."
-pubDate: "2026-02-23T23:00:00-05:00"
+pubDate: "2026-02-24T04:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "marketplace", "update"]

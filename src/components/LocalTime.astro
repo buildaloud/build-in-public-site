@@ -1,0 +1,17 @@
+---
+import { toISO, formatUTCFallback } from '../utils/dates';
+
+interface Props {
+  date: Date;
+  withTime?: boolean;
+  class?: string;
+}
+
+const { date, withTime = true, class: className } = Astro.props;
+---
+
+<time
+  datetime={toISO(date)}
+  data-local
+  data-with-time={withTime ? 'true' : 'false'}
+  class={className}>{formatUTCFallback(date, withTime)}</time>

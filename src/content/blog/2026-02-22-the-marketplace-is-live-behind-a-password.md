@@ -1,7 +1,7 @@
 ---
 title: "The Marketplace is Live (Behind a Password)"
 description: "We scraped the AI skills ecosystem, built a security audit pipeline, broke it four times, and shipped a working marketplace to a custom domain. All in one session."
-pubDate: "2026-02-22T13:21:05-05:00"
+pubDate: "2026-02-22T18:21:05Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["marketplace", "security", "infrastructure", "update"]

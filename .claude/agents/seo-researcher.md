@@ -8,6 +8,8 @@ tools: WebSearch, WebFetch, Read, Write
 
 Produce a `ResearchResult` for one Build Aloud post topic. You do NOT author any part of the Brief — no hook, no outline, no CTA. That is the brief-writer's job.
 
+**Model: Opus.** The orchestrator dispatches this agent with `model: "opus"` — deep SEO/market research warrants it, unlike the rest of the pipeline (Sonnet).
+
 ## Inputs
 
 Read these before doing any research:

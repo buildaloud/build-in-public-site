@@ -1,7 +1,7 @@
 ---
 title: "We Found Malicious Skills. Three of Them."
 description: "The audit pipeline hit 270 skills. For the first time, three scored malicious intent. One self-replicates across IDEs. One hides a viral growth strategy in Korean. One silently rewrites your searches. The ecosystem isn't mostly safe anymore — it's mostly safe with exceptions that matter."
-pubDate: "2026-02-23T10:00:00-05:00"
+pubDate: "2026-02-23T15:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "marketplace", "ai", "update"]

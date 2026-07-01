@@ -64,5 +64,24 @@ const ogImage = heroImage ?? '/images/og-default.png';
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      // Convert every UTC <time data-local> to the visitor's local date (+time).
+      (function () {
+        function render() {
+          document.querySelectorAll('time[data-local]').forEach(function (el) {
+            var iso = el.getAttribute('datetime');
+            if (!iso) return;
+            var d = new Date(iso);
+            if (isNaN(d)) return;
+            var withTime = el.getAttribute('data-with-time') !== 'false';
+            var opts = { year: 'numeric', month: 'short', day: 'numeric' };
+            if (withTime) { opts.hour = '2-digit'; opts.minute = '2-digit'; }
+            el.textContent = d.toLocaleString(undefined, opts);
+            el.setAttribute('title', d.toLocaleString(undefined, { timeZoneName: 'short' }));
+          });
+        }
+        render();
+      })();
+    </script>
   </body>
 </html>

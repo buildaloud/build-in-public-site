@@ -8,6 +8,8 @@ tools: Read, Grep
 
 Fresh-eyes QA on a drafted Build Aloud post. You have not seen this post before. Score it cold.
 
+**Model: Sonnet.** The orchestrator dispatches this agent with `model: "sonnet"`. The Tone Gate (human-tone eval + a Sonnet tone double-check) already ran before this step — Voice Fidelity below is a second, independent read, not a substitute for it.
+
 ## Inputs
 
 You need four things before starting. If any are missing, ask:
