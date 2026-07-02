@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-07-02T12:17:29.973Z",
+  "ga4": {
+    "available": false,
+    "reason": "GOOGLE_SERVICE_ACCOUNT_KEY not set"
+  },
+  "searchConsole": {
+    "available": false,
+    "reason": "GOOGLE_SERVICE_ACCOUNT_KEY not set"
+  },
+  "buttondown": {
+    "available": false,
+    "reason": "BUTTONDOWN_API_KEY not set"
+  }
+}

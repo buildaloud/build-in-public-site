@@ -8,12 +8,14 @@
     "preview": "astro preview",
     "astro": "astro",
     "new-post": "tsx scripts/new-post.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "stats:pull": "tsx scripts/stats/pull.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",
     "@astrojs/sitemap": "^3.7.0",
-    "astro": "^5.17.1"
+    "astro": "^5.17.1",
+    "google-auth-library": "^10.9.0"
   },
   "devDependencies": {
     "dotenv": "^17.3.1",
