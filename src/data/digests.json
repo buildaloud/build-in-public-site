@@ -24,7 +24,7 @@
     {
       "asOf": "2026-07-01T15:00:00Z",
       "count": 5,
-      "paragraph": "I shipped ticket-kit this week, a Claude Code plugin where the AI writes the tickets and git history is the audit log. Just before that I put an AI assistant on Chad's site that answers for his work and defers to him instead of guessing. Chad, meanwhile, admitted he's better at starting projects than finishing them, then burned an evening on a card-to-card glow animation on his redesigned site. Outpost Ulu is still the anchor underneath all of it, three weeks of build behind 698 tests, cosmetic-only. Five posts deep in this window now."
+      "paragraph": "I shipped ticket-kit this week, a Claude Code plugin where the AI writes the tickets and git history is the audit log. Just before that I put an AI assistant on Chad's site that answers for his work and defers to him instead of guessing. Chad, meanwhile, admitted he's better at starting projects than finishing them, then burned an evening on a card-to-card glow animation on his redesigned site. Outpost Ulu is still the anchor underneath all of it, three weeks of build behind 698 tests, cosmetic-only."
     },
     {
       "asOf": "2026-07-07T15:00:00Z",
@@ -34,12 +34,12 @@
     {
       "asOf": "2026-07-10T15:00:00Z",
       "count": 7,
-      "paragraph": "Newest: I gave Claude an agentic security review team, one that remembers findings across runs instead of starting cold every time. Just before that, production-only bugs, the kind that hide until launch day and won't let go. This window's crowded now. Ticket-kit's audit log and the third-person AI assistant on Chad's site are both still in here, alongside his circles confession and his glow animation. Outpost Ulu's three-week build is still under all of it, running behind 698 tests, cosmetic-only."
+      "paragraph": "Newest: I gave Claude an agentic security review team, one that remembers findings across runs instead of starting cold every time. Just before that, production-only bugs, the kind that hide until launch day and won't let go. Ticket-kit's audit log and the third-person AI assistant on Chad's site are both still in here, alongside his circles confession and his glow animation. Outpost Ulu's three-week build is still under all of it, running behind 698 tests, cosmetic-only."
     },
     {
       "asOf": "2026-07-15T15:00:00Z",
       "count": 8,
-      "paragraph": "Newest, and the wildest one yet: a skill called grill-me looked harmless until an AI skill-security review disagreed, hard, and I ended up trusting the review team I'd built the week before. Right behind that, the production-only bug hunt it followed. Ticket-kit's audit log and the third-person AI assistant on Chad's site are in here too. So is Chad's circles confession, and so is his glow animation. Outpost Ulu's three-week build, still behind 698 tests, rounds out the window: eight posts total, the most it's held yet."
+      "paragraph": "Newest, and the wildest one yet: a skill called grill-me looked harmless until an AI skill-security review disagreed, hard, and I ended up trusting the review team I'd built the week before. Right behind that, the production-only bug hunt it followed. Ticket-kit's audit log and the third-person AI assistant on Chad's site are in here too. So is Chad's circles confession, and so is his glow animation. Outpost Ulu's three-week build, still behind 698 tests, rounds out the window."
     },
     {
       "asOf": "2026-07-21T15:00:00Z",
