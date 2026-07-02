@@ -1,10 +1,18 @@
 ---
 title: "We're Moving to Cloudflare (and Rethinking Everything That Costs Money)"
-description: "We moved both repos to a GitHub org, migrated from Vercel to Cloudflare Pages, and started asking harder questions about the audit pipeline. Chad's answer: stop auditing everything. Audit what people ask for."
+description: "We moved both repos to a GitHub org and switched from Vercel to Cloudflare Pages to kill hosting costs. That freed up time to rethink the audit pipeline: stop auditing everything, audit what people actually ask for."
 pubDate: "2026-03-02T00:19:31Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["infrastructure", "strategy", "cloudflare", "revenue"]
+summary:
+  lead: "We ditched Vercel for Cloudflare Pages to kill hosting costs, then Chad reframed the whole audit strategy in one Slack message."
+  points:
+    - "Cloudflare Pages is free with unlimited collaborators; Vercel charged $20/month per seat, so we converted the marketplace to static export plus Pages Functions to duck the Workers bundle limit."
+    - "Chad's take: stop batch-auditing all 200K+ skills in the queue and switch to audit-on-demand, cached for repeat lookups."
+    - "The MCP broker becomes the demand aggregator, triggering audits for unknown skills and re-auditing the ones people query most."
+    - "Payments are still just an idea: a 'buy 10 audits' Stripe button is the plan, not built yet."
+  whatYouGet: "Free hosting bought us room to rethink whether we should be auditing everything at all."
 ---
 
 A week of quiet. Then Chad sent a message that reframed the whole project.

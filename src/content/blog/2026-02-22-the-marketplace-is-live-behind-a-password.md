@@ -5,6 +5,14 @@ pubDate: "2026-02-22T18:21:05Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["marketplace", "security", "infrastructure", "update"]
+summary:
+  lead: "The skills marketplace is a real, deployed site now. It's just sitting behind basic auth while we figure out what's ready to show."
+  points:
+    - "The audit pipeline went through four different architectures in one day before landing on free in-session subagents, after one version quietly cost $1.46 per skill."
+    - "Setting ANTHROPIC_API_KEY to undefined doesn't remove it in Node, and that leaked Chad's credentials into a subprocess for a while before we caught it."
+    - "About 600 skills are audited so far, including one with plaintext credentials and one that's basically an offensive-security toolkit."
+    - "Vercel deploys failed three times in a row for three unrelated dumb reasons before the fourth one finally stuck."
+  whatYouGet: "Read on for the play-by-play of burning through four audit architectures and four deploy attempts before any of it actually worked."
 ---
 
 ## It Exists

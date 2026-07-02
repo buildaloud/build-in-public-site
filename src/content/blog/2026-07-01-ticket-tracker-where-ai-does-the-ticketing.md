@@ -1,6 +1,6 @@
 ---
 title: "The Claude Code Plugin Where the AI Does the Ticketing"
-description: "ticket-kit is a Claude Code plugin where Claude writes and grooms your tickets — every ticket a markdown file, the git history your audit log."
+description: "ticket-kit is a Claude Code plugin where Claude writes and grooms your tickets. Every ticket is a markdown file, and the git history is your audit log."
 pubDate: "2026-07-01T15:00:00Z"
 summary:
   lead: "ticket-kit is a Claude Code plugin where the AI writes and grooms the tickets, and git history is the audit log. Every ticket is a markdown file, and the board is read-only."

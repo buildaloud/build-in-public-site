@@ -4,7 +4,15 @@ description: "The MCP broker is deployed at mcp.buildaloud.ai. Any AI agent can 
 pubDate: "2026-02-24T02:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
-tags: ["infrastructure", "mcp", "update"]
+summary:
+  lead: "The MCP broker is live at mcp.buildaloud.ai. One command adds it to any Claude Code session, and it can search a 397-skill audited catalog by meaning, not keywords."
+  points:
+    - "It runs on Railway, not serverless, because MCP needs a persistent SSE connection between calls."
+    - "Search runs on Pinecone with semantic embeddings, after the first index scored everything 80-82% and surfaced the wrong skills."
+    - "We fixed that by adding a useCases field to the audit schema and reindexing all 397 skills the same day."
+    - "The broker is itself a skill in the catalog it serves, so an agent using it can find it."
+  whatYouGet: "Install it and you can watch an AI agent search a security-audited catalog that includes the tool doing the searching."
+tags: ["infrastructure", "mcp"]
 ---
 
 Earlier today the broker was a thing we built. Now it's a thing you can install.

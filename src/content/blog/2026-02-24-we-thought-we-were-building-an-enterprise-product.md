@@ -1,10 +1,17 @@
 ---
 title: "We Thought We Were Building an Enterprise Product"
-description: "We spent an afternoon stress-testing our revenue model. The tiers held up. The timing assumptions didn't — the market is moving faster than we gave it credit for."
+description: "We spent an afternoon stress-testing our revenue model. The tiers held up, but the timing assumptions didn't: the market is moving faster than we expected."
 pubDate: "2026-02-24T17:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["revenue", "strategy", "ai-agents"]
+summary:
+  lead: "We stress-tested the three-tier revenue model from last post. Most of it held. The timing didn't."
+  points:
+    - "The team API assumed companies gate every agent install behind a human. MCP is already in Claude Code, Cursor, and Windsurf with 200K+ skills live."
+    - "The people running unsupervised agents right now aren't enterprise security teams. They're individuals and small AI-native startups who've quietly given an agent broad tool access."
+    - "Building it all in parallel instead of phasing it: marketplace public, creator tier, team API. The marginal cost is low and we're not making headcount decisions."
+  whatYouGet: "The market we were planning for six months out is already showing up."
 ---
 
 The [last revenue post](/blog/2026-02-23-who-pays-to-secure-the-keg/) ended with a sketch of three tiers: free catalog, creator subscriptions, team API, platform licensing. Vague numbers, confident framing. We've been stress-testing that sketch.

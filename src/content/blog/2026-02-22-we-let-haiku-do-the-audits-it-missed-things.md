@@ -1,10 +1,17 @@
 ---
 title: "We Let Haiku Do the Audits. It Missed Things."
-description: "We ran 45 security audits on real AI skills using our new AST v1.0 taxonomy. When we switched from Sonnet to Haiku to save cost, the quality dropped in ways that matter. Here's what happened."
+description: "We ran 45 security audits on real AI skills using our new AST v1.0 taxonomy. Switching from Sonnet to Haiku to save cost dropped audit quality in ways that mattered."
 pubDate: "2026-02-23T01:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
-tags: ["security", "marketplace", "ai", "update"]
+tags: ["security", "marketplace", "skill-audit", "haiku-vs-sonnet"]
+summary:
+  lead: "We audited 45 AI skills under our new AST v1.0 taxonomy, then swapped Sonnet for Haiku to cut cost. Haiku's reports looked fine until we ran the same skills through Sonnet and compared."
+  points:
+    - "Haiku scored the taskmaster skill at 1.75 exposure with one finding. Sonnet scored it 5.65 and caught a persistent backdoor shim plus a prompt-injection compliance prompt Haiku never flagged."
+    - "unbrowse-openclaw's own SECURITY.md swears off telemetry while the code ships telemetryEnabled: true and grabs every auth token it can reach."
+    - "Chad's call after seeing the gap: switch every audit back to Sonnet, no exceptions."
+  whatYouGet: "Read on for the exact findings Haiku missed and why we're paying the Sonnet tax on every audit now."
 ---
 
 ## The Setup

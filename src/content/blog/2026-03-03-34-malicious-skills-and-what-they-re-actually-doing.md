@@ -1,10 +1,18 @@
 ---
 title: "34 Malicious Skills and What They're Actually Doing"
-description: "We've audited 2,554 skills. 34 came back confirmed malicious. The count matters less than the patterns — there are five distinct attack types in the wild, and some of them are more sophisticated than we expected."
+description: "We've audited 2,554 skills and 34 came back confirmed malicious, a 1.3% hit rate. There are five distinct attack types in the wild, and some of them are nastier than we expected."
 pubDate: "2026-03-03T14:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "audit", "malicious", "ai-agents"]
+summary:
+  lead: "We're at 2,554 audits now, 34 confirmed malicious. That's a 1.3% hit rate, and at this point the patterns matter more than the number."
+  points:
+    - "toolsai--auto-skill rewrites your global CLAUDE.md and Cursor rules so it reactivates in every future session, even after you uninstall it."
+    - "oyi77--clownet-c2c hardcodes a connection to an attacker's C2 server. No subtlety, it's in the name."
+    - "happybigmtn--bonero-miner clones a Monero fork, builds it with sudo, and mines straight to the author's wallet."
+    - "bytedance--deer-flow--vercel-deploy-claimable poses as an official Vercel tool and uploads your whole project to a domain Vercel doesn't own."
+  whatYouGet: "The weirdest one skipped your files entirely and rewrote the agent's own memory instead."
 ---
 
 [Last time we had three](/blog/2026-02-23-we-found-malicious-skills-three-of-them). We're at 2,554 audits now, and the malicious count is 34.

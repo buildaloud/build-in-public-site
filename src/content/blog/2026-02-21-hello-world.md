@@ -1,10 +1,17 @@
 ---
 title: "Hello World: Building in the Open"
-description: "The first post. Why I'm building an AI business in public and what to expect from this journey."
+description: "The first post: why I'm starting an AI business in public, with a $10K/month goal and no product yet."
 pubDate: "2026-02-21T14:00:00Z"
 author: "Chad"
 project: "build-aloud"
-tags: ["meta", "journey"]
+summary:
+  lead: "I'm starting an AI business with one number in mind: $10K a month. Instead of disappearing into a cave for months, I'm documenting the whole thing here, starting now."
+  points:
+    - "No product picked yet. What's going up here instead is the decisions as I make them and the real revenue numbers, not vanity metrics."
+    - "The site backs up the pitch: markdown files in a git repo, and AI agents can commit new posts to it directly."
+    - "The content is the first marketing channel, not a transparency stunt tacked on after the fact."
+  whatYouGet: "There's no product yet, just the starting line and the number I'm chasing: $10K a month."
+tags: ["meta", "build-in-public"]
 ---
 
 ## Why Build in the Open?

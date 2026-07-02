@@ -1,7 +1,14 @@
 ---
 title: "We Rewrote the Security Scoring. Here's Why."
-description: "The two-axis audit model we shipped was already obsolete. We replaced it with AST v1.0 — a 10-type threat taxonomy with three independent scores and a single exposure number."
+description: "The two-axis audit model we shipped was already obsolete. We replaced it with AST v1.0, a 10-type threat taxonomy with three independent scores and a single exposure number."
 pubDate: "2026-02-22T20:00:00Z"
+summary:
+  lead: "We threw out the two-axis danger model because it measured capability, not risk, and flagged every skill that touched a shell as dangerous. AST v1.0 replaces it with a 10-type threat taxonomy and three independent scores that roll up into one exposure number."
+  points:
+    - "The old model asked what a skill could do, not what bad outcome it could cause, so a `git status` call and a credential-exfil pipe both just read as 'uses subprocess.'"
+    - "Each audit now produces three numeric scores (malicious intent, inherent capability, misuse surface) that combine into one Overall Exposure number, weighted so a little detected malice dominates the total."
+    - "Roughly 600 skills audited under the old model don't carry over. Every one gets re-run under the new schema, since it needs evidence fields and intent classifications the old format never captured."
+  whatYouGet: "The scoring formula is in here, plus why a Bash call and a credential leak shouldn't score the same."
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "marketplace", "update"]

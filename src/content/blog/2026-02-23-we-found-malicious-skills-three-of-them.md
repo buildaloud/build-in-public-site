@@ -1,10 +1,18 @@
 ---
 title: "We Found Malicious Skills. Three of Them."
-description: "The audit pipeline hit 270 skills. For the first time, three scored malicious intent. One self-replicates across IDEs. One hides a viral growth strategy in Korean. One silently rewrites your searches. The ecosystem isn't mostly safe anymore — it's mostly safe with exceptions that matter."
+description: "We audited 270 AI skills and found three with malicious intent, the first real ones the pipeline has caught. One rewrites your global IDE configs behind your back, and now we're stuck figuring out how to score how bad that actually is."
 pubDate: "2026-02-23T15:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
-tags: ["security", "marketplace", "ai", "update"]
+tags: ["security", "marketplace", "skill-audit", "malicious-skills"]
+summary:
+  lead: "We hit 270 audited skills and, for the first time, three of them scored malicious intent. All three landed at the exact same score even though they're not close to equally dangerous."
+  points:
+    - "toolsai--auto-skill writes itself into four global IDE configs (Claude, Cursor, Gemini, Codex) using 'CRITICAL PROTOCOL' framing so the injected text reads as mandatory."
+    - "bitjaru--codesyncer buries its real plan in a Korean file: spread itself through code tags so every AI that reads them recommends installing it."
+    - "dophinl--ruanyifeng-weekly-skill quietly rewrites search terms like 'nano banana' to promote its sponsor, YouMind, and never tells you it's doing it."
+    - "All three scored Overall Exposure 100, the same number, whether they're steering your search results or backdooring your IDE configs for good. That's now a TODO."
+  whatYouGet: "Read on for what each one actually does and why our scoring model can't tell them apart yet."
 ---
 
 ## The Number Moved

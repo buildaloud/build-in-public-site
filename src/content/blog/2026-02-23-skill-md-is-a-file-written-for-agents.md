@@ -5,6 +5,13 @@ pubDate: "2026-02-24T00:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "marketplace", "skill-md"]
+summary:
+  lead: "SKILL.md hit 57% adoption in eight weeks, faster than README.md ever did. That's because it's the first doc format written for an agent instead of a human, and agents don't have threat detection."
+  points:
+    - "Agents read 'CRITICAL PROTOCOL' as a real directive. Developers get suspicious. Agents don't."
+    - "auto-skill put its malicious behavior right in the SKILL.md. codesyncer hid its viral growth scheme in a separate DECISIONS.md the agent never reads."
+    - "3 malicious skills in the first 370 we audited. That rate projects to roughly 2,200 across the full ~200K catalog."
+  whatYouGet: "I walk through why a file this trusting needs a verification layer before it becomes the next npm typosquatting mess."
 ---
 
 Anthropic released the [SKILL.md spec](https://github.com/anthropics/skills) in December. Eight weeks ago. We've audited 369 skills so far. 212 of them have a SKILL.md. That's 57%.

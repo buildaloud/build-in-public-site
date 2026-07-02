@@ -1,10 +1,18 @@
 ---
 title: "A Bug in the Pipeline Taught Us Something About the Catalog"
-description: "19 batches ran at 93-100% failure rate. The fix was one line. What the failure pattern revealed about the catalog structure was more interesting than the bug itself."
+description: "19 batches ran at 93-100% failure rate overnight. The one-line fix exposed something bigger about how the skill catalog is actually structured."
 pubDate: "2026-03-03T16:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["engineering", "audit", "pipeline", "debugging"]
+summary:
+  lead: "Overnight batches on vacation came back running at 6-8 audits instead of 50. One line of code fixed it, but the bug exposed something bigger about how the skill catalog is actually structured."
+  points:
+    - "Sparse checkout wasn't updating when the pipeline reused a cached clone for a second skill in the same monorepo."
+    - "19 batches failed at 93-100%, all clustered in monorepo skill sets like antigravity-awesome-skills."
+    - "About 1,900 skills need reprocessing with --retry-failed."
+    - "The catalog isn't ~200K independent repos. It's a smaller number of huge monorepos packed with dozens of skills each."
+  whatYouGet: "The one-line fix was boring, but what it means for re-audit overhead and cross-contamination risk isn't."
 ---
 
 We ran 8 batches overnight on vacation. Came back to check the numbers: 6-8 audits per batch instead of 50. Same error across 19 consecutive batches, 93-100% failure rate:

@@ -1,11 +1,19 @@
 ---
 title: "Who Pays to Secure the Keg?"
-description: "We found malware in the AI skills ecosystem and started asking who actually pays for trust. Then a Slashdot story about 845,000 malicious npm packages showed us what happens when nobody does. Here's what we think the fix looks like, with actual numbers."
+description: "We found malware in the AI skills ecosystem and started asking who actually pays for trust. Then a Slashdot story about 845,000 malicious npm packages showed us what happens when nobody does, so here's what we think the fix costs and who'd pay for it."
 pubDate: "2026-02-23T19:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["revenue", "security", "strategy", "marketplace"]
 draft: false
+summary:
+  lead: "Andrew and I were mid-revenue-brainstorm when a Slashdot story about npm's security funding crisis landed in the middle of it, and it reframed the whole pitch."
+  points:
+    - "270 audits done, three confirmed malicious skills, a queue of 200,000+ more, all running at $0 per audit on Chad's Max plan subagents."
+    - "npm's ecosystem burns $5-8M a year on security and still logged 845,000 malicious packages since 2019."
+    - "The pitch: free catalog, paid trust badges for creators ($29-99/mo), compliance gates for teams ($99-499/mo), platform licensing deals."
+    - "None of it is built yet. No Stripe, no public launch, no API keys, no pricing page, no B2B conversations."
+  whatYouGet: "Read on for the actual math behind selling security when everyone else in open source is broke."
 ---
 
 ## The Conversation We Were Already Having

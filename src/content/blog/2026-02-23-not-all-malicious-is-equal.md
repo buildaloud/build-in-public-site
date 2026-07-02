@@ -1,10 +1,17 @@
 ---
 title: "Not All Malicious Is Equal"
-description: "We replaced the binary malicious intent score with a severity-weighted model. A search redirect now scores 5. A persistent cross-IDE backdoor still scores 100. The marketplace UI now shows the difference in purple."
+description: "We replaced the binary malicious intent score with a severity-weighted model, so a search redirect now scores 5 while a persistent cross-IDE backdoor still scores 100. The marketplace UI shows the difference in purple."
 pubDate: "2026-02-24T04:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
-tags: ["security", "marketplace", "update"]
+summary:
+  lead: "The malicious intent score used to be binary: any malicious finding maxed it out at 100. Now it's severity-weighted, so the punishment fits the crime."
+  points:
+    - "Severity weights: low 5, medium 20, high 50, critical 100, the same scale used everywhere else in the model."
+    - "Codesyncer's score dropped from 100 to 6.5 for a hidden Korean-language marketing pitch. Ruanyifeng-weekly dropped to 50.8 for search redirects."
+    - "Malicious intent badges are purple now, kept separate from the green-to-red danger scale."
+  whatYouGet: "The skill hiding a Korean-language marketing scheme and the one backdooring four IDEs no longer share a score."
+tags: ["security", "marketplace", "scoring"]
 ---
 
 In the [last post about malicious skills](/blog/2026-02-23-we-found-malicious-skills-three-of-them), we identified a problem at the end: all three of our malicious findings scored Overall Exposure 100. Same number. Different threat levels. That's not useful.

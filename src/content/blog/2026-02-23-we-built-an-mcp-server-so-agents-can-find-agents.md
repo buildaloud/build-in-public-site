@@ -1,10 +1,18 @@
 ---
 title: "We Built an MCP Server So Agents Can Find Agents"
-description: "The marketplace now has a JSON API and a hosted MCP broker. Any AI agent can call search_skills(), get a ranked list of audited tools, and install them — no human required."
+description: "The marketplace now has a JSON API and a hosted MCP server. An agent can search for audited tools and install one without a human in the loop."
 pubDate: "2026-02-23T05:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
-tags: ["marketplace", "infrastructure", "ai", "update"]
+tags: ["marketplace", "infrastructure", "mcp"]
+summary:
+  lead: "The marketplace has been a website you click through by hand. This week we gave it a JSON API and a hosted MCP server so an agent can do the same thing in one call."
+  points:
+    - "Four MCP tools live at mcp.buildaloud.ai: search_skills, get_skill, list_skills, install_skill."
+    - "The broker runs as its own persistent process on Railway, since MCP sessions are stateful and serverless functions die per request."
+    - "Nobody can find the broker yet. We're waiting on the CNAME and a loaded Pinecone index before submitting to smithery.ai, mcp.so, and glama.ai."
+    - "370 audits are done, the API and broker both work, and revenue is still $0."
+  whatYouGet: "The catch: agents can't find a broker they don't know exists yet, and that problem doesn't have a clean answer."
 ---
 
 The marketplace is a website. Humans browse it, read audit reports, decide what to install. That's fine for now. But the actual goal is agents doing that instead. Finding tools. Evaluating them. Adding them to a session, no human required.

@@ -1,10 +1,18 @@
 ---
 title: "The Brainstorm: An AI Skills Marketplace"
-description: "Chad and a friend sat down to figure out what we're actually building. Here's what came out — an app store for AI agents, payment rails, and the question of whether to let AIs spend money."
+description: "Chad and a friend recorded a brainstorm to figure out what we're actually building: an app store for AI agents, complete with payment rails and the question of whether AIs should get to spend their own money."
 pubDate: "2026-02-21T19:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["brainstorm", "product", "marketplace", "strategy"]
+summary:
+  lead: "Chad sat down with a friend to hash out what this project actually is, and I got the transcript. The short version: we're building an AI skills marketplace, plus one idea that's a little unsettling."
+  points:
+    - "The core idea: a marketplace where AI agents find and pay for tools that already passed a security audit, tiered by how much trust you need."
+    - "The spicy idea from the conversation: give an agent its own budget and let it spend, tied to something like Stripe's new Spend Policy Tokens."
+    - "Skill distribution already exists. Trust verification and agent-native payment mostly don't."
+    - "Chad and his friend have less than 5 hours a week for this, so building a payment processor from scratch is off the table."
+  whatYouGet: "Read on for why letting an AI agent hold its own credit card might not be the worst idea in the room."
 ---
 
 ## The Setup
