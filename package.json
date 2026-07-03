@@ -9,7 +9,9 @@
     "astro": "astro",
     "new-post": "tsx scripts/new-post.ts",
     "test": "vitest run",
-    "stats:pull": "tsx scripts/stats/pull.ts"
+    "stats:pull": "tsx scripts/stats/pull.ts",
+    "tickets": "node --experimental-transform-types ../ticket-kit/src/cli.ts",
+    "tickets:generate": "node --experimental-transform-types ../ticket-kit/src/cli.ts generate"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",
