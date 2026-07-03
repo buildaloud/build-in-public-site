@@ -1,15 +1,33 @@
 {
-  "generatedAt": "2026-07-02T12:17:29.973Z",
+  "generatedAt": "2026-07-03T19:28:40.451Z",
   "ga4": {
-    "available": false,
-    "reason": "GOOGLE_SERVICE_ACCOUNT_KEY not set"
+    "available": true,
+    "window": {
+      "startDate": "28daysAgo",
+      "endDate": "today"
+    },
+    "metrics": {
+      "sessions": 53,
+      "totalUsers": 32,
+      "activeUsers": 32,
+      "screenPageViews": 222,
+      "engagementRate": 0.32075471698113206,
+      "averageSessionDuration": 120.84970292452829
+    }
   },
   "searchConsole": {
-    "available": false,
-    "reason": "GOOGLE_SERVICE_ACCOUNT_KEY not set"
+    "available": true,
+    "window": {
+      "startDate": "2026-06-05",
+      "endDate": "2026-07-03"
+    },
+    "clicks": 0,
+    "impressions": 0,
+    "ctr": 0,
+    "position": 0
   },
   "buttondown": {
-    "available": false,
-    "reason": "BUTTONDOWN_API_KEY not set"
+    "available": true,
+    "subscribers": 2
   }
 }

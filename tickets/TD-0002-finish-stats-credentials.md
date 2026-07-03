@@ -1,7 +1,7 @@
 ---
 id: TD-0002
 title: finish stats credentials (GA4 + GSC + Buttondown)
-status: open
+status: done
 priority: P0
 rank: 10
 area: measurement
@@ -22,5 +22,5 @@ Chad-hands steps, ~5 min total: download the buildaloud-stats service-account JS
 
 ## Acceptance
 
-- [ ] npm run stats:pull prints ga4: ok, searchConsole: ok, buttondown: ok
-- [ ] src/data/stats.json has real numbers
+- [x] npm run stats:pull prints ga4: ok, searchConsole: ok, buttondown: ok
+- [x] src/data/stats.json has real numbers
