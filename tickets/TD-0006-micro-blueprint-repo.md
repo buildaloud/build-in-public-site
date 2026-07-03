@@ -20,6 +20,12 @@ The core micropreneur asset: one codebase serving many validation-stage products
 
 New repo on the hybrid stack: Cloudflare Pages/Functions hosting, Supabase (auth + one shared DB, product_id on every table), Stripe ported from chesstell src/billing (tested checkout + webhook), Resend magic-link patterns from pet packages/auth as fallback/transactional, PostHog + GA via a single AnalyticsProvider keyed by product. Package, do not rewrite: copy working donor code. Break into subtasks when started.
 
+Blueprint floor per Chad (2026-07-03): Supabase auth (login), splash page with
+tagged Buttondown subscribe, Stripe payments AND subscriptions both wired
+(checkout, webhook, billing portal, test mode), GA4 + GSC + stats pullers,
+PostHog tagged per product. URL/DNS/repo conventions per setup/CLAUDE.md
+(splash at <product>.buildaloud.ai, app at /app, one repo per product).
+
 ## Acceptance
 
 - [ ] Repo boots locally with one demo product wired end-to-end

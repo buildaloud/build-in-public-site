@@ -3,6 +3,13 @@
 Legend: **[AI]** Claude does it · **[AI→USER]** Claude guides, you click · **[USER]** you only.
 Fill `Status`: ☐ todo · ◐ in progress · ☑ done.
 
+## GitHub repo + DNS (identity)
+| # | Step | Owner | Produces | Status |
+|---|------|-------|----------|--------|
+| 1 | Create repo `<product>` from micro-blueprint | [AI→USER] | repo | ☐ |
+| 2 | CNAME `<product>.buildaloud.ai` in the CF zone | [AI→USER] | DNS | ☐ |
+| 3 | Wire deploy.yml (push-to-main + daily cron) | [AI] | pipeline | ☐ |
+
 ## Cloudflare Pages (deploy)
 | # | Step | Owner | Produces | Status |
 |---|------|-------|----------|--------|
