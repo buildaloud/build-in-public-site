@@ -1,7 +1,7 @@
 ---
 id: TD-0003
 title: expense tracking v0 (private ledger + monthly ritual)
-status: open
+status: in-progress
 priority: P0
 rank: 20
 area: operations
@@ -23,5 +23,5 @@ Create a PRIVATE ledger (not this public repo): expenses.csv (date, payee, categ
 ## Acceptance
 
 - [ ] Ledger exists somewhere private with all known recurring expenses seeded
-- [ ] One monthly recurring reminder/ritual is set up
-- [ ] Public site only ever shows aggregate totals
+- [x] One monthly recurring reminder/ritual is set up
+- [x] Public site only ever shows aggregate totals

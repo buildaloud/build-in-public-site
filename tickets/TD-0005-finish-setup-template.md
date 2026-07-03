@@ -1,7 +1,7 @@
 ---
 id: TD-0005
 title: finish new-project-template setup folders
-status: open
+status: done
 priority: P1
 rank: 40
 area: build
@@ -22,5 +22,5 @@ Write the remaining service CLAUDE.mds: search-console (GA auto-verify path), gc
 
 ## Acceptance
 
-- [ ] Every service folder has a CLAUDE.md with owner tags ([AI] / [AI->USER] / [USER])
-- [ ] CHECKLIST.md covers all services incl. the new ones
+- [x] Every service folder has a CLAUDE.md with owner tags ([AI] / [AI->USER] / [USER])
+- [x] CHECKLIST.md covers all services incl. the new ones

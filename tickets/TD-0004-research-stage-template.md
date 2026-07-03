@@ -1,7 +1,7 @@
 ---
 id: TD-0004
 title: research-stage template: idea -> validation brief
-status: open
+status: in-progress
 priority: P1
 rank: 30
 area: research
@@ -22,5 +22,5 @@ Add new-project-template/research/: a CLAUDE.md that drives the existing deep-re
 
 ## Acceptance
 
-- [ ] research/CLAUDE.md + brief template exist in new-project-template
+- [x] research/CLAUDE.md + brief template exist in new-project-template
 - [ ] Run end-to-end once on a real candidate idea; brief judged useful

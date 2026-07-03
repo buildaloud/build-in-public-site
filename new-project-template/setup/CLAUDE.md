@@ -15,8 +15,13 @@ Rule of thumb: **Claude never creates accounts, never changes permissions, and n
 ## Files
 
 - `CHECKLIST.md` — master tracker: every service, its steps, owner, and the env var it produces. Update `Status` as you go.
-- One folder per service, each with a `CLAUDE.md`: `google-analytics/`, `search-console/`, `gcp-service-account/`, `buttondown/`, `cloudflare-pages/`.
+- One folder per service, each with a `CLAUDE.md`:
+  - Core: `cloudflare-pages/`, `google-analytics/`, `search-console/`, `gcp-service-account/`, `buttondown/`.
+  - Alternative host: `vercel/`.
+  - Per-need, add when the product requires it: `supabase/`, `stripe/`, `resend/`, `posthog/`.
 
 ## Order
 
-1. `cloudflare-pages` (deploy) → 2. `google-analytics` (tag) → 3. `search-console` (verify) → 4. `gcp-service-account` (API access for stats) → 5. `buttondown` (newsletter). Stats pullers (`scripts/stats/`) need 2–5 done.
+Core, always: 1. `cloudflare-pages` (deploy) → 2. `google-analytics` (tag) → 3. `search-console` (verify) → 4. `gcp-service-account` (API access for stats) → 5. `buttondown` (newsletter). Stats pullers (`scripts/stats/`) need 2–5 done.
+
+Per-need, pull in as the product requires: `supabase` (DB/auth) → `stripe` (payments) → `resend` (transactional email) → `posthog` (product analytics). `vercel` is an alternative to `cloudflare-pages`, not an addition to it.
