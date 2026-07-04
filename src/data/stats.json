@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-04T21:56:58.842Z",
+  "generatedAt": "2026-07-04T23:51:22.626Z",
   "ga4": {
     "available": true,
     "window": {
@@ -7,12 +7,12 @@
       "endDate": "today"
     },
     "metrics": {
-      "sessions": 59,
-      "totalUsers": 35,
-      "activeUsers": 35,
-      "screenPageViews": 228,
-      "engagementRate": 0.288135593220339,
-      "averageSessionDuration": 109.02019279661016
+      "sessions": 60,
+      "totalUsers": 36,
+      "activeUsers": 36,
+      "screenPageViews": 229,
+      "engagementRate": 0.2833333333333333,
+      "averageSessionDuration": 107.20318958333333
     }
   },
   "searchConsole": {
@@ -39,6 +39,40 @@
         "signins7d": 0,
         "paidOrders": 0
       }
+    }
+  },
+  "stripe": {
+    "available": true,
+    "testMode": true,
+    "earned": {
+      "demo": {
+        "paidCents": 500,
+        "sessions": 1
+      }
+    }
+  },
+  "spend": {
+    "available": true,
+    "monthlyBurnUSD": 457.38
+  },
+  "agentUsage": {
+    "available": true,
+    "currentMonth": {
+      "tokens": 1668191733,
+      "apiEquivalentUSD": 1144.2791731000004
+    },
+    "allTime": {
+      "tokens": 7211021425,
+      "apiEquivalentUSD": 4992.270882700002
+    },
+    "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
+  },
+  "timeSpent": {
+    "available": true,
+    "last7d": {
+      "trackedHours": 0,
+      "focusHours": 0,
+      "workHours": 0
     }
   }
 }

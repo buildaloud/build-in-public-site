@@ -108,6 +108,92 @@ async function safe(label: string, fn: () => Promise<Source>): Promise<Source> {
 
 async function main() {
   const creds = loadCredentials();
+
+async function pullStripe() {
+  const key = process.env.STRIPE_SECRET_KEY ?? factorySecret('STRIPE_SECRET_KEY');
+  if (!key) return { available: false, reason: 'STRIPE_SECRET_KEY not set' };
+  const headers = { Authorization: `Bearer ${key}` };
+  const earned: Record<string, { paidCents: number; sessions: number }> = {};
+  let url = 'https://api.stripe.com/v1/checkout/sessions?limit=100';
+  for (let page = 0; page < 5; page++) {
+    const res = await fetch(url, { headers });
+    if (!res.ok) return { available: false, reason: `stripe ${res.status}` };
+    const body = (await res.json()) as { data: { payment_status: string; amount_total: number | null; metadata?: Record<string, string>; id: string }[]; has_more: boolean };
+    for (const sess of body.data) {
+      if (sess.payment_status !== 'paid') continue;
+      const pid = sess.metadata?.product_id ?? 'untagged';
+      earned[pid] ??= { paidCents: 0, sessions: 0 };
+      earned[pid].paidCents += sess.amount_total ?? 0;
+      earned[pid].sessions += 1;
+    }
+    if (!body.has_more) break;
+    url = `https://api.stripe.com/v1/checkout/sessions?limit=100&starting_after=${body.data[body.data.length - 1].id}`;
+  }
+  const testMode = key.startsWith('sk_test');
+  return { available: true, testMode, earned };
+}
+
+async function pullSpend() {
+  try {
+    const csv = readFileSync(join(homedir(), 'projects/bizops/expenses.csv'), 'utf8');
+    const rows = csv.trim().split('\n').slice(1);
+    let monthlyUSD = 0;
+    for (const row of rows) {
+      const cols = row.match(/("[^"]*"|[^,]+)/g) ?? [];
+      if (cols[4]?.trim() === 'monthly') monthlyUSD += parseFloat(cols[3] ?? '0') || 0;
+    }
+    return { available: true, monthlyBurnUSD: Math.round(monthlyUSD * 100) / 100 };
+  } catch {
+    return { available: false, reason: 'bizops expenses.csv not readable' };
+  }
+}
+
+async function pullAgentUsage() {
+  try {
+    const { execFileSync } = await import('node:child_process');
+    const raw = execFileSync('npx', ['-y', 'ccusage@latest', 'monthly', '--json'], {
+      encoding: 'utf8', timeout: 120000, stdio: ['ignore', 'pipe', 'ignore'],
+    });
+    const data = JSON.parse(raw) as { monthly?: Record<string, unknown>[]; totals?: Record<string, unknown> };
+    const months = data.monthly ?? [];
+    const latest = months[months.length - 1] ?? {};
+    return {
+      available: true,
+      currentMonth: { tokens: latest.totalTokens ?? 0, apiEquivalentUSD: latest.totalCost ?? 0 },
+      allTime: { tokens: data.totals?.totalTokens ?? 0, apiEquivalentUSD: data.totals?.totalCost ?? 0 },
+      note: 'API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD',
+    };
+  } catch {
+    return { available: false, reason: 'ccusage failed' };
+  }
+}
+
+async function pullTimeSpent() {
+  const token = process.env.RIZE_API_TOKEN ?? envFrom(join(homedir(), 'projects/rize-data/.env'), 'RIZE_API_TOKEN');
+  if (!token) return { available: false, reason: 'RIZE_API_TOKEN not set' };
+  const end = new Date().toISOString().slice(0, 10);
+  const start = new Date(Date.now() - 7 * 864e5).toISOString().slice(0, 10);
+  const res = await fetch('https://api.rize.io/api/v1/graphql', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ query: `{ summaries(startDate: "${start}", endDate: "${end}", bucketSize: "day") { trackedTime focusTime workHours } }` }),
+  });
+  if (!res.ok) return { available: false, reason: `rize ${res.status}` };
+  const body = (await res.json()) as { data?: { summaries?: { trackedTime: number; focusTime: number; workHours: number } } };
+  const sum = body.data?.summaries;
+  if (!sum) return { available: false, reason: 'rize returned no summary' };
+  const hrs = (secs: number) => Math.round((secs / 3600) * 10) / 10;
+  return { available: true, last7d: { trackedHours: hrs(sum.trackedTime), focusHours: hrs(sum.focusTime), workHours: hrs(sum.workHours) } };
+}
+
+function envFrom(path: string, name: string): string | undefined {
+  try {
+    return readFileSync(path, 'utf8').split('\n').find((l) => l.startsWith(`${name}=`))?.slice(name.length + 1).trim();
+  } catch {
+    return undefined;
+  }
+}
+
 async function pullSupabase() {
   const url = process.env.SUPABASE_URL ?? 'https://clweuvbzerykadyamdpw.supabase.co';
   const key = process.env.SUPABASE_SECRET_KEY ?? factorySecret('SUPABASE_SECRET_KEY');
@@ -142,16 +228,20 @@ function factorySecret(name: string): string | undefined {
   }
 }
 
-  const [ga4, searchConsole, buttondown, supabase] = await Promise.all([
+  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent] = await Promise.all([
     safe('ga4', () => pullGA4(creds)),
     safe('searchConsole', () => pullSearchConsole(creds)),
     safe('buttondown', () => pullButtondown()),
     safe('supabase', () => pullSupabase()),
+    safe('stripe', () => pullStripe()),
+    safe('spend', () => pullSpend()),
+    safe('agentUsage', () => pullAgentUsage()),
+    safe('timeSpent', () => pullTimeSpent()),
   ]);
-  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase };
+  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent };
   writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`wrote ${OUT}`);
-  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase })) {
+  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent })) {
     console.log(v.available ? `  ${k}: ok` : `  ${k}: skipped — ${v.reason}`);
   }
 }
