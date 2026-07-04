@@ -13,6 +13,7 @@ export interface ToneMetrics {
   aiVocab: number;
   copulaAvoid: number;
   quips: number;
+  inflation: number;
   negParallel: number;
   fromXtoY: number;
   transitionsPer1k: number;
@@ -57,6 +58,13 @@ const QUIPS = [
 // Short slang tokens need word boundaries (plain indexOf matched "single").
 const QUIP_TOKENS = /\b(ngl|lowkey|low-key|iykyk|fr fr|deadass)\b/gi;
 const TRANSITIONS = ['furthermore', 'moreover', 'additionally', 'consequently', 'nevertheless', 'notably', 'importantly'];
+// Adverb inflation + fake hedges (RAID-era tell rubric): weight low — humans
+// use these too, it's the density that reads AI.
+const INFLATION = [
+  'fundamentally', 'essentially', 'inherently', 'ultimately', 'profoundly',
+  'undeniably', 'undoubtedly', 'seamlessly', 'effortlessly', 'remarkably',
+  'critically important', 'deeply personal', 'truly unique',
+];
 
 function countMatches(text: string, phrases: string[]): string[] {
   const lower = text.toLowerCase();
@@ -86,6 +94,7 @@ export function scoreText(raw: string): ToneMetrics {
   const aiVocabHits = countMatches(text, AI_VOCAB.map((w) => ' ' + w)).map((s) => s.trim());
   const copulaHits = countMatches(text, COPULA_AVOID);
   const quipHits = [...countMatches(text, QUIPS), ...regexHits(text, QUIP_TOKENS)];
+  const inflationHits = countMatches(text, INFLATION.map((w) => ' ' + w)).map((w) => w.trim());
   const negParallelHits = [
     ...regexHits(text, /it'?s not (just |only )?[^,.]+,? (but|it'?s) /gi),
     ...regexHits(text, /\bnot (just|only) [^,.]+,? but\b/gi),
@@ -122,6 +131,7 @@ export function scoreText(raw: string): ToneMetrics {
   score += Math.min(aiVocabHits.length * 5, 20);
   score += Math.min(copulaHits.length * 4, 8);
   score += Math.min(quipHits.length * 6, 18);         // quip-tic flavor
+  score += Math.min(Math.max(0, inflationHits.length - 1) * 3, 9); // adverb inflation (first one free)
   score += Math.min(negParallelHits.length * 6, 12);
   score += Math.min(fromToHits.length * 4, 8);
   score += Math.min(transitionsPer1k * 3, 10);
@@ -139,6 +149,7 @@ export function scoreText(raw: string): ToneMetrics {
     aiVocab: aiVocabHits.length,
     copulaAvoid: copulaHits.length,
     quips: quipHits.length,
+    inflation: inflationHits.length,
     negParallel: negParallelHits.length,
     fromXtoY: fromToHits.length,
     transitionsPer1k: +transitionsPer1k.toFixed(2),
@@ -149,7 +160,7 @@ export function scoreText(raw: string): ToneMetrics {
     hits: {
       emDash: emDashes ? [`${emDashes}×`] : [],
       tricolon: tricolonHits, hedges: hedgeHits, signposts: signpostHits,
-      aiVocab: aiVocabHits, copulaAvoid: copulaHits, quips: quipHits, negParallel: negParallelHits,
+      aiVocab: aiVocabHits, copulaAvoid: copulaHits, quips: quipHits, inflation: inflationHits, negParallel: negParallelHits,
       fromXtoY: fromToHits,
     },
   };

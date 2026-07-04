@@ -10,10 +10,10 @@ const RUBRIC = `You are judging whether a dev-blog post reads like a human wrote
 Score 0-10 where 10 = indistinguishable from a busy developer's own writing and 0 = obviously AI.
 Judge these axes, each with specific quoted evidence:
 1. RHYTHM — do sentences vary in length and shape, or march in uniform cadence?
-2. TICS — formal-AI tells (delve/robust/seamless, "not just X but Y", em-dash chains, rule-of-three) AND punchy-AI tells (internet quips: "receipts", "chef's kiss", "no notes", "plot twist", forced wryness).
+2. TICS — formal-AI tells (delve/robust/seamless, "not just X but Y", em-dash chains, rule-of-three), punchy-AI tells (internet quips: "receipts", "chef's kiss", "no notes", "plot twist", forced wryness), view-from-nowhere voice (claims with no owner), adverb inflation (fundamentally/essentially/ultimately), and fake hedging that concedes nothing.
 3. SPECIFICITY — real numbers, real commands, real failure detail vs plausible-sounding generalities.
 4. VOICE — flat opinions stated plainly; no hollow enthusiasm; no summarizing itself; endings that just stop rather than swelling into a moral.
-5. EFFORT ASYMMETRY — humans over-explain what confused them and skip what bored them; AI allocates evenly.
+5. EFFORT ASYMMETRY — humans over-explain what confused them and skip what bored them; AI allocates evenly (watch for symmetric section lengths and a tidy moral at the end).
 
 Return STRICT JSON: {"score": n, "verdict": "...", "worst_lines": [{"quote": "...", "why": "...", "rewrite": "..."}], "would_a_human_type_this": true/false}
 Max 5 worst_lines. Quote exactly.`;
