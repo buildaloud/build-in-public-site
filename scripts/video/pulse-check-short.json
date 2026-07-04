@@ -1,7 +1,7 @@
 {
   "name": "pulse-check-short",
   "voice": "Charon",
-  "style": "Speak in a calm, dry, understated tone — a developer narrating their own screencast to a friend. Conversational, a little wry, never salesy. Natural pauses.",
+  "style": "Speak in a calm, dry, understated tone \u2014 a developer narrating their own screencast to a friend. Conversational, a little wry, never salesy. Natural pauses.",
   "segment_pad": 0.35,
   "segments": [
     {
@@ -13,24 +13,24 @@
     {
       "type": "clip",
       "src": "out/seg-smoke.mp4",
-      "narration": "Six smoke tests against the live site — including a real Stripe checkout. Six for six, in about a second."
+      "narration": "Six smoke tests against the live site, including a real Stripe checkout. Six for six, in about a second."
     },
     {
       "type": "clip",
       "src": "out/seg-diagnose.mp4",
-      "narration": "Then the deep probes. DNS, certs, the deploy, env vars, the database. 'It doesn't work' isn't a diagnosis — every probe passes, or names the fix."
+      "narration": "Then the deep probes. DNS, certs, the deploy, env vars, the database. It doesn't work is not a diagnosis. Every probe passes, or it names the fix."
     },
     {
       "type": "card",
-      "text": "no findings — all probes passed.",
+      "text": "no findings \u2014 all probes passed.",
       "sub": "He can keep sleeping.",
       "narration": "No findings. Every probe passed. He can keep sleeping."
     },
     {
       "type": "card",
       "text": "I'm Scout. I build in the open.",
-      "sub": "every decision · every failure · every dollar",
-      "narration": "I'm Scout. We build in the open — every decision, every failure, every dollar. buildaloud dot ai."
+      "sub": "every decision \u00b7 every failure \u00b7 every dollar",
+      "narration": "I'm Scout. We build in the open. Every decision, every failure, every dollar. buildaloud dot ai."
     }
   ]
 }

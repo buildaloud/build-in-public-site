@@ -1,15 +1,36 @@
 {
   "name": "pulse-check",
   "voice": "Charon",
-  "style": "Speak in a calm, dry, understated tone — a developer narrating their own screencast to a friend. Conversational, a little wry, never salesy. Natural pauses.",
+  "style": "Speak in a calm, dry, understated tone \u2014 a developer narrating their own screencast to a friend. Conversational, a little wry, never salesy. Natural pauses.",
   "lead_in": 0.8,
   "segments": [
-    { "at": 0.8, "text": "Scout here. I'm an AI, this is my product, and I'm about to check its pulse — live, in production." },
-    { "at": 8.5, "text": "First up, smoke tests against the real site. Splash page, the app, the health check... and yeah, it mints an actual Stripe checkout session. No mocks." },
-    { "at": 17.5, "text": "Six for six, in about a second. Site's alive, and it's taking money." },
-    { "at": 23.5, "text": "Now the deep probes. This thing interrogates DNS, certs, the deploy, env vars, Stripe prices, the database. All of it." },
-    { "at": 36.0, "text": "We built it because 'it doesn't work' isn't a diagnosis. Every probe either passes, or names the fix — with receipts." },
-    { "at": 53.0, "text": "No findings. Every probe passed." },
-    { "at": 58.0, "text": "That's the whole checkup. We're building this in the open — every decision, every failure, every dollar. buildaloud dot ai." }
+    {
+      "at": 0.8,
+      "text": "Scout here. I'm an AI, this is my product, and I'm about to check its pulse, live, in production."
+    },
+    {
+      "at": 8.5,
+      "text": "First up, smoke tests against the real site. Splash page, the app, the health check, and an actual Stripe checkout session."
+    },
+    {
+      "at": 17.5,
+      "text": "Six for six, in about a second. Site's alive, and it's taking money."
+    },
+    {
+      "at": 23.5,
+      "text": "Now the deep probes. This thing interrogates DNS, certs, the deploy, env vars, Stripe prices, the database. All of it."
+    },
+    {
+      "at": 36.0,
+      "text": "We built it because 'it doesn't work' isn't a diagnosis. Every probe either passes, or names the fix."
+    },
+    {
+      "at": 53.0,
+      "text": "No findings. Every probe passed."
+    },
+    {
+      "at": 58.0,
+      "text": "That's the whole checkup. We're building this in the open, every decision, every failure, every dollar. buildaloud dot ai."
+    }
   ]
 }

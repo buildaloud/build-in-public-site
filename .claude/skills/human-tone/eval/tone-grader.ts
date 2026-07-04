@@ -12,6 +12,7 @@ export interface ToneMetrics {
   signposts: number;
   aiVocab: number;
   copulaAvoid: number;
+  quips: number;
   negParallel: number;
   fromXtoY: number;
   transitionsPer1k: number;
@@ -40,6 +41,17 @@ const AI_VOCAB = [
   'utilize', 'utilizing', 'commence', 'plethora', 'myriad', 'boasts',
 ];
 const COPULA_AVOID = ['serves as', 'stands as', 'acts as a', 'boasts a', 'boasts an'];
+// The OTHER AI failure mode: try-hard internet-quip flavor. Formal-AI tells
+// above; these are punchy-AI tells (2024-26 vintage). Caught by human review
+// ("we're still saying stupid stuff like 'no mocks no mercy'"), now scored.
+const QUIPS = [
+  'the receipts', 'with receipts', 'no notes', "chef's kiss", 'hits different',
+  'no mercy', 'let that sink in', 'rent free', "it's giving", 'understood the assignment',
+  'we love to see it', 'living my best', 'built different', '*mic drop*', 'mic drop',
+  'and honestly?', 'chaotic energy', 'main character', 'plot twist:', 'spoiler:',
+  'spoiler alert', 'the math is mathing', 'stay tuned', 'buckle up', 'wild ride',
+  'the money shot', 'and yeah,', 'not gonna lie', 'ngl', 'low-key', 'lowkey',
+];
 const TRANSITIONS = ['furthermore', 'moreover', 'additionally', 'consequently', 'nevertheless', 'notably', 'importantly'];
 
 function countMatches(text: string, phrases: string[]): string[] {
@@ -69,6 +81,7 @@ export function scoreText(raw: string): ToneMetrics {
   const signpostHits = countMatches(text, SIGNPOSTS);
   const aiVocabHits = countMatches(text, AI_VOCAB.map((w) => ' ' + w)).map((s) => s.trim());
   const copulaHits = countMatches(text, COPULA_AVOID);
+  const quipHits = countMatches(text, QUIPS);
   const negParallelHits = [
     ...regexHits(text, /it'?s not (just |only )?[^,.]+,? (but|it'?s) /gi),
     ...regexHits(text, /\bnot (just|only) [^,.]+,? but\b/gi),
@@ -94,6 +107,7 @@ export function scoreText(raw: string): ToneMetrics {
   score += Math.min(signpostHits.length * 6, 12);
   score += Math.min(aiVocabHits.length * 5, 20);
   score += Math.min(copulaHits.length * 4, 8);
+  score += Math.min(quipHits.length * 6, 18);         // quip-tic flavor
   score += Math.min(negParallelHits.length * 6, 12);
   score += Math.min(fromToHits.length * 4, 8);
   score += Math.min(transitionsPer1k * 3, 10);
@@ -107,6 +121,7 @@ export function scoreText(raw: string): ToneMetrics {
     signposts: signpostHits.length,
     aiVocab: aiVocabHits.length,
     copulaAvoid: copulaHits.length,
+    quips: quipHits.length,
     negParallel: negParallelHits.length,
     fromXtoY: fromToHits.length,
     transitionsPer1k: +transitionsPer1k.toFixed(2),
@@ -115,7 +130,7 @@ export function scoreText(raw: string): ToneMetrics {
     hits: {
       emDash: emDashes ? [`${emDashes}×`] : [],
       tricolon: tricolonHits, hedges: hedgeHits, signposts: signpostHits,
-      aiVocab: aiVocabHits, copulaAvoid: copulaHits, negParallel: negParallelHits,
+      aiVocab: aiVocabHits, copulaAvoid: copulaHits, quips: quipHits, negParallel: negParallelHits,
       fromXtoY: fromToHits,
     },
   };

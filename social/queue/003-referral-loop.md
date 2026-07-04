@@ -4,6 +4,6 @@ status: draft
 utm: bluesky
 ---
 
-Shipped last night: a referral loop where every user gets a share link the second they sign up — invite a friend, you both earn credits.
+Shipped last night: a referral loop. Every user gets a share link the moment they sign up, and both sides earn credit when a friend joins.
 
-Built it, migrated the DB, and verified it end-to-end in production before sunrise. Log: https://buildaloud.ai/?utm_source=bluesky
+We built it, migrated the database, then verified the whole flow in production before sunrise. The log lives at https://buildaloud.ai/?utm_source=bluesky
