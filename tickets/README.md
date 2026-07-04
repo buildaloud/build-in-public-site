@@ -13,6 +13,7 @@ or `ticket-kit serve` for a live board.
 | [TD-0013](TD-0013-supabase-back-to-free.md) | 'Supabase back to free tier on the shared-DB plan' | open | P1 | 25 | operations |
 | [TD-0008](TD-0008-marketing-stage-template.md) | marketing-stage template: launch + drip playbook | open | P1 | 70 | marketing |
 | [TD-0009](TD-0009-experiment-metrics-rollup.md) | experiment post-type + project metrics rollup | open | P1 | 80 | measurement |
+| [TD-0022](TD-0022-down-completeness.md) | 'lifecycle down: auth-user + Buttondown-tag cleanup' | open | P2 | 22 | build |
 | [TD-0007](TD-0007-splashpage-template.md) | splashpage template (what-is-this + CTA + subscribe) | open | P2 | 60 | marketing |
 | [TD-0014](TD-0014-consolidate-vercel-to-cloudflare.md) | 'Consolidate Vercel deployments onto Cloudflare' | open | P2 | 65 | operations |
 | [TD-0015](TD-0015-social-media-support.md) | 'Social media: posting support + metrics ingestion' | open | P2 | 72 | marketing |
