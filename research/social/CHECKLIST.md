@@ -14,12 +14,16 @@ Ordered. Gates are hard stops — nothing below a gate starts until it passes.
 - [ ] [USER] Optional, still open: park the X handle (no posting planned).
 - [x] [USER] Reddit: IN, assisted — see "Reddit assist" under Deferred→now.
 
-## Gate 1 — tooling verified (before ANY account exists)
+## Gate 1 — tooling verified ✅ (2026-07-04)
 
-- [ ] [AI] Verify Buffer Free actually supports API-pushed drafts + whether
-      drafts count against the 10-post channel cap (docs + trial key).
-- [ ] [AI] If drafts are paid-only: recommend pay ~$6/mo vs repo-PR approval
-      gate + direct Bluesky API; [USER] picks.
+- [x] [AI] Buffer API confirmed on Free: 3,000 req/30d, personal key, all
+      plans. BUT native draft-gating relies on "Requires Approval" channel
+      roles (team semantics) — unreliable for a solo account.
+- [x] Decision: approval gate lives upstream. Posts are files in
+      `social/queue/`; Chad approves (console tap / chat); only then does
+      the API publish. Bluesky publishes via direct AT-proto API
+      (`com.atproto.repo.createRecord`); Buffer enters at Phase 2 for
+      LinkedIn page posting.
 
 ## Gate 2 — the magnet (before any social account posts)
 
