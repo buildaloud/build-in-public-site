@@ -1,0 +1,75 @@
+// Layer 3 of the humanizer: LLM-as-judge via Gemini (temp 0, rubric-based).
+// The deterministic grader counts tells; this catches what counting can't —
+// rhythm sameness, hollow enthusiasm, quip-flavor, sentences no tired human
+// would type. Exemplars are PUBLISHED posts only (the private corpus never
+// leaves the machine).
+
+import { readFileSync } from 'node:fs';
+
+const RUBRIC = `You are judging whether a dev-blog post reads like a human wrote it.
+Score 0-10 where 10 = indistinguishable from a busy developer's own writing and 0 = obviously AI.
+Judge these axes, each with specific quoted evidence:
+1. RHYTHM — do sentences vary in length and shape, or march in uniform cadence?
+2. TICS — formal-AI tells (delve/robust/seamless, "not just X but Y", em-dash chains, rule-of-three) AND punchy-AI tells (internet quips: "receipts", "chef's kiss", "no notes", "plot twist", forced wryness).
+3. SPECIFICITY — real numbers, real commands, real failure detail vs plausible-sounding generalities.
+4. VOICE — flat opinions stated plainly; no hollow enthusiasm; no summarizing itself; endings that just stop rather than swelling into a moral.
+5. EFFORT ASYMMETRY — humans over-explain what confused them and skip what bored them; AI allocates evenly.
+
+Return STRICT JSON: {"score": n, "verdict": "...", "worst_lines": [{"quote": "...", "why": "...", "rewrite": "..."}], "would_a_human_type_this": true/false}
+Max 5 worst_lines. Quote exactly.`;
+
+const EXEMPLAR = `Two short excerpts from posts that pass (for calibration, style not content):
+---
+${excerptOf('src/content/blog/2026-07-07-launch-day-bugs-only-showed-up-in-prod.md')}
+---
+${excerptOf('src/content/blog/2026-06-24-shipping-the-boring-parts.md')}`;
+
+function excerptOf(path: string): string {
+  try {
+    return readFileSync(path, 'utf8').replace(/^---\n[\s\S]*?\n---\n/, '').slice(0, 900);
+  } catch {
+    return '';
+  }
+}
+
+export interface JudgeResult {
+  score: number;
+  verdict: string;
+  worst_lines: { quote: string; why: string; rewrite: string }[];
+  would_a_human_type_this: boolean;
+}
+
+export async function judgeText(body: string, key: string): Promise<JudgeResult> {
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `${RUBRIC}\n\n${EXEMPLAR}\n\nPost to judge:\n---\n${body.slice(0, 20000)}` }] }],
+        generationConfig: { temperature: 0, responseMimeType: 'application/json' },
+      }),
+    },
+  );
+  if (!res.ok) throw new Error(`gemini judge failed (${res.status}): ${await res.text()}`);
+  const data = (await res.json()) as { candidates: { content: { parts: { text: string }[] } }[] };
+  return JSON.parse(data.candidates[0].content.parts[0].text) as JudgeResult;
+}
+
+if (process.argv[1]?.endsWith('judge.ts')) {
+  const file = process.argv[2];
+  if (!file) {
+    console.error('usage: npx tsx .claude/skills/human-tone/eval/judge.ts <post.md>');
+    process.exit(1);
+  }
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) {
+    console.error('GEMINI_API_KEY not set');
+    process.exit(1);
+  }
+  const body = readFileSync(file, 'utf8').replace(/^---\n[\s\S]*?\n---\n/, '');
+  judgeText(body, key).then((r) => {
+    console.log(JSON.stringify(r, null, 2));
+    console.log(`judge: ${r.score}/10 — ${r.would_a_human_type_this ? 'passes' : 'FAILS'} the would-a-human-type-this test`);
+  });
+}

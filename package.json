@@ -11,7 +11,8 @@
     "test": "vitest run",
     "stats:pull": "tsx scripts/stats/pull.ts",
     "tickets": "node --experimental-transform-types ../ticket-kit/src/cli.ts",
-    "tickets:generate": "node --experimental-transform-types ../ticket-kit/src/cli.ts generate"
+    "tickets:generate": "node --experimental-transform-types ../ticket-kit/src/cli.ts generate",
+    "judge": "tsx .claude/skills/human-tone/eval/judge.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",

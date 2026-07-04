@@ -17,6 +17,8 @@ export interface ToneMetrics {
   fromXtoY: number;
   transitionsPer1k: number;
   burstiness: number; // stdev of sentence word-counts; LOW is AI-like
+  contractionsPer100: number; // corpus baseline ~1.2-4.9; AI-formal prose goes low
+  startDiversity: number; // unique sentence-openers / sentences; corpus ~0.56-0.75
   aiScore: number; // 0-100, higher = more AI
   hits: Record<string, string[]>;
 }
@@ -50,8 +52,10 @@ const QUIPS = [
   'we love to see it', 'living my best', 'built different', '*mic drop*', 'mic drop',
   'and honestly?', 'chaotic energy', 'main character', 'plot twist:', 'spoiler:',
   'spoiler alert', 'the math is mathing', 'stay tuned', 'buckle up', 'wild ride',
-  'the money shot', 'and yeah,', 'not gonna lie', 'ngl', 'low-key', 'lowkey',
+  'the money shot', 'and yeah,', 'not gonna lie',
 ];
+// Short slang tokens need word boundaries (plain indexOf matched "single").
+const QUIP_TOKENS = /\b(ngl|lowkey|low-key|iykyk|fr fr|deadass)\b/gi;
 const TRANSITIONS = ['furthermore', 'moreover', 'additionally', 'consequently', 'nevertheless', 'notably', 'importantly'];
 
 function countMatches(text: string, phrases: string[]): string[] {
@@ -81,7 +85,7 @@ export function scoreText(raw: string): ToneMetrics {
   const signpostHits = countMatches(text, SIGNPOSTS);
   const aiVocabHits = countMatches(text, AI_VOCAB.map((w) => ' ' + w)).map((s) => s.trim());
   const copulaHits = countMatches(text, COPULA_AVOID);
-  const quipHits = countMatches(text, QUIPS);
+  const quipHits = [...countMatches(text, QUIPS), ...regexHits(text, QUIP_TOKENS)];
   const negParallelHits = [
     ...regexHits(text, /it'?s not (just |only )?[^,.]+,? (but|it'?s) /gi),
     ...regexHits(text, /\bnot (just|only) [^,.]+,? but\b/gi),
@@ -94,6 +98,16 @@ export function scoreText(raw: string): ToneMetrics {
   const mean = sentLens.reduce((a, b) => a + b, 0) / sentences;
   const variance = sentLens.reduce((a, b) => a + (b - mean) ** 2, 0) / sentences;
   const burstiness = Math.sqrt(variance);
+
+  // Corpus-relative texture (baselines measured 2026-07-04 on eval/corpus/:
+  // contractions/100w 1.19-4.93, sentence-start diversity 0.56-0.75).
+  const contractions = (text.match(/\b[\w]+'(s|t|re|ve|ll|d|m)\b/gi) ?? []).length;
+  const contractionsPer100 = (contractions / words) * 100;
+  const starts = sentenceParts
+    .filter((snt) => (snt.match(/\b[\w'-]+\b/g) ?? []).length > 2)
+    .map((snt) => (snt.match(/[A-Za-z']+/)?.[0] ?? '').toLowerCase())
+    .filter(Boolean);
+  const startDiversity = starts.length ? new Set(starts).size / starts.length : 1;
 
   const per1k = (n: number) => (n / words) * 1000;
   const emDashPer1k = per1k(emDashes);
@@ -112,6 +126,9 @@ export function scoreText(raw: string): ToneMetrics {
   score += Math.min(fromToHits.length * 4, 8);
   score += Math.min(transitionsPer1k * 3, 10);
   if (sentences >= 4 && burstiness < 6) score += (6 - burstiness) * 2.5; // low burstiness penalty
+  // Texture deltas vs the human corpus (only on texts big enough to trust).
+  if (words >= 120 && contractionsPer100 < 0.8) score += (0.8 - contractionsPer100) * 8; // stiff, uncontracted prose
+  if (starts.length >= 8 && startDiversity < 0.45) score += (0.45 - startDiversity) * 30; // The... The... It... It...
 
   return {
     words, sentences,
@@ -126,6 +143,8 @@ export function scoreText(raw: string): ToneMetrics {
     fromXtoY: fromToHits.length,
     transitionsPer1k: +transitionsPer1k.toFixed(2),
     burstiness: +burstiness.toFixed(2),
+    contractionsPer100: +contractionsPer100.toFixed(2),
+    startDiversity: +startDiversity.toFixed(2),
     aiScore: Math.round(Math.min(score, 100)),
     hits: {
       emDash: emDashes ? [`${emDashes}×`] : [],
