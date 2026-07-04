@@ -14,6 +14,14 @@ answers. Output: a filled copy of this file in the product repo's
 - Where do they already gather? List 3-5 real watering holes (subreddits,
   Discords, newsletters, forums) — verify they exist and are alive.
 
+## 1b. Category + hook per piece
+
+Every piece of content gets a `category` and a two-word `emotional_target`
+from `build-aloud/research/social/CONTENT.md` (how-to / war-story /
+field-notes / pure-hook × competence-relief / tension / discovery-surprise
+/ awe / righteous-frustration). One audience per piece. The Shorts
+compositor enforces this; briefs and posts carry it in frontmatter.
+
 ## 2. Magnet
 
 - One specific free asset the audience wants ("the X checklist", "the Y

@@ -1,5 +1,7 @@
 {
   "name": "pulse-check-short",
+  "category": "war-story",
+  "emotional_target": "tension",
   "voice": "Charon",
   "style": "Speak in a calm, dry, understated tone \u2014 a developer narrating their own screencast to a friend. Conversational, a little wry, never salesy. Natural pauses.",
   "segment_pad": 0.35,

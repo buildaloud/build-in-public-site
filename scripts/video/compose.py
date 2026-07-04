@@ -96,8 +96,16 @@ def fit_card(src: Path, target: float, path: Path) -> None:
          "-frames:v", str(frames), "-c:v", "libx264", "-preset", "fast", "-crf", "20", "-y", str(path)])
 
 
+VALID_CATEGORIES = {"how-to", "war-story", "field-notes", "pure-hook"}
+VALID_TARGETS = {"competence-relief", "tension", "discovery-surprise", "awe", "righteous-frustration"}
+
+
 def main() -> None:
     spec = json.loads(Path(sys.argv[1]).read_text())
+    if spec.get("category") not in VALID_CATEGORIES:
+        sys.exit(f"spec needs category in {sorted(VALID_CATEGORIES)} (see research/social/CONTENT.md)")
+    if spec.get("emotional_target") not in VALID_TARGETS:
+        sys.exit(f"spec needs emotional_target in {sorted(VALID_TARGETS)} — no hookless episodes")
     key = os.environ["GEMINI_API_KEY"]
     style = spec.get("style", "")
     voice = spec.get("voice", "Charon")
