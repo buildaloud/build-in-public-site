@@ -9,6 +9,7 @@ or `ticket-kit serve` for a live board.
 <!-- TICKETS:START -->
 | ID | Title | Status | Pri | Rank | Area |
 | --- | --- | --- | --- | --- | --- |
+| [TD-0021](TD-0021-shared-analytics-strategy.md) | 'Shared analytics: one GA4/GSC/PostHog, filtered per product' | open | P1 | 18 | measurement |
 | [TD-0013](TD-0013-supabase-back-to-free.md) | 'Supabase back to free tier on the shared-DB plan' | open | P1 | 25 | operations |
 | [TD-0008](TD-0008-marketing-stage-template.md) | marketing-stage template: launch + drip playbook | open | P1 | 70 | marketing |
 | [TD-0009](TD-0009-experiment-metrics-rollup.md) | experiment post-type + project metrics rollup | open | P1 | 80 | measurement |

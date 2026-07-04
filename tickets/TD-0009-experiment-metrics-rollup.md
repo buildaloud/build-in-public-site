@@ -25,3 +25,4 @@ Add experiment flag to the post schema (experiment posts get hypothesis/result/m
 - [ ] Schema supports experiment posts tied to a project
 - [ ] Project page shows its experiments + latest metrics from stats.json
 - [ ] Homepage stats pull from data, not hardcoded
+- [ ] Rollup consumes the per-product stats.json map from TD-0021
