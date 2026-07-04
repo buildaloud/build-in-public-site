@@ -43,3 +43,4 @@ secrets/
 scripts/video/.venv/
 scripts/video/models/
 scripts/video/out/
+.claude/skills/human-tone/eval/.venv/

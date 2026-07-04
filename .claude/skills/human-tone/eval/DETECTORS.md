@@ -9,10 +9,11 @@ The humanizer stack, in order of cost:
 2. **judge.ts** (live) — Gemini 2.5 Flash, temp 0, rubric-scored (rhythm,
    tics incl. view-from-nowhere + fake hedging, specificity, voice, effort
    asymmetry). Quotes worst lines with rewrites. `npm run judge <post>`.
-3. **desklib/ai-text-detector-v1.01** (NOT installed — needs a yes from
-   Chad: ~1.5GB DeBERTa download from HuggingFace, MIT, runs on MPS/CPU).
-   Best HF-downloadable detector on the RAID benchmark; supervised, so it
-   fails differently than our heuristics. Advisory canary, never a gate.
+3. **desklib/ai-text-detector-v1.01** (LIVE, 2026-07-04 — `npm run detect
+   <files>`; venv at eval/.venv, transformers pinned <4.50 for the custom
+   head). Calibration: human Slack corpus 0.03, deliberate AI slop 1.00,
+   shipped posts 0.25-0.37. Reports mean + worst 500-word chunk. Advisory
+   canary, never a gate — it flags chunks the other layers pass.
 4. **Fast-DetectGPT** (NOT installed — needs a yes: repo +
    GPT-Neo-2.7B, ~5GB). Perplexity-curvature score. Important caveat from
    Liang 2023 (arXiv 2304.02819): perplexity methods measure prose
