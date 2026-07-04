@@ -1,3 +1,4 @@
+import { homedir } from 'node:os';
 import 'dotenv/config';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -107,15 +108,50 @@ async function safe(label: string, fn: () => Promise<Source>): Promise<Source> {
 
 async function main() {
   const creds = loadCredentials();
-  const [ga4, searchConsole, buttondown] = await Promise.all([
+async function pullSupabase() {
+  const url = process.env.SUPABASE_URL ?? 'https://clweuvbzerykadyamdpw.supabase.co';
+  const key = process.env.SUPABASE_SECRET_KEY ?? factorySecret('SUPABASE_SECRET_KEY');
+  if (!key) return { available: false, reason: 'SUPABASE_SECRET_KEY not set' };
+  const headers = { apikey: key, Authorization: `Bearer ${key}`, Prefer: 'count=exact' };
+  const weekAgo = new Date(Date.now() - 7 * 864e5).toISOString();
+  const count = async (path: string): Promise<number> => {
+    const res = await fetch(`${url}/rest/v1/${path}&select=id&limit=1`, { headers });
+    return Number(res.headers.get('content-range')?.split('/')[1] ?? 0);
+  };
+  const products: Record<string, { users: number; signups7d: number; signins7d: number; paidOrders: number }> = {};
+  const listRes = await fetch(`${url}/rest/v1/products?select=id`, { headers });
+  for (const { id } of (await listRes.json()) as { id: string }[]) {
+    products[id] = {
+      users: await count(`app_users?product_id=eq.${id}`),
+      signups7d: await count(`app_users?product_id=eq.${id}&created_at=gte.${weekAgo}`),
+      signins7d: await count(`events?product_id=eq.${id}&name=eq.signin&created_at=gte.${weekAgo}`),
+      paidOrders: await count(`orders?product_id=eq.${id}&status=eq.paid`),
+    };
+  }
+  return { available: true, products };
+}
+
+function factorySecret(name: string): string | undefined {
+  try {
+    const line = readFileSync(join(homedir(), 'projects/micro-blueprint/.env'), 'utf8')
+      .split('\n')
+      .find((l) => l.startsWith(`${name}=`));
+    return line?.slice(name.length + 1).trim();
+  } catch {
+    return undefined;
+  }
+}
+
+  const [ga4, searchConsole, buttondown, supabase] = await Promise.all([
     safe('ga4', () => pullGA4(creds)),
     safe('searchConsole', () => pullSearchConsole(creds)),
     safe('buttondown', () => pullButtondown()),
+    safe('supabase', () => pullSupabase()),
   ]);
-  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown };
+  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase };
   writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`wrote ${OUT}`);
-  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown })) {
+  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase })) {
     console.log(v.available ? `  ${k}: ok` : `  ${k}: skipped — ${v.reason}`);
   }
 }
