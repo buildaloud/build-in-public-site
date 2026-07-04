@@ -4,6 +4,8 @@
 
 type Env = { BUTTONDOWN_API_KEY?: string };
 
+type PagesFunction<E> = (context: { request: Request; env: E }) => Promise<Response>;
+
 const API = 'https://api.buttondown.com/v1/subscribers';
 
 export const ROLE_TAGS = ['role-developer', 'role-founder', 'role-building-with-ai', 'role-marketing', 'role-watching'] as const;
