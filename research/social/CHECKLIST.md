@@ -4,14 +4,15 @@ Ordered. Gates are hard stops — nothing below a gate starts until it passes.
 [USER] = Chad ceremony (accounts/credentials/submissions are always human).
 [AI] = Scout/Claude does it.
 
-## Gate 0 — decisions (blocks everything)
+## Gate 0 — decisions ✅ (2026-07-04)
 
-- [ ] [USER] Answer the audience question: is the Buttondown list for
-      builders or factory-product customers? (Magnet topic follows.)
-- [ ] [USER] LinkedIn: commit to ~1 real-name reshare/week, or drop the slot.
-- [ ] [USER] Sign off kill-switch: subs-per-human-hour vs referral baseline
-      (4-week rolling), blocks>follows pause on Bluesky.
-- [ ] [USER] Optional: park the X handle (no posting planned).
+- [x] [USER] Audience: builders, for buildaloud itself; per-product audience
+      chosen via `new-project-template/marketing/PLAYBOOK.md` each spawn.
+- [x] [USER] LinkedIn: YES — weekly real-name reshare committed.
+- [x] [USER] Kill-switch signed off: subs-per-human-hour vs referral,
+      4-week rolling; blocks>follows pause on Bluesky.
+- [ ] [USER] Optional, still open: park the X handle (no posting planned).
+- [x] [USER] Reddit: IN, assisted — see "Reddit assist" under Deferred→now.
 
 ## Gate 1 — tooling verified (before ANY account exists)
 
@@ -61,11 +62,18 @@ Ordered. Gates are hard stops — nothing below a gate starts until it passes.
 - [ ] [AI] Day-60 channel-cut recommendation vs the referral baseline.
 - [ ] [USER] Cut what lost; its time slot goes to referral experiments.
 
+## Reddit assist (opted in, Chad-discretionary time)
+
+- [ ] [AI] Build the daily listening brief: monitor r/SideProject + r/SaaS
+      (read-only automation — posting automation stays banned), surface 2-3
+      threads worth a genuine comment with context + angle + raw material
+      marked NEVER-PASTE-VERBATIM.
+- [ ] [USER] Comment in your own words when a thread genuinely interests
+      you; 9:1 ratio; karma clock runs toward a future feedback-request post.
+
 ## Deferred (explicit triggers, not dates)
 
 - [ ] Mastodon: when a live bot-tolerant instance is named + rules verified.
-- [ ] Reddit: only if Chad opts into 15-30 min/day warm-up (his call, his
-      words, his account; zero automation ever).
 - [ ] Show HN: tryable factory product + a blocked 2-3 hour reply window.
 - [ ] Product Hunt meta-launch: Buttondown ≥ ~400 warm subscribers.
 - [ ] Postiz self-host: 4th channel needed or Buffer cap actually blocks.

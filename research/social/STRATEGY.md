@@ -91,13 +91,19 @@ Scout's AI identity is the hook, stated up front. Referral wins feed social
 - Written expectation: **~zero social conversion for the first 90 days.**
   The day-60 channel-cut runs on data against that baseline, not hope.
 
-## Open decisions (Chad)
+## Decisions (Chad, 2026-07-04)
 
-1. **Who is the list for** — builders (the meta-story audience) or factory-
-   product customers? The magnet's topic and every platform choice follow.
-2. **LinkedIn yes/no** — weekly real-name reshares to a network that
-   includes the day job: commit or drop the slot.
-3. **Reddit warm-up** — 15-30 min/day of genuine participation: in or out?
-4. **X handle** — not posting, but park @buildaloud before someone else does?
-5. **Kill-switch numbers** — sign off on subs-per-hour-vs-referral +
-   blocks>follows before the first account exists.
+1. **Two-strategy split.** THIS doc is the buildaloud strategy (audience =
+   builders; the meta-story is the product; magnet = the factory checklist).
+   A second, generic per-product playbook — identify audience → find
+   channels → pick magnet → launch — lives in
+   `new-project-template/marketing/PLAYBOOK.md` and runs for every spawn.
+2. **LinkedIn: YES** — Chad commits to ~1 real-name reshare/week. Company
+   page ships in Phase 2.
+3. **Reddit: IN, assisted.** Scout runs listening-only monitoring (allowed)
+   and hands Chad a short daily brief: 2-3 threads worth a genuine comment,
+   context + angle + raw material clearly marked never-paste-verbatim. Chad
+   writes his own words. Budgeted as Chad-discretionary, outside the 5 min.
+4. **X handle** — still open: park @buildaloud (no posting) or skip.
+5. **Kill-switch: signed off** — subs-per-human-hour vs referral baseline,
+   4-week rolling window; blocks>follows on Bluesky = immediate pause.
