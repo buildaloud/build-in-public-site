@@ -40,3 +40,6 @@ transcripts/
 
 # service-account keys etc — never commit
 secrets/
+scripts/video/.venv/
+scripts/video/models/
+scripts/video/out/
