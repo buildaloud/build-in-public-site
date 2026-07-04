@@ -20,6 +20,12 @@ Rule of thumb: **Claude never creates accounts, never changes permissions, and n
   - Alternative host: `vercel/`.
   - Per-need, add when the product requires it: `supabase/`, `stripe/`, `resend/`, `posthog/`.
 
+## Flush
+
+Products must go down as easily as they come up: `../flush/CHECKLIST.md` is
+the mirror of this checklist (outside-in: DNS -> payments -> data -> books).
+Shared infra survives; everything product-scoped is enumerable and removable.
+
 ## Order
 
 Core, always: 1. `cloudflare-pages` (deploy) → 2. `google-analytics` (tag) → 3. `search-console` (verify) → 4. `gcp-service-account` (API access for stats) → 5. `buttondown` (newsletter). Stats pullers (`scripts/stats/`) need 2–5 done.
