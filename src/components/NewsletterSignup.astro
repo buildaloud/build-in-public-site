@@ -16,6 +16,7 @@ const BUTTONDOWN_USERNAME = 'buildaloud';
     <p>Updates on building an AI business from $0 to $10K/month. Unfiltered. No spam.</p>
     <form
       class="newsletter-form"
+      data-subscribe
       action={`https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`}
       method="POST"
       target="_blank"
@@ -33,6 +34,24 @@ const BUTTONDOWN_USERNAME = 'buildaloud';
     </form>
   </div>
 </section>
+
+<script>
+  import { wireSubscribeForms } from '../lib/subscribe-flow';
+  wireSubscribeForms('form[data-subscribe]');
+</script>
+
+<style is:global>
+  .sub-profile { max-width: 26rem; margin: 0 auto; text-align: left; }
+  .sub-thanks { color: var(--color-text); font-size: 0.9rem; text-align: center; }
+  .sub-group { border: 1px solid var(--color-border); border-radius: 0.4rem; margin: 0.75rem 0; padding: 0.6rem 0.9rem; }
+  .sub-group legend { font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-accent); padding: 0 0.35rem; }
+  .sub-opt { display: inline-flex; align-items: center; gap: 0.3rem; margin: 0.2rem 0.7rem 0.2rem 0; font-size: 0.82rem; color: var(--color-text-secondary); cursor: pointer; }
+  .sub-opt input { accent-color: var(--color-accent); }
+  .sub-actions { display: flex; gap: 0.75rem; align-items: center; justify-content: center; margin-top: 0.5rem; }
+  .sub-save { padding: 0.5rem 1.4rem; background: var(--color-accent); color: var(--color-bg); border: none; border-radius: 0.4rem; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 600; cursor: pointer; }
+  .sub-skip { background: none; border: none; color: var(--color-muted); font-size: 0.78rem; cursor: pointer; text-decoration: underline; }
+  .sub-error { color: #f38ba8; font-size: 0.8rem; margin-top: 0.5rem; }
+</style>
 
 <style>
   .newsletter {

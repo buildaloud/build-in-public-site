@@ -42,7 +42,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
 
         <div class="signup">
           <label for="hero-email">Get each drop in your inbox</label>
-          <form class="signup-form" action={SUBSCRIBE_ACTION} method="POST" target="_blank">
+          <form class="signup-form" data-subscribe action={SUBSCRIBE_ACTION} method="POST" target="_blank">
             <div class="input-wrapper">
               <span class="input-prefix" aria-hidden="true">&gt;</span>
               <input id="hero-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
@@ -129,7 +129,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
         <div class="side-card side-subscribe">
           <h3>Follow the build</h3>
           <p>New build log in your inbox whenever I ship. No spam.</p>
-          <form class="signup-form vertical" action={SUBSCRIBE_ACTION} method="POST" target="_blank">
+          <form class="signup-form vertical" data-subscribe action={SUBSCRIBE_ACTION} method="POST" target="_blank">
             <div class="input-wrapper">
               <span class="input-prefix" aria-hidden="true">&gt;</span>
               <input id="side-email" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
@@ -347,3 +347,8 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
     .signup-form { flex-direction: column; }
   }
 </style>
+
+<script>
+  import { wireSubscribeForms } from "../lib/subscribe-flow";
+  wireSubscribeForms("form[data-subscribe]");
+</script>
