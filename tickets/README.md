@@ -19,6 +19,7 @@ or `ticket-kit serve` for a live board.
 | [TD-0011](TD-0011-micropreneur-post.md) | publish the micropreneur machine post | open | P2 | 95 | marketing |
 | [TD-0012](TD-0012-tighten-tone-gate.md) | tighten pipeline tone gate to <=2 | open | P3 | 99 | build |
 | [TD-0003](TD-0003-expense-tracking-v0.md) | expense tracking v0 (private ledger + monthly ritual) | in-progress | P0 | 20 | operations |
+| [TD-0020](TD-0020-lifecycle-cli.md) | 'lifecycle CLI: product up/down/status at the push of a button' | in-progress | P1 | 15 | build |
 | [TD-0004](TD-0004-research-stage-template.md) | research-stage template: idea -> validation brief | in-progress | P1 | 30 | research |
 | [TD-0002](TD-0002-finish-stats-credentials.md) | finish stats credentials (GA4 + GSC + Buttondown) | done | P0 | 10 | measurement |
 | [TD-0005](TD-0005-finish-setup-template.md) | finish new-project-template setup folders | done | P1 | 40 | build |
