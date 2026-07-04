@@ -1,7 +1,7 @@
 ---
 id: TD-0006
 title: micro-blueprint: multi-product launchpad repo
-status: open
+status: done
 priority: P1
 rank: 50
 area: build
@@ -28,6 +28,6 @@ PostHog tagged per product. URL/DNS/repo conventions per setup/CLAUDE.md
 
 ## Acceptance
 
-- [ ] Repo boots locally with one demo product wired end-to-end
-- [ ] A second product is spawnable via config (no schema fork)
-- [ ] Monthly cost at validation scale: $0
+- [x] Repo boots locally with one demo product wired end-to-end
+- [x] A second product is spawnable via config (no schema fork)
+- [x] Monthly cost at validation scale: $0

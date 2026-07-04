@@ -10,11 +10,6 @@ or `ticket-kit serve` for a live board.
 | ID | Title | Status | Pri | Rank | Area |
 | --- | --- | --- | --- | --- | --- |
 | [TD-0013](TD-0013-supabase-back-to-free.md) | 'Supabase back to free tier on the shared-DB plan' | open | P1 | 25 | operations |
-| [TD-0006](TD-0006-micro-blueprint-repo.md) | micro-blueprint: multi-product launchpad repo | open | P1 | 50 | build |
-| [TD-0016](TD-0016-skeleton.md) | 'blueprint: skeleton + splash + product config' | open | P1 | 51 | build |
-| [TD-0017](TD-0017-supabase-auth.md) | 'blueprint: shared Supabase schema + login' | open | P1 | 52 | build |
-| [TD-0018](TD-0018-stripe-port.md) | 'blueprint: port chesstell Stripe billing' | open | P1 | 53 | build |
-| [TD-0019](TD-0019-analytics-validate.md) | 'blueprint: analytics + end-to-end validation' | open | P1 | 54 | build |
 | [TD-0008](TD-0008-marketing-stage-template.md) | marketing-stage template: launch + drip playbook | open | P1 | 70 | marketing |
 | [TD-0009](TD-0009-experiment-metrics-rollup.md) | experiment post-type + project metrics rollup | open | P1 | 80 | measurement |
 | [TD-0007](TD-0007-splashpage-template.md) | splashpage template (what-is-this + CTA + subscribe) | open | P2 | 60 | marketing |
@@ -27,6 +22,11 @@ or `ticket-kit serve` for a live board.
 | [TD-0004](TD-0004-research-stage-template.md) | research-stage template: idea -> validation brief | in-progress | P1 | 30 | research |
 | [TD-0002](TD-0002-finish-stats-credentials.md) | finish stats credentials (GA4 + GSC + Buttondown) | done | P0 | 10 | measurement |
 | [TD-0005](TD-0005-finish-setup-template.md) | finish new-project-template setup folders | done | P1 | 40 | build |
+| [TD-0006](TD-0006-micro-blueprint-repo.md) | micro-blueprint: multi-product launchpad repo | done | P1 | 50 | build |
+| [TD-0016](TD-0016-skeleton.md) | 'blueprint: skeleton + splash + product config' | done | P1 | 51 | build |
+| [TD-0017](TD-0017-supabase-auth.md) | 'blueprint: shared Supabase schema + login' | done | P1 | 52 | build |
+| [TD-0018](TD-0018-stripe-port.md) | 'blueprint: port chesstell Stripe billing' | done | P1 | 53 | build |
+| [TD-0019](TD-0019-analytics-validate.md) | 'blueprint: analytics + end-to-end validation' | done | P1 | 54 | build |
 | [TD-0001](TD-0001-set-up-ticket-kit.md) | set up ticket-kit | done | P2 | 100 | operations |
 <!-- TICKETS:END -->
 

@@ -1,7 +1,7 @@
 ---
 id: TD-0019
 title: 'blueprint: analytics + end-to-end validation'
-status: open
+status: done
 priority: P1
 rank: 54
 area: build
@@ -23,4 +23,4 @@ AnalyticsProvider (GA4+PostHog by product config); validate demo product splash-
 
 ## Acceptance
 
-- [ ] Committed with tests green
+- [x] Committed with tests green

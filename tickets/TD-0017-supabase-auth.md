@@ -1,7 +1,7 @@
 ---
 id: TD-0017
 title: 'blueprint: shared Supabase schema + login'
-status: open
+status: done
 priority: P1
 rank: 52
 area: build
@@ -23,4 +23,4 @@ Migration: products/users/orders/events tables with product_id + RLS; Supabase a
 
 ## Acceptance
 
-- [ ] Committed with tests green
+- [x] Committed with tests green

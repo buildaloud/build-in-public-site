@@ -1,7 +1,7 @@
 ---
 id: TD-0016
 title: 'blueprint: skeleton + splash + product config'
-status: open
+status: done
 priority: P1
 rank: 51
 area: build
@@ -23,4 +23,4 @@ Repo scaffold (Astro on CF Pages), products.ts config registry, splash template 
 
 ## Acceptance
 
-- [ ] Committed with tests green
+- [x] Committed with tests green
