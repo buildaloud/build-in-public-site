@@ -67,9 +67,10 @@ export function wireSubscribeForms(selector: string): void {
 
       const ok = await post(email);
       if (!ok) {
+        // API unreachable (e.g. domain not routing functions) — fall back to
+        // the classic Buttondown embed POST so the signup never fails.
         if (button) button.disabled = false;
-        form.querySelector('.sub-error')?.remove();
-        form.appendChild(el('p', 'sub-error', "That didn't go through. Try again?"));
+        form.submit();
         return;
       }
 
