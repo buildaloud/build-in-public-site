@@ -44,3 +44,9 @@ scripts/video/.venv/
 scripts/video/models/
 scripts/video/out/
 .claude/skills/human-tone/eval/.venv/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
