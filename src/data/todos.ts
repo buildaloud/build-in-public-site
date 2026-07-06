@@ -1,7 +1,7 @@
 /**
  * TODO tracker for Build in the Open.
  *
- * Scout can add items here during blog post creation — see the new-blog-post skill.
+ * Scout can add items here during blog post creation — see the content-pipeline skill.
  * Keep entries honest and concrete. No vague "improve X" items.
  *
  * Statuses: "pending" | "in-progress" | "done"

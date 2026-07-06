@@ -18,7 +18,7 @@ The multi-product strategy is itself build-in-public content; queued as Topic 15
 
 ## What
 
-Run the new-blog-post pipeline on Topic 15 after the stack decisions settle (post-TD-0006 kickoff). Chad first-person likely; honest framing: a plan, not results.
+Run the content-pipeline skill on Topic 15 after the stack decisions settle (post-TD-0006 kickoff). Chad first-person likely; honest framing: a plan, not results.
 
 ## Acceptance
 

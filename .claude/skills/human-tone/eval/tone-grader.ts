@@ -1,3 +1,4 @@
+// Ported from chadfurman/humanizer (~/projects/humanizer/src) — upstream is source of truth; re-diff on upstream changes to avoid drift.
 // Deterministic "AI-ness" scorer for prose. Higher aiScore = reads more like AI.
 // Signals are drawn from the tone research + the Build Aloud human corpus
 // (Chad's Claude prompts + Slack). No single signal is conclusive; the score
@@ -98,6 +99,8 @@ export function scoreText(raw: string): ToneMetrics {
   const negParallelHits = [
     ...regexHits(text, /it'?s not (just |only )?[^,.]+,? (but|it'?s) /gi),
     ...regexHits(text, /\bnot (just|only) [^,.]+,? but\b/gi),
+    // the "X isn't Y, it's Z" family — the same negate-then-reframe crutch
+    ...regexHits(text, /\b\w+ (isn'?t|aren'?t|wasn'?t|weren'?t|doesn'?t|didn'?t|won'?t) [^,.]{2,40},? (it'?s|they'?re|that'?s|it|they) /gi),
   ];
   const fromToHits = regexHits(text, /\bfrom [^,.]{3,40} to [^,.]{3,40}/gi);
   const transitionHits = countMatches(text, TRANSITIONS.map((w) => w + ',')).concat(
@@ -132,7 +135,7 @@ export function scoreText(raw: string): ToneMetrics {
   score += Math.min(copulaHits.length * 4, 8);
   score += Math.min(quipHits.length * 6, 18);         // quip-tic flavor
   score += Math.min(Math.max(0, inflationHits.length - 1) * 3, 9); // adverb inflation (first one free)
-  score += Math.min(negParallelHits.length * 6, 12);
+  score += Math.min(negParallelHits.length * 6, 24);
   score += Math.min(fromToHits.length * 4, 8);
   score += Math.min(transitionsPer1k * 3, 10);
   if (sentences >= 4 && burstiness < 6) score += (6 - burstiness) * 2.5; // low burstiness penalty

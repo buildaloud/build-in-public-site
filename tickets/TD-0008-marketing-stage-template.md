@@ -18,7 +18,7 @@ Build Aloud already has a full content pipeline (SEO research -> brief -> draft 
 
 ## What
 
-new-project-template/marketing/CLAUDE.md: launch checklist (splash live, analytics verified, subscribe tagged, 3-5 drip posts queued via the new-blog-post pipeline, social blurbs generated at post time). Define what Chad approves (topics, claims) vs what runs on autopilot.
+new-project-template/marketing/CLAUDE.md: launch checklist (splash live, analytics verified, subscribe tagged, 3-5 drip posts queued via the content-pipeline skill, social blurbs generated at post time). Define what Chad approves (topics, claims) vs what runs on autopilot.
 
 ## Acceptance
 

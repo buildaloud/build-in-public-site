@@ -43,7 +43,7 @@ review sessions. See TD-0006.
 *Goal: traffic → email → users, reusing the Build Aloud content machine.*
 
 - [ ] Launch checklist (`marketing/`): analytics verified, subscribe tagged,
-      3–5 drip posts queued through the new-blog-post pipeline
+      3–5 drip posts queued through the content-pipeline skill
 - [ ] Social blurbs generated at post time; build-in-public post on the blog
 - [ ] **Chad decision: approve topics + claims** (AI never invents numbers)
 

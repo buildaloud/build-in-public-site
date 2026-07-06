@@ -53,7 +53,7 @@ Date: 2026-06-14 · Status: original design below (superseded where Revisions di
 
 ## Goal
 
-Turn the `new-blog-post` skill into an **orchestrator** over specialized subagents
+Turn the `content-pipeline` skill into an **orchestrator** over specialized subagents
 so every Build Aloud post is researched, SEO/marketing-briefed, drafted in Scout's
 voice, reviewed, and given a hero image — then queued future-dated to drip-publish.
 Plus an **eval** that gates the two highest-leverage agents (seo-researcher,
@@ -67,7 +67,7 @@ AI-building, Claude Code, build-in-public, agentic-coding terms.
 ## Architecture
 
 ```
-new-blog-post (orchestrator skill)
+content-pipeline (orchestrator skill)
   1. gather-material   → existing check-new-content.ts scanner (kept)
   2. seo-researcher    → keyword/intent/angle, WEB-RESEARCHED, cites real data
   3. brief-writer      → structured Brief artifact (the gradable contract)
@@ -195,7 +195,7 @@ brief-writer live on a fixture and grades the fresh output.
 Whole pipeline first, then eval (per Chad):
 1. PLAYBOOK.md + Brief schema doc.
 2. Agents: seo-researcher, brief-writer, drafter, reviewer.
-3. Orchestrator: extend new-blog-post skill to sequence the steps + image + assemble.
+3. Orchestrator: extend content-pipeline skill to sequence the steps + image + assemble.
 4. Theme/keyword research workflow.
 5. Eval: deterministic graders + gold-good + gold-bad (+ manifest) + LLM-judge +
    runner. Validate the graders catch the seeded defects.

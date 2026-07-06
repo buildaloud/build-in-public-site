@@ -1,11 +1,15 @@
 ---
-name: new-blog-post
+name: content-pipeline
 description: Orchestrate the Build Aloud content pipeline — gather source material, gate on topic approval, run SEO research, brief, draft, tone-gate, review, generate a hero image, author the structured summary + rolling digest, assemble the final post, and commit. Invoke when Chad says "write a new post", "what should we post about?", or to advance the drip queue.
 ---
 
-# New Blog Post Skill (Orchestrator)
+# Content Pipeline Skill (Orchestrator)
 
-Runs the full content pipeline: source scan → topic gate → SEO research → brief → draft → tone gate → review → hero image → summary + digest → assemble → bookkeeping.
+Today it orchestrates blog-post production end-to-end: source scan → topic
+gate → SEO research → brief → draft → tone gate → review → hero image →
+summary + digest → assemble → bookkeeping. It's named generally
+(`content-pipeline`, not `blog-post`) because it's the home for other content
+tasks as they're added — but blog-post is the only task type implemented now.
 
 ## Entry paths
 
@@ -30,13 +34,13 @@ src/content/blog/*.md  (the 2–3 most recent)
 
 **Run the cursor-based content scanner:**
 ```bash
-npx tsx .claude/skills/new-blog-post/check-new-content.ts
+npx tsx .claude/skills/content-pipeline/check-new-content.ts
 ```
 Reports which `.jsonl` chat sessions have new content since the last post. Uses byte-offset cursors — reads only the delta, not the full file.
 
 For files with significant new content:
 ```bash
-npx tsx .claude/skills/new-blog-post/check-new-content.ts --summary <filename.jsonl>
+npx tsx .claude/skills/content-pipeline/check-new-content.ts --summary <filename.jsonl>
 ```
 
 **Check for new transcripts:**
@@ -47,13 +51,13 @@ Cross-reference against `posted.md` — any transcript not listed is new materia
 
 **Discover unsymlinked conversations:**
 ```bash
-npx tsx .claude/skills/new-blog-post/check-new-content.ts --discover
+npx tsx .claude/skills/content-pipeline/check-new-content.ts --discover
 ```
 Scans all Claude project directories for `.jsonl` sessions referencing this project (checks `cwd`, project path, and first 64KB of content). Filters already-symlinked files; prints suggested `ln -s` commands. Review the first message to pick a descriptive name, then run the symlink.
 
 **If discover misses sessions or this is a fresh install:**
 ```bash
-npx tsx .claude/skills/new-blog-post/check-new-content.ts --setup
+npx tsx .claude/skills/content-pipeline/check-new-content.ts --setup
 ```
 Creates/updates `config.json` next to the script. Edit to change `chatsDir`, `claudeProjectsDir`, or add `relevancePatterns`.
 
@@ -101,7 +105,7 @@ Dispatch `.claude/agents/brief-writer.md` via the Agent tool with `model: "sonne
 - Full `ResearchResult` from Step 3
 - `PLAYBOOK.md` reference
 
-The brief-writer is the **sole author** of the Brief. It carries the ResearchResult fields unchanged and authors all editorial fields. Output is a schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at Step 10). Schema lives at `.claude/skills/new-blog-post/lib/brief-schema.ts`.
+The brief-writer is the **sole author** of the Brief. It carries the ResearchResult fields unchanged and authors all editorial fields. Output is a schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at Step 10). Schema lives at `.claude/skills/content-pipeline/lib/brief-schema.ts`.
 
 Brief fields:
 ```yaml
@@ -268,7 +272,7 @@ Tags: lowercase, consistent with existing posts.
 
 **Advance the content cursors:**
 ```bash
-npx tsx .claude/skills/new-blog-post/check-new-content.ts --update
+npx tsx .claude/skills/content-pipeline/check-new-content.ts --update
 ```
 
 **Optionally update `src/data/todos.ts`** — add action items that surfaced during writing (`addedBy: 'scout'`, `linkedPost: '<slug>'`). Only concrete, actionable items. Vague items go to "Topics NOT YET Posted About" in `posted.md` instead.

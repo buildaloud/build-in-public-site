@@ -1,28 +1,49 @@
+// Ported from chadfurman/humanizer (~/projects/humanizer/src) — upstream is source of truth; re-diff on upstream changes to avoid drift.
 // Layer 3 of the humanizer: LLM-as-judge via Gemini (temp 0, rubric-based).
-// The deterministic grader counts tells; this catches what counting can't —
+// The deterministic grader counts tells; this judges what counting can't —
 // rhythm sameness, hollow enthusiasm, quip-flavor, sentences no tired human
-// would type. Exemplars are PUBLISHED posts only (the private corpus never
-// leaves the machine).
+// would type — and, beyond just "does it read AI," scores the POSITIVE human
+// qualities: authentic lived experience, creative messiness, critical
+// thinking, and whether the writing carries any emotion or impact at all.
+// Exemplars are PUBLISHED posts only (the private corpus never leaves the
+// machine).
 
 import { readFileSync } from 'node:fs';
 
-const RUBRIC = `You are judging whether a dev-blog post reads like a human wrote it.
-Score 0-10 where 10 = indistinguishable from a busy developer's own writing and 0 = obviously AI.
-Judge these axes, each with specific quoted evidence:
-1. RHYTHM — do sentences vary in length and shape, or march in uniform cadence?
-2. TICS — formal-AI tells (delve/robust/seamless, "not just X but Y", em-dash chains, rule-of-three), punchy-AI tells (internet quips: "receipts", "chef's kiss", "no notes", "plot twist", forced wryness), view-from-nowhere voice (claims with no owner), adverb inflation (fundamentally/essentially/ultimately), and fake hedging that concedes nothing.
-3. SPECIFICITY — real numbers, real commands, real failure detail vs plausible-sounding generalities.
-4. VOICE — flat opinions stated plainly; no hollow enthusiasm; no summarizing itself; endings that just stop rather than swelling into a moral.
-5. EFFORT ASYMMETRY — humans over-explain what confused them and skip what bored them; AI allocates evenly (watch for symmetric section lengths and a tidy moral at the end).
+const RUBRIC = `You are judging a piece of writing on how HUMAN it reads and how much it lands.
+Humans write from lived experience with creative imperfection, real critical thinking, and the
+natural messiness of actual thought. AI writing is predictable, structurally neat, evenly
+weighted, and emotionally hollow. Judge with specific quoted evidence on every axis.
 
-Return STRICT JSON: {"score": n, "verdict": "...", "worst_lines": [{"quote": "...", "why": "...", "rewrite": "..."}], "would_a_human_type_this": true/false}
-Max 5 worst_lines. Quote exactly.`;
+Return STRICT JSON with these fields:
+{
+  "score": <0-10 overall: 10 = indistinguishable from a real person's own writing, 0 = obviously AI>,
+  "verdict": "<one or two sentences, plain>",
+
+  "authenticity": <0-10>,
+  "authenticity_notes": "<what earns or loses it — judge ALL of:
+     - LIVED EXPERIENCE: named places, sensory detail, real memories, a specific identity behind the words (vs plausible generalities from nowhere)
+     - CREATIVE MESSINESS: tangents, asides, subplots, unresolved threads, imperfection (vs tidy, formulaic, symmetric structure)
+     - CRITICAL THINKING: a real argument or contrarian, nuanced take the writer actually holds (vs safe, balanced, view-from-nowhere summary)
+     - TRUSTS THE READER: makes its point without over-explaining or leaning on AI structural crutches (vs hand-holding and tidy morals)>",
+
+  "emotion_impact": <0-10>,
+  "emotion_impact_notes": "<does it make you FEEL anything or leave an impression? Reward stakes, vulnerability, a distinct voice, a line that lands and stays. Penalize hollow enthusiasm, flat corporate affect, motivational-poster endings, and prose that is competent but dead. Quote the line that lands (or note that none does).>",
+
+  "ai_crutches": ["<quote each structural AI crutch found, e.g. an \"It's not X, it's Y\" line, an em-dash chain, a rule-of-three, a tidy-moral ending, a 'in conclusion' signpost. Empty array if genuinely none.>"],
+
+  "worst_lines": [{"quote": "<exact>", "why": "<why it reads AI or falls flat>", "rewrite": "<a more human version>"}],
+
+  "would_a_human_type_this": <true|false>
+}
+Max 5 worst_lines. Quote exactly. Be a harsh, specific grader — hedging helps no one.
+CRUCIAL: structural-crutch density caps human-likeness. If you list 3+ ai_crutches, "score" must be ≤ 6; 5+ crutches, ≤ 4. A distinctive voice built on repeated negate-then-reframe scaffolding ("X isn't Y, it's Z") is still formulaic. authenticity may stay high (the voice and specifics are real); the overall score reflects the scaffolding.`;
 
 const EXEMPLAR = `Two short excerpts from posts that pass (for calibration, style not content):
 ---
 ${excerptOf('src/content/blog/2026-07-07-launch-day-bugs-only-showed-up-in-prod.md')}
 ---
-${excerptOf('src/content/blog/2026-06-24-shipping-the-boring-parts.md')}`;
+${excerptOf('src/content/blog/2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md')}`;
 
 function excerptOf(path: string): string {
   try {
@@ -35,6 +56,11 @@ function excerptOf(path: string): string {
 export interface JudgeResult {
   score: number;
   verdict: string;
+  authenticity: number;
+  authenticity_notes: string;
+  emotion_impact: number;
+  emotion_impact_notes: string;
+  ai_crutches: string[];
   worst_lines: { quote: string; why: string; rewrite: string }[];
   would_a_human_type_this: boolean;
 }
@@ -53,7 +79,16 @@ export async function judgeText(body: string, key: string): Promise<JudgeResult>
   );
   if (!res.ok) throw new Error(`gemini judge failed (${res.status}): ${await res.text()}`);
   const data = (await res.json()) as { candidates: { content: { parts: { text: string }[] } }[] };
-  return JSON.parse(data.candidates[0].content.parts[0].text) as JudgeResult;
+  const parsed = JSON.parse(data.candidates[0].content.parts[0].text) as JudgeResult;
+  return capForCrutches(parsed);
+}
+
+/** Enforce the crutch-density cap in code, so it holds even if the model doesn't. */
+export function capForCrutches(r: JudgeResult): JudgeResult {
+  const n = r.ai_crutches?.length ?? 0;
+  const cap = n >= 5 ? 4 : n >= 3 ? 6 : 10;
+  if (r.score <= cap) return r;
+  return { ...r, score: cap, would_a_human_type_this: cap <= 4 ? false : r.would_a_human_type_this };
 }
 
 if (process.argv[1]?.endsWith('judge.ts')) {
@@ -70,6 +105,6 @@ if (process.argv[1]?.endsWith('judge.ts')) {
   const body = readFileSync(file, 'utf8').replace(/^---\n[\s\S]*?\n---\n/, '');
   judgeText(body, key).then((r) => {
     console.log(JSON.stringify(r, null, 2));
-    console.log(`judge: ${r.score}/10 — ${r.would_a_human_type_this ? 'passes' : 'FAILS'} the would-a-human-type-this test`);
+    console.log(`judge: ${r.score}/10 (authenticity ${r.authenticity}/10, emotion_impact ${r.emotion_impact}/10, ${r.ai_crutches.length} ai_crutches) — ${r.would_a_human_type_this ? 'passes' : 'FAILS'} the would-a-human-type-this test`);
   });
 }

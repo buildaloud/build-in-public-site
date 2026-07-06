@@ -46,7 +46,18 @@ Grounded in the Build Aloud corpus — Chad's Claude prompts + team Slack (last 
 2. Run the eval: `npx tsx .claude/skills/human-tone/eval/run.ts` — scores every post, ranks worst-first, lists tells.
 3. Fix the flagged tells top-down; re-run until each post is **< 15**.
 4. Re-read once for texture: is there a fragment? a real number? a flat opinion? If it's clean but voiceless, it still fails.
+5. Optionally run the LLM judge (`eval/judge.ts`) for axes the deterministic count can't reach — see Eval below.
 
 ## Eval
 
 `eval/tone-grader.ts` scores any string (em-dash/1k, tricolons, hedges, signposts, ai-vocab, negative-parallelism, copula, burstiness → `aiScore` 0-100). `eval/run.ts` compares the human corpus against the drafts. The human corpus lives in `eval/corpus/` (gitignored — it's Chad's redacted private Slack/prompts; local calibration only).
+
+**Gate:** shipped posts must score `aiScore < 15` on `tone-grader.ts`. This is the ship gate — required, not advisory.
+
+**LLM judge (`eval/judge.ts`, advisory):** Gemini rubric-scores the same post 0-10 on top of the deterministic axes:
+- `authenticity` (0-10) — lived experience, creative messiness, a real argument, trusts the reader.
+- `emotion_impact` (0-10) — does it land, or is it competent-but-dead.
+- `ai_crutches` — quoted list of structural AI tells found (e.g. an "X isn't Y, it's Z" line, an em-dash chain, a tidy-moral ending).
+- `capForCrutches` enforces a density cap in code (not just prompt): 3-4 `ai_crutches` caps `score` at ≤6, 5+ caps it at ≤4; `would_a_human_type_this` flips to `false` only when that ≤4 cap actually lowers the model's own score (a self-score already ≤4 keeps its own verdict). A distinctive voice built on repeated negate-then-reframe scaffolding is still formulaic — `authenticity` can stay high while the overall `score` reflects the scaffolding.
+
+Run it: `npx tsx .claude/skills/human-tone/eval/judge.ts <post.md>` (needs `GEMINI_API_KEY`). These axes are additive to the `aiScore < 15` gate, not a replacement for it.

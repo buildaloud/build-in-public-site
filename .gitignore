@@ -30,7 +30,7 @@ pnpm-debug.log*
 transcripts/
 
 # skill config (machine-specific paths)
-.claude/skills/new-blog-post/config.json
+.claude/skills/content-pipeline/config.json
 
 # agent scratch memory (machine-local)
 .claude/agent-memory/

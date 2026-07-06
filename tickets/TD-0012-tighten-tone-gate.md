@@ -14,11 +14,11 @@ created: 2026-07-03
 
 ## Why
 
-The corpus now scores <= 2 everywhere but the new-blog-post gate still allows < 15; new posts could regress the bar.
+The corpus now scores <= 2 everywhere but the content-pipeline gate still allows < 15; new posts could regress the bar.
 
 ## What
 
-Change the gate threshold in .claude/skills/new-blog-post/SKILL.md to <= 2 and note the humanizer-loop pattern (scripts/score-post.ts) as the fix path.
+Change the gate threshold in .claude/skills/content-pipeline/SKILL.md to <= 2 and note the humanizer-loop pattern (scripts/score-post.ts) as the fix path.
 
 ## Acceptance
 
