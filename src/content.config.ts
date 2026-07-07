@@ -12,6 +12,9 @@ const blog = defineCollection({
     tags: z.array(z.string()).optional(),
     draft: z.boolean().default(false),
     heroImage: z.string().optional(),
+    targetKeyword: z.string().optional(),
+    secondaryKeywords: z.array(z.string()).optional(),
+    searchIntent: z.enum(['informational', 'navigational', 'commercial']).optional(),
     summary: z
       .object({
         lead: z.string(),

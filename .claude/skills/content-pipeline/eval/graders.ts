@@ -103,6 +103,60 @@ export function gradeBannedTerms(brief: Brief): GraderResult {
   return { id: 'banned-terms', pass: true, message: 'no banned terms' };
 }
 
+export type PostSeoFrontmatter = {
+  targetKeyword?: unknown;
+  secondaryKeywords?: unknown;
+  searchIntent?: unknown;
+};
+
+// Assemble-forwarding contract: post frontmatter's SEO fields must equal the
+// Brief's verbatim — no re-derivation. See docs/specs/2026-07-07-phase2a-seo-research-pipeline-design.md §3.4.
+export function gradeSeoFrontmatterForwarding(
+  brief: Pick<Brief, 'targetKeyword' | 'secondaryKeywords' | 'searchIntent'>,
+  postFrontmatter: PostSeoFrontmatter,
+): GraderResult {
+  const mismatches: string[] = [];
+  if (postFrontmatter.targetKeyword !== brief.targetKeyword) {
+    mismatches.push(
+      `targetKeyword: brief=${JSON.stringify(brief.targetKeyword)} post=${JSON.stringify(postFrontmatter.targetKeyword)}`,
+    );
+  }
+  const briefSecondary = JSON.stringify(brief.secondaryKeywords);
+  const postSecondary = JSON.stringify(postFrontmatter.secondaryKeywords);
+  if (briefSecondary !== postSecondary) {
+    mismatches.push(`secondaryKeywords: brief=${briefSecondary} post=${postSecondary}`);
+  }
+  if (postFrontmatter.searchIntent !== brief.searchIntent) {
+    mismatches.push(
+      `searchIntent: brief=${JSON.stringify(brief.searchIntent)} post=${JSON.stringify(postFrontmatter.searchIntent)}`,
+    );
+  }
+  if (mismatches.length > 0) {
+    return { id: 'seo-frontmatter-forwarding', pass: false, message: mismatches.join('; ') };
+  }
+  return {
+    id: 'seo-frontmatter-forwarding',
+    pass: true,
+    message: 'targetKeyword/secondaryKeywords/searchIntent forwarded verbatim',
+  };
+}
+
+// Discovery-binding contract: refinement's targetKeyword must equal the
+// chosen opportunity's keyword, not a re-derivation. See spec §3.3 + §9 risk.
+export function gradeKeywordBinding(
+  chosenOpportunity: { keyword: string },
+  briefTargetKeyword: string,
+): GraderResult {
+  const pass = chosenOpportunity.keyword === briefTargetKeyword;
+  return {
+    id: 'keyword-binding',
+    pass,
+    message: pass
+      ? 'targetKeyword bound to chosen opportunity keyword'
+      : `targetKeyword "${briefTargetKeyword}" does not match chosen opportunity keyword "${chosenOpportunity.keyword}"`,
+  };
+}
+
 export function gradeHeadlineVariantsDistinct(brief: Brief): GraderResult {
   if (!brief.headlineVariants || brief.headlineVariants.length === 0) {
     return { id: 'headline-variants-distinct', pass: true, message: 'no headlineVariants (optional)' };
@@ -161,10 +215,14 @@ function parseFrontmatterYaml(yaml: string): Record<string, unknown> {
   return parsed as Record<string, unknown>;
 }
 
-export async function gradeBriefFile(filePath: string, opts?: GraderOpts): Promise<GraderResult[]> {
+export async function readFrontmatterFile(filePath: string): Promise<Record<string, unknown>> {
   const content = await readFile(filePath, 'utf-8');
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) throw new Error(`no YAML frontmatter found in ${filePath}`);
-  const raw = parseFrontmatterYaml(match[1]);
+  return parseFrontmatterYaml(match[1]);
+}
+
+export async function gradeBriefFile(filePath: string, opts?: GraderOpts): Promise<GraderResult[]> {
+  const raw = await readFrontmatterFile(filePath);
   return runGraders(raw, opts);
 }

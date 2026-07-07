@@ -15,7 +15,7 @@ tasks as they're added — but blog-post is the only task type implemented now.
 
 **Organic post:** proceed through Steps 1–2 normally.
 
-**Drip post:** read `.plans/drip-plan.md` for the scheduled topic and `pubDate`. Skip topic proposal — the topic is already approved. Start at Step 3 with that topic. Perspective (Step 2) still applies — infer Chad vs Scout from the topic digest.
+**Drip post:** read `.plans/drip-plan.md` for the scheduled topic and `pubDate`. Skip topic proposal — the topic is already approved. Start at Step 3 with that topic. Perspective (Step 2) still applies — infer Chad vs Scout from the topic digest. **Keyword discovery (Step 2a) is SKIPPED for drip** — there's nothing to inform, the topic is pre-approved. Step 3 refinement still runs (with no discovery output to bind to, so `seo-researcher` falls back to its own keyword-selection methodology), and Assemble (Step 10) still persists `targetKeyword`/`secondaryKeywords`/`searchIntent` into the post's frontmatter exactly as it does for organic posts.
 
 ---
 
@@ -67,10 +67,13 @@ Creates/updates `config.json` next to the script. Edit to change `chatsDir`, `cl
 
 ### 2. Topic-Approval Gate
 
+**2a. Keyword Discovery** — before presenting ideas, dispatch `.claude/agents/seo-researcher.md` via the Agent tool with `model: "opus"` in **discovery mode**, passing `seedTopics: string[]` (the 2–3 candidate topics below). One dispatch, not one per candidate. It fans out via `web-researcher` (autocomplete / PAA / related / SERP), runs the cannibalization check once, and returns a `KeywordOpportunitySet` keyed by candidate — schema at `.claude/skills/content-pipeline/lib/keyword-opportunity-schema.ts`. Skip this sub-step entirely on the drip path (see Entry paths above).
+
 Present Chad with 2–3 post ideas based on new material. Per idea:
 - Proposed title
 - 1–2 sentence summary
 - Which source material it draws from
+- Its keyword opportunity set from Step 2a (top opportunities, intent, any cannibalization flag) and the `caveat` line verbatim, so Chad's choice is keyword-informed
 
 **Stop and wait for Chad's choice.** Nothing below runs until a topic is approved.
 
@@ -82,11 +85,14 @@ If Chad provided constraints ("don't mention X", "focus on Y"), note them and ap
 
 ---
 
-### 3. SEO Research — `seo-researcher` subagent (Opus)
+### 3. SEO Research — `seo-researcher` subagent (Opus, refinement mode)
 
-Dispatch `.claude/agents/seo-researcher.md` via the Agent tool with `model: "opus"` (deep SEO/market research warrants the bigger model) and:
+Dispatch `.claude/agents/seo-researcher.md` via the Agent tool with `model: "opus"` (deep SEO/market research warrants the bigger model) in **refinement mode**, and:
 - Approved topic + source digest
+- The approved topic's `KeywordOpportunitySet` candidate entry from Step 2a (omit on the drip path — discovery didn't run)
 - `PLAYBOOK.md` reference
+
+When a discovery output is passed, refinement **binds** to it: the strongest-ranked opportunity for the approved topic has its `keyword` carried straight into `targetKeyword`, not re-derived. The Step 2 gate only captures a topic choice — a per-keyword override is **NOT YET SUPPORTED** (future work). On the drip path (no discovery output), the agent falls back to its own keyword-selection methodology.
 
 The agent does real web/keyword research (WebSearch / WebFetch) and returns a typed `ResearchResult`:
 ```
@@ -236,6 +242,7 @@ Derive:
 - `pubDate` — **UTC, ISO 8601 ending in `Z`** (e.g. `"2026-08-07T15:00:00Z"`). Never a local offset. Drip posts: the future date from `.plans/drip-plan.md`; otherwise now. Must be set — Astro schema requires it.
 - `author` — `"Scout"` or `"Chad"`, from the Step 2 perspective call
 - `title`, `description`, `tags` — from the Brief
+- `targetKeyword`, `secondaryKeywords`, `searchIntent` — forwarded verbatim from the Brief (which carries them unchanged from Step 3's `ResearchResult`). Both the normal path and the drip path persist these — refinement always runs, so the Brief always has them.
 - `summary` — from Step 9, verbatim
 - `heroImage` — path from Step 8 (**required** — no post assembles without one)
 - hero `alt` text — from Step 8, for accessibility + PLAYBOOK §2
@@ -249,6 +256,9 @@ description: "..."
 pubDate: "YYYY-MM-DDThh:mm:ssZ"
 author: "Scout"
 tags: ["tag1", "tag2"]
+targetKeyword: "..."
+secondaryKeywords: ["...", "..."]
+searchIntent: informational | navigational | commercial
 summary:
   lead: "..."
   points:

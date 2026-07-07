@@ -1,10 +1,12 @@
 import { z } from 'zod/v4';
 
+export const SearchIntentSchema = z.enum(['informational', 'navigational', 'commercial']);
+
 export const BriefSchema = z.object({
   topic: z.string(),
   targetKeyword: z.string(),
   secondaryKeywords: z.array(z.string()).min(2).max(5),
-  searchIntent: z.enum(['informational', 'navigational', 'commercial']),
+  searchIntent: SearchIntentSchema,
   seoTitle: z.string().max(60),
   headlineVariants: z.array(z.string()).optional(),
   metaDescription: z.string().max(155),

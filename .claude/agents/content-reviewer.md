@@ -74,6 +74,13 @@ From the seo-audit skill:
 **Verdict: PASS / REVISE**
 **Edits:** (one line per failing check: what failed, exact fix)
 
+**Advisory sub-checks — never gate the verdict above.** Note findings under "Advisory notes"; they can't turn a PASS into a REVISE.
+
+- **Keyword-density sanity.** Skim for the target keyword (and close variants) appearing unnaturally often in a short span — obvious stuffing — or not appearing at all in the body. Flag either extreme; a healthy post uses the keyword naturally a handful of times, not zero and not every paragraph.
+- **Anchor-text quality.** For each link in the post, check the anchor text is descriptive (says what the destination is) rather than generic ("click here", "this link", "read more"). Flag non-descriptive anchors with a suggested replacement.
+
+**Advisory notes:** (list flags with a suggested fix, or "none" — these never block SHIP)
+
 ---
 
 ### Axis 3 — Marketing Punch
@@ -136,6 +143,7 @@ Return a review report in this structure:
 
 ### SEO: PASS / REVISE
 [failing checks + fixes if REVISE, "all caps met" if PASS]
+[Advisory notes: keyword-density + anchor-text findings, or "none" — advisory only, does not change the PASS/REVISE verdict above]
 
 ### Marketing Punch: PASS / REVISE
 [gaps + suggestions if REVISE, "hook/CTA/social land" if PASS]
