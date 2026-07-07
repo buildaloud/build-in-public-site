@@ -1,5 +1,7 @@
 ---
 import LocalTime from './LocalTime.astro';
+import PostStats from './PostStats.astro';
+import { getPostStats, getStatsAsOf } from '../utils/post-stats';
 
 interface Props {
   title: string;
@@ -12,6 +14,9 @@ interface Props {
 }
 
 const { title, description, pubDate, author, tags, slug, heroImage } = Astro.props;
+// A stale number with no context is worse than no number on a tiny card —
+// the full post page + /stats carry the "as of" label, the compact card doesn't.
+const stat = getStatsAsOf().stale ? null : getPostStats(slug);
 ---
 
 <a href={`/blog/${slug}/`} class="post-card" data-comment-slug={slug}>
@@ -36,6 +41,7 @@ const { title, description, pubDate, author, tags, slug, heroImage } = Astro.pro
           ))}
         </div>
       )}
+      <PostStats stat={stat} variant="compact" />
       <span class="read-more">
         Read entry
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -178,5 +184,10 @@ const { title, description, pubDate, author, tags, slug, heroImage } = Astro.pro
   .post-card:hover .read-more {
     color: var(--color-accent);
     gap: 0.6rem;
+  }
+
+  .card-body :global(.post-stats-compact) {
+    display: block;
+    margin-bottom: 0.75rem;
   }
 </style>

@@ -1,11 +1,14 @@
 import { homedir } from 'node:os';
 import 'dotenv/config';
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { JWT } from 'google-auth-library';
+import { scanFrontmatter } from './frontmatter-scan';
+import { shapePostStats, assertJoinHealth, slugFromFilename, type GscPageRow, type GscQueryRow, type Ga4Row } from './post-stats';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '../../src/data/stats.json');
+const BLOG_DIR = join(dirname(fileURLToPath(import.meta.url)), '../../src/content/blog');
 const WINDOW = { startDate: '28daysAgo', endDate: 'today' };
 const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 const SC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
@@ -60,24 +63,79 @@ async function pullGA4(creds: ReturnType<typeof loadCredentials>): Promise<Sourc
   return { available: true, window: WINDOW, metrics };
 }
 
-async function pullSearchConsole(creds: ReturnType<typeof loadCredentials>): Promise<Source> {
+type GscRawRow = { keys: string[]; clicks: number; impressions: number; ctr: number; position: number };
+
+async function querySearchConsole<T>(
+  creds: ReturnType<typeof loadCredentials>,
+  dimensions: string[],
+  rowLimit: number,
+  mapper: (row: GscRawRow) => T,
+): Promise<{ available: true; rows: T[] } | { available: false; reason: string }> {
   const site = process.env.SEARCH_CONSOLE_SITE;
   if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set' };
   if (!site) return { available: false, reason: 'SEARCH_CONSOLE_SITE not set (e.g. sc-domain:buildaloud.ai)' };
   const bearer = await token(creds, SC_SCOPE);
   const url = `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(site)}/searchAnalytics/query`;
-  const totals = await fetch(url, {
+  const res = await fetch(url, {
     method: 'POST',
     headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ startDate: daysAgo(28), endDate: daysAgo(0), dimensions: [] }),
+    body: JSON.stringify({ startDate: daysAgo(28), endDate: daysAgo(0), dimensions, rowLimit }),
   });
-  if (!totals.ok) return { available: false, reason: `Search Console API ${totals.status}: ${(await totals.text()).slice(0, 200)}` };
-  const row = (await totals.json())?.rows?.[0] ?? {};
+  if (!res.ok) return { available: false, reason: `Search Console API ${res.status}: ${(await res.text()).slice(0, 200)}` };
+  const rawRows = ((await res.json())?.rows ?? []) as GscRawRow[];
+  return { available: true, rows: rawRows.map(mapper) };
+}
+
+async function pullSearchConsole(creds: ReturnType<typeof loadCredentials>): Promise<Source> {
+  const result = await querySearchConsole(creds, [], 1, (r) => ({
+    clicks: r.clicks ?? 0, impressions: r.impressions ?? 0, ctr: r.ctr ?? 0, position: r.position ?? 0,
+  }));
+  if (!result.available) return result;
+  const totals = result.rows[0] ?? { clicks: 0, impressions: 0, ctr: 0, position: 0 };
+  return { available: true, window: { startDate: daysAgo(28), endDate: daysAgo(0) }, ...totals };
+}
+
+async function pullSearchConsolePerPage(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: GscPageRow[] }> {
+  const result = await querySearchConsole(creds, ['page'], 5000, (r) => ({
+    page: r.keys[0], clicks: r.clicks ?? 0, impressions: r.impressions ?? 0, ctr: r.ctr ?? 0, position: r.position ?? 0,
+  }));
+  if (!result.available) return { ...result, rows: [] };
+  return { available: true, window: { startDate: daysAgo(28), endDate: daysAgo(0) }, rows: result.rows };
+}
+
+// Per-page-per-query rows — used ONLY to feed computeScorecard. Raw queries are
+// never written to stats.json (privacy: no keyword map published).
+async function pullSearchConsolePerPageQuery(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: GscQueryRow[] }> {
+  const result = await querySearchConsole(creds, ['page', 'query'], 5000, (r) => ({
+    page: r.keys[0], query: r.keys[1], clicks: r.clicks ?? 0, impressions: r.impressions ?? 0, position: r.position ?? 0,
+  }));
+  if (!result.available) return { ...result, rows: [] };
+  return { available: true, window: { startDate: daysAgo(28), endDate: daysAgo(0) }, rows: result.rows };
+}
+
+async function pullGA4PerPath(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: Ga4Row[] }> {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set', rows: [] };
+  if (!propertyId) return { available: false, reason: 'GA4_PROPERTY_ID not set (numeric property id, not the G- measurement id)', rows: [] };
+  const bearer = await token(creds, GA_SCOPE);
+  const body = {
+    dateRanges: [WINDOW],
+    dimensions: [{ name: 'pagePath' }],
+    metrics: [{ name: 'screenPageViews' }, { name: 'sessions' }],
+    limit: 5000,
+  };
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) return { available: false, reason: `GA4 API ${res.status}: ${(await res.text()).slice(0, 200)}`, rows: [] };
+  const data = await res.json();
+  const rawRows = (data?.rows ?? []) as { dimensionValues: { value: string }[]; metricValues: { value: string }[] }[];
   return {
     available: true,
-    window: { startDate: daysAgo(28), endDate: daysAgo(0) },
-    clicks: row.clicks ?? 0, impressions: row.impressions ?? 0,
-    ctr: row.ctr ?? 0, position: row.position ?? 0,
+    window: WINDOW,
+    rows: rawRows.map((r) => ({ path: r.dimensionValues?.[0]?.value ?? '', pageviews: Number(r.metricValues?.[0]?.value ?? 0) })),
   };
 }
 
@@ -228,7 +286,7 @@ function factorySecret(name: string): string | undefined {
   }
 }
 
-  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent] = await Promise.all([
+  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath] = await Promise.all([
     safe('ga4', () => pullGA4(creds)),
     safe('searchConsole', () => pullSearchConsole(creds)),
     safe('buttondown', () => pullButtondown()),
@@ -237,13 +295,54 @@ function factorySecret(name: string): string | undefined {
     safe('spend', () => pullSpend()),
     safe('agentUsage', () => pullAgentUsage()),
     safe('timeSpent', () => pullTimeSpent()),
+    safe('gscPage', () => pullSearchConsolePerPage(creds)),
+    safe('gscPageQuery', () => pullSearchConsolePerPageQuery(creds)),
+    safe('ga4PerPath', () => pullGA4PerPath(creds)),
   ]);
-  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent };
+
+  const blogFiles = readdirSync(BLOG_DIR)
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => ({ slug: slugFromFilename(f), raw: readFileSync(join(BLOG_DIR, f), 'utf8') }));
+  const eligiblePosts = scanFrontmatter(blogFiles);
+  const gscPageRows = 'rows' in gscPage ? (gscPage.rows as GscPageRow[]) : [];
+  const gscQueryRows = 'rows' in gscPageQuery ? (gscPageQuery.rows as GscQueryRow[]) : [];
+  const ga4PathRows = 'rows' in ga4PerPath ? (ga4PerPath.rows as Ga4Row[]) : [];
+  const shaped = shapePostStats(eligiblePosts, gscPageRows, gscQueryRows, ga4PathRows);
+  let postStats: Source & { window: typeof WINDOW; meta: { unmatchedRows: typeof shaped.unmatched; totalRows: number }; byPost: typeof shaped.byPost };
+  try {
+    assertJoinHealth(shaped.unmatched, shaped.totalRows);
+    postStats = {
+      available: true,
+      window: { startDate: daysAgo(28), endDate: daysAgo(0) },
+      meta: { unmatchedRows: shaped.unmatched, totalRows: shaped.totalRows },
+      byPost: shaped.byPost,
+    };
+  } catch (e) {
+    const reason = (e as Error).message;
+    // A postStats join-miss is loud but must not take down the rest of the
+    // snapshot — every other source already degrades via safe() instead of
+    // throwing; this restores that same fault isolation for postStats.
+    console.error(`\n!!! postStats DEGRADED — ${reason}\n`);
+    postStats = {
+      available: false,
+      reason,
+      window: { startDate: daysAgo(28), endDate: daysAgo(0) },
+      meta: { unmatchedRows: shaped.unmatched, totalRows: shaped.totalRows },
+      byPost: {},
+    };
+  }
+
+  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, postStats };
   writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`wrote ${OUT}`);
-  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent })) {
+  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath })) {
     console.log(v.available ? `  ${k}: ok` : `  ${k}: skipped — ${v.reason}`);
   }
+  console.log(
+    postStats.available
+      ? `  postStats: ${Object.keys(shaped.byPost).length} posts, unmatched gsc=${shaped.unmatched.gsc} ga4=${shaped.unmatched.ga4} of ${shaped.totalRows} rows`
+      : `  postStats: DEGRADED — ${postStats.reason}`,
+  );
 }
 
 main().catch((e) => {

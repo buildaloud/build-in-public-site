@@ -1,0 +1,186 @@
+---
+import { getCollection } from 'astro:content';
+import { isPublished } from '../utils/posts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostStats from '../components/PostStats.astro';
+import { getPostStats, getRollup, getStatsAsOf } from '../utils/post-stats';
+import { formatDateShort } from '../utils/dates';
+
+const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const rollup = getRollup();
+const asOf = getStatsAsOf();
+---
+
+<BaseLayout
+  title="Stats | Build in the Open"
+  description="Search performance across every post — clicks, impressions, and which posts are ranking for their target keyword."
+>
+  <div class="stats-page">
+    <header class="page-header">
+      <span class="page-label">// stats</span>
+      <h1>Search performance</h1>
+      <p class={`stats-asof${asOf.stale ? ' stats-asof--stale' : ''}`}>
+        as of {formatDateShort(asOf.date)}{asOf.stale ? ' — stats may be stale' : ''}
+      </p>
+    </header>
+
+    <div class="rollup">
+      <div class="rollup-stat">
+        <span class="rollup-value">{rollup.totalClicks}</span>
+        <span class="rollup-label">Clicks (28d)</span>
+      </div>
+      <div class="rollup-stat">
+        <span class="rollup-value">{rollup.totalImpressions}</span>
+        <span class="rollup-label">Impressions (28d)</span>
+      </div>
+      <div class="rollup-stat">
+        <span class="rollup-value">{rollup.postsRankingForTarget}/{rollup.postsMeasured}</span>
+        <span class="rollup-label">Posts ranking for target</span>
+      </div>
+    </div>
+
+    {posts.length === 0 ? (
+      <p class="empty">No posts yet.</p>
+    ) : (
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th>Post</th>
+            <th>Stats</th>
+          </tr>
+        </thead>
+        <tbody>
+          {posts.map((post) => (
+            <tr>
+              <td><a href={`/blog/${post.id}/`}>{post.data.title}</a></td>
+              <td><PostStats stat={getPostStats(post.id)} variant="full" /></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .stats-page {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 3rem var(--gutter) 4rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .page-header {
+    margin-bottom: 2rem;
+  }
+
+  .page-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.6rem;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 400;
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-asof {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    opacity: 0.75;
+  }
+
+  .stats-asof--stale {
+    color: #e0a94c;
+    opacity: 1;
+  }
+
+  .rollup {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .rollup-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .rollup-value {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--color-text);
+  }
+
+  .rollup-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+  }
+
+  .stats-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .stats-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    padding: 0 0 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .stats-table td {
+    padding: 1rem 1rem 1rem 0;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  .stats-table td:first-child {
+    max-width: 28ch;
+  }
+
+  .stats-table a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.92rem;
+    line-height: 1.4;
+  }
+
+  .stats-table a:hover {
+    color: var(--color-accent);
+  }
+
+  .empty {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    padding: 3rem 0;
+    text-align: center;
+  }
+</style>

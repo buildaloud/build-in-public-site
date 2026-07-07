@@ -5,6 +5,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import LocalTime from '../components/LocalTime.astro';
 import SubmitSkill from '../components/SubmitSkill.astro';
+import PostStats from '../components/PostStats.astro';
+import { getPostStats, getStatsAsOf } from '../utils/post-stats';
 import digests from '../data/digests.json';
 
 const BUTTONDOWN_USERNAME = 'buildaloud';
@@ -94,6 +96,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
               </div>
               <h2>{featured.data.title}</h2>
               <p>{featured.data.summary?.lead ?? featured.data.description}</p>
+              <PostStats stat={getStatsAsOf().stale ? null : getPostStats(featured.id)} variant="compact" />
               <span class="read-more">Read entry
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M3 7h8M8 4l3 3-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </span>
@@ -297,6 +300,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
   .featured-body { padding: 1.75rem; display: flex; flex-direction: column; justify-content: center; }
   .featured-body h2 { font-family: var(--font-display); font-size: clamp(1.4rem, 2.4vw, 1.85rem); font-weight: 400; line-height: 1.2; color: var(--color-text); margin: 0.5rem 0 0.7rem; letter-spacing: -0.01em; }
   .featured-body p { color: var(--color-text-secondary); font-size: 0.95rem; line-height: 1.6; margin: 0 0 1.1rem; }
+  .featured-body :global(.post-stats-compact) { display: block; margin-bottom: 0.9rem; }
 
   .card-top { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
   .card-top :global(time), .author { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-muted); }

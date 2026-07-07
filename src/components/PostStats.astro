@@ -1,0 +1,139 @@
+---
+import type { PostStat, Scorecard } from '../../scripts/stats/post-stats';
+
+interface Props {
+  stat: PostStat | null;
+  variant: 'compact' | 'full';
+}
+
+const { stat, variant } = Astro.props;
+
+function scorecardBadge(scorecard: Scorecard): { label: string; tone: 'hit' | 'miss' | 'unknown' } {
+  if (scorecard.status === 'insufficient-data') return { label: 'Not enough data yet', tone: 'unknown' };
+  return scorecard.rankedForTarget
+    ? { label: `Ranking for target keyword (avg #${scorecard.targetPosition?.toFixed(1)})`, tone: 'hit' }
+    : { label: 'Not yet ranking for target keyword', tone: 'miss' };
+}
+
+const badge = stat ? scorecardBadge(stat.scorecard) : null;
+---
+
+{variant === 'compact' && stat && (
+  <span class="post-stats-compact" data-tone={badge?.tone}>
+    <span class="post-stats-dot" aria-hidden="true"></span>
+    {stat.clicks} click{stat.clicks === 1 ? '' : 's'}
+  </span>
+)}
+
+{variant === 'full' && !stat && <p class="post-stats-empty">No search data yet</p>}
+
+{variant === 'full' && stat && badge && (
+  <div class="post-stats-full">
+    <dl class="post-stats-grid">
+      <div class="post-stats-metric">
+        <dt>Clicks</dt>
+        <dd>{stat.clicks}</dd>
+      </div>
+      <div class="post-stats-metric">
+        <dt>Impressions</dt>
+        <dd>{stat.impressions}</dd>
+      </div>
+      <div class="post-stats-metric">
+        <dt>Avg. position</dt>
+        <dd>{stat.position > 0 ? stat.position.toFixed(1) : '—'}</dd>
+      </div>
+      <div class="post-stats-metric">
+        <dt>Pageviews</dt>
+        <dd>{stat.pageviews}</dd>
+      </div>
+    </dl>
+    <p class={`post-stats-badge post-stats-badge--${badge.tone}`}>{badge.label}</p>
+  </div>
+)}
+
+<style>
+  .post-stats-compact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    opacity: 0.85;
+  }
+
+  .post-stats-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-muted);
+  }
+
+  .post-stats-compact[data-tone='hit'] .post-stats-dot {
+    background: var(--color-accent);
+    box-shadow: 0 0 6px var(--color-accent);
+  }
+
+  .post-stats-empty {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-muted);
+    opacity: 0.7;
+  }
+
+  .post-stats-full {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .post-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.75rem;
+    margin: 0;
+  }
+
+  .post-stats-metric dt {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .post-stats-metric dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--color-text);
+  }
+
+  .post-stats-badge {
+    display: inline-block;
+    width: fit-content;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .post-stats-badge--hit {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .post-stats-badge--miss {
+    color: var(--color-muted);
+  }
+
+  .post-stats-badge--unknown {
+    color: var(--color-muted);
+    opacity: 0.7;
+  }
+</style>

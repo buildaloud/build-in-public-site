@@ -1,7 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { collections } from './content.config';
 
-const schema = collections.blog.schema as any;
+// content.config.ts defines the schema as a plain, always-present ZodObject (not
+// the optional schema-factory form Astro's types also allow), so this narrows
+// the union back to that concrete type.
+const schemaOrFactory = collections.blog.schema;
+if (!schemaOrFactory || typeof schemaOrFactory === 'function') {
+  throw new Error('expected a plain schema, not a schema factory');
+}
+const schema = schemaOrFactory;
 
 const seoLessPost = {
   title: 'A post from before SEO fields existed',

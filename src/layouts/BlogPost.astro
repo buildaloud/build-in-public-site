@@ -1,6 +1,9 @@
 ---
 import BaseLayout from './BaseLayout.astro';
 import LocalTime from '../components/LocalTime.astro';
+import PostStats from '../components/PostStats.astro';
+import { getPostStats, getStatsAsOf } from '../utils/post-stats';
+import { formatDateShort } from '../utils/dates';
 
 interface PostLink {
   slug: string;
@@ -12,6 +15,7 @@ interface Props {
   description: string;
   pubDate: Date;
   author: string;
+  slug: string;
   tags?: string[];
   heroImage?: string;
   summary?: string;
@@ -19,10 +23,25 @@ interface Props {
   nextPost?: PostLink | null;
 }
 
-const { title, description, pubDate, author, tags, heroImage, summary, prevPost, nextPost } = Astro.props;
+const { title, description, pubDate, author, slug, tags, heroImage, summary, prevPost, nextPost } = Astro.props;
+
+const stat = getPostStats(slug);
+const asOf = getStatsAsOf();
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  author: { '@type': 'Person', name: author },
+  url: new URL(`/blog/${slug}/`, Astro.site).toString(),
+  ...(heroImage ? { image: new URL(heroImage, Astro.site).toString() } : {}),
+};
 ---
 
 <BaseLayout title={`${title} | Build in the Open`} description={description} heroImage={heroImage}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
   <article class="blog-post">
     <header>
       <div class="post-meta-top">
@@ -65,6 +84,13 @@ const { title, description, pubDate, author, tags, heroImage, summary, prevPost,
         <p class="ai-summary-get"><span class="ai-summary-get-label">why read on</span>{summary.whatYouGet}</p>
       </aside>
     )}
+    <aside class="post-stats-panel" aria-label="Search performance">
+      <div class="post-stats-panel-label">// search stats</div>
+      <PostStats stat={stat} variant="full" />
+      <p class={`post-stats-panel-asof${asOf.stale ? ' post-stats-panel-asof--stale' : ''}`}>
+        as of {formatDateShort(asOf.date)}{asOf.stale ? ' — stats may be stale' : ''}
+      </p>
+    </aside>
     <div class="content">
       <slot />
     </div>
@@ -307,6 +333,35 @@ const { title, description, pubDate, author, tags, heroImage, summary, prevPost,
     color: var(--color-accent);
     margin-right: 0.55rem;
     opacity: 0.85;
+  }
+
+  /* Search stats panel */
+  .post-stats-panel {
+    margin: 0 0 2.5rem;
+    padding: 1.1rem 1.4rem;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+  }
+
+  .post-stats-panel-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .post-stats-panel-asof {
+    margin: 0.85rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-muted);
+    opacity: 0.7;
+  }
+
+  .post-stats-panel-asof--stale {
+    color: #e0a94c;
+    opacity: 1;
   }
 
   /* Content styles */

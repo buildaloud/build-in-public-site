@@ -1,5 +1,6 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { SEARCH_INTENT_VALUES } from './schema/seo-fields';
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/blog' }),
@@ -14,7 +15,7 @@ const blog = defineCollection({
     heroImage: z.string().optional(),
     targetKeyword: z.string().optional(),
     secondaryKeywords: z.array(z.string()).optional(),
-    searchIntent: z.enum(['informational', 'navigational', 'commercial']).optional(),
+    searchIntent: z.enum(SEARCH_INTENT_VALUES).optional(),
     summary: z
       .object({
         lead: z.string(),
