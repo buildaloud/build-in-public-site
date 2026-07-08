@@ -105,16 +105,21 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   if (slugTotal === null || globalMinute === null) return sanitizeError(502);
   if (isOverCeiling(slugTotal, globalMinute)) return errorJson('at capacity', 429);
 
-  const insertRes = await fetch(`${env.SUPABASE_URL}/rest/v1/${TABLE}`, {
+  // on_conflict targets the (post_slug, voter_hash) unique constraint — the random
+  // uuid PK never collides, so without this ignore-duplicates would let a repeat
+  // like raise a 23505 instead of being silently dropped.
+  const insertRes = await fetch(`${env.SUPABASE_URL}/rest/v1/${TABLE}?on_conflict=post_slug,voter_hash`, {
     method: 'POST',
-    headers: restHeaders(env, { 'Content-Type': 'application/json', Prefer: 'resolution=ignore-duplicates,return=minimal' }),
+    headers: restHeaders(env, { 'Content-Type': 'application/json', Prefer: 'resolution=ignore-duplicates,return=representation' }),
     body: JSON.stringify({ post_slug: slug, voter_hash: hash }),
   });
   if (!insertRes.ok) return sanitizeError(502);
+  const inserted = (await insertRes.json().catch(() => [])) as unknown[];
+  const isNewLike = Array.isArray(inserted) && inserted.length > 0;
 
-  // No post-insert recount round-trip — slugTotal + 1 is a benign off-by-one
-  // under concurrency, fine for a decorative counter.
-  const res = shapeResponse(slugTotal + 1, true);
+  // No post-insert recount round-trip: a fresh like is slugTotal + 1; a duplicate
+  // inserts nothing, so the count stays at slugTotal (already-liked, not a new vote).
+  const res = shapeResponse(isNewLike ? slugTotal + 1 : slugTotal, true);
   // Cookie is a client-side "you liked this" UX hint only — never part of
   // the dedup/rate-limit key (that's IP-only, see voterHash in _like-core.ts).
   if (!getCookie(request, COOKIE_NAME)) {

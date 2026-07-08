@@ -90,10 +90,23 @@ describe('onRequestPost', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('dedupes the same voter across two POSTs — likes stays unchanged and the cookie is set once', async () => {
+  it('dedupes the same voter across two POSTs — count stays put, cookie set once', async () => {
+    // Models the real conflict: first insert creates a row (representation → 1 row);
+    // the second hits the (post_slug, voter_hash) unique constraint and is
+    // ignore-duplicates'd (200 with an empty representation, NOT an error).
+    let inserts = 0;
     const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
-      if (init?.method === 'POST') return new Response(null, { status: 201 });
-      return countResponse(1);
+      if (init?.method === 'POST') {
+        inserts += 1;
+        const rows = inserts === 1 ? [{ id: 'row-1' }] : [];
+        return new Response(JSON.stringify(rows), { status: 201 });
+      }
+      const u = String(url);
+      // slug total reflects the row inserted by the first POST; other counts (voter, global) stay 0.
+      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('voter_hash')) {
+        return countResponse(inserts >= 1 ? 1 : 0);
+      }
+      return countResponse(0);
     });
     vi.stubGlobal('fetch', fetchMock);
 
@@ -105,9 +118,27 @@ describe('onRequestPost', () => {
     const res2 = await onRequestPost({ request: postReq(SLUG, { Cookie: `like_voter=${token}` }), env: ENV });
     const body2 = await res2.json();
 
-    expect(body1).toEqual({ likes: 2, hasLiked: true });
-    expect(body2).toEqual({ likes: 2, hasLiked: true });
+    // Fresh like → 1; duplicate → stays 1 (not 2), and no 502.
+    expect(body1).toEqual({ likes: 1, hasLiked: true });
+    expect(body2).toEqual({ likes: 1, hasLiked: true });
+    expect(res2.status).toBe(200);
     expect(res2.headers.get('set-cookie')).toBeNull();
+    // The duplicate insert really was attempted (proves on_conflict handles it, not a pre-check skip).
+    expect(inserts).toBe(2);
+  });
+
+  it('targets the (post_slug, voter_hash) unique constraint on insert', async () => {
+    let insertUrl = '';
+    const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') {
+        insertUrl = String(url);
+        return new Response(JSON.stringify([{ id: 'row-1' }]), { status: 201 });
+      }
+      return countResponse(0);
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    await onRequestPost({ request: postReq(SLUG), env: ENV });
+    expect(insertUrl).toContain('on_conflict=post_slug,voter_hash');
   });
 
   it('rate-limits a voter at >=50 posts in the last hour, without inserting', async () => {
