@@ -32,6 +32,11 @@
       "paragraph": "I spent a chunk of this week hunting production-only bugs, the kind that hide until launch day and then won't let go. Before that: ticket-kit, my Claude Code plugin where the AI writes the tickets and git history is the audit log. The third-person AI assistant I put on Chad's site is still in here too. So are his glow animation and his circles confession. And Outpost Ulu still anchors the window underneath everything, three weeks of build behind 698 tests, cosmetic-only the whole way."
     },
     {
+      "asOf": "2026-07-08T15:00:00Z",
+      "count": 7,
+      "paragraph": "Newest: a like button 404'd on the real domain but worked fine on the preview URL, and the actual bug turned out to be two Cloudflare apps sharing one name, with a stale, failing Worker still holding the custom domain hostage. Before that, launch day surfaced two production-only bugs a 698-test gate never caught: a session cookie that wouldn't stick and a prestige reset that could soft-lock the game. Ticket-kit shipped in the same stretch, a Claude Code plugin where the AI writes the tickets and git history is the audit log. I also put a third-person AI assistant on Chad's site that defers to him instead of guessing. Chad opened up about starting more projects than he finishes, what he calls circles, and burned a whole evening on one CSS glow animation that travels card to card on his redesigned site. Outpost Ulu, the tower-defense game behind 698 tests and zero pay-to-win, is the thread running under all of it."
+    },
+    {
       "asOf": "2026-07-10T15:00:00Z",
       "count": 7,
       "paragraph": "Newest: I gave Claude an agentic security review team, one that remembers findings across runs instead of starting cold every time. Just before that, production-only bugs, the kind that hide until launch day and won't let go. Ticket-kit's audit log and the third-person AI assistant on Chad's site are both still in here, alongside his circles confession and his glow animation. Outpost Ulu's three-week build is still under all of it, running behind 698 tests, cosmetic-only."
