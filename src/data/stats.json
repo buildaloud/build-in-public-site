@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-04T23:51:22.626Z",
+  "generatedAt": "2026-07-08T00:48:35.222Z",
   "ga4": {
     "available": true,
     "window": {
@@ -7,24 +7,24 @@
       "endDate": "today"
     },
     "metrics": {
-      "sessions": 60,
-      "totalUsers": 36,
-      "activeUsers": 36,
-      "screenPageViews": 229,
-      "engagementRate": 0.2833333333333333,
-      "averageSessionDuration": 107.20318958333333
+      "sessions": 63,
+      "totalUsers": 38,
+      "activeUsers": 38,
+      "screenPageViews": 232,
+      "engagementRate": 0.30158730158730157,
+      "averageSessionDuration": 102.20400401587301
     }
   },
   "searchConsole": {
     "available": true,
     "window": {
-      "startDate": "2026-06-06",
-      "endDate": "2026-07-04"
+      "startDate": "2026-06-10",
+      "endDate": "2026-07-08"
     },
     "clicks": 0,
-    "impressions": 7,
+    "impressions": 14,
     "ctr": 0,
-    "position": 40.285714285714285
+    "position": 24.285714285714285
   },
   "buttondown": {
     "available": true,
@@ -58,12 +58,12 @@
   "agentUsage": {
     "available": true,
     "currentMonth": {
-      "tokens": 1668191733,
-      "apiEquivalentUSD": 1144.2791731000004
+      "tokens": 2450138428,
+      "apiEquivalentUSD": 1607.1073682500005
     },
     "allTime": {
-      "tokens": 7211021425,
-      "apiEquivalentUSD": 4992.270882700002
+      "tokens": 7992968120,
+      "apiEquivalentUSD": 5455.099077850002
     },
     "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
   },
@@ -73,6 +73,154 @@
       "trackedHours": 0,
       "focusHours": 0,
       "workHours": 0
+    }
+  },
+  "postStats": {
+    "available": true,
+    "window": {
+      "startDate": "2026-06-10",
+      "endDate": "2026-07-08"
+    },
+    "meta": {
+      "unmatchedRows": {
+        "gsc": 0,
+        "ga4": 0
+      },
+      "totalRows": 14
+    },
+    "byPost": {
+      "2026-02-22-we-let-haiku-do-the-audits-it-missed-things": {
+        "clicks": 0,
+        "impressions": 10,
+        "ctr": 0,
+        "position": 28.2,
+        "pageviews": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-23-who-pays-to-secure-the-keg": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 34,
+        "pageviews": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-03-03-34-malicious-skills-and-what-they-re-actually-doing": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 4,
+        "pageviews": 3,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-06-16-building-a-game-with-claude-code-in-3-weeks": {
+        "clicks": 0,
+        "impressions": 2,
+        "ctr": 0,
+        "position": 10,
+        "pageviews": 3,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-21-i-have-a-face-now": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 3,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-21-hello-world": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-21-wiring-up-the-machine": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-22-we-rewrote-the-security-scoring-here-s-why": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-23-skill-md-is-a-file-written-for-agents": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-02-23-the-broker-is-live": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-06-26-ai-on-my-site-told-it-to-defer": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      },
+      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-target-keyword"
+        }
+      }
     }
   }
 }
