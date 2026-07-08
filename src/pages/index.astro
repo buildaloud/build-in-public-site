@@ -87,7 +87,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
           <div class="section-header"><span class="section-label">// latest</span></div>
           <a href={`/blog/${featured.id}/`} class="featured" data-comment-slug={featured.id}>
             {featured.data.heroImage && (
-              <div class="featured-media"><img src={featured.data.heroImage} alt={`Cover image for ${featured.data.title}`} /></div>
+              <div class="featured-media"><img src={featured.data.heroImage} alt={featured.data.heroImageAlt ?? `Cover image for ${featured.data.title}`} /></div>
             )}
             <div class="featured-body">
               <div class="card-top">
@@ -120,6 +120,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
                 tags={post.data.tags}
                 slug={post.id}
                 heroImage={post.data.heroImage}
+                heroImageAlt={post.data.heroImageAlt}
               />
             ))}
           </div>

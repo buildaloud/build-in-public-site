@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["game-dev", "claude-code", "build-in-public", "game-balance", "tower-defense"]
 draft: false
 heroImage: "/images/teaching-a-robot-to-balance-my-game.png"
+heroImageAlt: "A glowing teal curve sweeps upward beside faint concentric rings, visualizing automated game balancing data"
 targetKeyword: "automated game balancing"
 secondaryKeywords: ["ai playtesting bots", "game balance autotuner", "tower defense balancing", "headless game simulation"]
 searchIntent: "informational"

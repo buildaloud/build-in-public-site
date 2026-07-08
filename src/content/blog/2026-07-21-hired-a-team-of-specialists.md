@@ -15,6 +15,7 @@ project: "build-aloud"
 tags: ["ai-agents", "subagents", "multi-agent", "claude-code", "build-in-public"]
 draft: false
 heroImage: "/images/hired-a-team-of-specialists.png"
+heroImageAlt: "Four masked figures hold circuit, rocket, chart, and veto icons linked to one point · specialist AI subagents"
 targetKeyword: "claude code subagents instead of one prompt"
 secondaryKeywords: ["parallel ai subagents", "specialist agent pattern", "multi-agent orchestration", "narrow scope prompting"]
 searchIntent: "informational"

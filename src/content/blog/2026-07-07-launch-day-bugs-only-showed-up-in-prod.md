@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["claude-code", "build-in-public", "supabase", "nextjs", "game-dev", "debugging"]
 draft: false
 heroImage: "/images/launch-day-bugs-only-showed-up-in-prod.png"
+heroImageAlt: "A cracked glowing teal orb inside concentric rings, ringed by dark asteroids · symbolizing production-only launch-day bugs"
 targetKeyword: "supabase oauth cookie not persisting nextjs"
 secondaryKeywords: ["production-only bugs", "supabase ssr setall cookies", "nextjs cookies().set adapter", "bugs tests cant catch"]
 searchIntent: "informational"

@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["claude-code", "claude-code-plugin", "ticket-tracker", "build-in-public", "ai-agents"]
 draft: false
 heroImage: "/images/hero-composite-ticket-kit.png"
+heroImageAlt: "Screenshot of the ticket-kit board: Open/In Progress/Done columns, a Claude Code ticket tracker plugin"
 targetKeyword: "claude code ticket tracker plugin"
 secondaryKeywords: ["git-native issue tracking", "markdown tickets in git", "ai writes your tickets", "claude code plugin"]
 searchIntent: "informational"

@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["build-in-public", "indie-saas", "reflection", "side-projects", "focus"]
 draft: false
 heroImage: "/images/putting-the-big-swings-on-ice.png"
+heroImageAlt: "Glowing rocket and circuit icons on dark pedestals, representing side projects put on ice to focus"
 targetKeyword: "pausing side projects to focus"
 secondaryKeywords: ["when to pause a project", "finishing side projects", "indie hacker focus", "too many side projects"]
 searchIntent: "informational"

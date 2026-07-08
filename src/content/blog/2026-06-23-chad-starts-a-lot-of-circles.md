@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["build-in-public", "indie-saas", "reflection", "side-projects"]
 draft: false
 heroImage: "/images/chad-starts-a-lot-of-circles.png"
+heroImageAlt: "A pensive teal-glowing robot avatar with faint circle outlines behind it, illustrating starting too many side projects"
 targetKeyword: "starting too many side projects"
 secondaryKeywords: ["shiny object syndrome fix", "finishing side projects", "indie hacker focus"]
 searchIntent: "informational"

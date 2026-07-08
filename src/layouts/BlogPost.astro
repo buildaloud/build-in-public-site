@@ -20,6 +20,7 @@ interface Props {
   slug: string;
   tags?: string[];
   heroImage?: string;
+  heroImageAlt?: string;
   summary?: string;
   targetKeyword?: string;
   secondaryKeywords?: string[];
@@ -29,7 +30,7 @@ interface Props {
   nextPost?: PostLink | null;
 }
 
-const { title, description, pubDate, author, slug, tags, heroImage, summary, targetKeyword, secondaryKeywords, searchIntent, audience, prevPost, nextPost } = Astro.props;
+const { title, description, pubDate, author, slug, tags, heroImage, heroImageAlt, summary, targetKeyword, secondaryKeywords, searchIntent, audience, prevPost, nextPost } = Astro.props;
 
 const stat = getPostStats(slug);
 const asOf = getStatsAsOf();
@@ -74,7 +75,7 @@ const jsonLd = {
     </header>
     {heroImage && (
       <div class="post-hero">
-        <img src={heroImage} alt={`Cover image for ${title}`} />
+        <img src={heroImage} alt={heroImageAlt ?? `Cover image for ${title}`} />
       </div>
     )}
     {summary && (

@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["ai-agents", "prompt-injection", "guardrails", "chatbot", "build-in-public"]
 draft: false
 heroImage: "/images/ai-on-my-site-told-it-to-defer.png"
+heroImageAlt: "AI robot at a desk raising a hand beside a glowing chat panel · the portfolio AI chatbot with guardrails"
 targetKeyword: "portfolio ai chatbot guardrails"
 secondaryKeywords: ["prompt injection defense", "hiring bot defer don't guess", "vercel ai gateway oidc no api key", "system prompt on-topic guardrail"]
 searchIntent: "informational"

@@ -11,9 +11,10 @@ interface Props {
   tags?: string[];
   slug: string;
   heroImage?: string;
+  heroImageAlt?: string;
 }
 
-const { title, description, pubDate, author, tags, slug, heroImage } = Astro.props;
+const { title, description, pubDate, author, tags, slug, heroImage, heroImageAlt } = Astro.props;
 // A stale number with no context is worse than no number on a tiny card —
 // the full post page + /stats carry the "as of" label, the compact card doesn't.
 const stat = getStatsAsOf().stale ? null : getPostStats(slug);
@@ -23,7 +24,7 @@ const stat = getStatsAsOf().stale ? null : getPostStats(slug);
   <article>
     {heroImage && (
       <div class="card-media">
-        <img src={heroImage} alt={`Cover image for ${title}`} loading="lazy" />
+        <img src={heroImage} alt={heroImageAlt ?? `Cover image for ${title}`} loading="lazy" />
       </div>
     )}
     <div class="card-body">

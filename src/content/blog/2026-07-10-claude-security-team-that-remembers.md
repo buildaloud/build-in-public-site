@@ -15,6 +15,7 @@ project: "build-aloud"
 tags: ["claude-code", "claude-code-plugin", "ai-agents", "security-review", "build-in-public"]
 draft: false
 heroImage: "/images/claude-security-team-that-remembers.png"
+heroImageAlt: "A glowing teal network of connected nodes floats above stacked pages · imagery for this Claude Code security review plugin"
 targetKeyword: "claude code security review plugin"
 secondaryKeywords: ["agentic security review", "whole-repo vulnerability scan", "false positive exploitability gate", "ai security scanner with memory"]
 searchIntent: "informational"

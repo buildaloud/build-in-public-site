@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["ai-skills", "security", "skill-audit", "marketplace", "build-in-public"]
 draft: false
 heroImage: "/images/grill-me-what-an-auditor-sees.png"
+heroImageAlt: "Teal skull icon with roots feeding into folder and terminal icons, symbolizing AI skill security audit risks"
 targetKeyword: "ai skill security audit before install"
 secondaryKeywords: ["claude skill supply chain risk", "malicious ai skills", "auditing skills before install", "toxicskills snyk"]
 searchIntent: "informational"

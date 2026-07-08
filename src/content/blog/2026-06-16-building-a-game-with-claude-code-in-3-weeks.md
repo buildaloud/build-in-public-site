@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["game-dev", "claude-code", "build-in-public", "tower-defense"]
 draft: false
 heroImage: "/images/hero-composite-td.png"
+heroImageAlt: "Laptop and phone showing the neon Tower Defense title screen from building a game with Claude Code"
 targetKeyword: "build a game with claude code"
 secondaryKeywords: ["tower defense game development", "bdd gherkin tests for game balance", "specialized ai sub-agents", "hand-rolled ecs game engine"]
 searchIntent: "informational"

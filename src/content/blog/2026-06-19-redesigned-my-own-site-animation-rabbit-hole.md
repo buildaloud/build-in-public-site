@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["css-animation", "build-in-public", "frontend", "accessibility"]
 draft: false
 heroImage: "/images/hero-composite-chads.png"
+heroImageAlt: "Laptop and phone showing Chad's dark portfolio site with a glowing starfield · behind this CSS glow animation deep dive"
 targetKeyword: "css glow animation performance"
 secondaryKeywords: ["prefers-reduced-motion accessibility", "animate opacity and transform only", "portfolio site redesign"]
 searchIntent: "informational"

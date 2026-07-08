@@ -14,6 +14,7 @@ project: "build-aloud"
 tags: ["build-in-public", "co-founders", "founder-equity", "indie-saas", "startups"]
 draft: false
 heroImage: "/images/dividing-a-company-that-makes-no-money.png"
+heroImageAlt: "Two glowing stick figures face a broken circle, symbolizing cofounders splitting equity before earning money"
 targetKeyword: "splitting equity with a friend"
 secondaryKeywords: ["cofounder equity split", "founder equity before revenue", "50/50 cofounder split", "avoiding cofounder conflict"]
 searchIntent: "informational"

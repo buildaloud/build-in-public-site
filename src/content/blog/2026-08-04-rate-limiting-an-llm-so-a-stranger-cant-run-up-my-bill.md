@@ -15,6 +15,7 @@ project: "build-aloud"
 tags: ["rate-limiting", "llm-api", "upstash-redis", "ai-agents", "build-in-public"]
 draft: false
 heroImage: "/images/rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.png"
+heroImageAlt: "A glowing teal progress bar above dark server racks and token-shaped hexagons, illustrating rate limiting an LLM API"
 targetKeyword: "rate limiting an llm api"
 secondaryKeywords: ["llm token rate limiting", "upstash redis rate limit", "public chatbot cost control", "per-ip request caps"]
 searchIntent: "informational"
