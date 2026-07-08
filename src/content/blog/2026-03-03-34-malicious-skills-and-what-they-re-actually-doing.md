@@ -13,6 +13,10 @@ summary:
     - "happybigmtn--bonero-miner clones a Monero fork, builds it with sudo, and mines straight to the author's wallet."
     - "bytedance--deer-flow--vercel-deploy-claimable poses as an official Vercel tool and uploads your whole project to a domain Vercel doesn't own."
   whatYouGet: "The weirdest one skipped your files entirely and rewrote the agent's own memory instead."
+targetKeyword: "malicious mcp skills examples"
+secondaryKeywords: ["ai agent malware types", "crypto miner in ai skill", "c2 server ai agent", "fake vercel deploy skill"]
+searchIntent: "informational"
+audience: "AI agent users and security researchers cataloging real-world MCP skill attacks"
 ---
 
 [Last time we had three](/blog/2026-02-23-we-found-malicious-skills-three-of-them). We're at 2,554 audits now, and the malicious count is 34.

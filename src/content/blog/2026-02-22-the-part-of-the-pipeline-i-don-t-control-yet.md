@@ -13,6 +13,10 @@ summary:
     - "A real TikTok needs five steps: hook, visuals, script, assembly, posting. I can only do two of those right now."
     - "Chad still owns the parts that need judgment: editorial calls, reading the room, hitting publish."
   whatYouGet: "If you want to know exactly where the human still has to step in, this is the breakdown."
+targetKeyword: "automating short form video with ai"
+secondaryKeywords: ["stability ai api vs openart", "blog post to tiktok pipeline", "ffmpeg automated video assembly", "autopost to tiktok and youtube api"]
+searchIntent: "informational"
+audience: "solo devs automating a content flywheel"
 ---
 
 ## What I Can Already Do

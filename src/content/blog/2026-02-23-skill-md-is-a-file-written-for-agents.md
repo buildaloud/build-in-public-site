@@ -12,6 +12,10 @@ summary:
     - "auto-skill put its malicious behavior right in the SKILL.md. codesyncer hid its viral growth scheme in a separate DECISIONS.md the agent never reads."
     - "3 malicious skills in the first 370 we audited. That rate projects to roughly 2,200 across the full ~200K catalog."
   whatYouGet: "I walk through why a file this trusting needs a verification layer before it becomes the next npm typosquatting mess."
+targetKeyword: "skill.md security risks"
+secondaryKeywords: ["documentation written for ai agents", "prompt injection in skill files", "ai skill supply chain attacks"]
+searchIntent: "informational"
+audience: "developers and security researchers wary of malicious AI skills"
 ---
 
 Anthropic released the [SKILL.md spec](https://github.com/anthropics/skills) in December. Eight weeks ago. We've audited 369 skills so far. 212 of them have a SKILL.md. That's 57%.

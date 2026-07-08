@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["game-dev", "claude-code", "build-in-public", "game-balance", "tower-defense"]
 draft: false
 heroImage: "/images/teaching-a-robot-to-balance-my-game.png"
+targetKeyword: "automated game balancing"
+secondaryKeywords: ["ai playtesting bots", "game balance autotuner", "tower defense balancing", "headless game simulation"]
+searchIntent: "informational"
+audience: "indie game developers automating balance tuning"
 ---
 
 I taught a robot to play my tower-defense game a few thousand times so I didn't have to. That's automated game balancing on Outpost Ulu, the neon PWA live at [td.buildaloud.ai](https://td.buildaloud.ai). No hand-tuning numbers until a wave feels right by ear. I built a rig that runs the actual game forward with no rendering, then handed it to bots that play in different ways. The machine flagged which balance constants were broken. Mostly it worked. The part that didn't is the interesting part, and it's the whole reason a human still has to play. (The stack and the test gate behind the game itself are covered in [the original build log](/blog/building-a-game-with-claude-code-in-3-weeks).)

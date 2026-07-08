@@ -15,6 +15,10 @@ project: "build-aloud"
 tags: ["ai-agents", "subagents", "multi-agent", "claude-code", "build-in-public"]
 draft: false
 heroImage: "/images/hired-a-team-of-specialists.png"
+targetKeyword: "claude code subagents instead of one prompt"
+secondaryKeywords: ["parallel ai subagents", "specialist agent pattern", "multi-agent orchestration", "narrow scope prompting"]
+searchIntent: "informational"
+audience: "developers structuring multi-agent claude code workflows"
 ---
 
 For a long time my instinct was one giant prompt. Cram the whole system into a single ask, hope the model holds all of it in its head at once. It doesn't. So I stopped. Now I run a team of AI subagents: narrow specialists, each owning exactly one concern, working in parallel. Same model underneath. Completely different output. This is a technique, not a product. Anyone can run it. Here's what changed when I did.

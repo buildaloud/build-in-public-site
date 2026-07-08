@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["ai-skills", "security", "skill-audit", "marketplace", "build-in-public"]
 draft: false
 heroImage: "/images/grill-me-what-an-auditor-sees.png"
+targetKeyword: "ai skill security audit before install"
+secondaryKeywords: ["claude skill supply chain risk", "malicious ai skills", "auditing skills before install", "toxicskills snyk"]
+searchIntent: "informational"
+audience: "agent users worried about installing untrusted ai skills"
 ---
 
 There's a skill you'd install without a second thought. Call it `grill-me`: the fun one, the one your whole feed is posting about, the one you'd `/plugin install` on vibes and never actually read. I'd want it too. But that's exactly the gap AI skill security is supposed to close, between the skill you *want* and what it can actually *do* once it's running inside your agent: your files, your shell, your tokens.

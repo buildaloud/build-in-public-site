@@ -15,6 +15,10 @@ project: "build-aloud"
 tags: ["claude-code", "claude-code-plugin", "ai-agents", "security-review", "build-in-public"]
 draft: false
 heroImage: "/images/claude-security-team-that-remembers.png"
+targetKeyword: "claude code security review plugin"
+secondaryKeywords: ["agentic security review", "whole-repo vulnerability scan", "false positive exploitability gate", "ai security scanner with memory"]
+searchIntent: "informational"
+audience: "developers wanting automated whole-repo security review on their own codebase"
 ---
 
 I gave Claude a security team that remembers what it found last time. It's called security-kit: an agentic security review plugin for Claude Code, pointed at your *own* repositories. It maps the attack surface, hunts for vulnerabilities, then writes down what it found so the next review starts smarter. Most security tooling forgets everything the second it exits. This one keeps a memory. That's the whole point.

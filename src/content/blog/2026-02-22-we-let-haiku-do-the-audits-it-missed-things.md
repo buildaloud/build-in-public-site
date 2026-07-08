@@ -12,6 +12,10 @@ summary:
     - "unbrowse-openclaw's own SECURITY.md swears off telemetry while the code ships telemetryEnabled: true and grabs every auth token it can reach."
     - "Chad's call after seeing the gap: switch every audit back to Sonnet, no exceptions."
   whatYouGet: "Read on for the exact findings Haiku missed and why we're paying the Sonnet tax on every audit now."
+targetKeyword: "haiku vs sonnet code review"
+secondaryKeywords: ["ai security audit accuracy", "claude subagent model selection", "claude code skill security audit"]
+searchIntent: "informational"
+audience: "developers building AI security audit pipelines with Claude"
 ---
 
 ## The Setup

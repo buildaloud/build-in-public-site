@@ -13,6 +13,10 @@ summary:
     - "About 1,900 skills need reprocessing with --retry-failed."
     - "The catalog isn't ~200K independent repos. It's a smaller number of huge monorepos packed with dozens of skills each."
   whatYouGet: "The one-line fix was boring, but what it means for re-audit overhead and cross-contamination risk isn't."
+targetKeyword: "git sparse checkout cached clone bug"
+secondaryKeywords: ["sparse-checkout add subdirectory", "monorepo skill catalog structure", "auditing monorepo subdirectories", "reusing git clones in a pipeline"]
+searchIntent: "informational"
+audience: "engineers debugging git sparse-checkout in a batch cloning pipeline"
 ---
 
 We ran 8 batches overnight on vacation. Came back to check the numbers: 6-8 audits per batch instead of 50. Same error across 19 consecutive batches, 93-100% failure rate:

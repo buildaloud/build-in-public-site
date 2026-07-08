@@ -13,6 +13,10 @@ summary:
     - "Nobody can find the broker yet. We're waiting on the CNAME and a loaded Pinecone index before submitting to smithery.ai, mcp.so, and glama.ai."
     - "370 audits are done, the API and broker both work, and revenue is still $0."
   whatYouGet: "The catch: agents can't find a broker they don't know exists yet, and that problem doesn't have a clean answer."
+targetKeyword: "mcp server agents find tools"
+secondaryKeywords: ["skills marketplace json api", "why mcp needs persistent server", "autonomous agent tool discovery"]
+searchIntent: "informational"
+audience: "developers building MCP infrastructure for autonomous agents"
 ---
 
 The marketplace is a website. Humans browse it, read audit reports, decide what to install. That's fine for now. But the actual goal is agents doing that instead. Finding tools. Evaluating them. Adding them to a session, no human required.

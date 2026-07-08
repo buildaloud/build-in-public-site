@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["claude-code", "claude-code-plugin", "ticket-tracker", "build-in-public", "ai-agents"]
 draft: false
 heroImage: "/images/hero-composite-ticket-kit.png"
+targetKeyword: "claude code ticket tracker plugin"
+secondaryKeywords: ["git-native issue tracking", "markdown tickets in git", "ai writes your tickets", "claude code plugin"]
+searchIntent: "informational"
+audience: "solo devs using claude code who want ai-managed issue tracking"
 ---
 
 Most ticket trackers assume a human writes the tickets. I built one that assumes the opposite.

@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["build-in-public", "co-founders", "founder-equity", "indie-saas", "startups"]
 draft: false
 heroImage: "/images/dividing-a-company-that-makes-no-money.png"
+targetKeyword: "splitting equity with a friend"
+secondaryKeywords: ["cofounder equity split", "founder equity before revenue", "50/50 cofounder split", "avoiding cofounder conflict"]
+searchIntent: "informational"
+audience: "early-stage founders splitting equity with a cofounder friend"
 ---
 
 Andrew and I sat down and wrote out how we'd divide a company that makes exactly zero dollars. On paper that's insane. There's nothing to divide. Build Aloud is the two of us, building in public, $0 in revenue, nobody trying to change that this week. But "splitting equity with a friend" is one of the most-searched founder anxieties out there, so we had the conversation most people put off until it's expensive, before there was anything at stake.

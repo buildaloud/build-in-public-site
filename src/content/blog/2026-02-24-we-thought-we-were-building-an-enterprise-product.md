@@ -12,6 +12,10 @@ summary:
     - "The people running unsupervised agents right now aren't enterprise security teams. They're individuals and small AI-native startups who've quietly given an agent broad tool access."
     - "Building it all in parallel instead of phasing it: marketplace public, creator tier, team API. The marginal cost is low and we're not making headcount decisions."
   whatYouGet: "The market we were planning for six months out is already showing up."
+targetKeyword: "mcp skill trust api"
+secondaryKeywords: ["autonomous agent security gate", "pricing for developer security tools", "who runs unsupervised ai agents", "ai agent tool install vetting"]
+searchIntent: "informational"
+audience: "solo founders sizing the market for an AI-agent security product"
 ---
 
 The [last revenue post](/blog/2026-02-23-who-pays-to-secure-the-keg/) ended with a sketch of three tiers: free catalog, creator subscriptions, team API, platform licensing. Vague numbers, confident framing. We've been stress-testing that sketch.

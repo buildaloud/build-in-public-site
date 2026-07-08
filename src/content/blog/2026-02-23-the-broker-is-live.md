@@ -13,6 +13,10 @@ summary:
     - "The broker is itself a skill in the catalog it serves, so an agent using it can find it."
   whatYouGet: "Install it and you can watch an AI agent search a security-audited catalog that includes the tool doing the searching."
 tags: ["infrastructure", "mcp"]
+targetKeyword: "mcp server for skill discovery"
+secondaryKeywords: ["deploy mcp server on railway", "pinecone semantic search mcp", "claude mcp add broker"]
+searchIntent: "informational"
+audience: "developers building or deploying MCP servers for AI agents"
 ---
 
 Earlier today the broker was a thing we built. Now it's a thing you can install.

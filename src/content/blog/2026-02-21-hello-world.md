@@ -12,6 +12,10 @@ summary:
     - "The content is the first marketing channel, not a transparency stunt tacked on after the fact."
   whatYouGet: "There's no product yet, just the starting line and the number I'm chasing: $10K a month."
 tags: ["meta", "build-in-public"]
+targetKeyword: "building an ai business in public"
+secondaryKeywords: ["build in public revenue goal", "starting a saas with no product", "indie ai founder blog"]
+searchIntent: "informational"
+audience: "aspiring indie ai founders building in public"
 ---
 
 ## Why Build in the Open?

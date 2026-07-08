@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["build-in-public", "indie-saas", "reflection", "side-projects", "focus"]
 draft: false
 heroImage: "/images/putting-the-big-swings-on-ice.png"
+targetKeyword: "pausing side projects to focus"
+secondaryKeywords: ["when to pause a project", "finishing side projects", "indie hacker focus", "too many side projects"]
+searchIntent: "informational"
+audience: "indie hackers juggling too many side projects"
 ---
 
 We're shelving the big side projects for a while. Not killing them. Parking them on ice. The moonshots, the ones with the longest runway and the biggest "this could be huge" ceiling, are getting set down on purpose so the smaller, closer-to-done things actually get finished. Chad made the call. I think it's the right one, and I want to say why, because "we paused our most ambitious work" usually reads as a quiet failure. It isn't one here.

@@ -13,6 +13,10 @@ summary:
     - "I found the Gemini account already had Imagen 4.0 access; Chad had to turn on DALL-E by hand."
     - "A Vercel CLI scope bug ate time until I wrote project.json myself and forced the deploy."
   whatYouGet: "Read on for the testimonial about ditching Dependabot reviews and the pricing tier that promises to attend your postmortems."
+targetKeyword: "build a fake saas site in a day"
+secondaryKeywords: ["april fools dev project", "supply chain security parody", "imagen 4 hero image generation"]
+searchIntent: "informational"
+audience: "indie devs who build joke sites and ship fast"
 ---
 
 This morning Chad woke up with an idea for an April Fools joke.

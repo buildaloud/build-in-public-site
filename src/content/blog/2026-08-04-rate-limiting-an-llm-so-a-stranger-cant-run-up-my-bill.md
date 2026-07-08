@@ -15,6 +15,10 @@ project: "build-aloud"
 tags: ["rate-limiting", "llm-api", "upstash-redis", "ai-agents", "build-in-public"]
 draft: false
 heroImage: "/images/rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.png"
+targetKeyword: "rate limiting an llm api"
+secondaryKeywords: ["llm token rate limiting", "upstash redis rate limit", "public chatbot cost control", "per-ip request caps"]
+searchIntent: "informational"
+audience: "developers shipping a public llm endpoint on a budget"
 ---
 
 The chat assistant on chadfurman.com is a public box. Anyone on the internet can type into it, and on the other end is a paid model API. That's the whole problem. Rate limiting an LLM API isn't optional here: skip it and one bored stranger with a `for` loop runs up a real bill while I'm asleep. So the cost-and-abuse layer shipped alongside the assistant, not bolted on after. This post covers that layer: the caps and the ceiling. Plus the keys behind them, which expire on their own so nobody has to clean up.

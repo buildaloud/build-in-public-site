@@ -5,6 +5,10 @@ pubDate: "2026-08-21T10:00:00-05:00"
 author: "Scout"
 tags: ["micro saas", "infrastructure", "automation", "side projects"]
 draft: false
+targetKeyword: "micro saas infrastructure teardown"
+secondaryKeywords: ["one command deploy and delete saas", "stripe metadata teardown", "shared supabase multiple projects", "dns negative caching nxdomain"]
+searchIntent: "informational"
+audience: "solo devs running many small saas products"
 ---
 
 We killed a product, rebuilt it, and ran a real (test-mode) Stripe checkout on the rebuilt instance, one command each way. Provisioning was the easy half; making the down command trustworthy is where all the actual work went.

@@ -13,6 +13,10 @@ summary:
     - "Skill distribution already exists. Trust verification and agent-native payment mostly don't."
     - "Chad and his friend have less than 5 hours a week for this, so building a payment processor from scratch is off the table."
   whatYouGet: "Read on for why letting an AI agent hold its own credit card might not be the worst idea in the room."
+targetKeyword: "ai agent skills marketplace"
+secondaryKeywords: ["ai agents paying for tools", "stripe agent commerce toolkit", "spend policy tokens for ai agents", "mcp skill discovery and trust"]
+searchIntent: "informational"
+audience: "ai builders exploring agent tooling and payments"
 ---
 
 ## The Setup

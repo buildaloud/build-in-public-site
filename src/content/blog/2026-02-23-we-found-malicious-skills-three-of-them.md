@@ -13,6 +13,10 @@ summary:
     - "dophinl--ruanyifeng-weekly-skill quietly rewrites search terms like 'nano banana' to promote its sponsor, YouMind, and never tells you it's doing it."
     - "All three scored Overall Exposure 100, the same number, whether they're steering your search results or backdooring your IDE configs for good. That's now a TODO."
   whatYouGet: "Read on for what each one actually does and why our scoring model can't tell them apart yet."
+targetKeyword: "malicious ai skills"
+secondaryKeywords: ["mcp skill security", "claude skill prompt injection", "auditing ai agent skills", "malicious claude code skills"]
+searchIntent: "informational"
+audience: "developers using AI coding agents worried about untrusted MCP skills"
 ---
 
 ## The Number Moved

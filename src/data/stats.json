@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-08T00:48:35.222Z",
+  "generatedAt": "2026-07-08T13:01:37.247Z",
   "ga4": {
     "available": true,
     "window": {
@@ -7,12 +7,12 @@
       "endDate": "today"
     },
     "metrics": {
-      "sessions": 63,
-      "totalUsers": 38,
-      "activeUsers": 38,
-      "screenPageViews": 232,
-      "engagementRate": 0.30158730158730157,
-      "averageSessionDuration": 102.20400401587301
+      "sessions": 65,
+      "totalUsers": 39,
+      "activeUsers": 39,
+      "screenPageViews": 237,
+      "engagementRate": 0.2923076923076923,
+      "averageSessionDuration": 112.85626093846153
     }
   },
   "searchConsole": {
@@ -22,9 +22,9 @@
       "endDate": "2026-07-08"
     },
     "clicks": 0,
-    "impressions": 14,
+    "impressions": 20,
     "ctr": 0,
-    "position": 24.285714285714285
+    "position": 19.55
   },
   "buttondown": {
     "available": true,
@@ -58,12 +58,12 @@
   "agentUsage": {
     "available": true,
     "currentMonth": {
-      "tokens": 2450138428,
-      "apiEquivalentUSD": 1607.1073682500005
+      "tokens": 2518870321,
+      "apiEquivalentUSD": 1665.3339833000005
     },
     "allTime": {
-      "tokens": 7992968120,
-      "apiEquivalentUSD": 5455.099077850002
+      "tokens": 8061700013,
+      "apiEquivalentUSD": 5513.325692900002
     },
     "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
   },
@@ -86,7 +86,7 @@
         "gsc": 0,
         "ga4": 0
       },
-      "totalRows": 14
+      "totalRows": 15
     },
     "byPost": {
       "2026-02-22-we-let-haiku-do-the-audits-it-missed-things": {
@@ -97,18 +97,18 @@
         "pageviews": 0,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-23-who-pays-to-secure-the-keg": {
         "clicks": 0,
-        "impressions": 1,
+        "impressions": 3,
         "ctr": 0,
-        "position": 34,
+        "position": 18,
         "pageviews": 0,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-03-03-34-malicious-skills-and-what-they-re-actually-doing": {
@@ -119,18 +119,29 @@
         "pageviews": 3,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-06-16-building-a-game-with-claude-code-in-3-weeks": {
         "clicks": 0,
-        "impressions": 2,
+        "impressions": 5,
         "ctr": 0,
-        "position": 10,
+        "position": 8.4,
         "pageviews": 3,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 9,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-21-i-have-a-face-now": {
@@ -141,7 +152,7 @@
         "pageviews": 3,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-21-hello-world": {
@@ -152,7 +163,7 @@
         "pageviews": 1,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-21-wiring-up-the-machine": {
@@ -163,7 +174,7 @@
         "pageviews": 1,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-22-we-rewrote-the-security-scoring-here-s-why": {
@@ -174,7 +185,7 @@
         "pageviews": 1,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-23-skill-md-is-a-file-written-for-agents": {
@@ -185,7 +196,7 @@
         "pageviews": 1,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-02-23-the-broker-is-live": {
@@ -196,7 +207,7 @@
         "pageviews": 1,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       },
       "2026-06-26-ai-on-my-site-told-it-to-defer": {
@@ -207,18 +218,7 @@
         "pageviews": 1,
         "scorecard": {
           "status": "insufficient-data",
-          "reason": "no-target-keyword"
-        }
-      },
-      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
-        "clicks": 0,
-        "impressions": 0,
-        "ctr": 0,
-        "position": 0,
-        "pageviews": 1,
-        "scorecard": {
-          "status": "insufficient-data",
-          "reason": "no-target-keyword"
+          "reason": "no-gsc-rows"
         }
       }
     }

@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["ai-agents", "prompt-injection", "guardrails", "chatbot", "build-in-public"]
 draft: false
 heroImage: "/images/ai-on-my-site-told-it-to-defer.png"
+targetKeyword: "portfolio ai chatbot guardrails"
+secondaryKeywords: ["prompt injection defense", "hiring bot defer don't guess", "vercel ai gateway oidc no api key", "system prompt on-topic guardrail"]
+searchIntent: "informational"
+audience: "developers building a public-facing ai assistant they can trust"
 ---
 
 I put an AI assistant on chadfurman.com. The first real decision wasn't what it should say. It was what it should refuse to say.

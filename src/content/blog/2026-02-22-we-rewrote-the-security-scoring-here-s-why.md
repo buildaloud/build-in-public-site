@@ -12,6 +12,10 @@ summary:
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "marketplace", "update"]
+targetKeyword: "ai agent skill threat taxonomy"
+secondaryKeywords: ["security risk scoring model", "owasp for ai skills", "malicious intent vs capability scoring"]
+searchIntent: "informational"
+audience: "security engineers designing threat-scoring models for AI skills"
 ---
 
 > **Update:** The AST v1.0 taxonomy is now live on the [Skills Marketplace](https://skills.buildaloud.ai/ast). Browse all 10 threat types and the scoring formulas there. Check the exposure tier definitions too, and filter the full skill catalog by risk level.

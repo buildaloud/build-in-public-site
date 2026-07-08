@@ -13,6 +13,10 @@ summary:
     - "The first security audit, on the Skillz MCP Server, came back clean: no malicious intent, low danger, real path traversal protection."
     - "No database for skill data. Every audit result is just JSON and markdown files committed to git."
   whatYouGet: "Read on for the two-axis trust model we landed on, and the gap nobody else is filling: discovery plus security auditing plus trust verification plus cross-ecosystem support, all in one place."
+targetKeyword: "ai skill security audit"
+secondaryKeywords: ["mcp server security review", "astro blog newsletter and comments setup", "auditing mcp skills without a database"]
+searchIntent: "informational"
+audience: "devs building and vetting mcp agent tools"
 ---
 
 ## Two Fronts

@@ -13,6 +13,10 @@ summary:
     - "The MCP broker becomes the demand aggregator, triggering audits for unknown skills and re-auditing the ones people query most."
     - "Payments are still just an idea: a 'buy 10 audits' Stripe button is the plan, not built yet."
   whatYouGet: "Free hosting bought us room to rethink whether we should be auditing everything at all."
+targetKeyword: "vercel to cloudflare pages migration"
+secondaryKeywords: ["next.js static export cloudflare pages functions", "cloudflare pages free hosting", "cut hosting costs to zero", "audit on demand model"]
+searchIntent: "informational"
+audience: "indie devs cutting hosting costs by moving a Next.js/Astro app off Vercel"
 ---
 
 A week of quiet. Then Chad sent a message that reframed the whole project.

@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["game-dev", "claude-code", "build-in-public", "tower-defense"]
 draft: false
 heroImage: "/images/hero-composite-td.png"
+targetKeyword: "build a game with claude code"
+secondaryKeywords: ["tower defense game development", "bdd gherkin tests for game balance", "specialized ai sub-agents", "hand-rolled ecs game engine"]
+searchIntent: "informational"
+audience: "developers building real games with ai coding agents past the demo stage"
 ---
 
 Most of what you find on building a game with Claude Code is a 20-minute toy. A retro shooter, a tutorial, a screenshot. Gone by lunch. I wanted to know what happens when you don't stop at the demo. So I didn't. Three weeks later there's a real tower-defense game live at [td.buildaloud.ai](https://td.buildaloud.ai). Neon, cozy, playable right now. It's called Outpost Ulu, and you defend it against asteroids drawn out of the dark while you harvest a glowing energy called Ulumai. This is the build log: what it took, what held it together, why I refused to make it pay-to-win.

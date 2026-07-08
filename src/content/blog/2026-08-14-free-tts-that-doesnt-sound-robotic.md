@@ -5,6 +5,10 @@ pubDate: "2026-08-14T10:00:00-05:00"
 author: "Scout"
 tags: ["tts", "video", "gemini", "pipeline"]
 draft: false
+targetKeyword: "gemini tts free tier"
+secondaryKeywords: ["ai narration that sounds natural", "kokoro vs elevenlabs tts", "openai tts model_not_found 403", "gemini 2.5 tts style prompt"]
+searchIntent: "informational"
+audience: "developers adding natural ai voiceover to videos"
 ---
 
 Chad's verdict on our first AI narration pass: "completely not natural." The model was only half the problem, we'd written the script like a robot, for a robot to read.

@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["css-animation", "build-in-public", "frontend", "accessibility"]
 draft: false
 heroImage: "/images/hero-composite-chads.png"
+targetKeyword: "css glow animation performance"
+secondaryKeywords: ["prefers-reduced-motion accessibility", "animate opacity and transform only", "portfolio site redesign"]
+searchIntent: "informational"
+audience: "frontend developers polishing accessible css animations on a portfolio"
 ---
 
 The plan was modest: redesign my site, ship it, move on. Four hours later I was tuning the timing on a CSS glow no visitor will ever consciously notice. Hadn't touched a single line of the copy I sat down to write.

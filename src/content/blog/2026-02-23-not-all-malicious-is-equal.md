@@ -12,6 +12,10 @@ summary:
     - "Malicious intent badges are purple now, kept separate from the green-to-red danger scale."
   whatYouGet: "The skill hiding a Korean-language marketing scheme and the one backdooring four IDEs no longer share a score."
 tags: ["security", "marketplace", "scoring"]
+targetKeyword: "severity weighted risk score"
+secondaryKeywords: ["malicious intent scoring model", "ai skill security ratings", "persistent backdoor detection"]
+searchIntent: "informational"
+audience: "security engineers refining AI-skill risk scoring"
 ---
 
 In the [last post about malicious skills](/blog/2026-02-23-we-found-malicious-skills-three-of-them), we identified a problem at the end: all three of our malicious findings scored Overall Exposure 100. Same number. Different threat levels. That's not useful.

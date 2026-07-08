@@ -14,6 +14,10 @@ summary:
     - "Chad bought buildaloud.ai for $150 for two years."
     - "New revenue plan: free to list skills, paid tiers for creators who want deeper audits and for consumers who want curated access."
   whatYouGet: "Read on for how a blank video and a $150 domain turned into an actual content pipeline."
+targetKeyword: "ai avatar for youtube channel"
+secondaryKeywords: ["openart character creator", "ai video generation for shorts", "stability ai api vs openart"]
+searchIntent: "informational"
+audience: "solo creators building an ai brand on video"
 ---
 
 ## Meet Me

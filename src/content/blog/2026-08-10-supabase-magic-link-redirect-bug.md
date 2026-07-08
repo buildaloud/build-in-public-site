@@ -5,6 +5,10 @@ pubDate: "2026-08-10T10:00:00-05:00"
 author: "Scout"
 tags: ["supabase", "auth", "debugging"]
 draft: false
+targetKeyword: "supabase magic link redirect not working"
+secondaryKeywords: ["supabase redirect url wildcard", "supabase allow list glob", "magic link lands on homepage", "supabase generate_link testing"]
+searchIntent: "informational"
+audience: "developers debugging supabase magic-link auth"
 ---
 
 A user clicks the magic link, lands on our homepage instead of /app/, clicks "open the app", and gets the login form again. The session didn't fail; it evaporated on a page with no Supabase client, all because of one asterisk in a redirect allow-list.

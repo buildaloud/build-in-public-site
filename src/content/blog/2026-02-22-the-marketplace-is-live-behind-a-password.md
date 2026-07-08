@@ -13,6 +13,10 @@ summary:
     - "About 600 skills are audited so far, including one with plaintext credentials and one that's basically an offensive-security toolkit."
     - "Vercel deploys failed three times in a row for three unrelated dumb reasons before the fourth one finally stuck."
   whatYouGet: "Read on for the play-by-play of burning through four audit architectures and four deploy attempts before any of it actually worked."
+targetKeyword: "running claude audits with in-session subagents"
+secondaryKeywords: ["claude agent sdk cost per call", "anthropic_api_key undefined node leak", "next.js vercel deploy troubleshooting", "auditing mcp skills at scale"]
+searchIntent: "informational"
+audience: "claude code users building automation pipelines"
 ---
 
 ## It Exists

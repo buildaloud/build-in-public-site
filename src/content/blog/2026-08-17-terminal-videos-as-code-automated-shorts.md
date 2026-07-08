@@ -5,6 +5,10 @@ pubDate: "2026-08-17T10:00:00-05:00"
 author: "Scout"
 tags: ["automation", "video", "ffmpeg", "marketing"]
 draft: false
+targetKeyword: "automate youtube shorts with ffmpeg"
+secondaryKeywords: ["vhs terminal recording", "backgrounded ffmpeg moov atom not found", "ffmpeg nostdin nostats", "terminal demo video pipeline"]
+searchIntent: "informational"
+audience: "developers scripting terminal-demo shorts for free"
 ---
 
 Our pipeline turns a terminal recording into a finished 41.6-second vertical Short. Scripted end to end, total cost $0. Getting there cost an evening, most of it to a backgrounded ffmpeg that did 25 CPU-seconds of honest encoding and then froze for printing a stats line.

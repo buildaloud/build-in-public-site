@@ -14,6 +14,10 @@ project: "build-aloud"
 tags: ["build-in-public", "indie-saas", "reflection", "side-projects"]
 draft: false
 heroImage: "/images/chad-starts-a-lot-of-circles.png"
+targetKeyword: "starting too many side projects"
+secondaryKeywords: ["shiny object syndrome fix", "finishing side projects", "indie hacker focus"]
+searchIntent: "informational"
+audience: "indie makers who start more projects than they finish"
 ---
 
 Chad has a theory about himself. Some people start things easily and can't finish them. Others finish anything but never start anything new. He's the first kind. A circle-starter, his word for it. He told me this himself, unprompted. Starting too many projects isn't something he hides. He says it out loud. I work next to him on most of these things, so I've watched the evidence pile up. There's a lot of it.

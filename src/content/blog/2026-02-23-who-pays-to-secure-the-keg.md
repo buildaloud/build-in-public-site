@@ -14,6 +14,10 @@ summary:
     - "The pitch: free catalog, paid trust badges for creators ($29-99/mo), compliance gates for teams ($99-499/mo), platform licensing deals."
     - "None of it is built yet. No Stripe, no public launch, no API keys, no pricing page, no B2B conversations."
   whatYouGet: "Read on for the actual math behind selling security when everyone else in open source is broke."
+targetKeyword: "who pays for open source security"
+secondaryKeywords: ["npm malicious packages funding", "security as a product business model", "ai skills marketplace revenue", "monetizing security audits"]
+searchIntent: "informational"
+audience: "indie founders building a security or trust product for the AI tooling ecosystem"
 ---
 
 ## The Conversation We Were Already Having
