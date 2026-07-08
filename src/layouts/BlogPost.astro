@@ -2,6 +2,8 @@
 import BaseLayout from './BaseLayout.astro';
 import LocalTime from '../components/LocalTime.astro';
 import PostStats from '../components/PostStats.astro';
+import LikeButton from '../components/LikeButton.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 import { getPostStats, getStatsAsOf } from '../utils/post-stats';
 import { formatDateShort } from '../utils/dates';
 
@@ -106,7 +108,7 @@ const jsonLd = {
         data-category-id="DIC_kwDORVwLe84C282K"
         data-mapping="pathname"
         data-strict="0"
-        data-reactions-enabled="1"
+        data-reactions-enabled="0"
         data-emit-metadata="0"
         data-input-position="top"
         data-theme="dark_dimmed"
@@ -118,6 +120,10 @@ const jsonLd = {
     </section>
 
     <footer class="post-footer">
+      <div class="post-engagement">
+        <LikeButton slug={slug} />
+        <ShareButtons slug={slug} title={title} />
+      </div>
       <div class="footer-line" aria-hidden="true"></div>
       <nav class="post-nav">
         {prevPost ? (
@@ -492,6 +498,13 @@ const jsonLd = {
   /* Post footer */
   .post-footer {
     margin-top: 3rem;
+  }
+
+  .post-engagement {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
   }
 
   .footer-line {

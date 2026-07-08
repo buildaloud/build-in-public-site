@@ -1,0 +1,125 @@
+---
+// No backend, no tracking. Intent URLs are built server-side from the post
+// canonical URL + title; copy-link uses the Clipboard API with a
+// document.execCommand fallback for non-secure contexts.
+interface Props {
+  slug: string;
+  title: string;
+}
+
+const { slug, title } = Astro.props;
+const canonicalUrl = `https://buildaloud.ai/blog/${slug}/`;
+
+const xUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(canonicalUrl)}`;
+const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(canonicalUrl)}`;
+const blueskyUrl = `https://bsky.app/intent/compose?text=${encodeURIComponent(`${title} ${canonicalUrl}`)}`;
+---
+
+<div class="share-buttons" data-share-url={canonicalUrl}>
+  <a href={xUrl} target="_blank" rel="noopener noreferrer" class="share-link" aria-label="Share on X">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M9.5 6.8 15.1 0h-1.3L8.9 5.9 4.9 0H0l5.9 8.6L0 15.7h1.3l5.2-6.2 4.2 6.2H16L9.5 6.8Zm-1.9 2.2-.6-.9L2.2 1h2l3.9 5.6.6.9 5 7.2h-2L7.6 9Z"/>
+    </svg>
+  </a>
+  <a href={linkedinUrl} target="_blank" rel="noopener noreferrer" class="share-link" aria-label="Share on LinkedIn">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M3.6 5.4H.5V15h3.1V5.4ZM2 4.1a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6ZM15.5 15h-3.1V9.9c0-1.2 0-2.8-1.7-2.8-1.7 0-2 1.3-2 2.7V15H5.6V5.4h3v1.3h.1c.4-.8 1.4-1.6 3-1.6 3.2 0 3.8 2.1 3.8 4.8V15Z"/>
+    </svg>
+  </a>
+  <a href={blueskyUrl} target="_blank" rel="noopener noreferrer" class="share-link" aria-label="Share on Bluesky">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 6.4C7 4.5 4.7 1.1 2.6.1-.1-1 0 1.2 0 2.8c0 .3.2 2.4.3 2.7.5 1.9 2.2 2.4 3.7 2.6-2.7.4-5.1 1.5-2 5.1 3.6 3.9 4.9-.8 5.5-2.9.6 2.1 1.6 6.7 5.3 2.9 2.9-3.6.6-4.7-2.1-5.1 1.5-.2 3.2-.7 3.7-2.6.1-.3.3-2.4.3-2.7 0-1.6.1-3.8-2.6-2.7C11.3 1.1 9 4.5 8 6.4Z"/>
+    </svg>
+  </a>
+  <button type="button" class="share-copy" aria-label="Copy link">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M6.5 9.5a3 3 0 0 0 4.2.2l1.8-1.8a3 3 0 0 0-4.2-4.2L7.2 4.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M9.5 6.5a3 3 0 0 0-4.2-.2L3.5 8.1a3 3 0 0 0 4.2 4.2l1.1-1.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+    </svg>
+    <span class="copy-label">Copy link</span>
+  </button>
+</div>
+
+<script>
+  function fallbackCopy(url: string, onDone: () => void): void {
+    try {
+      const input = document.createElement('input');
+      input.value = url;
+      input.style.position = 'fixed';
+      input.style.opacity = '0';
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand('copy');
+      document.body.removeChild(input);
+      onDone();
+    } catch {
+      // Clipboard unavailable in this environment — no crash, no unhandled rejection.
+    }
+  }
+
+  function wireCopyButtons(): void {
+    document.querySelectorAll<HTMLElement>('[data-share-url]').forEach((container) => {
+      const url = container.dataset.shareUrl;
+      const button = container.querySelector<HTMLButtonElement>('.share-copy');
+      const label = button?.querySelector<HTMLElement>('.copy-label');
+      if (!url || !button || !label) return;
+      const defaultText = label.textContent ?? 'Copy link';
+
+      button.addEventListener('click', async () => {
+        const showCopied = () => {
+          label.textContent = 'Copied!';
+          setTimeout(() => {
+            label.textContent = defaultText;
+          }, 1800);
+        };
+        if (navigator.clipboard && window.isSecureContext) {
+          try {
+            await navigator.clipboard.writeText(url);
+            showCopied();
+          } catch {
+            fallbackCopy(url, showCopied);
+          }
+        } else {
+          fallbackCopy(url, showCopied);
+        }
+      });
+    });
+  }
+
+  wireCopyButtons();
+</script>
+
+<style>
+  .share-buttons {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .share-link,
+  .share-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-muted);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .share-link:hover,
+  .share-copy:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .share-copy {
+    padding: 0.5rem 0.85rem;
+  }
+</style>

@@ -2,9 +2,10 @@
 // Buttondown key; tags are restricted to the fixed vocabulary below
 // (research/social/CONTENT.md audience segments + category interests).
 
-type Env = { BUTTONDOWN_API_KEY?: string };
+import type { PagesFunction } from './_shared';
+import { jsonResponse } from './_shared';
 
-type PagesFunction<E> = (context: { request: Request; env: E }) => Promise<Response>;
+type Env = { BUTTONDOWN_API_KEY?: string };
 
 const API = 'https://api.buttondown.com/v1/subscribers';
 
@@ -19,11 +20,11 @@ interface Body {
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
   const key = context.env.BUTTONDOWN_API_KEY;
-  if (!key) return json({ error: 'not configured' }, 503);
+  if (!key) return jsonResponse({ error: 'not configured' }, 503);
 
   const body = (await context.request.json().catch(() => null)) as Body | null;
   const email = body?.email?.trim().toLowerCase();
-  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json({ error: 'invalid email' }, 400);
+  if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return jsonResponse({ error: 'invalid email' }, 400);
 
   const headers = { Authorization: `Token ${key}`, 'Content-Type': 'application/json' };
   const wanted = (body?.tags ?? []).filter((t) => ALLOWED.has(t));
@@ -34,14 +35,14 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
       headers,
       body: JSON.stringify({ email_address: email, tags: ['web-signup'] }),
     });
-    if (res.status === 201) return json({ ok: true, created: true });
+    if (res.status === 201) return jsonResponse({ ok: true, created: true });
     const detail = await res.text();
-    if (res.status === 400 && detail.includes('already')) return json({ ok: true, created: false });
-    return json({ error: 'subscribe failed' }, 502);
+    if (res.status === 400 && detail.includes('already')) return jsonResponse({ ok: true, created: false });
+    return jsonResponse({ error: 'subscribe failed' }, 502);
   }
 
   const existing = await fetch(`${API}/${encodeURIComponent(email)}`, { headers });
-  if (!existing.ok) return json({ error: 'unknown subscriber' }, 404);
+  if (!existing.ok) return jsonResponse({ error: 'unknown subscriber' }, 404);
   const sub = (await existing.json()) as { tags?: string[] };
   const merged = [...new Set([...(sub.tags ?? []), ...wanted])];
   const patch = await fetch(`${API}/${encodeURIComponent(email)}`, {
@@ -49,13 +50,6 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     headers,
     body: JSON.stringify({ tags: merged }),
   });
-  if (!patch.ok) return json({ error: 'profile update failed' }, 502);
-  return json({ ok: true, tags: merged.length });
+  if (!patch.ok) return jsonResponse({ error: 'profile update failed' }, 502);
+  return jsonResponse({ ok: true, tags: merged.length });
 };
-
-function json(payload: unknown, status = 200): Response {
-  return new Response(JSON.stringify(payload), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
-}

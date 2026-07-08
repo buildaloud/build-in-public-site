@@ -1,0 +1,105 @@
+---
+// Thin shell over src/utils/like-client.ts (fetch+degrade logic lives there,
+// fully unit-tested). Stays hidden until fetchLikes() confirms the endpoint
+// is available — inert pre-activation renders nothing, no console errors.
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+---
+
+<div class="like-block" data-like-slug={slug} style="display:none">
+  <button type="button" class="like-button" aria-pressed="false">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path
+        d="M9 15.5s-6-3.6-6-8A3.5 3.5 0 0 1 9 5.2 3.5 3.5 0 0 1 15 7.5c0 4.4-6 8-6 8Z"
+        stroke="currentColor"
+        stroke-width="1.4"
+        stroke-linejoin="round"
+      />
+    </svg>
+    <span class="like-count">0</span>
+  </button>
+</div>
+
+<script>
+  import { fetchLikes, postLike } from '../utils/like-client';
+
+  async function wireLikeBlocks(): Promise<void> {
+    const blocks = document.querySelectorAll<HTMLElement>('[data-like-slug]');
+    await Promise.all(
+      Array.from(blocks).map(async (block) => {
+        const slug = block.dataset.likeSlug;
+        const button = block.querySelector<HTMLButtonElement>('.like-button');
+        const countEl = block.querySelector<HTMLElement>('.like-count');
+        if (!slug || !button || !countEl) return;
+
+        const state = await fetchLikes(slug);
+        if (!state.available) return;
+
+        block.style.display = '';
+        countEl.textContent = String(state.likes);
+        if (state.hasLiked) {
+          button.classList.add('is-liked');
+          button.setAttribute('aria-pressed', 'true');
+          button.disabled = true;
+        }
+
+        button.addEventListener('click', async () => {
+          if (button.disabled) return;
+          button.disabled = true;
+          const next = await postLike(slug);
+          if (!next.available) {
+            button.disabled = false;
+            return;
+          }
+          countEl.textContent = String(next.likes);
+          button.classList.add('is-liked');
+          button.setAttribute('aria-pressed', 'true');
+        });
+      }),
+    );
+  }
+
+  wireLikeBlocks();
+</script>
+
+<style>
+  .like-block {
+    display: inline-flex;
+  }
+
+  .like-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .like-button:hover:not(:disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .like-button:disabled {
+    cursor: default;
+  }
+
+  .like-button.is-liked {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .like-button.is-liked svg path {
+    fill: var(--color-accent);
+  }
+</style>
