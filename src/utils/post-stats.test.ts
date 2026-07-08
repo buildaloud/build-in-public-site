@@ -110,6 +110,7 @@ describe('getRollup', () => {
       'no-seo-fields-post': insufficientData,
     });
     expect(getRollup(snap)).toEqual({
+      totalPageviews: 83,
       totalClicks: 5,
       totalImpressions: 50,
       postsRankingForTarget: 1,
@@ -120,6 +121,7 @@ describe('getRollup', () => {
   it('is all-zero when postStats is absent (current empty stats.json)', () => {
     const snap: StatsSnapshot = { generatedAt: '2020-01-01T00:00:00.000Z' };
     expect(getRollup(snap)).toEqual({
+      totalPageviews: 0,
       totalClicks: 0,
       totalImpressions: 0,
       postsRankingForTarget: 0,

@@ -4,6 +4,8 @@ import PostCard from '../../components/PostCard.astro';
 import { getCollection } from 'astro:content';
 import { projects } from '../../data/projects';
 import { isPublished } from '../../utils/posts';
+import { getProjectRollup, getStatsAsOf } from '../../utils/post-stats';
+import { formatDateShort } from '../../utils/dates';
 
 export async function getStaticPaths() {
   return projects.map((project) => ({
@@ -17,6 +19,9 @@ const { project } = Astro.props;
 const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
   .filter((p) => p.data.project === project.slug)
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const rollup = getProjectRollup(posts.map((p) => p.id));
+const asOf = getStatsAsOf();
 ---
 
 <BaseLayout
@@ -50,6 +55,21 @@ const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
         </div>
       </div>
     </header>
+
+    {posts.length > 0 && (
+      <aside class="proj-telemetry" aria-label="Project telemetry">
+        <div class="proj-telemetry-head">
+          <span class="proj-telemetry-label">// telemetry</span>
+          <a href="/stats/" class="proj-telemetry-link">full readout →</a>
+        </div>
+        <dl class="proj-telemetry-grid">
+          <div><dt>views 28d</dt><dd>{rollup.totalPageviews.toLocaleString()}</dd></div>
+          <div><dt>impressions</dt><dd>{rollup.totalImpressions.toLocaleString()}</dd></div>
+          <div><dt>ranking</dt><dd>{rollup.postsRankingForTarget}/{rollup.postsMeasured}</dd></div>
+        </dl>
+        <p class="proj-telemetry-asof">as of {formatDateShort(asOf.date)}</p>
+      </aside>
+    )}
 
     <section class="posts-section">
       <div class="section-head">
@@ -199,6 +219,71 @@ const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
 
   .proj-link:hover {
     opacity: 1;
+  }
+
+  /* ── Telemetry ── */
+  .proj-telemetry {
+    margin-bottom: 3rem;
+    padding: 1.1rem 1.4rem;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+  }
+
+  .proj-telemetry-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .proj-telemetry-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+  }
+
+  .proj-telemetry-link {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-accent);
+    opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .proj-telemetry-link:hover { opacity: 1; }
+
+  .proj-telemetry-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2.5rem;
+    margin: 0;
+  }
+
+  .proj-telemetry-grid dt {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin-bottom: 0.2rem;
+  }
+
+  .proj-telemetry-grid dd {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    color: var(--color-text);
+  }
+
+  .proj-telemetry-asof {
+    margin: 0.9rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-muted);
+    opacity: 0.7;
   }
 
   /* ── Posts ── */

@@ -16,6 +16,7 @@ const blog = defineCollection({
     targetKeyword: z.string().optional(),
     secondaryKeywords: z.array(z.string()).optional(),
     searchIntent: z.enum(SEARCH_INTENT_VALUES).optional(),
+    audience: z.string().optional(),
     summary: z
       .object({
         lead: z.string(),

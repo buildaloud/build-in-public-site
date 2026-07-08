@@ -21,11 +21,15 @@ interface Props {
   tags?: string[];
   heroImage?: string;
   summary?: string;
+  targetKeyword?: string;
+  secondaryKeywords?: string[];
+  searchIntent?: string;
+  audience?: string;
   prevPost?: PostLink | null;
   nextPost?: PostLink | null;
 }
 
-const { title, description, pubDate, author, slug, tags, heroImage, summary, prevPost, nextPost } = Astro.props;
+const { title, description, pubDate, author, slug, tags, heroImage, summary, targetKeyword, secondaryKeywords, searchIntent, audience, prevPost, nextPost } = Astro.props;
 
 const stat = getPostStats(slug);
 const asOf = getStatsAsOf();
@@ -86,9 +90,22 @@ const jsonLd = {
         <p class="ai-summary-get"><span class="ai-summary-get-label">why read on</span>{summary.whatYouGet}</p>
       </aside>
     )}
-    <aside class="post-stats-panel" aria-label="Search performance">
-      <div class="post-stats-panel-label">// search stats</div>
+    <aside class="post-stats-panel" aria-label="Post telemetry">
+      <div class="post-stats-panel-label">// telemetry</div>
       <PostStats stat={stat} variant="full" />
+      {targetKeyword && (
+        <div class="targeting">
+          <div class="targeting-label">// targeting</div>
+          <dl class="targeting-list">
+            <div><dt>target</dt><dd>&ldquo;{targetKeyword}&rdquo;</dd></div>
+            {searchIntent && <div><dt>intent</dt><dd>{searchIntent}</dd></div>}
+            {audience && <div><dt>for</dt><dd>{audience}</dd></div>}
+            {secondaryKeywords && secondaryKeywords.length > 0 && (
+              <div class="targeting-also"><dt>also</dt><dd>{secondaryKeywords.join(' · ')}</dd></div>
+            )}
+          </dl>
+        </div>
+      )}
       <p class={`post-stats-panel-asof${asOf.stale ? ' post-stats-panel-asof--stale' : ''}`}>
         as of {formatDateShort(asOf.date)}{asOf.stale ? ' — stats may be stale' : ''}
       </p>
@@ -341,12 +358,13 @@ const jsonLd = {
     opacity: 0.85;
   }
 
-  /* Search stats panel */
+  /* Telemetry panel */
   .post-stats-panel {
     margin: 0 0 2.5rem;
     padding: 1.1rem 1.4rem;
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
     border-radius: 0.5rem;
   }
 
@@ -356,6 +374,46 @@ const jsonLd = {
     color: var(--color-muted);
     margin-bottom: 0.9rem;
   }
+
+  /* Targeting sub-block */
+  .targeting {
+    margin-top: 1.1rem;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .targeting-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-muted);
+    margin-bottom: 0.7rem;
+  }
+
+  .targeting-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.75rem;
+    margin: 0;
+  }
+
+  .targeting-list dt {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .targeting-list dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-text);
+  }
+
+  .targeting-also { flex-basis: 100%; }
+  .targeting-also dd { color: var(--color-text-secondary); }
 
   .post-stats-panel-asof {
     margin: 0.85rem 0 0;

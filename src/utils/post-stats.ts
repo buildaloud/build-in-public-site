@@ -30,18 +30,31 @@ export function getStatsAsOf(
   return { date, stale: ageDays > STALE_AFTER_DAYS, ageDays };
 }
 
-export function getRollup(snapshot: StatsSnapshot = defaultSnapshot): {
+export type Rollup = {
+  totalPageviews: number;
   totalClicks: number;
   totalImpressions: number;
   postsRankingForTarget: number;
   postsMeasured: number;
-} {
-  const posts = Object.values(snapshot.postStats?.byPost ?? {});
+};
+
+function rollup(posts: PostStat[]): Rollup {
   const measured = posts.filter((p) => p.scorecard.status === 'measured');
   return {
+    totalPageviews: posts.reduce((sum, p) => sum + p.pageviews, 0),
     totalClicks: posts.reduce((sum, p) => sum + p.clicks, 0),
     totalImpressions: posts.reduce((sum, p) => sum + p.impressions, 0),
     postsRankingForTarget: measured.filter((p) => p.scorecard.status === 'measured' && p.scorecard.rankedForTarget).length,
     postsMeasured: measured.length,
   };
+}
+
+export function getRollup(snapshot: StatsSnapshot = defaultSnapshot): Rollup {
+  return rollup(Object.values(snapshot.postStats?.byPost ?? {}));
+}
+
+/** Rollup scoped to a set of post slugs — powers per-project telemetry. */
+export function getProjectRollup(slugs: string[], snapshot: StatsSnapshot = defaultSnapshot): Rollup {
+  const byPost = snapshot.postStats?.byPost ?? {};
+  return rollup(slugs.map((s) => byPost[s]).filter((p): p is PostStat => Boolean(p)));
 }

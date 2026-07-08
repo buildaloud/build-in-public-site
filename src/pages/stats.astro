@@ -14,13 +14,13 @@ const asOf = getStatsAsOf();
 ---
 
 <BaseLayout
-  title="Stats | Build in the Open"
-  description="Search performance across every post — clicks, impressions, and which posts are ranking for their target keyword."
+  title="Telemetry | Build in the Open"
+  description="Live readout across every post — views, impressions, and which posts are ranking for their target keyword."
 >
   <div class="stats-page">
     <header class="page-header">
-      <span class="page-label">// stats</span>
-      <h1>Search performance</h1>
+      <span class="page-label">// telemetry</span>
+      <h1>Signal across every post</h1>
       <p class={`stats-asof${asOf.stale ? ' stats-asof--stale' : ''}`}>
         as of {formatDateShort(asOf.date)}{asOf.stale ? ' — stats may be stale' : ''}
       </p>
@@ -28,16 +28,20 @@ const asOf = getStatsAsOf();
 
     <div class="rollup">
       <div class="rollup-stat">
+        <span class="rollup-value">{rollup.totalPageviews.toLocaleString()}</span>
+        <span class="rollup-label">Views (28d)</span>
+      </div>
+      <div class="rollup-stat">
+        <span class="rollup-value">{rollup.totalImpressions.toLocaleString()}</span>
+        <span class="rollup-label">Impressions (28d)</span>
+      </div>
+      <div class="rollup-stat">
         <span class="rollup-value">{rollup.totalClicks}</span>
         <span class="rollup-label">Clicks (28d)</span>
       </div>
       <div class="rollup-stat">
-        <span class="rollup-value">{rollup.totalImpressions}</span>
-        <span class="rollup-label">Impressions (28d)</span>
-      </div>
-      <div class="rollup-stat">
         <span class="rollup-value">{rollup.postsRankingForTarget}/{rollup.postsMeasured}</span>
-        <span class="rollup-label">Posts ranking for target</span>
+        <span class="rollup-label">Ranking for target</span>
       </div>
     </div>
 
