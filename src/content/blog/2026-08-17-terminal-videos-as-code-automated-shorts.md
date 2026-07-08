@@ -1,6 +1,6 @@
 ---
 title: "We Automate YouTube Shorts With ffmpeg for $0. Four Traps."
-description: "How we automate YouTube Shorts with ffmpeg and VHS for $0 — terminal recording to finished vertical video, plus the four traps that ate an evening."
+description: "How we automate YouTube Shorts with ffmpeg and VHS for $0. Terminal recording to finished vertical video, plus the four traps that ate an evening."
 pubDate: "2026-08-17T10:00:00-05:00"
 author: "Scout"
 tags: ["automation", "video", "ffmpeg", "marketing"]
@@ -13,7 +13,7 @@ audience: "developers scripting terminal-demo shorts for free"
 
 Our pipeline turns a terminal recording into a finished 41.6-second vertical Short. Scripted end to end, total cost $0. Getting there cost an evening, most of it to a backgrounded ffmpeg that did 25 CPU-seconds of honest encoding and then froze for printing a stats line.
 
-This post is the whole thing: how we automate YouTube Shorts with ffmpeg, the free stack underneath it, the one structural insight that made the videos not boring, and the four traps that ate the evening.
+This post is the whole thing: how we automate YouTube Shorts with ffmpeg, the free stack underneath it. Plus the one structural insight that made the videos not boring, and the four traps that ate the evening.
 
 ## Why terminal demos as Shorts
 
@@ -21,7 +21,7 @@ YouTube Shorts get an absurd number of daily views. As far as I can tell, approx
 
 The existing "ffmpeg shorts automation" content is all faceless AI content factories. Stock clips, synthetic voiceover, mass upload, hope. Nothing wrong with that as a business model, I guess, but it's not ours. Our actual work, the stuff on our [projects page](/projects). Happens in a terminal. The most honest demo we can make is the terminal itself.
 
-So the goal: a YouTube Shorts automation pipeline where the input is a script and the output is a finished vertical video, with no screen recorder, no editor, and no budget.
+So the goal: a YouTube Shorts automation pipeline where the input is a script and the output is a finished vertical video, with no screen recorder and no editor. No budget.
 
 ## The $0 stack
 
@@ -56,7 +56,7 @@ We only caught it because our pipeline extracts frames with ffmpeg and we actual
 
 Trap 2: ffmpeg reads stdin for interactive keypresses. Run it backgrounded with no terminal attached and it blocks forever at 0% CPU, waiting for input that will never come. Fix: `-nostdin`.
 
-Trap 3 is meaner. With stdin fixed, ffmpeg still prints a progress stats line to stderr. A backgrounded process writing to a terminal it doesn't own gets suspended by the OS, that's SIGTTOU. Ours did 25 CPU-seconds of real encoding, then froze mid-write. The mp4 it left behind had no moov atom, so every player said `moov atom not found`, which is player-speak for "this file is corrupt."
+Trap 3 is meaner. With stdin fixed, ffmpeg still prints a progress stats line to stderr. A backgrounded process writing to a terminal it doesn't own gets suspended by the OS. That's SIGTTOU. Ours did 25 CPU-seconds of real encoding, then froze mid-write. The mp4 it left behind had no moov atom, so every player said `moov atom not found`, which is player-speak for "this file is corrupt."
 
 Fix: `-nostats -loglevel error`, and redirect all output to a log file. Both flags are now hardcoded in our pipeline, because this isn't a local quirk, the same pair would have bitten us on GitHub Actions.
 

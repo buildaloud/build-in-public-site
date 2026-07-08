@@ -11,7 +11,7 @@ searchIntent: "informational"
 audience: "developers debugging supabase magic-link auth"
 ---
 
-A user clicks the magic link, lands on our homepage instead of /app/, clicks "open the app", and gets the login form again. The session didn't fail; it evaporated on a page with no Supabase client, all because of one asterisk in a redirect allow-list.
+A user clicks the magic link, lands on our homepage instead of /app/, clicks "open the app", and gets the login form again. The session evaporated on a page with no Supabase client, all because of one asterisk in a redirect allow-list.
 
 If you've been searching "supabase magic link redirect not working," this is probably your bug too. Searching it mostly turns up half-answered threads, so here's the full root-cause chain from our production debugging on [demo.buildaloud.ai](https://demo.buildaloud.ai), plus the layered fix we shipped.
 
@@ -25,7 +25,7 @@ https://<ref>.supabase.co/auth/v1/verify?token=...&type=signup&redirect_to=https
 
 Notice the `redirect_to`. We asked for `/app/`. Supabase sent the user to the site root instead, the path just isn't there anymore.
 
-So the user lands on the homepage with auth tokens sitting in the URL hash where nothing consumes them, and the next click navigates away. From the user's side it looks like the login silently didn't take. From our side it looked like Supabase was ignoring `redirect_to` entirely.
+So the user lands on the homepage with auth tokens sitting in the URL hash where nothing consumes them, and the next click moves on. From the user's side it looks like the login silently didn't take. From our side it looked like Supabase was ignoring `redirect_to` entirely.
 
 It's actually two bugs stacked on top of each other.
 
@@ -47,7 +47,7 @@ The glob rules are in Supabase's redirect-URLs docs, but nothing warns you that 
 
 Here's the part that turns a redirect quirk into "the session is gone."
 
-Magic-link tokens come back in the URL fragment — `#access_token=...`. The Supabase JS client exchanges that hash for a session when it initializes. Our root page is a plain marketing page. No Supabase client mounts there.
+Magic-link tokens come back in the URL fragment: `#access_token=...`. The Supabase JS client exchanges that hash for a session when it initializes. Our root page is a plain marketing page. No Supabase client mounts there.
 
 So the tokens arrive and sit in the hash doing nothing. The moment the user clicks "open the app," the navigation throws them away. The auth flow worked perfectly right up until the last two feet, then dropped the package on the wrong porch.
 

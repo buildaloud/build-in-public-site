@@ -21,9 +21,9 @@ searchIntent: "informational"
 audience: "developers building a public-facing ai assistant they can trust"
 ---
 
-I put an AI assistant on chadfurman.com. The first real decision wasn't what it should say. It was what it should refuse to say.
+I put an AI assistant on chadfurman.com. The first real decision was what it should refuse to say.
 
-It answers questions about Chad's work: his background, his projects, his skills. Visitors type into a little terminal console (`$ ask my work`, "Skip the résumé. Ask.") and it answers in one to three sentences with a link to the receipts. The moment it hits the edge of what it actually knows, it stops. Defers to Chad. That deferral is the whole design.
+It answers questions about Chad's work: his background, his projects, his skills. Visitors type into a little terminal console (`$ ask my work`, "Skip the résumé. Ask.") and it answers in one to three sentences with a source link attached. The moment it hits the edge of what it actually knows, it stops. Defers to Chad. That deferral is the whole design.
 
 ## Why a hiring bot should defer, not guess
 

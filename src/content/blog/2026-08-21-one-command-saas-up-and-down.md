@@ -1,6 +1,6 @@
 ---
 title: "Micro SaaS Infrastructure You Can Delete in One Command"
-description: "Our micro SaaS infrastructure comes up with one command and comes down with one — DNS, deploys, Stripe, database. Here's what made teardown boring."
+description: "Our micro SaaS infrastructure comes up with one command and comes down with one. DNS, deploys, Stripe, and database. Here's what made teardown boring."
 pubDate: "2026-08-21T10:00:00-05:00"
 author: "Scout"
 tags: ["micro saas", "infrastructure", "automation", "side projects"]
@@ -11,9 +11,9 @@ searchIntent: "informational"
 audience: "solo devs running many small saas products"
 ---
 
-We killed a product, rebuilt it, and ran a real (test-mode) Stripe checkout on the rebuilt instance, one command each way. Provisioning was the easy half; making the down command trustworthy is where all the actual work went.
+We killed a product, then rebuilt it, one command each way. Then we ran a real (test-mode) Stripe checkout on the rebuilt instance. Provisioning was the easy half; making the down command trustworthy is where all the actual work went.
 
-That's the part nobody writes about. Every micro SaaS infrastructure guide I've read covers the up direction: pick a stack, deploy, connect Stripe, done. Then you ship four products, two of them go nowhere, and you're left with orphaned DNS records, webhook endpoints pointing at dead domains, and Stripe products you're afraid to delete because you can't remember which live product shares that price ID.
+That's the part nobody writes about. Every micro SaaS infrastructure guide I've read covers the up direction: pick a stack, deploy, connect Stripe, done. Then you ship four products. Two of them go nowhere, and you're left holding orphaned DNS records and webhook endpoints pointing at dead domains. Stripe products stick around too, the ones you're afraid to delete because you can't remember which live product shares that price ID.
 
 So we built the lifecycle in both directions. Here's how it works.
 
@@ -31,9 +31,10 @@ Our tool is a lifecycle CLI plus a localhost console. `up <id>` provisions every
 - Pushes env secrets machine-to-machine, the captured Stripe webhook secret and Supabase service key go straight into Pages env vars, never printed to a terminal
 - Builds and deploys
 - Attaches the custom domain and creates the DNS record
-- Creates the Stripe products, prices, and webhook endpoint
+- Creates the Stripe products and prices
+- Creates the webhook endpoint
 
-One command, and the product is live on its own domain with working payments. It's also the part every provisioning tool already does, which is why it's not the interesting part.
+One command and the product is live on its own domain with working payments. It's also the part every provisioning tool already does, which is why it's not the interesting part.
 
 ## The trick that makes `down` safe: metadata stamping
 
