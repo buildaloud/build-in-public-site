@@ -63,13 +63,20 @@ export function wireSubscribeForms(selector: string): void {
       e.preventDefault();
       const email = form.querySelector<HTMLInputElement>('input[type="email"]')?.value ?? '';
       const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-      if (button) button.disabled = true;
+      const originalButton = button?.innerHTML;
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Subscribing…';
+      }
 
       const ok = await post(email);
       if (!ok) {
         // API unreachable (e.g. domain not routing functions) — fall back to
         // the classic Buttondown embed POST so the signup never fails.
-        if (button) button.disabled = false;
+        if (button) {
+          button.disabled = false;
+          if (originalButton) button.innerHTML = originalButton;
+        }
         form.submit();
         return;
       }
@@ -92,6 +99,9 @@ export function wireSubscribeForms(selector: string): void {
       };
       skip.addEventListener('click', () => done('All set. Talk soon.'));
       save.addEventListener('click', async () => {
+        save.disabled = true;
+        skip.disabled = true;
+        save.textContent = 'Saving…';
         const tags = [...box.querySelectorAll<HTMLInputElement>('input:checked')].map((i) => i.value);
         if (tags.length) await post(email, tags);
         done('Noted. Talk soon.');

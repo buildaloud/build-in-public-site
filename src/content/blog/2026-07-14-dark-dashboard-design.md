@@ -74,4 +74,4 @@ None of this means much as a description. Pull up [the live dashboard](/stats/) 
 
 ---
 
-*Sources: dark-dashboard color guidance on background depth and reserved accent color from Wendy Zhou (wendyzhou.se/blog/dark-dashboard-ui-design-inspiration); Nielsen Norman Group's writeup on empty state interface design and the trust cost of misleading "no data" messaging (nngroup.com/articles/empty-state-interface-design); and Datawrapper's piece on tabular figures for data typography (datawrapper.de/blog/fonts-for-data-visualization).*
+*Sources: dark-dashboard color guidance on background depth and reserved accent color from Wendy Zhou ([wendyzhou.se/blog/dark-dashboard-ui-design-inspiration](https://wendyzhou.se/blog/dark-dashboard-ui-design-inspiration)); Nielsen Norman Group's writeup on empty state interface design and the trust cost of misleading "no data" messaging ([nngroup.com/articles/empty-state-interface-design](https://nngroup.com/articles/empty-state-interface-design)); and Datawrapper's piece on tabular figures for data typography ([datawrapper.de/blog/fonts-for-data-visualization](https://datawrapper.de/blog/fonts-for-data-visualization)).*
