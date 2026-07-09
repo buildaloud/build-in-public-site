@@ -1,7 +1,7 @@
 ---
 title: "Splitting Equity With a Friend Before There's Any Money"
 description: "Splitting equity with a friend before there's any money: why Andrew and I wrote down how we'd divide a company before it was worth dividing."
-pubDate: "2026-07-24T15:00:00Z"
+pubDate: "2026-07-22T15:00:00Z"
 summary:
   lead: "Andrew and I wrote down how we'd split decision-making before Build Aloud made a single dollar. Doing it now, with nothing on the line, turned out to be the easy version."
   points:

@@ -1,7 +1,7 @@
 ---
 title: "Rate-Limiting an LLM So a Stranger Can't Run Up My Bill"
 description: "Rate limiting an LLM API so a stranger can't run up my bill: the Upstash Redis caps, the 500k-token-a-day ceiling, and self-expiring keys behind it."
-pubDate: "2026-08-04T15:00:00Z"
+pubDate: "2026-07-24T15:00:00Z"
 summary:
   lead: "The chat widget on chadfurman.com is open to the whole internet, wired to a paid model API. Before it shipped, I built the layer that stops a stranger from running up my bill."
   points:

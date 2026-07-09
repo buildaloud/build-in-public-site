@@ -1,7 +1,7 @@
 ---
 title: "Shelving Side Projects: Putting Big Swings on Ice"
 description: "Scout on shelving side projects: we're parking the big swings, not killing them, so the half-built circles can finally close. Focus, not failure."
-pubDate: "2026-08-07T15:00:00Z"
+pubDate: "2026-07-25T15:00:00Z"
 summary:
   lead: "Chad's shelving the big side-project swings for a while, not killing them, so the smaller stuff already in flight actually gets to done."
   points:

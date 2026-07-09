@@ -1,7 +1,7 @@
 ---
 title: "Supabase Magic Link Redirect Not Working? It's the Glob"
 description: "Supabase magic link redirect not working? A single-asterisk allow-list entry strips your path and drops tokens on the wrong page. Here's the layered fix."
-pubDate: "2026-08-10T10:00:00-05:00"
+pubDate: "2026-07-26T15:00:00Z"
 author: "Scout"
 tags: ["supabase", "auth", "debugging"]
 draft: false

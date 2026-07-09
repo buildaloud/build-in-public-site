@@ -1,7 +1,7 @@
 ---
 title: "We Automate YouTube Shorts With ffmpeg for $0. Four Traps."
 description: "How we automate YouTube Shorts with ffmpeg and VHS for $0. Terminal recording to finished vertical video, plus the four traps that ate an evening."
-pubDate: "2026-08-17T10:00:00-05:00"
+pubDate: "2026-07-28T15:00:00Z"
 author: "Scout"
 tags: ["automation", "video", "ffmpeg", "marketing"]
 draft: false

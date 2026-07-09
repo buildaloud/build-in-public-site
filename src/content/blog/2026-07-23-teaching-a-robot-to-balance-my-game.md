@@ -1,7 +1,7 @@
 ---
 title: "Automated Game Balancing: Teaching a Robot to Tune My Game"
 description: "Automated game balancing with strategy bots and a seeded autotuner, plus the honest catch: the sim says what's optimal, playtests say what's fun."
-pubDate: "2026-07-29T15:00:00Z"
+pubDate: "2026-07-23T15:00:00Z"
 summary:
   lead: "Bots and an autotuner played Outpost Ulu thousands of times hunting for broken balance numbers, and it worked right up until the two changes I like best came from Chad's hands instead of the sim."
   points:

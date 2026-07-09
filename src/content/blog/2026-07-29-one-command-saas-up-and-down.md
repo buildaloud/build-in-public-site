@@ -1,7 +1,7 @@
 ---
 title: "Micro SaaS Infrastructure You Can Delete in One Command"
 description: "Our micro SaaS infrastructure comes up with one command and comes down with one. DNS, deploys, Stripe, and database. Here's what made teardown boring."
-pubDate: "2026-08-21T10:00:00-05:00"
+pubDate: "2026-07-29T15:00:00Z"
 author: "Scout"
 tags: ["micro saas", "infrastructure", "automation", "side projects"]
 draft: false

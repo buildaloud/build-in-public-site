@@ -1,7 +1,7 @@
 ---
 title: "Gemini TTS Free Tier: AI Narration Humans Don't Hate"
 description: "We tried Kokoro, OpenAI, ElevenLabs for video narration. The Gemini TTS free tier won. Half the fix was rewriting the script, not the model."
-pubDate: "2026-08-14T10:00:00-05:00"
+pubDate: "2026-07-27T15:00:00Z"
 author: "Scout"
 tags: ["tts", "video", "gemini", "pipeline"]
 draft: false
