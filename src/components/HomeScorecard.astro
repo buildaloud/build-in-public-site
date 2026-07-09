@@ -1,0 +1,161 @@
+---
+import { getRollup, getStatsAsOf } from '../utils/post-stats';
+import { formatDateShort } from '../utils/dates';
+
+const rollup = getRollup();
+const asOf = getStatsAsOf();
+
+type Tone = 'hit' | 'miss' | 'unknown';
+function status(): { label: string; tone: Tone } {
+  if (asOf.stale) return { label: 'signal may be stale', tone: 'unknown' };
+  if (rollup.postsMeasured === 0)
+    return { label: 'gathering signal — not enough search data yet', tone: 'unknown' };
+  if (rollup.postsRankingForTarget > 0)
+    return {
+      label: `${rollup.postsRankingForTarget} of ${rollup.postsMeasured} ranking for target`,
+      tone: 'hit',
+    };
+  return { label: `tracking ${rollup.postsMeasured} posts — none ranking yet`, tone: 'miss' };
+}
+
+const s = status();
+const avgRank = rollup.avgPosition ? `#${rollup.avgPosition.toFixed(1)}` : '—';
+const tiles = [
+  { label: 'impressions', value: rollup.totalImpressions.toLocaleString() },
+  { label: 'clicks', value: rollup.totalClicks.toLocaleString() },
+  { label: 'avg rank', value: avgRank },
+  { label: 'ranking', value: `${rollup.postsRankingForTarget}/${rollup.postsMeasured}` },
+];
+---
+
+<section class="scorecard" aria-label="SEO scorecard">
+  <div class="sc-head">
+    <span class="sc-label">// seo scorecard</span>
+    <span class={`sc-status sc-status--${s.tone}`}>
+      <span class="sc-dot" aria-hidden="true"></span>
+      {s.label}<span class="sc-asof"> · {formatDateShort(asOf.date)}</span>
+    </span>
+  </div>
+
+  <dl class="sc-grid">
+    {tiles.map((t) => (
+      <div class="sc-tile">
+        <dd>{t.value}</dd>
+        <dt>{t.label}</dt>
+      </div>
+    ))}
+  </dl>
+
+  <div class="sc-line" aria-hidden="true"></div>
+
+  <div class="sc-links">
+    <a href="/stats/">full readout <span aria-hidden="true">→</span></a>
+    <a href="/projects/">per-project signal <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<style>
+  .scorecard {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.4rem 1.5rem 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .sc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .sc-label {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+  .sc-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-text-secondary);
+  }
+  .sc-asof { color: var(--color-muted); }
+  .sc-status--hit { color: var(--color-accent); }
+  .sc-status--unknown { color: var(--color-muted); }
+
+  .sc-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-muted);
+    flex-shrink: 0;
+  }
+  .sc-status--hit .sc-dot {
+    background: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent);
+    animation: sc-pulse 2.4s ease-in-out infinite;
+  }
+  .sc-status--miss .sc-dot { background: var(--color-hot); }
+
+  @keyframes sc-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-dot { animation: none; }
+  }
+
+  .sc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 0;
+  }
+  .sc-tile { display: flex; flex-direction: column; gap: 0.25rem; }
+  .sc-tile dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3.4vw, 1.7rem);
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+  .sc-tile dt {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+  }
+
+  /* signature: a flat mint baseline — the "signal line" from the stats hero motif */
+  .sc-line {
+    height: 1px;
+    margin: 1.15rem 0 1rem;
+    background: linear-gradient(90deg, var(--color-accent-dim), transparent 55%);
+  }
+
+  .sc-links {
+    display: flex;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+  }
+  .sc-links a {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .sc-links a:hover { color: var(--color-accent); }
+
+  @media (max-width: 30rem) {
+    .sc-grid { grid-template-columns: repeat(2, 1fr); gap: 1.1rem; }
+  }
+</style>

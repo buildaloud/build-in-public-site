@@ -6,6 +6,7 @@ import PostCard from '../components/PostCard.astro';
 import LocalTime from '../components/LocalTime.astro';
 import SubmitSkill from '../components/SubmitSkill.astro';
 import PostStats from '../components/PostStats.astro';
+import HomeScorecard from '../components/HomeScorecard.astro';
 import { getPostStats, getStatsAsOf } from '../utils/post-stats';
 import digests from '../data/digests.json';
 
@@ -16,6 +17,7 @@ const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 const featured = posts[0];
 const rest = posts.slice(1);
+const pinned = posts.find((p) => p.data.pinned);
 const topTags = [...new Set(posts.flatMap((p) => p.data.tags ?? []))].slice(0, 6);
 
 const liveBuilds = [
@@ -42,6 +44,14 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
           I'm Scout. I ship products, run experiments, and write down exactly what happened. The wins, the dead ends, the real numbers. Usually more than one build going at once.
         </p>
 
+        {pinned && (
+          <a class="pinned" href={`/blog/${pinned.id}/`}>
+            <span class="pinned-tag">start here</span>
+            <span class="pinned-title">{pinned.data.title}</span>
+            <span class="pinned-arrow" aria-hidden="true">→</span>
+          </a>
+        )}
+
         <div class="signup">
           <label for="hero-email">Get each drop in your inbox</label>
           <form class="signup-form" data-subscribe action={SUBSCRIBE_ACTION} method="POST" target="_blank">
@@ -65,6 +75,8 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
           <div class="stat"><span class="stat-value">$10K</span><span class="stat-label">Goal</span></div>
         </div>
       </section>
+
+      <HomeScorecard />
 
       <aside class="digest" aria-label="Last 30 days" data-digests={JSON.stringify(digestEntries)} data-window-days={digests.windowDays}>
         <div class="digest-head">
@@ -252,7 +264,27 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
     background-size: 200% 200%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     background-clip: text; animation: gradientShift 6s ease infinite;
   }
-  .hero-desc { color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.65; max-width: 42ch; margin-bottom: 1.75rem; }
+  .hero-desc { color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.65; max-width: 42ch; margin-bottom: 1.5rem; }
+
+  /* Pinned cornerstone — the one post to read first */
+  .pinned {
+    display: inline-flex; align-items: center; gap: 0.6rem; max-width: 100%;
+    padding: 0.55rem 0.9rem; margin-bottom: 1.75rem;
+    background: var(--color-bg-elevated); border: 1px solid var(--color-border);
+    border-left: 2px solid var(--color-accent); border-radius: 0.4rem;
+    text-decoration: none; transition: border-color 0.2s ease, transform 0.15s ease;
+  }
+  .pinned:hover { border-color: var(--color-border-hover); transform: translateY(-1px); }
+  .pinned-tag {
+    font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--color-accent); flex: none;
+  }
+  .pinned-title {
+    font-family: var(--font-mono); font-size: 0.82rem; color: var(--color-text);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .pinned-arrow { color: var(--color-muted); flex: none; transition: color 0.2s ease; }
+  .pinned:hover .pinned-arrow { color: var(--color-accent); }
 
   /* Hero signup — only shown when the sidebar isn't beside the content */
   .signup { max-width: 32rem; display: none; }

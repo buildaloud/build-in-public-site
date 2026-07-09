@@ -307,6 +307,25 @@ Always push after committing. Vercel auto-deploys from `main`.
 
 ---
 
+## Drip Cadence — the scheduler owns dates
+
+The queue stays on a steady cadence via `.claude/skills/content-pipeline/schedule.ts`, not hand-picked `pubDate`s. Target: **daily for the next 4 weeks, then monthly** for a month or two beyond. Timely posts take the earliest slots; **general-purpose evergreen posts marked `filler: true`** sink to the tail and pad the queue when it runs thin.
+
+```bash
+npx tsx .claude/skills/content-pipeline/schedule.ts            # dry-run: plan + coverage
+npx tsx .claude/skills/content-pipeline/schedule.ts --status   # coverage only
+npx tsx .claude/skills/content-pipeline/schedule.ts --apply    # re-slot the future queue
+```
+
+Rules it enforces:
+- Posts dated **today or earlier are frozen** (published/publishing) — never moved.
+- Only **future** posts are re-slotted; `filler: true` posts always land after timely ones.
+- A rename rewrites the file, its `pubDate`, and every internal `/blog/<slug>` link that points at a moved post (heroImage paths are slug-independent, untouched).
+
+**Workflow.** At Step 10, still set the new post's `pubDate` to the next open slot (dry-run the scheduler to find it). After writing/committing a batch, run `--apply` once to recompress, then `npm run build` and eyeball the coverage line. If coverage is **under 28 days**, the queue is drying up — write more posts, or add `filler: true` evergreens, then recompress. A **pinned** cornerstone (`pinned: true`) is exempt from the cadence — it's dated live and surfaced in the hero, not dripped.
+
+---
+
 ## Content Safety — What NOT to Post
 
 - **No API keys, tokens, secrets, or credentials.** Redact completely if found in source material.

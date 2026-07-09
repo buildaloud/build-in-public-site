@@ -12,6 +12,8 @@ const blog = defineCollection({
     project: z.string().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().default(false),
+    pinned: z.boolean().default(false),
+    filler: z.boolean().default(false),
     heroImage: z.string().optional(),
     heroImageAlt: z.string().optional(),
     targetKeyword: z.string().optional(),

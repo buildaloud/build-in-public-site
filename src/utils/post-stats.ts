@@ -36,16 +36,19 @@ export type Rollup = {
   totalImpressions: number;
   postsRankingForTarget: number;
   postsMeasured: number;
+  avgPosition: number | null;
 };
 
 function rollup(posts: PostStat[]): Rollup {
   const measured = posts.filter((p) => p.scorecard.status === 'measured');
+  const ranked = posts.filter((p) => p.position > 0);
   return {
     totalPageviews: posts.reduce((sum, p) => sum + p.pageviews, 0),
     totalClicks: posts.reduce((sum, p) => sum + p.clicks, 0),
     totalImpressions: posts.reduce((sum, p) => sum + p.impressions, 0),
     postsRankingForTarget: measured.filter((p) => p.scorecard.status === 'measured' && p.scorecard.rankedForTarget).length,
     postsMeasured: measured.length,
+    avgPosition: ranked.length ? ranked.reduce((sum, p) => sum + p.position, 0) / ranked.length : null,
   };
 }
 
