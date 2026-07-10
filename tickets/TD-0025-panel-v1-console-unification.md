@@ -43,5 +43,5 @@ In micro-blueprint:
 
 - [ ] Deploy/teardown/redeploy triggered from panel.buildaloud.ai, executed locally, status visible in the panel
 - [ ] Typed-confirm on down in both layers
-- [ ] Token health visible in the panel with zero secret values server- or client-side
-- [ ] Google sign-in works on the panel; non-allow-listed accounts see the restricted notice
+- [x] Token health visible in the panel with zero secret values server- or client-side — `/panel/tokens` live (commit e3d49f8, micro-blueprint); `lifecycle token-health` pushes names+booleans only; migration 0005 applied
+- [ ] Google sign-in works on the panel; non-allow-listed accounts see the restricted notice — code wired; blocked on the Google client ceremony (see notes)
