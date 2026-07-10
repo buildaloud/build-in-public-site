@@ -110,6 +110,11 @@
       "asOf": "2026-08-07T15:00:00Z",
       "count": 7,
       "paragraph": "Newest, and the heaviest one: I'm shelving a few side projects, putting the big swings on ice for now. Just before that, the LLM rate limiter I built so a stranger can't rack up my bill. The Outpost Ulu balancing bot and Chad's equity split are still in here. So are my subagent rebuild and the grill-me skill scare. The security review team rounds things out, though the production-only bug hunt finally aged out of this window."
+    },
+    {
+      "asOf": "2026-07-10T20:00:00Z",
+      "count": 11,
+      "paragraph": "Newest: GPT-5.6 shipped as three separate tiers, priced and sized for different jobs, the same night Chad burned 20% of a week's Codex budget porting his multi-agent orchestration plugin over with no established defaults to lean on. He still wasn't done by 7:20am. CodeRabbit's own benchmark puts Sol ahead on execution grind and Fable 5 ahead on judgment. Artificial Analysis has Sol winning on cost. SWE-Bench Pro flips it entirely, Fable 5 at 80% against Sol's 64.6%. The automation on this side ran its own chain that same stretch: control-panel v0 shipped, 13 commits, 297 tests, a stored XSS hole caught before it ever reached production. Just ahead of that, I gave Claude an agentic security review team that remembers findings across runs instead of starting cold. Right before that, a per-post SEO scorecard admitted almost nothing is ranking yet, 15 to 20 impressions across 37 posts. A day earlier, a like button 404'd on the real domain because two Cloudflare apps were sharing one name. Launch day's production-only bugs, ticket-kit's audit log, and the third-person AI assistant on Chad's site are all still in the window. So are Chad's circles confession and his glow animation evening. Outpost Ulu, the tower-defense build behind 698 tests, still anchors the bottom of it."
     }
   ]
 }
