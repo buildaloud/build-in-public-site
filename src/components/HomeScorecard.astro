@@ -1,8 +1,9 @@
 ---
-import { getRollup, getStatsAsOf } from '../utils/post-stats';
+import { getRollup, getSiteMetrics, getStatsAsOf } from '../utils/post-stats';
 import { formatDateShort } from '../utils/dates';
 
 const rollup = getRollup();
+const site = getSiteMetrics();
 const asOf = getStatsAsOf();
 
 type Tone = 'hit' | 'miss' | 'unknown';
@@ -21,6 +22,8 @@ function status(): { label: string; tone: Tone } {
 const s = status();
 const avgRank = rollup.avgPosition ? `#${rollup.avgPosition.toFixed(1)}` : '—';
 const tiles = [
+  { label: 'page views', value: site.pageviews?.toLocaleString() ?? rollup.totalPageviews.toLocaleString() },
+  { label: 'visitors', value: site.visitors?.toLocaleString() ?? '—' },
   { label: 'impressions', value: rollup.totalImpressions.toLocaleString() },
   { label: 'clicks', value: rollup.totalClicks.toLocaleString() },
   { label: 'avg rank', value: avgRank },
@@ -113,9 +116,13 @@ const tiles = [
 
   .sc-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 1rem;
     margin: 0;
+  }
+
+  @media (max-width: 44rem) {
+    .sc-grid { grid-template-columns: repeat(3, 1fr); }
   }
   .sc-tile { display: flex; flex-direction: column; gap: 0.25rem; }
   .sc-tile dd {

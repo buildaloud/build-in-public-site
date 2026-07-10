@@ -3,14 +3,28 @@ import { getCollection } from 'astro:content';
 import { isPublished } from '../utils/posts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostStats from '../components/PostStats.astro';
-import { getPostStats, getRollup, getStatsAsOf } from '../utils/post-stats';
+import { getPostStats, getRollup, getSiteMetrics, getStatsAsOf } from '../utils/post-stats';
 import { formatDateShort } from '../utils/dates';
 
 const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 
 const rollup = getRollup();
+const site = getSiteMetrics();
 const asOf = getStatsAsOf();
+
+const pct = (v: number | null) => (v === null ? '—' : `${(v * 100).toFixed(1)}%`);
+const secs = (v: number | null) => (v === null ? '—' : `${Math.round(v)}s`);
+const num = (v: number | null) => (v === null ? '—' : v.toLocaleString());
+const siteVitals = [
+  { label: 'Page views', value: num(site.pageviews) },
+  { label: 'Visitors', value: num(site.visitors) },
+  { label: 'Sessions', value: num(site.sessions) },
+  { label: 'Engagement', value: pct(site.engagementRate) },
+  { label: 'Avg session', value: secs(site.avgSessionSeconds) },
+  { label: 'Search CTR', value: pct(site.searchCtr) },
+  { label: 'Avg position', value: site.searchPosition === null ? '—' : `#${site.searchPosition.toFixed(1)}` },
+];
 ---
 
 <BaseLayout
@@ -26,6 +40,19 @@ const asOf = getStatsAsOf();
       </p>
     </header>
 
+    <div class="vitals">
+      <span class="vitals-label">// site vitals (28d) — GA4 + Search Console, whole site</span>
+      <div class="vitals-grid">
+        {siteVitals.map((v) => (
+          <div class="rollup-stat">
+            <span class="rollup-value">{v.value}</span>
+            <span class="rollup-label">{v.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <span class="rollup-caption">// posts only (28d)</span>
     <div class="rollup">
       <div class="rollup-stat">
         <span class="rollup-value">{rollup.totalPageviews.toLocaleString()}</span>
@@ -110,13 +137,40 @@ const asOf = getStatsAsOf();
     opacity: 1;
   }
 
+  .vitals {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .vitals-label,
+  .rollup-caption {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .rollup-caption {
+    margin-bottom: 0.5rem;
+  }
+
+  .vitals-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
   .rollup {
     display: flex;
     gap: 2rem;
     flex-wrap: wrap;
     background: var(--color-bg-elevated);
     border: 1px solid var(--color-border);
-    border-top: 2px solid var(--color-accent);
     border-radius: 0.5rem;
     padding: 1.25rem 1.5rem;
     margin-bottom: 2.5rem;

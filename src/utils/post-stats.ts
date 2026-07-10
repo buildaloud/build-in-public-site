@@ -3,6 +3,27 @@ import type { PostStat } from '../../scripts/stats/post-stats';
 
 export type StatsSnapshot = {
   generatedAt: string;
+  ga4?: {
+    available: boolean;
+    reason?: string;
+    window?: { startDate: string; endDate: string };
+    metrics?: {
+      sessions: number;
+      totalUsers: number;
+      activeUsers: number;
+      screenPageViews: number;
+      engagementRate: number;
+      averageSessionDuration: number;
+    };
+  };
+  searchConsole?: {
+    available: boolean;
+    reason?: string;
+    clicks?: number;
+    impressions?: number;
+    ctr?: number;
+    position?: number;
+  };
   postStats?: {
     available: boolean;
     reason?: string;
@@ -54,6 +75,31 @@ function rollup(posts: PostStat[]): Rollup {
 
 export function getRollup(snapshot: StatsSnapshot = defaultSnapshot): Rollup {
   return rollup(Object.values(snapshot.postStats?.byPost ?? {}));
+}
+
+export type SiteMetrics = {
+  pageviews: number | null;
+  visitors: number | null;
+  sessions: number | null;
+  engagementRate: number | null;
+  avgSessionSeconds: number | null;
+  searchCtr: number | null;
+  searchPosition: number | null;
+};
+
+/** Site-wide GA4 + Search Console vitals; null per field when a source didn't pull. */
+export function getSiteMetrics(snapshot: StatsSnapshot = defaultSnapshot): SiteMetrics {
+  const ga = snapshot.ga4?.available ? snapshot.ga4.metrics : undefined;
+  const sc = snapshot.searchConsole?.available ? snapshot.searchConsole : undefined;
+  return {
+    pageviews: ga?.screenPageViews ?? null,
+    visitors: ga?.totalUsers ?? null,
+    sessions: ga?.sessions ?? null,
+    engagementRate: ga?.engagementRate ?? null,
+    avgSessionSeconds: ga?.averageSessionDuration ?? null,
+    searchCtr: sc?.ctr ?? null,
+    searchPosition: sc?.position ?? null,
+  };
 }
 
 /** Rollup scoped to a set of post slugs — powers per-project telemetry. */

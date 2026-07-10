@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getPostStats, getStatsAsOf, getRollup, STALE_AFTER_DAYS, type StatsSnapshot } from './post-stats';
+import { getPostStats, getStatsAsOf, getRollup, getSiteMetrics, STALE_AFTER_DAYS, type StatsSnapshot } from './post-stats';
 import type { PostStat } from '../../scripts/stats/post-stats';
 
 const measuredHit: PostStat = {
@@ -115,6 +115,7 @@ describe('getRollup', () => {
       totalImpressions: 50,
       postsRankingForTarget: 1,
       postsMeasured: 2,
+      avgPosition: 7.2,
     });
   });
 
@@ -126,6 +127,54 @@ describe('getRollup', () => {
       totalImpressions: 0,
       postsRankingForTarget: 0,
       postsMeasured: 0,
+      avgPosition: null,
+    });
+  });
+});
+
+describe('getSiteMetrics', () => {
+  const withSite: StatsSnapshot = {
+    generatedAt: '2020-01-01T00:00:00.000Z',
+    ga4: {
+      available: true,
+      window: { startDate: '28daysAgo', endDate: 'today' },
+      metrics: {
+        sessions: 120,
+        totalUsers: 90,
+        activeUsers: 85,
+        screenPageViews: 340,
+        engagementRate: 0.6421,
+        averageSessionDuration: 74.5,
+      },
+    },
+    searchConsole: { available: true, clicks: 3, impressions: 200, ctr: 0.015, position: 19.55 },
+  };
+
+  it('surfaces GA4 + GSC site blocks when available', () => {
+    expect(getSiteMetrics(withSite)).toEqual({
+      pageviews: 340,
+      visitors: 90,
+      sessions: 120,
+      engagementRate: 0.6421,
+      avgSessionSeconds: 74.5,
+      searchCtr: 0.015,
+      searchPosition: 19.55,
+    });
+  });
+
+  it('returns null fields when a source is unavailable or absent', () => {
+    const snap: StatsSnapshot = {
+      generatedAt: '2020-01-01T00:00:00.000Z',
+      ga4: { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set' },
+    };
+    expect(getSiteMetrics(snap)).toEqual({
+      pageviews: null,
+      visitors: null,
+      sessions: null,
+      engagementRate: null,
+      avgSessionSeconds: null,
+      searchCtr: null,
+      searchPosition: null,
     });
   });
 });
