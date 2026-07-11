@@ -17,8 +17,10 @@ const statusOrder: Record<Project['status'], number> = {
 };
 
 const sorted = projects
-  .filter((p) => postCount(p.slug) > 0)
-  .sort((a, b) => statusOrder[a.status] - statusOrder[b.status]);
+  .sort(
+    (a, b) =>
+      statusOrder[a.status] - statusOrder[b.status] || postCount(b.slug) - postCount(a.slug),
+  );
 ---
 
 <BaseLayout

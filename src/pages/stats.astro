@@ -75,24 +75,118 @@ const siteVitals = [
     {posts.length === 0 ? (
       <p class="empty">No posts yet.</p>
     ) : (
-      <table class="stats-table">
-        <thead>
-          <tr>
-            <th>Post</th>
-            <th>Stats</th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map((post) => (
+      <>
+        <div class="controls">
+          <input
+            id="stats-search"
+            type="search"
+            class="control-input"
+            placeholder="filter by title…"
+            aria-label="Filter posts by title"
+          />
+          <label class="control-field">
+            <span>Show</span>
+            <select id="stats-filter" class="control-select">
+              <option value="all">all posts</option>
+              <option value="measured">ranking for target</option>
+              <option value="views">with views</option>
+            </select>
+          </label>
+          <label class="control-field">
+            <span>Sort</span>
+            <select id="stats-sort" class="control-select">
+              <option value="date">newest</option>
+              <option value="views">most views</option>
+              <option value="impressions">most impressions</option>
+              <option value="clicks">most clicks</option>
+              <option value="position">best position</option>
+              <option value="title">title A–Z</option>
+            </select>
+          </label>
+          <span id="stats-count" class="control-count"></span>
+        </div>
+        <table class="stats-table">
+          <thead>
             <tr>
-              <td><a href={`/blog/${post.id}/`}>{post.data.title}</a></td>
-              <td><PostStats stat={getPostStats(post.id)} variant="full" /></td>
+              <th>Post</th>
+              <th>Stats</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody id="stats-rows">
+            {posts.map((post) => {
+              const st = getPostStats(post.id);
+              return (
+                <tr
+                  data-title={post.data.title.toLowerCase()}
+                  data-date={post.data.pubDate.valueOf()}
+                  data-views={st?.pageviews ?? 0}
+                  data-impressions={st?.impressions ?? 0}
+                  data-clicks={st?.clicks ?? 0}
+                  data-position={st && st.position > 0 ? st.position : ''}
+                  data-status={st?.scorecard.status ?? 'none'}
+                >
+                  <td><a href={`/blog/${post.id}/`}>{post.data.title}</a></td>
+                  <td><PostStats stat={st} variant="full" /></td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        <p id="stats-empty" class="empty" hidden>No posts match those filters.</p>
+      </>
     )}
   </div>
+
+  <script>
+    const search = document.getElementById('stats-search') as HTMLInputElement | null;
+    const filter = document.getElementById('stats-filter') as HTMLSelectElement | null;
+    const sort = document.getElementById('stats-sort') as HTMLSelectElement | null;
+    const tbody = document.getElementById('stats-rows');
+    const count = document.getElementById('stats-count');
+    const emptyMsg = document.getElementById('stats-empty');
+
+    if (search && filter && sort && tbody) {
+      const rows = Array.from(tbody.querySelectorAll<HTMLTableRowElement>('tr'));
+      const n = (r: HTMLElement, k: string) => Number(r.dataset[k] || 0);
+
+      const apply = () => {
+        const q = search.value.trim().toLowerCase();
+        const mode = filter.value;
+
+        for (const r of rows) {
+          const matchesText = !q || (r.dataset.title || '').includes(q);
+          const matchesFilter =
+            mode === 'all' ||
+            (mode === 'measured' && r.dataset.status === 'measured' && r.dataset.position !== '') ||
+            (mode === 'views' && n(r, 'views') > 0);
+          r.hidden = !(matchesText && matchesFilter);
+        }
+
+        const visible = rows.filter((r) => !r.hidden);
+        const by = sort.value;
+        visible.sort((a, b) => {
+          if (by === 'title') return (a.dataset.title || '').localeCompare(b.dataset.title || '');
+          if (by === 'position') {
+            // Lower position is better; unranked (empty) sinks to the bottom.
+            const pa = a.dataset.position === '' ? Infinity : n(a, 'position');
+            const pb = b.dataset.position === '' ? Infinity : n(b, 'position');
+            return pa - pb;
+          }
+          if (by === 'date') return n(b, 'date') - n(a, 'date');
+          return n(b, by) - n(a, by); // views | impressions | clicks
+        });
+        for (const r of visible) tbody.appendChild(r);
+
+        if (count) count.textContent = `${visible.length} of ${rows.length}`;
+        if (emptyMsg) emptyMsg.hidden = visible.length > 0;
+      };
+
+      search.addEventListener('input', apply);
+      filter.addEventListener('change', apply);
+      sort.addEventListener('change', apply);
+      apply();
+    }
+  </script>
 </BaseLayout>
 
 <style>
@@ -195,6 +289,60 @@ const siteVitals = [
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-muted);
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .control-input,
+  .control-select {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 0.35rem;
+    padding: 0.5rem 0.7rem;
+  }
+
+  .control-input {
+    flex: 1;
+    min-width: 12rem;
+  }
+
+  .control-input:focus-visible,
+  .control-select:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+
+  .control-field {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+  }
+
+  .control-count {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-left: auto;
+  }
+
+  @media (max-width: 560px) {
+    .control-count {
+      margin-left: 0;
+    }
   }
 
   .stats-table {

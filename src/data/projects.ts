@@ -67,4 +67,14 @@ export const projects: Project[] = [
     builders: ['Chad'],
     tags: ['claude-code', 'tooling', 'agents'],
   },
+  {
+    slug: 'chads-website',
+    name: 'chads.website',
+    blurb:
+      "Chad's personal home base on the web — the hub that points at everything else he's building.",
+    status: 'active',
+    builders: ['Chad'],
+    liveUrl: 'https://chads.website',
+    tags: ['personal', 'web'],
+  },
 ];
