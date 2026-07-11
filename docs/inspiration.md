@@ -15,6 +15,9 @@ Status: `unread` → `read` → `written-about` (link the post when one exists).
 | https://claude.com/blog/a-field-guide-to-claude-fable-finding-your-unknowns | learnings | unread | Fable field guide — finding your unknowns |
 | https://martinfowler.com/articles/exploring-gen-ai/local-models-for-coding-experiences.html | learnings | unread | Fowler: local models for coding experiences |
 | https://www.anthropic.com/news/reflect-with-claude | inspiration | unread | Reflect with Claude — consumer AI product shape |
+| https://bun.com/blog/bun-in-rust | learnings | unread | Bun rewritten in Rust — build-tooling craft (Chad, 2026-07-10) |
+| (no URL — Chad's anecdote) | inspiration | unread | AI as a queryable "version of" a departed employee: security co. gave a leaver 1 day, ran Claude Code over his machine to distill his projects/decisions, kept the box running as a queryable brain. Strong original post — a use case rarely written up (Chad, 2026-07-10) |
+| https://share.gemini.google/xCL0L9SBW2lU | learnings | unread | Chad ↔ Gemini on building his own LLM; plus local-model hosting cost (DeepSeek V3.1 ~$45k/mo dedicated) — "cost needs to come down" angle (Chad, 2026-07-10) |
 
 ## How the loop uses this
 
