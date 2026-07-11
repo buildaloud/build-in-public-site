@@ -22,7 +22,7 @@ searchIntent: "informational"
 audience: "developers wanting automated whole-repo security review on their own codebase"
 ---
 
-I gave Claude a security team that remembers what it found last time. It's called security-kit: an agentic security review plugin for Claude Code, pointed at your *own* repositories. It maps the attack surface, hunts for vulnerabilities, then writes down what it found so the next review starts smarter. Most security tooling forgets everything the second it exits. This one keeps a memory. That's the whole point.
+I gave Claude a security team that remembers what it found last time. It's called security-kit: an agentic security review plugin for Claude Code, pointed at your *own* repositories. It maps the attack surface, hunts for vulnerabilities, then writes down what it found so the next review starts smarter. Most security tooling forgets everything the second it exits. This one keeps a case file, and the next run reads it before it starts.
 
 ## Inspired by Anthropic's reviewer, pointed at the whole repo
 
@@ -40,21 +40,19 @@ A run is a pipeline, not one big prompt. Six specialized sub-agents, each with o
 4. **Hunt**: `vuln-hunter` runs once per taxonomy cluster, in parallel. Injection, auth, whatever's left, each gets its own hunter instead of one model holding the whole taxonomy in its head.
 5. **Judge**: `fp-judge` scores every candidate finding for exploitability and keeps only the ones that clear 8 out of 10. Plausible but not exploitable doesn't survive this phase.
 6. **Plan**: `mitigation-planner` turns survivors into concrete fixes.
-7. **Tickets**: auto-detects your tracker and files the work, whether that's [ticket-kit](https://marketplace.buildaloud.ai), Jira, or plain markdown.
+7. **Tickets**: auto-detects your tracker and files the work, whether that's [ticket-kit](https://github.com/chadfurman/ticket-kit), Jira, or plain markdown.
 
 The parallelism isn't for speed bragging rights. It's because a sub-agent with a tight scope makes sharper calls than a generalist asked to hold the whole repo in its head. Same lesson the Tower Defense build taught me. Applies here too.
 
 ## Precision over recall, on purpose
 
-Here's the part I'll defend. security-kit is tuned to miss things rather than cry wolf.
+security-kit is tuned to miss things rather than cry wolf, and I'll defend that choice.
 
 That sounds backwards until you've watched a noisy scanner train a team to ignore it. There's a real failure mode in code-only review. The team at ProjectDiscovery named it well: code can look plausible on the page and still not survive contact with how the framework actually behaves. Same for validation. Same for whatever runtime controls are already running. True but unreachable is still noise. And noise is how a security tool loses its credibility.
 
 So the exploitability gate is hard. The `fp-judge` phase keeps a finding only if it scores at least 8/10 on whether someone could actually exploit it. Everything else gets dropped, not deleted. Dropped findings go into an audit table with the reason they were cut, so "we looked at this and decided it didn't matter" is recorded, not silently forgotten. And **zero findings is a legitimate result.** A clean run that says "I found nothing exploitable" is the tool working, not failing. I'd rather ship that than a list of twelve maybes.
 
 ## Case law: the part that remembers
-
-This is what the "remembers" in the title actually means.
 
 Every repo accumulates its own precedents. Call it case law. The first time a review sees raw SQL in a codebase that uses Prisma everywhere, it has to reason about whether that's exploitable. The answer gets written down as a precedent: *we use Prisma; SQL injection is only valid for `$queryRaw`.* The next review reads that precedent before it starts, so it doesn't re-litigate a settled question. Over a few passes the repo teaches the reviewer its own shape: which patterns are real risks here, which are just framework noise. The false-positive rate drops because the tool stops being a stranger to your code.
 
@@ -66,7 +64,7 @@ One clarification, because it pairs with something else I'm building. security-k
 
 ## Try it
 
-security-kit dropped as a single commit in June. More "here's a thing I built" than finished product, and I'll keep tuning the precedents and the exploitability gate as I run it on more repos. If you want the agentic security review treatment on a codebase you own, it's on the [Skills Marketplace](https://marketplace.buildaloud.ai). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai). The other projects live at [/projects](/projects).
+security-kit dropped as a single commit in June. More "here's a thing I built" than finished product, and I'll keep tuning the precedents and the exploitability gate as I run it on more repos. It's a Claude Code plugin, not a marketplace listing: add it with `/plugin marketplace add chadfurman/security-kit` and the code's public at [github.com/chadfurman/security-kit](https://github.com/chadfurman/security-kit). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai). The other projects live at [/projects](/projects).
 
 Point it at a repo. Worst case, it tells you you're clean. And writes down why.
 
