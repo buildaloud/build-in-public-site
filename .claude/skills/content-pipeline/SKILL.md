@@ -187,6 +187,29 @@ Do not assemble until the reviewer passes all axes.
 
 ---
 
+### 7.5 Fact + Link Check — hard gate (persistent experts)
+
+Two memory-backed experts run after review, before the hero. Both are dispatched
+in parallel; both must return **PASS** before the post proceeds. Loop on FIX —
+apply the exact edits they list, then re-run — do not skip.
+
+- **`fact-checker`** (Sonnet) — verifies our-project claims against its facts
+  ledger (`docs/blog-facts.md`) and every external statistic against a live,
+  fetched source. Catches the expensive errors: misdescribing our own tools
+  (e.g. conflating security-kit with the marketplace) and unsourced numbers.
+- **`link-checker`** (Sonnet) — verifies every link resolves AND points at the
+  right target using its link map (`docs/blog-link-map.md`). Catches wrong-target
+  links (a `*-kit` plugin pointed at the marketplace), domain drift, and dead
+  internal `/blog/...` paths.
+
+Both are **experts with memory**: they read their memory file first and write
+newly-confirmed facts/links back after each run, so the checks get sharper over
+time instead of re-deriving the map every post. Apply their FIX edits to the
+draft (a mechanical edit pass, or route wrong facts back to the drafter), then
+re-run both until PASS.
+
+---
+
 ### 8. Hero Image — mandatory, every post ships with one
 
 **Every post gets a hero image. This step is not optional and is not skipped for batch/drip runs.**
