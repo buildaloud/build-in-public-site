@@ -77,4 +77,14 @@ export const projects: Project[] = [
     liveUrl: 'https://chads.website',
     tags: ['personal', 'web'],
   },
+  {
+    slug: 'chesstell',
+    name: 'Chesstell',
+    blurb:
+      'An AI chess coach that tells you what your position is trying to say — one of the circles Chad keeps open.',
+    status: 'active',
+    builders: ['Chad'],
+    liveUrl: 'https://chesstell.com',
+    tags: ['chess', 'ai', 'coaching'],
+  },
 ];
