@@ -20,7 +20,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 
 | Service | Owner (login) | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **Cloudflare** | chad@chadfurman.com (Google OAuth) | Pages (buildaloud.ai, panel, demo, chesstell, skills-marketplace, ticket-kit), DNS (buildaloud.ai, chads.website, chesstell.com, chadfurman.com, agnai.guide, gaming-thrones.com, ladderlegendsacademy.*, ruttobats.com), WAF | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID` | free + metered | active |
+| **Cloudflare** | chad@chadfurman.com (Google OAuth) | Pages (buildaloud.ai, panel, demo, chesstell, skills-marketplace, ticket-kit), DNS (buildaloud.ai, chads.website, chesstell.com, chadfurman.com, agnai.guide, gaming-thrones.com, ladderlegendsacademy.*, ruttobats.com), WAF | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID` | ~$5/mo (Workers Paid? confirm plan) | active |
 | **Supabase** | chad@chadfurman.com (Google OAuth) — org "chadfurman's Org", project `buildaloud-shared` / `clweuvbzerykadyamdpw` | all products' auth + data (build-aloud likes/subscribe, panel, demo) | `SUPABASE_SECRET_KEY`, `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, `PUBLIC_SUPABASE_ANON_KEY` | free | active |
 | **Google Cloud** | chad@chadfurman.com (Google OAuth; org chadfurman.com) | panel Google OAuth (project `buildaloud`), Gemini API (project `gen-lang-client-*`), GA4 + Search Console | OAuth client (`.oauth-client-panel-web.json`), `gcloud` auth | free-ish | active |
 | **Railway** | chad@chadfurman.com (via GitHub OAuth — the `chadfurman` GitHub account) | MCP broker host (skills-marketplace-mcp) | Railway project token | ~$5/mo | **being set up** |
@@ -70,6 +70,22 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 | **GitHub — buildaloud (org)** | org (chadfurman is admin) | skills-marketplace, skills-marketplace-mcp, micro-blueprint, build-in-public-site, safe-oss-forever |
 | **GitHub — chad-fossa** | work | FOSSA work — NOT for buildaloud (note: `gh` defaults to this account; switch to `chadfurman` for buildaloud repos) |
 | **GitHub — a-pasquale** | Andrew | Andrew's forks (e.g. a fork of skills-marketplace-mcp) |
+
+## Monthly cost (rough)
+
+Fixed:
+- **Cloudflare** — ~$5/mo (confirm plan)
+- **Railway** — $5/mo (once the broker is up)
+- **Supabase, Pinecone, Upstash, Resend, Bluesky** — free tier
+- **Google Workspace** (chadfurman.com) — Chad's existing personal cost
+- **Buttondown** — `?` (has a free tier + paid plans)
+
+Usage-based (scales with activity, not fixed):
+- **OpenAI/Codex** — per hero image + Codex runs
+- **Anthropic** — the dev + content pipeline
+- **Stripe** — per-transaction fees (only on real sales; test mode now)
+
+**Fixed floor today: ~$5/mo (Cloudflare), rising to ~$10/mo once the broker's on Railway.** Everything else is free-tier or usage-based.
 
 ## To confirm / fill in
 - Whether **Vercel** is still used by anything (likely retired for Cloudflare).
