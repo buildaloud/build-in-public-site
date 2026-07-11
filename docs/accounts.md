@@ -30,7 +30,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 
 | Service | Owner | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **Pinecone** | `?` — Chad to create | MCP broker semantic skill search (index `skills-marketplace`) | `PINECONE_API_KEY`, `PINECONE_INDEX` | free starter | **being set up** |
+| **Pinecone** | chad@chadfurman.com (Google OAuth) | MCP broker semantic skill search (index `skills-marketplace`) | `PINECONE_API_KEY`, `PINECONE_INDEX` | free starter | **being set up** |
 | **Upstash Redis** | `?` — Chad to create | MCP broker cache | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | free | **being set up** |
 
 ## Email / newsletter
