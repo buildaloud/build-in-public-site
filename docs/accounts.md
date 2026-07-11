@@ -37,8 +37,8 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 
 | Service | Owner | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **Buttondown** | `?` | newsletter (build-aloud subscribe, products) | `BUTTONDOWN_API_KEY` | `?` | active |
-| **Resend** | `?` | product-branded auth emails via Supabase Send Email Hook | `RESEND_API_KEY`, `SEND_EMAIL_HOOK_SECRET` | free | active |
+| **Buttondown** | chad@chadfurman.com (Google OAuth) | newsletter (build-aloud subscribe, products) | `BUTTONDOWN_API_KEY` | `?` | active |
+| **Resend** | chad@chadfurman.com (Google OAuth) | product-branded auth emails via Supabase Send Email Hook | `RESEND_API_KEY`, `SEND_EMAIL_HOOK_SECRET` | free | active |
 | **scout@buildaloud.ai** | `?` — where hosted? (Google Workspace / forwarding / Resend?) | Scout's identity email (Bluesky + future AI-owned accounts) | — | `?` | active |
 
 ## Payments
@@ -70,7 +70,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 | **GitHub — a-pasquale** | Andrew | Andrew's forks (e.g. a fork of skills-marketplace-mcp) |
 
 ## To confirm / fill in
-- Owner logins still `?`: Buttondown, Resend, Stripe (which email registered each).
+- Owner login still `?`: Stripe (which email registered it).
 - Where `scout@buildaloud.ai` is hosted.
 - Whether **Vercel** is still used by anything (likely retired for Cloudflare).
 - Railway / Pinecone / Upstash — fill owner once the broker signups happen.
