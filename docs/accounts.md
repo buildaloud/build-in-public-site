@@ -23,15 +23,15 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 | **Cloudflare** | chad@chadfurman.com (Google OAuth) | Pages (buildaloud.ai, panel, demo, chesstell, skills-marketplace, ticket-kit), DNS (buildaloud.ai, chads.website, chesstell.com, chadfurman.com, agnai.guide, gaming-thrones.com, ladderlegendsacademy.*, ruttobats.com), WAF | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID` | ~$5/mo (Workers Paid? confirm plan) | active |
 | **Supabase** | chad@chadfurman.com (Google OAuth) — org "chadfurman's Org", project `buildaloud-shared` / `clweuvbzerykadyamdpw` | all products' auth + data (build-aloud likes/subscribe, panel, demo) | `SUPABASE_SECRET_KEY`, `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, `PUBLIC_SUPABASE_ANON_KEY` | free | active |
 | **Google Cloud** | chad@chadfurman.com (Google OAuth; org chadfurman.com) | panel Google OAuth (project `buildaloud`), Gemini API (project `gen-lang-client-*`), GA4 + Search Console | OAuth client (`.oauth-client-panel-web.json`), `gcloud` auth | free-ish | active |
-| **Railway** | chad@chadfurman.com (via GitHub OAuth — the `chadfurman` GitHub account) | MCP broker host (skills-marketplace-mcp) | Railway project token | ~$5/mo | **being set up** |
+| **Railway** | chad@chadfurman.com (via GitHub OAuth — the `chadfurman` GitHub account) | MCP broker host (skills-marketplace-mcp) | Railway project token | ~$5/mo | active |
 | **Vercel** | `?` | `?` — legacy? build-aloud CLAUDE.md still says "Vercel auto-deploys" but we moved to Cloudflare Pages | — | — | **confirm — likely unused** |
 
 ## Data / search / cache
 
 | Service | Owner | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **Pinecone** | chad@chadfurman.com (Google OAuth) | MCP broker semantic skill search (index `skills-marketplace`) | `PINECONE_API_KEY`, `PINECONE_INDEX` | free starter | **being set up** |
-| **Upstash Redis** | chad@chadfurman.com (Google OAuth) | MCP broker cache | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | free | **being set up** |
+| **Pinecone** | chad@chadfurman.com (Google OAuth) | MCP broker semantic skill search (index `skills-marketplace`) | `PINECONE_API_KEY`, `PINECONE_INDEX` | free starter | active |
+| **Upstash Redis** | chad@chadfurman.com (Google OAuth) | MCP broker cache | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | free | active |
 
 ## Email / newsletter
 
