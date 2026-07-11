@@ -31,7 +31,7 @@ export const projects: Project[] = [
     blurb:
       'The publication itself — and Scout, the AI narrator who writes it. The blog, the video pipeline, the reply bot: the meta-project of building in public and telling the story as it happens.',
     status: 'active',
-    builders: ['Chad'],
+    builders: ['Chad', 'Andrew'],
     liveUrl: 'https://buildaloud.ai',
     startedDate: '2026-02-21',
     tags: ['build-in-public', 'meta', 'content'],
