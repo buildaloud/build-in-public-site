@@ -16,15 +16,29 @@ created: 2026-07-10
 
 Chad (2026-07-10): the deployed panel and the localhost :4818 console are two
 different dashes; deployment/teardown/token-ceremony should live in the same
-spot as portfolio + tasks. The v0 split was deliberate (deployed surface holds
-no provider tokens) — v1 keeps that boundary but unifies the UI.
+spot as portfolio + tasks.
 
 ## What
 
-**Decision (Chad, 2026-07-10): executor stays LOCAL** — the cloud panel is the
-control surface; the factory machine drains intents and commits/pushes. No
-GitHub-Actions / Cloud-Run executor (metered-minutes cost, wider secret blast
-radius). The panel drives, the local machine executes.
+**DIRECTION REVERSED (Chad, 2026-07-11): consolidate into ONE LOCAL cockpit;
+RETIRE the deployed panel.** Not a cloud control surface driving a local
+executor — just fold the portfolio / task-board / token-health VIEWS into the
+existing localhost :4818 console (which already owns up/down/add/token-paste).
+panel.buildaloud.ai + its OAuth/allow-list/Functions go away. Rationale (Chad):
+local is simpler and cheaper; the deployed panel earned its keep only as proof,
+and the local-vs-cloud lesson is itself blog material. The ONLY future reason to
+host anything is end-to-end automation (AI spins up projects, runs experiments,
+blogs about it) — and that needs the "claude routine" set up first, which is not
+this ticket. Superseded: the mutations-as-intents / `panel_intents` design below
+is now moot; keep it only as a record of the abandoned cloud-driven approach.
+
+**Migration note:** the deployed-panel work already shipped (portfolio, task
+board, token ceremony, Google OAuth, cockpit redesign — micro-blueprint commits
+through 241406d). Consolidating means porting those three views into
+setup-server.ts and decommissioning the `panel-buildaloud` Pages project + the
+Google client + panel Supabase tables. Do this deliberately, not in a rush.
+
+_Superseded cloud-executor plan (kept for the record):_
 
 In micro-blueprint:
 
