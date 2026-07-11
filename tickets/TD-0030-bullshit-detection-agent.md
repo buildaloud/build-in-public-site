@@ -1,7 +1,7 @@
 ---
 id: TD-0030
 title: 'bullshit-detection agent — catch claims that don''t hold up (usefulness/technical honesty)'
-status: open
+status: in-progress
 priority: P1
 rank: 20
 area: content

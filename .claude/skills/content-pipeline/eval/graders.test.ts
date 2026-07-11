@@ -17,6 +17,7 @@ const goodBrief: Brief = {
   targetKeyword: 'ai agents',
   secondaryKeywords: ['agent framework', 'autonomous ai'],
   searchIntent: 'informational',
+  postFormula: 'how-i-built-x',
   seoTitle: 'How to Build AI Agents',
   metaDescription: 'Learn how to build ai agents from scratch in this guide.',
   hook: 'AI agents are changing everything about how we build software.',

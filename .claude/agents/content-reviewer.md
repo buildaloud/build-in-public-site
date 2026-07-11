@@ -62,6 +62,7 @@ Check these hard caps from PLAYBOOK.md (all must pass):
 - Exactly one H1 in the post body (the title counts if rendered as H1; check for extra `#` headings)
 - At least one internal link to a known on-site target (see PLAYBOOK § 5 for the link map)
 - Internal links are on-topic and not forced
+- The **Sources** footer is a markdown bulleted list (one linked source per bullet) — flag a prose-paragraph or loose-links sources section
 
 From the seo-audit skill:
 - Title tag: primary keyword near the beginning, compelling, not stuffed

@@ -1,7 +1,7 @@
 ---
 id: TD-0027
 title: 'permaban "that''s the whole point." — humanizer phrase blocklist (hard fail)'
-status: in-progress
+status: done
 priority: P1
 rank: 17
 area: content

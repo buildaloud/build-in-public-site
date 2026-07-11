@@ -5,6 +5,7 @@ secondaryKeywords:
   - websocket backoff strategy
   - flaky reconnect bug
 searchIntent: informational
+postFormula: how-i-built-x
 seoTitle: Debugging a Websocket Reconnect Loop That Wouldn't Stop
 metaDescription: How I tracked down a websocket reconnect loop debugging nightmare — the flaky bug that kept clients hammering the server every second.
 hook: The server logs looked like a heartbeat monitor having a panic attack. Every client was reconnecting once a second.

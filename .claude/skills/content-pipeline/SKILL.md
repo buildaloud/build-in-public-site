@@ -109,18 +109,24 @@ Do not proceed if `marketResearch[]` is empty — fabricated or missing sources 
 Dispatch `.claude/agents/brief-writer.md` via the Agent tool with `model: "sonnet"` and:
 - Approved topic + source digest
 - Full `ResearchResult` from Step 3
-- `PLAYBOOK.md` reference
+- `PLAYBOOK.md` + `docs/post-formulas.md` reference
 
-The brief-writer is the **sole author** of the Brief. It carries the ResearchResult fields unchanged and authors all editorial fields. Output is a schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at Step 10). Schema lives at `.claude/skills/content-pipeline/lib/brief-schema.ts`.
+The brief-writer is the **sole author** of the Brief. It picks a `postFormula`
+from `docs/post-formulas.md` (war-story, how-i-built-x, teardown, contrarian-take,
+decision-log) and builds the `outline[]` to that formula's beats. It carries the
+ResearchResult fields unchanged and authors all editorial fields. Output is a
+schema-valid `.brief.md` file (YAML frontmatter, no slug — slug is derived at
+Step 10). Schema lives at `.claude/skills/content-pipeline/lib/brief-schema.ts`.
 
 Brief fields:
 ```yaml
 topic, targetKeyword, secondaryKeywords, searchIntent
+postFormula       # one of docs/post-formulas.md; the outline follows its beats
 seoTitle          # ≤60 chars, includes targetKeyword
 headlineVariants[]
 metaDescription   # ≤155 chars, includes targetKeyword
 hook              # 1–2 sentence opener angle
-outline[]         # 4–8 beats
+outline[]         # 4–8 beats, shaped by postFormula
 internalLinks[]   # ≥2 from PLAYBOOK link-map, on-topic
 cta               # primary call to action
 socialBlurb       # ≤280 chars
@@ -135,7 +141,7 @@ keywordRationale
 
 Dispatch `.claude/agents/drafter.md` via the Agent tool with `model: "sonnet"` and:
 - The perspective call from Step 2 (`author: "Scout"` or `"Chad"`) — the drafter writes in whichever first person you assign
-- Brief's **editorial + publish fields only** (topic, seoTitle, headlineVariants, metaDescription, hook, outline, internalLinks, cta, socialBlurb, imageConcept) — exclude `marketResearch[]` and `keywordRationale`
+- Brief's **editorial + publish fields only** (topic, postFormula, seoTitle, headlineVariants, metaDescription, hook, outline, internalLinks, cta, socialBlurb, imageConcept) — exclude `marketResearch[]` and `keywordRationale`. Write to the `postFormula`'s beats.
 - `PERSONALITY.md`
 - 2–3 most recent posts (voice calibration)
 
@@ -147,11 +153,11 @@ Dispatch `.claude/agents/drafter.md` via the Agent tool with `model: "sonnet"` a
 - Credit other contributors by name
 - Honest about failures and limitations
 - No fake enthusiasm, no emoji overload
-- End with source attribution
+- End with a **Sources** section that is a **markdown bulleted list** — one source per bullet, each a linked title (never a prose paragraph or a loose run of links)
 
 **Voice > SEO.** Never flatten the narrator's voice for a keyword. Voice is the product; SEO is a constraint.
 
-**Content structure:** Hook/intro → substance → what's next → source attribution footer.
+**Content structure:** Hook/intro → substance → what's next → a bulleted **Sources** footer.
 
 ---
 
@@ -159,7 +165,7 @@ Dispatch `.claude/agents/drafter.md` via the Agent tool with `model: "sonnet"` a
 
 The draft does not proceed to Review until it passes both checks below. Loop until clean — do not skip or cap retries.
 
-1. **Score it.** Run `npx tsx .claude/skills/human-tone/eval/run.ts` (scores every post in `src/content/blog/`, ranks worst-first) or grade just this draft with `eval/tone-grader.ts`'s `scoreText`. Require **aiScore < 15**.
+1. **Score it.** Run `npx tsx .claude/skills/human-tone/eval/run.ts` (scores every post in `src/content/blog/`, ranks worst-first) or grade just this draft with `eval/tone-grader.ts`'s `scoreText`. Require **aiScore ≤ 2** (the corpus now sits there; <15 let regressions through). Also require **`banned` = 0** — any permabanned-phrase hit is an automatic fail. If it's over, run the humanizer loop (`scripts/score-post.ts`) to find and fix the exact hits, then re-score.
 2. **Sonnet tone double-check.** Dispatch an Agent (`model: "sonnet"`) to read the draft cold against `.claude/skills/human-tone/SKILL.md` — the tell table (em-dash, rule-of-three, hedging, signposting, AI-vocab, negative parallelism, tidy-bow) AND the texture checklist (a fragment? a real number? a flat opinion?). A draft that scores clean but reads voiceless still fails here.
 
 If either check fails: dispatch a Sonnet tone-fix pass (`model: "sonnet"`) against `.claude/skills/human-tone/SKILL.md`'s tell→fix table, rewrite the flagged passages, then re-run both checks.
@@ -187,10 +193,26 @@ Do not assemble until the reviewer passes all axes.
 
 ---
 
-### 7.5 Fact + Link Check — hard gate (persistent experts)
+### 7.2 Section-Impact Review — `section-impact-reviewer` subagent (Sonnet)
 
-Two memory-backed experts run after review, before the hero. Both are dispatched
-in parallel; both must return **PASS** before the post proceeds. Loop on FIX —
+Dispatch `.claude/agents/section-impact-reviewer.md` via the Agent tool with
+`model: "sonnet"` and the post-review draft + its Brief (including `postFormula`).
+
+It judges each section on its own (purpose / concept / impact) then against the
+whole doc (consistent / non-redundant / unique / resonant), referencing
+`docs/post-formulas.md` + `docs/paragraph-formulas.md`. Returns `PASS` or
+`REVISE` with per-section strip/merge/rewrite edits.
+
+**On REVISE:** apply the edits — prefer cutting a weak section over padding it —
+then re-run the Tone Gate (Step 6, edits can reintroduce tells) and this step
+until PASS. This is where a correct-but-flat draft gets sharpened; do not skip it.
+
+---
+
+### 7.5 Fact + Link + Bullshit Check — hard gate (persistent experts)
+
+Three memory-backed experts run after review, before the hero. All are dispatched
+in parallel; all must return **PASS** before the post proceeds. Loop on FIX —
 apply the exact edits they list, then re-run — do not skip.
 
 - **`fact-checker`** (Sonnet) — verifies our-project claims against its facts
@@ -201,12 +223,17 @@ apply the exact edits they list, then re-run — do not skip.
   right target using its link map (`docs/blog-link-map.md`). Catches wrong-target
   links (a `*-kit` plugin pointed at the marketplace), domain drift, and dead
   internal `/blog/...` paths.
+- **`bullshit-detector`** (Sonnet) — stress-tests the post's technical claims:
+  does the thing actually do what we say, with limits named honestly? Also checks
+  we quote/understand our cited sources correctly. Ledger: `docs/blog-bullshit-ledger.md`.
+  Catches the overclaim (the IP-hash-as-"private" like button) that's neither a
+  false fact nor an AI tell. When the honest fix is in the code, it flags a
+  product ticket per Step 11.5, not just a softer sentence.
 
-Both are **experts with memory**: they read their memory file first and write
-newly-confirmed facts/links back after each run, so the checks get sharper over
-time instead of re-deriving the map every post. Apply their FIX edits to the
-draft (a mechanical edit pass, or route wrong facts back to the drafter), then
-re-run both until PASS.
+All three are **experts with memory**: they read their memory file first and write
+newly-confirmed facts/links/overclaims back after each run, so the checks get
+sharper over time. Apply their FIX edits to the draft (a mechanical edit pass, or
+route wrong facts back to the drafter), then re-run until all PASS.
 
 ---
 
@@ -336,6 +363,27 @@ npx tsx .claude/skills/content-pipeline/check-new-content.ts --update
 ```
 
 **Optionally update `src/data/todos.ts`** — add action items that surfaced during writing (`addedBy: 'scout'`, `linkedPost: '<slug>'`). Only concrete, actionable items. Vague items go to "Topics NOT YET Posted About" in `posted.md` instead.
+
+---
+
+### 11.5 Capture product-learnings — build → blog → learn → refactor
+
+When the post is about **something we built**, ask one question before shipping:
+*did researching or writing this teach us something the product should absorb?*
+A better mechanism, a real limitation, a source that named a stronger approach
+(e.g. the like button's IP-hash → device fingerprinting). The `bullshit-detector`
+(Step 7.5) often surfaces exactly these.
+
+If yes:
+1. **Open a ticket** (ticket-kit) to refactor the built thing based on the
+   learning — don't let it die in the draft.
+2. **Narrate the learning in the post** — what we thought, what we found, what
+   we're changing — as part of the build-in-public story. **Link around** the
+   source that taught us; never reproduce it wholesale.
+
+If the learning is big enough that the post's current claim is now dishonest,
+route back and fix the claim (Step 7.5) before shipping. This is the loop that
+keeps the products improving from the act of writing about them (see [[TD-0031]]).
 
 ---
 

@@ -5,6 +5,7 @@ secondaryKeywords:
   - terminal video automation
   - claude code shorts pipeline
 searchIntent: informational
+postFormula: how-i-built-x
 seoTitle: Automate Shorts with Claude Code, Start to Finish
 headlineVariants:
   - Automate Shorts with Claude Code, Start to Finish

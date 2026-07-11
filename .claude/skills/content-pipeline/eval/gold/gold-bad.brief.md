@@ -5,6 +5,7 @@ secondaryKeywords:
   - indie game dev
   - pwa game
 searchIntent: commercial
+postFormula: how-i-built-x
 seoTitle: Building a Game in Three Weeks
 headlineVariants:
   - Building a Game in Three Weeks

@@ -2,11 +2,21 @@ import { z } from 'zod/v4';
 
 export const SearchIntentSchema = z.enum(['informational', 'navigational', 'commercial']);
 
+// Named post structures from docs/post-formulas.md; the outline follows the chosen formula's beats.
+export const PostFormulaSchema = z.enum([
+  'war-story',
+  'how-i-built-x',
+  'teardown',
+  'contrarian-take',
+  'decision-log',
+]);
+
 export const BriefSchema = z.object({
   topic: z.string(),
   targetKeyword: z.string(),
   secondaryKeywords: z.array(z.string()).min(2).max(5),
   searchIntent: SearchIntentSchema,
+  postFormula: PostFormulaSchema,
   seoTitle: z.string().max(60),
   headlineVariants: z.array(z.string()).optional(),
   metaDescription: z.string().max(155),

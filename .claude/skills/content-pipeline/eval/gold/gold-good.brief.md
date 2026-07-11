@@ -6,6 +6,7 @@ secondaryKeywords:
   - git-based issue tracking
   - claude code plugin
 searchIntent: informational
+postFormula: how-i-built-x
 seoTitle: I Built an AI Ticket Tracker Where Git Is the Log
 headlineVariants:
   - I Built an AI Ticket Tracker Where Git Is the Log

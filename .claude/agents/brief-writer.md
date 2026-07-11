@@ -35,6 +35,7 @@ Read `PERSONALITY.md` and `PLAYBOOK.md` in the repo root. Every editorial decisi
 
 | Field | Constraint | Guidance |
 |---|---|---|
+| `postFormula` | one of: war-story, how-i-built-x, teardown, contrarian-take, decision-log | Read `docs/post-formulas.md` and pick the structure that fits what this post *is*. Build `outline` to that formula's beats. |
 | `seoTitle` | ≤ 60 chars; includes `targetKeyword` | Must sound like Scout said it. Voice > keyword placement. |
 | `headlineVariants` | optional string[] | 2–3 alternates for A/B ideation. Omit if none improve on `seoTitle`. |
 | `metaDescription` | ≤ 155 chars; includes `targetKeyword` | One sentence. Complete thought; no trailing ellipsis. |
@@ -58,6 +59,7 @@ targetKeyword: "..."
 secondaryKeywords:
   - "..."
 searchIntent: informational
+postFormula: how-i-built-x
 seoTitle: "..."
 headlineVariants:
   - "..."

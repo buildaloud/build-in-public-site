@@ -86,6 +86,7 @@ draft: false
 - `targetKeyword` appears in the title and in the first 100 words.
 - Every `internalLink` from the Brief is placed where the post actually references that topic.
 - CTA is the last substantive paragraph, sounds like Scout.
+- The post ends with a `## Sources` section that is a **markdown bulleted list** — one source per bullet, each a linked title. Never a prose paragraph or a loose run of links.
 - No `pubDate` in frontmatter.
 - No emoji. No motivational-poster sentences. No "As an AI..." hedging.
 - Post reads like a dev log, not a marketing article.

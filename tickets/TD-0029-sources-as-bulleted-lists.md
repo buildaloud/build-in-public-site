@@ -1,7 +1,7 @@
 ---
 id: TD-0029
 title: 'post "Sources" sections must be bulleted lists'
-status: open
+status: in-progress
 priority: P2
 rank: 19
 area: content

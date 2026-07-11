@@ -1,7 +1,7 @@
 ---
 id: TD-0031
 title: 'build→blog→learn→refactor loop — feed research learnings back into the thing we built'
-status: open
+status: in-progress
 priority: P1
 rank: 21
 area: content

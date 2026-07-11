@@ -1,7 +1,7 @@
 ---
 id: TD-0028
 title: 'post + paragraph formulas + a per-section impact-review agent for the content pipeline'
-status: open
+status: in-progress
 priority: P1
 rank: 18
 area: content

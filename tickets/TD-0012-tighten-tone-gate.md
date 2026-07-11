@@ -1,7 +1,7 @@
 ---
 id: TD-0012
 title: tighten pipeline tone gate to <=2
-status: open
+status: done
 priority: P3
 rank: 99
 area: build

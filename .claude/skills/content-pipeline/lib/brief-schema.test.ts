@@ -6,6 +6,7 @@ const validBrief = {
   targetKeyword: 'build tower defense game with claude code',
   secondaryKeywords: ['agentic coding', 'claude code tutorial', 'ai game dev'],
   searchIntent: 'informational' as const,
+  postFormula: 'how-i-built-x' as const,
   seoTitle: 'Build a Tower Defense Game with Claude Code',
   metaDescription: 'How I built a playable tower defense game using Claude Code in one weekend — with real agentic coding patterns.',
   hook: 'I shipped a working tower defense game in a weekend using nothing but Claude Code and a stubborn refusal to write boilerplate.',
