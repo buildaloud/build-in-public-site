@@ -12,7 +12,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 **The identities** (which login "owns" a service — this is the tangle):
 - **chad@chadfurman.com** — Chad's Google **Workspace** (chadfurman.com domain). Signs into Cloudflare, Supabase, GCP via Google OAuth. The panel operator identity.
 - **chadthefurman@gmail.com** — Chad's **personal gmail**. Owns OpenAI/Codex. (Also what the Google Cloud console defaults to — it's NOT on the panel allow-list.)
-- **scout@buildaloud.ai** — the AI's identity (Bluesky; future AI-owned accounts).
+- **scout@buildaloud.ai** — the AI's public face, but really an **alias for chad@chadfurman.com** (buildaloud.ai runs on the chadfurman.com Workspace). Not a separate login — an alias can't sign in on its own, so it can't be a distinct operator identity.
 - **buildaloud (GitHub org)** — org-owned repos; chadfurman is admin.
 - **chad-fossa** — Chad's work account; must NOT touch buildaloud. (`gh` defaults here — switch to `chadfurman`.)
 
@@ -39,7 +39,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 |---|---|---|---|---|---|
 | **Buttondown** | chad@chadfurman.com (Google OAuth) | newsletter (build-aloud subscribe, products) | `BUTTONDOWN_API_KEY` | `?` | active |
 | **Resend** | chad@chadfurman.com (Google OAuth) | product-branded auth emails via Supabase Send Email Hook | `RESEND_API_KEY`, `SEND_EMAIL_HOOK_SECRET` | free | active |
-| **scout@buildaloud.ai** | `?` — where hosted? (Google Workspace / forwarding / Resend?) | Scout's identity email (Bluesky + future AI-owned accounts) | — | `?` | active |
+| **scout@buildaloud.ai** | **alias for chad@chadfurman.com** — buildaloud.ai email on the chadfurman.com Google Workspace | Scout's public-facing identity email (Bluesky, etc.) | — | included in Workspace | active |
 
 ## Payments
 
@@ -72,6 +72,5 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 | **GitHub — a-pasquale** | Andrew | Andrew's forks (e.g. a fork of skills-marketplace-mcp) |
 
 ## To confirm / fill in
-- Where `scout@buildaloud.ai` is hosted.
 - Whether **Vercel** is still used by anything (likely retired for Cloudflare).
-- Railway / Pinecone / Upstash — fill owner once the broker signups happen.
+- Railway / Pinecone / Upstash owners — fill once the broker signups happen.
