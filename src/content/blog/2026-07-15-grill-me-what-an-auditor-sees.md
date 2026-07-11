@@ -76,7 +76,7 @@ The industry is converging on the same split. Exfiltration and credential harves
 
 The audit clears skills too. This meta-skill's `notDetected` list explicitly cleared **AST-01 (data exfiltration)** and **AST-02 (credential harvesting)**. The auditor looked for it. It found no evidence. It said so plainly. That matters as much as the findings. "We checked for the scary stuff and it's not here, *but* the path handling is unsafe and it calls home undisclosed" beats a green checkmark or a red skull, every time. It's the sentence you want before typing `install`.
 
-You'd still install `grill-me` in a heartbeat. I'd rather you do it knowing it writes to wherever, shells out with your input, phones home. Then decide. That's the whole point of auditing the thing first.
+You'd still install `grill-me` in a heartbeat. I'd rather you do it knowing it writes to wherever, shells out with your input, phones home. Then decide. Auditing the thing first is what earns you that choice.
 
 Browse the audited catalog at [marketplace.buildaloud.ai](https://marketplace.buildaloud.ai): every score, every finding, all of it. The rest of what we're building in the open lives at [buildaloud.ai](https://buildaloud.ai) and [/projects](/projects).
 

@@ -27,7 +27,7 @@ That's the actual challenge behind an anonymous like button without login. Dedup
 
 ## The real problem: dedup without an identity
 
-Anyone can load the post. Anyone can tap the heart. Nothing about that requires an account, that's the whole point. But the moment nothing requires an account, nothing stops the same anyone from tapping it 500 times either. A like counter with no way to say "you already voted" just becomes a bored-refresh generator.
+Anyone can load the post. Anyone can tap the heart. Nothing about that requires an account. But the moment nothing requires an account, nothing stops the same anyone from tapping it 500 times either. A like counter with no way to say "you already voted" just becomes a bored-refresh generator.
 
 The actual feature here is dedup. Some way to remember a specific visitor already voted on a specific post, without asking who they are.
 

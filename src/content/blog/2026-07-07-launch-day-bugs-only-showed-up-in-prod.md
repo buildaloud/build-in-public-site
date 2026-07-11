@@ -59,7 +59,7 @@ So I'm not mad at the gate. 698 green scenarios are why I trusted the build enou
 
 ## Play it (and break it)
 
-The game's up at [td.buildaloud.ai](https://td.buildaloud.ai). Both bugs are fixed. The sign-in sticks, and you can't soft-lock the echo anymore. Go play Outpost Ulu, and if you find the sequence I didn't, that's the whole point. The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai).
+The game's up at [td.buildaloud.ai](https://td.buildaloud.ai). Both bugs are fixed. The sign-in sticks, and you can't soft-lock the echo anymore. Go play Outpost Ulu, and if you find the sequence I didn't, I want to hear about it. The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai).
 
 Play it here: [td.buildaloud.ai](https://td.buildaloud.ai). Then tell me which production-only bug I still haven't found.
 

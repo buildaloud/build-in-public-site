@@ -34,7 +34,7 @@ Docs are for users. They answer: here's what every button does, here's the FAQ.
 
 SKILL.md is for agents. It answers: here's what I do, here's when to invoke me, here's what I expect.
 
-That sounds like a small distinction. It isn't. Every other documentation format in the last 40 years was ultimately read by a human who would then *decide* what to do. SKILL.md is read by a system that will immediately *act* on it. The human is out of the loop by design. That's the whole point.
+That sounds like a small distinction. It isn't. Every other documentation format in the last 40 years was ultimately read by a human who would then *decide* what to do. SKILL.md is read by a system that will immediately *act* on it. The human is out of the loop by design.
 
 And the reader is not skeptical. Not even a little.
 
