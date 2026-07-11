@@ -272,6 +272,33 @@ Tags: lowercase, consistent with existing posts.
 
 ---
 
+### 10.5 Score & Schedule — SEO impact model
+
+Do not hand-pick `pubDate`. Place the post per `docs/seo-impact-model.md`:
+
+1. **Bucket the post.** Bucket A = our own session work (front-loaded by
+   recency, time-sensitive). Bucket B = the evergreen pool (external work + any
+   not-yet-published inspiration/learning/how-to), drained highest-SEO-first.
+   Our-lived-experience-of-an-external-thing is Bucket A.
+2. **Score it** (0–100) on the four factors — `intentValue`, `opportunity`,
+   `engagement`, `freshness` — using the seo-researcher output + content-judge
+   hook rating + intuition. Record all four sub-scores, not just the total.
+3. **Draw the slot.** Bucket A takes the earliest open date. Bucket B posts
+   compete as a pool: assign the next slot NOT claimed by fresher Bucket A work
+   to the highest-scored unpublished Bucket B post. Provisional future dates on
+   lower-scored posts yield to higher-scored ones (rewrite their `pubDate`).
+   Keep ≤1/day.
+4. **Log the prediction** to `src/data/seo-predictions.json` (slug, bucket,
+   pubDate, score, factors, one-line rationale, `actual: null`).
+
+**Learning loop (also runs at `stats:pull` and any rebalance):** reconcile
+predictions vs actual `stats.json` (views/impressions/clicks/position), note
+which factor mispredicted, nudge weights, bump `modelVersion` with a one-line
+change note, and re-draw the remaining queue. See the model doc for the full
+loop.
+
+---
+
 ### 11. Bookkeeping
 
 **Update `posted.md`:**

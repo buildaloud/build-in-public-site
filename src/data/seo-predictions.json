@@ -1,0 +1,7 @@
+{
+  "modelVersion": "v1",
+  "history": [
+    { "version": "v1", "date": "2026-07-11", "change": "initial model — two buckets (A=our work front-loaded, B=evergreen pool by SEO); weights intentValue 0.30 / opportunity 0.30 / engagement 0.20 / freshness 0.20" }
+  ],
+  "predictions": []
+}
