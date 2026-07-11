@@ -9,13 +9,20 @@ Credential *keys* (env-var names + where to get each) live in the token ceremony
 Legend: **owner** = the login the account is under · **key** = the env var (value
 lives in `.env`, never here) · `?` = needs Chad to confirm.
 
+**The identities** (which login "owns" a service — this is the tangle):
+- **chad@chadfurman.com** — Chad's Google **Workspace** (chadfurman.com domain). Signs into Cloudflare, Supabase, GCP via Google OAuth. The panel operator identity.
+- **chadthefurman@gmail.com** — Chad's **personal gmail**. Owns OpenAI/Codex. (Also what the Google Cloud console defaults to — it's NOT on the panel allow-list.)
+- **scout@buildaloud.ai** — the AI's identity (Bluesky; future AI-owned accounts).
+- **buildaloud (GitHub org)** — org-owned repos; chadfurman is admin.
+- **chad-fossa** — Chad's work account; must NOT touch buildaloud. (`gh` defaults here — switch to `chadfurman`.)
+
 ## Infrastructure
 
 | Service | Owner (login) | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **Cloudflare** | chad@chadfurman.com `?` | Pages (buildaloud.ai, panel, demo, chesstell, skills-marketplace, ticket-kit), DNS (buildaloud.ai, chads.website, chesstell.com, chadfurman.com, agnai.guide, gaming-thrones.com, ladderlegendsacademy.*, ruttobats.com), WAF | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID` | free + metered | active |
-| **Supabase** | chad@chadfurman.com `?` (org "chadfurman's Org", project `buildaloud-shared` / `clweuvbzerykadyamdpw`) | all products' auth + data (build-aloud likes/subscribe, panel, demo) | `SUPABASE_SECRET_KEY`, `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, `PUBLIC_SUPABASE_ANON_KEY` | free | active |
-| **Google Cloud** | chad@chadfurman.com (org chadfurman.com) | panel Google OAuth (project `buildaloud`), Gemini API (project `gen-lang-client-*`), GA4 + Search Console | OAuth client (`.oauth-client-panel-web.json`), `gcloud` auth | free-ish | active |
+| **Cloudflare** | chad@chadfurman.com (Google OAuth) | Pages (buildaloud.ai, panel, demo, chesstell, skills-marketplace, ticket-kit), DNS (buildaloud.ai, chads.website, chesstell.com, chadfurman.com, agnai.guide, gaming-thrones.com, ladderlegendsacademy.*, ruttobats.com), WAF | `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_ZONE_ID` | free + metered | active |
+| **Supabase** | chad@chadfurman.com (Google OAuth) — org "chadfurman's Org", project `buildaloud-shared` / `clweuvbzerykadyamdpw` | all products' auth + data (build-aloud likes/subscribe, panel, demo) | `SUPABASE_SECRET_KEY`, `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`, `PUBLIC_SUPABASE_ANON_KEY` | free | active |
+| **Google Cloud** | chad@chadfurman.com (Google OAuth; org chadfurman.com) | panel Google OAuth (project `buildaloud`), Gemini API (project `gen-lang-client-*`), GA4 + Search Console | OAuth client (`.oauth-client-panel-web.json`), `gcloud` auth | free-ish | active |
 | **Railway** | `?` — Chad to create | MCP broker host (skills-marketplace-mcp) | Railway project token | ~$5/mo | **being set up** |
 | **Vercel** | `?` | `?` — legacy? build-aloud CLAUDE.md still says "Vercel auto-deploys" but we moved to Cloudflare Pages | — | — | **confirm — likely unused** |
 
@@ -44,7 +51,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 
 | Service | Owner | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **OpenAI** | Chad's OpenAI sub | hero-image gen (codex imagegen + Images API), Codex CLI | `OPENAI_API_KEY` | paid | active |
+| **OpenAI / Codex** | chadthefurman@gmail.com (personal gmail) | hero-image gen (codex imagegen + Images API), Codex CLI | `OPENAI_API_KEY` | paid | active |
 | **Anthropic (Claude)** | Chad | the whole content + dev pipeline | Claude Code auth | paid | active |
 
 ## Social
@@ -63,7 +70,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 | **GitHub — a-pasquale** | Andrew | Andrew's forks (e.g. a fork of skills-marketplace-mcp) |
 
 ## To confirm / fill in
-- Owner logins marked `?` above (Cloudflare, Supabase, Buttondown, Resend, Stripe email).
+- Owner logins still `?`: Buttondown, Resend, Stripe (which email registered each).
 - Where `scout@buildaloud.ai` is hosted.
 - Whether **Vercel** is still used by anything (likely retired for Cloudflare).
 - Railway / Pinecone / Upstash — fill owner once the broker signups happen.
