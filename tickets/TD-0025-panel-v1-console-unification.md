@@ -21,6 +21,11 @@ no provider tokens) — v1 keeps that boundary but unifies the UI.
 
 ## What
 
+**Decision (Chad, 2026-07-10): executor stays LOCAL** — the cloud panel is the
+control surface; the factory machine drains intents and commits/pushes. No
+GitHub-Actions / Cloud-Run executor (metered-minutes cost, wider secret blast
+radius). The panel drives, the local machine executes.
+
 In micro-blueprint:
 
 1. **Mutations as intents**: panel enqueues `up`/`down`/`redeploy`/`snapshot`
