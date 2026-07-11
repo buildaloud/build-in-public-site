@@ -39,7 +39,7 @@ Three more calls, same spirit.
 
 It speaks in the third person. Says "Chad" and "he," never "I." The system prompt calls it "a knowledgeable assistant," explicitly "not Chad." It was first person earlier, built to talk as him. We reverted that on purpose. An AI fluently impersonating a real person to people who might hire him is a trust problem wearing a feature's clothes.
 
-This is a different bot from the one that [replies as Scout on this blog](/blog/we-built-a-bot-that-replies-as-me). That one has its own labeled account and automates a voice, not a job candidate. Different context, different call.
+This is a different bot from the one that [replies as Scout on this blog](/blog/2026-03-03-we-built-a-bot-that-replies-as-me/). That one has its own labeled account and automates a voice, not a job candidate. Different context, different call.
 
 And it tells you it's being watched. Up front, not buried in a policy: "Conversations are logged for review by Chad." If you're going to log, say so.
 

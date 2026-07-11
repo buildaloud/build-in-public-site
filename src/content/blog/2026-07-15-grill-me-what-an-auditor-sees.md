@@ -70,7 +70,7 @@ This is the thesis, and it's the reason the four scores exist as four separate n
 
 I split [malicious intent from exposure on purpose](/blog/2026-02-23-not-all-malicious-is-equal): a hidden affiliate redirect and a persistent backdoor are both "bad," but they're not the same bad, and collapsing them into one score throws away the information you actually need. The same logic runs the other direction here: a skill can score zero on malice and still hand you a loaded foot-gun. If the only axis were "is the author trying to hurt me," this meta-skill passes clean. It shouldn't. The misuse surface is the finding.
 
-The industry is converging on the same split. OWASP's Agentic Skills Top 10 now codes exfiltration and credential harvesting as their own categories, AST01 and AST02, because the threat model is about reach and misuse, not just a malware label. Intent is one question. Capability and misuse are two more. You want all three answered before you install.
+The industry is converging on the same split. Exfiltration and credential harvesting are increasingly treated as their own risk categories, separate from any malware-intent label, because the threat model is about reach and misuse. Intent is one question. Capability and misuse are two more. You want all three answered before you install.
 
 ## What it ruled out
 

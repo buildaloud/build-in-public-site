@@ -18,7 +18,7 @@ searchIntent: "informational"
 audience: "security engineers designing threat-scoring models for AI skills"
 ---
 
-> **Update:** The AST v1.0 taxonomy is now live on the [Skills Marketplace](https://skills.buildaloud.ai/ast). Browse all 10 threat types and the scoring formulas there. Check the exposure tier definitions too, and filter the full skill catalog by risk level.
+> **Update:** The AST v1.0 taxonomy is now live on the [Skills Marketplace](https://marketplace.buildaloud.ai/ast). Browse all 10 threat types and the scoring formulas there. Check the exposure tier definitions too, and filter the full skill catalog by risk level.
 
 ## The Problem With the First Model
 

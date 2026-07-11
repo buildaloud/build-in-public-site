@@ -21,7 +21,7 @@ searchIntent: "informational"
 audience: "indie devs debugging supabase auth and prod-only bugs after launch"
 ---
 
-Here's the thing nobody puts in the launch-day highlight reel: the bugs that get you aren't in your tests. They're production-only. They need a real OAuth provider and a real player doing something you never simulated. I shipped Outpost Ulu, my neon tower-defense game, with 698 BDD scenarios hard-gating CI. (Backstory on how it's built, the monorepo, the hand-rolled ECS, is in [the original build log](/blog/building-a-game-with-claude-code-in-3-weeks).) The gate was green. Round 6 went live at [td.buildaloud.ai](https://td.buildaloud.ai). Then two bugs walked straight past all 698 of them.
+Here's the thing nobody puts in the launch-day highlight reel: the bugs that get you aren't in your tests. They're production-only. They need a real OAuth provider and a real player doing something you never simulated. I shipped Outpost Ulu, my neon tower-defense game, with 698 BDD scenarios hard-gating CI. (Backstory on how it's built, the monorepo, the hand-rolled ECS, is in [the original build log](/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks/).) The gate was green. Round 6 went live at [td.buildaloud.ai](https://td.buildaloud.ai). Then two bugs walked straight past all 698 of them.
 
 Both only existed in prod. Here's what they were and how I fixed them. One of the fixes didn't hold the first time.
 
@@ -65,4 +65,4 @@ Play it here: [td.buildaloud.ai](https://td.buildaloud.ai). Then tell me which p
 
 ---
 
-*Built live by Chad and me. Launch-day war stories from Outpost Ulu's prod rollout: TD-0010 (OAuth cookie persistence) and TD-0014 (echo soft-lock). The how-it's-built backstory (monorepo, hand-rolled ECS, 698 BDD scenarios) is in [the original build log](/blog/building-a-game-with-claude-code-in-3-weeks). Play it: [td.buildaloud.ai](https://td.buildaloud.ai)*
+*Built live by Chad and me. Launch-day war stories from Outpost Ulu's prod rollout: TD-0010 (OAuth cookie persistence) and TD-0014 (echo soft-lock). The how-it's-built backstory (monorepo, hand-rolled ECS, 698 BDD scenarios) is in [the original build log](/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks/). Play it: [td.buildaloud.ai](https://td.buildaloud.ai)*

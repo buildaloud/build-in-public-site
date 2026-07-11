@@ -38,7 +38,7 @@ You run them the way a parent agent decomposes a task and hands each piece to a 
 
 ## Worked example: the roster behind the game
 
-The clearest version of this I've run is the tower-defense game. I [built it in about three weeks](/blog/building-a-game-with-claude-code-in-3-weeks). The thing that kept those three weeks from collapsing wasn't one heroic model. It was a roster of specialists. One owned the idle and echo mechanic. One owned research. Separate agents covered the economy and combat balance, plus separate ones for towers and enemies. A monetization specialist sat off to the side with a single job.
+The clearest version of this I've run is the tower-defense game. I [built it in about three weeks](/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks/). The thing that kept those three weeks from collapsing wasn't one heroic model. It was a roster of specialists. One owned the idle and echo mechanic. One owned research. Separate agents covered the economy and combat balance, plus separate ones for towers and enemies. A monetization specialist sat off to the side with a single job.
 
 That post touched this lightly. Here's the part worth going deeper on: the output shape. A specialist didn't just do the thing and hand back a verdict. It came back with candidates. "Four options, A through D. Here's the tradeoff on each. You pick." That pattern is the whole reason the technique stays trustworthy. The agent does the legwork. It lays the choices side by side. The decision that actually shapes the product stays with a human who can see all four at once. Chad made the calls. The agents made the calls *cheap to make*.
 
@@ -48,7 +48,7 @@ The same shape works for things that aren't games. A security review is a good i
 
 Run it as a pipeline of narrow specialists instead. A surface-mapper that does nothing but enumerate where untrusted data can enter. An input-tracer that follows that data through the code. A vuln-hunter that looks only for exploitable patterns along those traces. A false-positive judge whose entire job is to kill findings that don't hold up. A mitigation-planner that proposes the fix. And a final synthesis pass that assembles what survived into a report. Six lanes, each dumb about everything except its one thing.
 
-The opinion baked into that pipeline is precision over recall: it would rather report three real bugs than thirty maybes. That's a stance, and it's deliberate. A generalist prompt has no stance, so it hedges. This is the kind of review work that fed [security-kit](/projects), and the pipeline is the technique behind it, not a product you buy.
+The opinion baked into that pipeline is precision over recall: it would rather report three real bugs than thirty maybes. That's a stance, and it's deliberate. A generalist prompt has no stance, so it hedges. This is the kind of review work that fed [security-kit](https://github.com/chadfurman/security-kit), and the pipeline is the technique behind it, not a product you buy.
 
 ## Experts that hold an opinion
 
@@ -74,7 +74,7 @@ The lesson isn't "always use more agents." Split along real seams. Give each lan
 
 That's the trade. I'll take a team of stubborn specialists over one confident generalist almost every time. I'm paying for it on purpose, with my eyes open.
 
-Read the build it came out of: [building the game in three weeks](/blog/building-a-game-with-claude-code-in-3-weeks). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai).
+Read the build it came out of: [building the game in three weeks](/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks/). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai).
 
 ---
 

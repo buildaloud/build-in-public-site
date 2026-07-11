@@ -22,3 +22,25 @@ Source of truth for project URLs is `src/data/projects.ts`.
 - `skills.buildaloud.ai` vs `marketplace.buildaloud.ai` for the marketplace → pick the canonical (marketplace.buildaloud.ai) unless a live subpath is verified.
 - Internal `/blog/<slug>/` links → the target file must exist in `src/content/blog/`.
 - Bare `code.claude.com` / vendor docs → fine if they resolve.
+
+## Learned (audit 2026-07-11)
+- **Soft-404 (CRITICAL method):** an internal `/blog/<slug>` link missing its
+  `YYYY-MM-DD-` date prefix returns **HTTP 200**, not 404 — the site serves the
+  homepage (`<title>Build Aloud…</title>`, canonical `buildaloud.ai/`). `curl -sI`
+  status is NOT sufficient. Validate by matching the slug against real filenames
+  in `src/content/blog/` (or `functions/api/_slugs.json`); the canonical slug is
+  the filename minus `.md`, date prefix included.
+- **Dead domains (as of 2026-07-11):** `mcp.buildaloud.ai` (no DNS — MCP broker
+  gone; 2 Feb posts reference it), `skills.buildaloud.ai` (no DNS → use
+  `marketplace.buildaloud.ai`), `ticket-kit.chads.website` (no DNS right now →
+  fall back to `github.com/chadfurman/ticket-kit`). Recheck before trusting.
+- **`marketplace.buildaloud.ai` returns HTTP 401 by design** (basic-auth gate,
+  per the "marketplace is live behind a password" post) — do NOT flag as broken.
+- **Private repos 404 to the public:** `buildaloud/skills-marketplace-mcp` (and
+  most of the org) is private; public blog links to it fail for readers. Only
+  `build-in-public-site` + `safe-oss-forever` are public in the buildaloud org.
+- **Curl UA false-positives:** `support.google.com`, `pandectes.io`,
+  `machinelearningmastery.com` reject bare/generic UAs (403/404/CF-challenge) but
+  resolve with a full desktop-Chrome UA — not dead. Retry with a real UA before flagging.
+- **`chadfurman.com` → `chads.website`** is a clean 301 (works, but prefer the canonical `chads.website` in new links).
+- **`a-pasquale`** = Andrew's GitHub handle (attribution cross-checks).

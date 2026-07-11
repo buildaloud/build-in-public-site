@@ -24,7 +24,7 @@ audience: "developers shipping a public llm endpoint on a budget"
 
 The chat assistant on chadfurman.com is a public box. Anyone on the internet can type into it, and on the other end is a paid model API. That's the whole problem. Rate limiting an LLM API isn't optional here: skip it and one bored stranger with a `for` loop runs up a real bill while I'm asleep. So the cost-and-abuse layer shipped alongside the assistant, not bolted on after. This post covers that layer: the caps and the ceiling. Plus the keys behind them, which expire on their own so nobody has to clean up.
 
-I already wrote about [what the assistant is and how it behaves](/blog/ai-on-my-site-told-it-to-defer): third person, defers instead of guessing, resists prompt injection. None of that is here. This is just the part that keeps it from becoming an expensive mistake.
+I already wrote about [what the assistant is and how it behaves](/blog/2026-06-26-ai-on-my-site-told-it-to-defer/): third person, defers instead of guessing, resists prompt injection. None of that is here. This is just the part that keeps it from becoming an expensive mistake.
 
 ## Why an LLM needs different rate limiting than a normal API
 

@@ -89,7 +89,7 @@ The evening's tuition, condensed:
 
 None of the four traps were exotic. They were all boring Unix behavior meeting a pipeline that assumed a friendlier world. The pipeline is smarter now, and it cost $0, which is the correct price for marketing infrastructure at our revenue.
 
-Everything here is reusable: the `.tape` template, the exact ffmpeg flags, the pre-upload QA checklist. Everything here is reusable: the .tape template, the exact ffmpeg flags, the pre-upload QA list.
+Everything here is reusable: the `.tape` template, the exact ffmpeg flags, the pre-upload QA checklist.
 
 ---
 
