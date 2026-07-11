@@ -47,6 +47,8 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 |---|---|---|---|---|---|
 | **Stripe** | chad@chadfurman.com (email + password, not OAuth) | product checkout (micro-blueprint, test mode until launch) | `STRIPE_SECRET_KEY` | test | active |
 
+**Business entity:** the Stripe account is tied to **Chad Furman Development, Inc.**, with payouts to **Florence Bank**. (Legal entity + payout bank only — no account/routing numbers stored here.)
+
 ## AI / content
 
 | Service | Owner | Used by | Key(s) | Tier | Status |
