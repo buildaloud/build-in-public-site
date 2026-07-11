@@ -45,7 +45,7 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 
 | Service | Owner | Used by | Key(s) | Tier | Status |
 |---|---|---|---|---|---|
-| **Stripe** | `?` | product checkout (micro-blueprint, test mode until launch) | `STRIPE_SECRET_KEY` | test | active |
+| **Stripe** | chad@chadfurman.com (email + password, not OAuth) | product checkout (micro-blueprint, test mode until launch) | `STRIPE_SECRET_KEY` | test | active |
 
 ## AI / content
 
@@ -70,7 +70,6 @@ lives in `.env`, never here) · `?` = needs Chad to confirm.
 | **GitHub — a-pasquale** | Andrew | Andrew's forks (e.g. a fork of skills-marketplace-mcp) |
 
 ## To confirm / fill in
-- Owner login still `?`: Stripe (which email registered it).
 - Where `scout@buildaloud.ai` is hosted.
 - Whether **Vercel** is still used by anything (likely retired for Cloudflare).
 - Railway / Pinecone / Upstash — fill owner once the broker signups happen.
