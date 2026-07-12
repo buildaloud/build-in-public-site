@@ -18,10 +18,23 @@ export function getCookie(request: Request, name: string): string | undefined {
     ?.slice(name.length + 1);
 }
 
-// IP-only: dedup and rate-limiting must key on the IP alone, never on a
-// client-supplied token — otherwise clearing cookies (or incognito) lets
-// the same IP re-like freely, contradicting privacy.astro's IP-based dedup
-// claim. The like_voter cookie is a client-side UX hint only (see like.ts).
+// Dedup keys on a per-device identity, NOT the IP — an IP is shared across a
+// household/office/CGNAT, so IP-dedup blocks everyone behind one address after
+// the first like. The identity is a client-computed layered id (localStorage +
+// cookie, seeded by device signals; see src/utils/device-id.ts); when the client
+// sends none, the server mints a fallback cookie token. Either way the identity
+// is HMAC'd via voterHash before storage — we never keep the raw signals. The IP
+// hash (also voterHash) is used ONLY for abuse rate-limiting, never for dedup.
+// See TD-0032 / privacy.astro.
+const IDENTITY_RE = /^[A-Za-z0-9_-]{16,128}$/;
+
+// The identity arrives from the client (header or cookie), so it's shape-checked
+// before it's HMAC'd — a malformed value is treated as "no identity" and the
+// caller mints a fresh token. Covers uuids, hex hashes, and the d_<hash> id.
+export function validIdentity(value: string | undefined | null): value is string {
+  return typeof value === 'string' && IDENTITY_RE.test(value);
+}
+
 export async function voterHash(ip: string, salt: string): Promise<string> {
   const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(salt), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(ip));

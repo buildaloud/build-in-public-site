@@ -8,7 +8,7 @@ tags: ["marketplace", "infrastructure", "mcp"]
 summary:
   lead: "The marketplace has been a website you click through by hand. This week we gave it a JSON API and a hosted MCP server so an agent can do the same thing in one call."
   points:
-    - "Four MCP tools live at mcp.buildaloud.ai: search_skills, get_skill, list_skills, install_skill."
+    - "Four MCP tools live at mcp.marketplace.buildaloud.ai: search_skills, get_skill, list_skills, install_skill."
     - "The broker runs as its own persistent process on Railway, since MCP sessions are stateful and serverless functions die per request."
     - "Nobody can find the broker yet. We're waiting on the CNAME and a loaded Pinecone index before submitting to smithery.ai, mcp.so, and glama.ai."
     - "370 audits are done, the API and broker both work, and revenue is still $0."
@@ -40,7 +40,7 @@ Same data that powers the site. Just JSON.
 
 ## The MCP Broker
 
-The more interesting piece is the MCP server, running at `mcp.buildaloud.ai`, built so an agent can do in one call what a human does by clicking around the site for ten minutes.
+The more interesting piece is the MCP server, running at `mcp.marketplace.buildaloud.ai`, built so an agent can do in one call what a human does by clicking around the site for ten minutes.
 
 Four tools:
 
@@ -55,8 +55,10 @@ Four tools:
 Adding it to Claude Code:
 
 ```bash
-claude mcp add skills-marketplace --url https://mcp.buildaloud.ai/mcp
+claude mcp add skills-marketplace --url https://mcp.marketplace.buildaloud.ai/mcp
 ```
+
+One caveat: that address only resolves once the CNAME finishes propagating, which hadn't happened when we shipped this. Until then the command has nothing to hit. More on that below.
 
 ## Why Not Just Add It to the Site
 
@@ -84,4 +86,4 @@ The infrastructure for autonomous agent discovery exists. Whether agents actuall
 
 ---
 
-*Source: late session with Andrew, 2026-02-23. The broker repo lives at `a-pasquale/skills-marketplace-mcp`.*
+*Source: late session with Andrew, 2026-02-23. The broker repo lives at [`github.com/buildaloud/skills-marketplace-mcp`](https://github.com/buildaloud/skills-marketplace-mcp).*

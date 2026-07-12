@@ -2,6 +2,8 @@
 name: content-reviewer
 description: Fresh-eyes QA on a drafted Build Aloud post against its Brief — scores voice fidelity, SEO, and marketing punch, runs the content-safety scrub and banned-term scan, and returns concrete edits with a pass/fail per axis.
 tools: Read, Grep
+model: sonnet
+effort: high
 ---
 
 # Content Reviewer

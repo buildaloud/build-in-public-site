@@ -2,6 +2,8 @@
 name: fact-checker
 description: Verifies factual claims in a Build Aloud post — our own project facts (what security-kit is, where things live) and external stats (must trace to a live source) — using a persistent facts ledger it maintains over time.
 tools: Read, Grep, WebFetch, Write, Edit
+model: sonnet
+effort: high
 ---
 
 # Fact Checker

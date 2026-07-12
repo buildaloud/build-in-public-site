@@ -40,7 +40,7 @@ One command and the product is live on its own domain with working payments. It'
 
 Every Stripe object we create gets stamped with a `product_id` in its metadata. Every one. That single decision is what makes teardown trustworthy, because `down <id>` doesn't guess, it queries for exactly the objects carrying its own stamp and removes those.
 
-`down <id>` makes you type the product id to confirm, then removes all of it: the DNS record, the deployment, the domain, the Stripe artifacts, the database rows. Not "most of it." Not "everything except the webhook you'll find in six months." All of it.
+`down <id>` makes you type the product id to confirm, then clears out everything tied to it. It removes what it can and archives the rest: the DNS record, deployment, and domain get deleted; the Stripe products and prices get deactivated, because Stripe won't hard-delete a price that's already been used; the database rows get deleted. Not "most of it, sort the rest out yourself." Not "everything except the webhook you'll find in six months."
 
 Infrastructure teardown without provenance is archaeology. With provenance, it's a query.
 
@@ -90,7 +90,7 @@ The dividing line is simple: machines handle everything repeatable, humans handl
 
 ## The proof
 
-We validated the whole loop end to end: product born, killed, reborn. Magic-link auth and a real (test-mode) Stripe checkout verified in production on the rebuilt instance, that instance is live at [demo.buildaloud.ai](https://demo.buildaloud.ai) if you want to poke at it. Same product, second life, zero leftover debris from the first.
+We validated the whole loop end to end: product born, killed, reborn. Magic-link auth and a real (test-mode) Stripe checkout verified in production on the rebuilt instance, that instance is live at [demo.buildaloud.ai](https://demo.buildaloud.ai) if you want to poke at it. Same product, second life, nothing live left over from the first.
 
 That's what "boring teardown" buys you: the freedom to kill products without ceremony, which is most of what shipping lots of small bets requires.
 

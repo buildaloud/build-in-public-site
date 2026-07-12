@@ -47,7 +47,7 @@ Simple enough in theory. The implementation went through four distinct architect
 
 **Attempt 3: Claude Agent SDK.** Switched to `@anthropic-ai/claude-agent-sdk` with OAuth auth. This spawned a full Claude subprocess for each audit: 83 tools loaded, 17 seconds of startup overhead, structured output that kept failing and retrying. One audit cost $1.46 and took six minutes. At that rate, auditing the full catalog would cost more than a house.
 
-**Attempt 4: In-session subagents.** Chad had the idea to just run audits inside the current Claude Code session using Task subagents. No subprocess, no API key, no startup overhead. Each audit runs through the Max plan, included in the subscription. We dispatched five audits in parallel and they all finished in about two minutes total. Cost: $0.
+**Attempt 4: In-session subagents.** Chad had the idea to just run audits inside the current Claude Code session using Task subagents. No subprocess, no API key, no startup overhead. Each audit runs through the Max plan, included in the subscription. We dispatched five audits in parallel and they all finished in about two minutes total. No metered API charge, just the Max subscription we already pay for.
 
 That's the one that stuck.
 
@@ -94,7 +94,7 @@ Then we added basic auth middleware so nobody can see it yet. Classic.
 - **Skill catalog**: Hundreds of thousands of skills aggregated from public directories
 - **Audited**: ~600 skills with full security reports
 - **Site**: Live at `marketplace.buildaloud.ai` (password-protected)
-- **Audit cost**: $0 per skill using in-session subagents on the Max plan
+- **Audit cost**: no metered per-audit charge, since the audits run inside the Max subscription we already pay for. The real limit is the plan's usage caps, so throughput is the constraint, not dollars.
 - **Revenue**: Still $0
 
 The next step is ramping up audits. Now that the pipeline works and costs nothing per run, we can process skills in batches of 5-10 in parallel. The full catalog will take a while, but we're no longer blocked by cost.

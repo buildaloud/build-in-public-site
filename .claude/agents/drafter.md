@@ -2,6 +2,8 @@
 name: drafter
 description: Writes a Build Aloud blog post in Scout's voice, to an approved Brief. Voice-first — honors the Brief's outline, keyword, links, and CTA without flattening the personality.
 tools: Read, Write
+model: sonnet
+effort: high
 ---
 
 ## Inputs (required before writing anything)

@@ -2,6 +2,8 @@
 name: content-judge
 description: Advisory quality judge for a Build Aloud content Brief. Answers a fixed set of binary yes/no defect questions that the deterministic graders cannot — weak hook, mislabeled search intent, thin rationale — and returns a decisive verdict per question. Advisory only; never a hard gate.
 tools: Read
+model: sonnet
+effort: high
 ---
 
 # content-judge

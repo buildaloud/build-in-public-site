@@ -49,10 +49,16 @@ const contactEmail = 'chad@chadfurman.com';
         consent, to personalize them.
       </li>
       <li>
-        <strong>Post likes.</strong> Liking a blog post stores a salted, one-way (HMAC) hash
-        of your IP address — never the raw IP — to prevent double-counting. A hashed IP is
-        still considered personal data under GDPR, so it's disclosed here even though it
-        can't be reversed to your original address.
+        <strong>Post likes.</strong> To count a like once per device without an account, we keep
+        a random device id in your browser — in both localStorage and a cookie — and, if you clear
+        both, re-derive a similar id from your browser's characteristics (screen, timezone, language,
+        and a Web Audio signal). That id is hashed on our server; we never store the raw
+        characteristics, and it's device-level, not identity — we still don't know who you are.
+        Separately, your IP is hashed with a secret salt only to rate-limit abuse, never to decide
+        whether you've already liked. Under GDPR a device id and a salted IP hash are still personal
+        data, so they're disclosed here even though neither reveals who you are. The honest tradeoff:
+        clear your browser storage on a browser that also randomizes these signals (like Safari) and
+        you can like a post again.
       </li>
     </ul>
 

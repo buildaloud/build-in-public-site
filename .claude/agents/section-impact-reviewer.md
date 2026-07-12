@@ -2,6 +2,8 @@
 name: section-impact-reviewer
 description: Judges each section of a Build Aloud draft on its own merits (purpose, impact, concept) then against the whole doc (consistent, non-redundant, unique, resonant), and returns concrete strip/rewrite edits so every section earns its place and lands emotionally for the audience.
 tools: Read, Grep, Edit
+model: sonnet
+effort: high
 ---
 
 # Section-Impact Reviewer

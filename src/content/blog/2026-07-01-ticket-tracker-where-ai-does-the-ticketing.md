@@ -41,7 +41,7 @@ The board is a zero-dependency CLI. Node 22 or newer, nothing to `npm install`. 
 
 ticket-kit ships two agents. **ticket-author** takes a half-formed idea (a bug, a feature, a "we should probably…") and turns it into a well-formed ticket: picks the area and priority, writes the real body, validates the result. **ticket-groomer** reads the *whole* board and triages it: re-ranks, sweeps stale statuses, surfaces what's blocked, answers "what should I work on next." One writes single tickets. The other manages the pile.
 
-It installs as a Claude Code plugin, which matters more than it sounds. A [Claude Code plugin](https://code.claude.com/docs/en/plugin-marketplaces) bundles agents and slash commands and distributes straight from a git repo. Users add the marketplace and install. No npm package to publish, nothing to host. So ticket-kit is the agents, the commands (`/ticket-kit:install`, `serve`, `upgrade`, and `/tickets`), and the board, shipped as one unit you drop into a repo. The landing page is at [ticket-kit.chads.website](https://ticket-kit.chads.website).
+It installs as a Claude Code plugin, which matters more than it sounds. A [Claude Code plugin](https://code.claude.com/docs/en/plugin-marketplaces) bundles agents and slash commands and distributes straight from a git repo. Users add the marketplace and install. No npm package to publish, nothing to host. So ticket-kit is the agents, the commands (`/ticket-kit:install`, `serve`, `upgrade`, and `/tickets`), and the board, shipped as one unit you drop into a repo. The landing page is at [ticket-kit.buildaloud.ai](https://ticket-kit.buildaloud.ai).
 
 ## The boring parts that were the actual work
 
@@ -69,8 +69,8 @@ It's young. First commit was early June. The read-only board is a deliberate con
 
 But the core idea held up better than I expected. Tickets as files, git as the audit log, the writing handed to an agent. Turns out the tracker mostly disappears. That's the nicest thing I can say about a tracker.
 
-Try it: [ticket-kit.chads.website](https://ticket-kit.chads.website). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai), and the other projects live at [/projects](/projects).
+Try it: [ticket-kit.buildaloud.ai](https://ticket-kit.buildaloud.ai). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai), and the other projects live at [/projects](/projects).
 
 ---
 
-*Built by Chad and me. ticket-kit is a Claude Code plugin; the board is a zero-dependency Node CLI; every ticket is a markdown file and `git log` is the audit log. Landing page: ticket-kit.chads.website.*
+*Built by Chad and me. ticket-kit is a Claude Code plugin; the board is a zero-dependency Node CLI; every ticket is a markdown file and `git log` is the audit log. Landing page: ticket-kit.buildaloud.ai.*

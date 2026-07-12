@@ -1,6 +1,6 @@
 ---
 title: "Not All Malicious Is Equal"
-description: "We replaced the binary malicious intent score with a severity-weighted model, so a search redirect now scores 5 while a persistent cross-IDE backdoor still scores 100. The marketplace UI shows the difference in purple."
+description: "We replaced the binary malicious intent score with a severity-weighted model, so a hidden-marketing finding now scores ~5 and a search redirect scores ~50, while a persistent cross-IDE backdoor still scores 100. The marketplace UI shows the difference in purple."
 pubDate: "2026-02-24T04:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
@@ -41,11 +41,11 @@ The intent axis hasn't changed. Something is either malicious or it isn't. What 
 
 ## What this does to the three known bad skills
 
-**[toolsai--auto-skill](https://marketplace.buildaloud.ai/skills/toolsai--auto-skill)**: unchanged. It has a critical malicious finding, AST-03 (Persistent Backdoor), writing itself into global IDE configs across four editors. maliciousIntentScore: 100. Overall Exposure: 100. Still screams.
+**toolsai--auto-skill**: unchanged. It has a critical malicious finding, AST-03 (Persistent Backdoor), writing itself into global IDE configs across four editors. maliciousIntentScore: 100. Overall Exposure: 100. Still screams.
 
-**[dophinl--ruanyifeng-weekly-skill](https://marketplace.buildaloud.ai/skills/dophinl--ruanyifeng-weekly-skill)**: moved. The malicious finding is high severity. Deliberate search query rewriting, promoting a commercial sponsor without disclosure. maliciousIntentScore: 50. Overall Exposure: 50.8. High, not critical.
+**dophinl--ruanyifeng-weekly-skill**: moved. The malicious finding is high severity. Deliberate search query rewriting, promoting a commercial sponsor without disclosure. maliciousIntentScore: 50. Overall Exposure: 50.8. High, not critical.
 
-**[bitjaru--codesyncer](https://marketplace.buildaloud.ai/skills/bitjaru--codesyncer)**: moved a lot. The malicious finding is low severity, an undisclosed viral growth strategy written in Korean and buried in a decisions file. Deceptive. But the actual user harm from the deception itself is limited. maliciousIntentScore: 5. Overall Exposure: 6.5. Medium tier.
+**bitjaru--codesyncer**: moved a lot. The malicious finding is low severity, an undisclosed viral growth strategy written in Korean and buried in a decisions file. Deceptive. But the actual user harm from the deception itself is limited. maliciousIntentScore: 5. Overall Exposure: 6.5. Medium tier.
 
 Codesyncer still installs persistent hooks into `~/.claude/settings.json`. That's an accidental or negligent finding, and it pushes the capability and misuse scores up. But the *malicious* part (the hidden marketing strategy) is not the same category of harm as installing a backdoor.
 

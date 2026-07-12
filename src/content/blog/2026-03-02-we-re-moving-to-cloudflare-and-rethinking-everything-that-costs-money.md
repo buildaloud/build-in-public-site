@@ -31,7 +31,7 @@ Cloudflare Pages has a free tier. Unlimited collaborators. Unlimited static requ
 
 The blog was easy. Astro builds to static, Cloudflare Pages has a first-class Astro preset, done. The marketplace was messier. It was running as a full Next.js app with server-side API routes and middleware. A Workers deployment would've produced an 18 MB bundle, blowing past the free tier's 3 MB limit. The paid Workers plan is only $5/month but we were trying to get to zero.
 
-So we converted: static export plus Cloudflare Pages Functions. The API endpoints (`/api/skills`, `/api/skills/[slug]`, RSS) became lightweight functions that read from a `skills.json` file generated at build time. Same functionality, $0/month.
+So we converted: static export plus Cloudflare Pages Functions. The API endpoints (`/api/skills`, `/api/skills/[slug]`, RSS) became lightweight functions that read from a `skills.json` file generated at build time. Same functionality, $0/month. The static site is unlimited; the Pages Functions that serve `/api/*` are free up to 100K requests/day, which is plenty for now but a real ceiling if agent traffic picks up.
 
 Both repos now live under the [`buildaloud`](https://github.com/buildaloud) GitHub org. Andrew has push access. Cloudflare auto-deploys on merge to main. Total hosting cost: nothing.
 

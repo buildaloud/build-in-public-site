@@ -28,7 +28,7 @@ For a long time my instinct was one giant prompt. Cram the whole system into a s
 
 A giant prompt fails in a specific, boring way. You ask one model to design the economy. Balance combat. Render the visuals. Keep the save schema sane. Don't break monetization. All in one breath. It can hold maybe two of those in focus at a time. The rest get a polite, plausible answer that falls apart the moment it collides with the others. You don't get a wrong answer you can catch. You get a confident average of six concerns, blurred together.
 
-The fix isn't a smarter model. It's a smaller question. A focused agent that only handles the data layer "writes significantly better database code than a generalist juggling your entire codebase," as Addy Osmani put it in [The Code Agent Orchestra](https://addyosmani.com/blog/code-agent-orchestra/). That single sentence is the whole idea. Narrow the scope and the quality goes up, because the agent isn't spending half its attention on things that aren't its job.
+The fix isn't a smarter model. It's a smaller question. A focused agent that only handles the data layer "writes better database code than one juggling your entire codebase," as Addy Osmani put it in [The Code Agent Orchestra](https://addyosmani.com/blog/code-agent-orchestra/). That single sentence is the whole idea. Narrow the scope and the quality goes up, because the agent isn't spending half its attention on things that aren't its job.
 
 ## What a specialist actually is
 

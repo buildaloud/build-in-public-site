@@ -50,9 +50,9 @@ describe('onRequestGet', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('returns likes + hasLiked with a no-store cache header (personalized per-IP response)', async () => {
+  it('returns likes + hasLiked=false with no-store when the browser has no device cookie (skips the existence check)', async () => {
     const fetchMock = vi.fn(async (url: string) => {
-      if (String(url).includes('voter_hash=eq.')) return countResponse(0, []);
+      if (String(url).includes('device_hash=eq.')) throw new Error('must not query existence without a device token');
       return countResponse(3);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -60,6 +60,18 @@ describe('onRequestGet', () => {
     expect(res.status).toBe(200);
     await expect(res.json()).resolves.toEqual({ likes: 3, hasLiked: false });
     expect(res.headers.get('Cache-Control')).toBe('no-store');
+  });
+
+  it('reports hasLiked=true when the device token already has a row (personalized per device)', async () => {
+    const token = '3f2504e0-4f89-41d3-9a0c-0305e82c3301';
+    const fetchMock = vi.fn(async (url: string) => {
+      if (String(url).includes('device_hash=eq.')) return countResponse(1, [{ id: 'row-1' }]);
+      return countResponse(3);
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    const res = await onRequestGet({ request: getReq(SLUG, { Cookie: `like_voter=${token}` }), env: ENV });
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toEqual({ likes: 3, hasLiked: true });
   });
 
   it('returns a generic error and never forwards the Supabase body on upstream failure', async () => {
@@ -90,9 +102,9 @@ describe('onRequestPost', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('dedupes the same voter across two POSTs — count stays put, cookie set once', async () => {
+  it('dedupes the same device across two POSTs — count stays put, cookie set once', async () => {
     // Models the real conflict: first insert creates a row (representation → 1 row);
-    // the second hits the (post_slug, voter_hash) unique constraint and is
+    // the second hits the (post_slug, device_hash) unique constraint and is
     // ignore-duplicates'd (200 with an empty representation, NOT an error).
     let inserts = 0;
     const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
@@ -102,8 +114,8 @@ describe('onRequestPost', () => {
         return new Response(JSON.stringify(rows), { status: 201 });
       }
       const u = String(url);
-      // slug total reflects the row inserted by the first POST; other counts (voter, global) stay 0.
-      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('voter_hash')) {
+      // slug total reflects the row inserted by the first POST; other counts (ip rate-limit, global) stay 0.
+      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('ip_hash')) {
         return countResponse(inserts >= 1 ? 1 : 0);
       }
       return countResponse(0);
@@ -127,7 +139,7 @@ describe('onRequestPost', () => {
     expect(inserts).toBe(2);
   });
 
-  it('targets the (post_slug, voter_hash) unique constraint on insert', async () => {
+  it('targets the (post_slug, device_hash) unique constraint on insert', async () => {
     let insertUrl = '';
     const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
       if (init?.method === 'POST') {
@@ -138,13 +150,49 @@ describe('onRequestPost', () => {
     });
     vi.stubGlobal('fetch', fetchMock);
     await onRequestPost({ request: postReq(SLUG), env: ENV });
-    expect(insertUrl).toContain('on_conflict=post_slug,voter_hash');
+    expect(insertUrl).toContain('on_conflict=post_slug,device_hash');
   });
 
-  it('rate-limits a voter at >=50 posts in the last hour, without inserting', async () => {
+  it('uses the client device-id header as the dedup identity, stores its HMAC (not the raw id), and sets no cookie', async () => {
+    const id = 'd_' + 'a'.repeat(40);
+    let insertBody: { device_hash?: string } = {};
+    const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') {
+        insertBody = JSON.parse(String(init.body));
+        return new Response(JSON.stringify([{ id: 'row-1' }]), { status: 201 });
+      }
+      return countResponse(0);
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    const res = await onRequestPost({ request: postReq(SLUG, { 'X-Like-ID': id }), env: ENV });
+    expect(res.status).toBe(200);
+    // Client sent an id → no fallback cookie is minted.
+    expect(res.headers.get('set-cookie')).toBeNull();
+    // Stored as an HMAC, never the raw fingerprint.
+    expect(insertBody.device_hash).toBeTruthy();
+    expect(insertBody.device_hash).not.toBe(id);
+  });
+
+  it('two different device ids behind one IP each get their own like (the shared-IP fix)', async () => {
+    const hashes = new Set<string>();
+    const fetchMock = vi.fn(async (url: string, init?: RequestInit) => {
+      if (init?.method === 'POST') {
+        hashes.add((JSON.parse(String(init.body)) as { device_hash: string }).device_hash);
+        return new Response(JSON.stringify([{ id: 'row-1' }]), { status: 201 });
+      }
+      return countResponse(0);
+    });
+    vi.stubGlobal('fetch', fetchMock);
+    // Same CF-Connecting-IP (1.2.3.4 from postReq), different device ids.
+    await onRequestPost({ request: postReq(SLUG, { 'X-Like-ID': 'd_' + 'a'.repeat(40) }), env: ENV });
+    await onRequestPost({ request: postReq(SLUG, { 'X-Like-ID': 'd_' + 'b'.repeat(40) }), env: ENV });
+    expect(hashes.size).toBe(2);
+  });
+
+  it('rate-limits by IP at >=50 posts in the last hour, without inserting', async () => {
     const fetchMock = vi.fn(async (url: string, _init?: RequestInit) => {
       const u = String(url);
-      if (u.includes('voter_hash=eq.') && u.includes('created_at=gte.')) return countResponse(50);
+      if (u.includes('ip_hash=eq.') && u.includes('created_at=gte.')) return countResponse(50);
       return countResponse(1);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -156,8 +204,8 @@ describe('onRequestPost', () => {
   it('rejects at the per-slug ceiling without inserting', async () => {
     const fetchMock = vi.fn(async (url: string, _init?: RequestInit) => {
       const u = String(url);
-      if (u.includes('voter_hash=eq.') && u.includes('created_at=gte.')) return countResponse(0);
-      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('voter_hash')) return countResponse(100_000);
+      if (u.includes('ip_hash=eq.') && u.includes('created_at=gte.')) return countResponse(0);
+      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('ip_hash')) return countResponse(100_000);
       return countResponse(1);
     });
     vi.stubGlobal('fetch', fetchMock);
@@ -194,8 +242,8 @@ describe('onRequestPost', () => {
   it('rejects at the global-per-minute ceiling even when the per-slug total is under cap, without inserting', async () => {
     const fetchMock = vi.fn(async (url: string, _init?: RequestInit) => {
       const u = String(url);
-      if (u.includes('voter_hash=eq.') && u.includes('created_at=gte.')) return countResponse(0);
-      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('voter_hash')) return countResponse(10);
+      if (u.includes('ip_hash=eq.') && u.includes('created_at=gte.')) return countResponse(0);
+      if (u.includes(`post_slug=eq.${encodeURIComponent(SLUG)}`) && !u.includes('ip_hash')) return countResponse(10);
       return countResponse(300);
     });
     vi.stubGlobal('fetch', fetchMock);

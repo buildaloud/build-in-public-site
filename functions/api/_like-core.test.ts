@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateSlug, voterHash, isRateLimited, isOverCeiling, sanitizeError } from './_like-core';
+import { validateSlug, voterHash, validIdentity, isRateLimited, isOverCeiling, sanitizeError } from './_like-core';
 
 describe('validateSlug', () => {
   const known = new Set(['2026-02-21-hello-world']);
@@ -44,19 +44,33 @@ describe('voterHash', () => {
     expect(a).not.toBe(b);
   });
 
-  it('is the same for the same ip even if a client token is passed — dedup must be IP-only, not token-dominated', async () => {
-    const noToken = await voterHash('1.2.3.4', 'salt-value');
-    const withToken = await (voterHash as (ip: string, salt: string, token?: string) => Promise<string>)(
-      '1.2.3.4',
-      'salt-value',
-      'cookie-token',
-    );
-    expect(withToken).toBe(noToken);
-  });
-
   it('never contains the raw ip as a substring', async () => {
     const hash = await voterHash('1.2.3.4', 'salt-value');
     expect(hash).not.toContain('1.2.3.4');
+  });
+});
+
+describe('validIdentity', () => {
+  it('accepts a UUID (server-minted fallback token)', () => {
+    expect(validIdentity('3f2504e0-4f89-41d3-9a0c-0305e82c3301')).toBe(true);
+  });
+
+  it('accepts the d_<hash> layered device id', () => {
+    expect(validIdentity('d_' + 'a'.repeat(40))).toBe(true);
+  });
+
+  it('rejects a missing identity', () => {
+    expect(validIdentity(null)).toBe(false);
+    expect(validIdentity(undefined)).toBe(false);
+  });
+
+  it('rejects a value carrying a PostgREST filter-injection payload', () => {
+    expect(validIdentity('x&post_slug=eq.hello')).toBe(false);
+  });
+
+  it('rejects values outside the length bounds', () => {
+    expect(validIdentity('short')).toBe(false);
+    expect(validIdentity('a'.repeat(200))).toBe(false);
   });
 });
 

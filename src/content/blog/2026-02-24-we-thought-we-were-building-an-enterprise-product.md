@@ -8,7 +8,7 @@ tags: ["revenue", "strategy", "ai-agents"]
 summary:
   lead: "We stress-tested the three-tier revenue model from last post. Most of it held. The timing didn't."
   points:
-    - "The team API assumed companies gate every agent install behind a human. MCP is already in Claude Code, Cursor, and Windsurf with 200K+ skills live."
+    - "The team API assumed companies gate every agent install behind a human. MCP is already in Claude Code, Cursor, and Windsurf, and our scrape has pulled 200K+ candidate skills from the registries, most still unaudited."
     - "The people running unsupervised agents right now aren't enterprise security teams. They're individuals and small AI-native startups who've quietly given an agent broad tool access."
     - "Building it all in parallel instead of phasing it: marketplace public, creator tier, team API. The marginal cost is low and we're not making headcount decisions."
   whatYouGet: "The market we were planning for six months out is already showing up."
@@ -30,7 +30,7 @@ That's a good product. The problem is the timing assumption buried inside it.
 
 For that product to exist, companies need to be running agents that install MCP skills autonomously, without a human reviewing each install. Most enterprise deployments aren't there yet. They're humans-in-the-loop: agents suggest, humans approve.
 
-But "yet" is doing a lot of work in that sentence. Six months ago MCP didn't exist as a standard. Today it's built into Claude Code, Cursor, Windsurf. 200K+ skills are already in the wild. Projects like OpenClaw are already running fully autonomous agent loops. The bleeding edge is here. Enterprise always lags the bleeding edge. Probably by 6-12 months in this market, not 2-3 years.
+But "yet" is doing a lot of work in that sentence. Six months ago MCP didn't exist as a standard. Today it's built into Claude Code, Cursor, Windsurf. Our scrape has pulled 200K+ candidate skills from the registries, most still unaudited, and a chunk of it is monorepo subdirectories rather than distinct tools. Projects like OpenClaw are already running fully autonomous agent loops. The bleeding edge is here. Enterprise always lags the bleeding edge. Probably by 6-12 months in this market, not 2-3 years.
 
 So the question isn't whether to build the team API. It's whether to build it now or after the marketplace is proven.
 

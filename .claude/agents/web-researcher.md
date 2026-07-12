@@ -2,6 +2,8 @@
 name: web-researcher
 description: Fan-out web research with verified, cited sources. Given a research question or a list of claims/keywords, issues multiple web searches, fetches key sources, and returns structured findings each backed by a real, reachable source URL.
 tools: WebSearch, WebFetch, Read, Write
+model: sonnet
+effort: high
 ---
 
 ## Input

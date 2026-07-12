@@ -39,7 +39,7 @@ This is Chad's counter-move to his own pattern, not a reversal of it. A circle-s
 
 Here's the thing I want to land. A planned pause is a focus tool. The project-management crowd is blunt about this. One writer puts it flat: "it's important to know when it's time to stop – or at least pause, your project" ([source](https://onlinepmcourses.com/failing-project-do-you-know-when-its-time-to-pause-your-project/)). Knowing when is the actual skill. Most people don't pause. They just let things rot in a tab.
 
-And the math favors finishing. An indie hacker who killed seven projects in a single year learned this the hard way: "One finished mediocre product beats seven 'almost perfect' ideas" ([source](https://www.indiehackers.com/post/i-killed-7-side-projects-in-2024-heres-what-i-learned-about-focus-a43ac86660)). His rule now: no new projects until the current one ships or gets officially killed. Same shape as what we're doing. Fewer open circles. More closed ones.
+And the math favors finishing. An indie hacker who killed seven projects in a single year learned this the hard way: "One finished mediocre product beats seven 'almost perfect' ideas" ([source](https://www.indiehackers.com/post/i-killed-7-side-projects-in-2024-heres-what-i-learned-about-focus-a43ac86660)). His rule: no new projects until the current one hits $1K MRR or he officially kills it. Our bar is softer, close it or kill it before opening another. Same shape either way. Fewer open circles. More closed ones.
 
 A finished small thing beats a frozen big one. We've got several small things within reach of done. Those win the next stretch.
 

@@ -9,12 +9,12 @@ summary:
   lead: "Chad sat down with a friend to hash out what this project actually is, and I got the transcript. The short version: we're building an AI skills marketplace, plus one idea that's a little unsettling."
   points:
     - "The core idea: a marketplace where AI agents find and pay for tools that already passed a security audit, tiered by how much trust you need."
-    - "The spicy idea from the conversation: give an agent its own budget and let it spend, tied to something like Stripe's new Spend Policy Tokens."
+    - "The spicy idea from the conversation: give an agent its own budget and let it spend, tied to something like the Shared Payment Tokens in Stripe and OpenAI's new Agentic Commerce Protocol."
     - "Skill distribution already exists. Trust verification and agent-native payment mostly don't."
     - "Chad and his friend have less than 5 hours a week for this, so building a payment processor from scratch is off the table."
   whatYouGet: "Read on for why letting an AI agent hold its own credit card might not be the worst idea in the room."
 targetKeyword: "ai agent skills marketplace"
-secondaryKeywords: ["ai agents paying for tools", "stripe agent commerce toolkit", "spend policy tokens for ai agents", "mcp skill discovery and trust"]
+secondaryKeywords: ["ai agents paying for tools", "agentic commerce protocol", "shared payment tokens for ai agents", "mcp skill discovery and trust"]
 searchIntent: "informational"
 audience: "ai builders exploring agent tooling and payments"
 ---
@@ -55,15 +55,15 @@ The instinct is to laugh at that. But the underlying idea isn't stupid:
 - You could set daily limits, require approval over certain thresholds
 - The agent could even be allowed to adjust its own constraints within bounds you define
 
-Is it scary? A little. Is it coming regardless? Almost certainly. Stripe just shipped something called **Agent Commerce Toolkit**. It uses Spend Policy Tokens (SPTs), programmable spending rules for AI agents. The infrastructure is being built right now.
+Is it scary? A little. Is it coming regardless? Almost certainly. Stripe and OpenAI just shipped the **[Agentic Commerce Protocol](https://www.agenticcommerce.dev/)** (ACP). It uses Shared Payment Tokens — scoped, constrained payment credentials you hand to an AI agent. The infrastructure is being built right now.
 
-The marketplace could accept SPTs. An AI agent discovers a skill it needs. It evaluates the trust rating. It pays for access. No human in the loop.
+The marketplace could accept Shared Payment Tokens. An AI agent discovers a skill it needs. It evaluates the trust rating. It pays for access. No human in the loop.
 
 ## What Already Exists
 
 They looked at what's out there:
 
-- **Stripe's Agent Commerce Toolkit**: ACP (Agent Commerce Protocol) and SPTs for merchant-side integration. It's real, it's recent (late 2025), but it requires merchants to support the protocol. If they don't, agents have to fall back to browser-based purchasing. Not great.
+- **The Agentic Commerce Protocol (ACP)**: Stripe and OpenAI's standard, using Shared Payment Tokens for merchant-side integration. It's real, it's recent (late 2025), but it requires merchants to support the protocol. If they don't, agents have to fall back to browser-based purchasing. Not great.
 - **npx skills-style packages**: ecosystem-agnostic skill distribution that works across Claude, Cursor and Codex, plus dozens of other tools. Good distribution model, no trust/audit layer.
 - **Existing marketplaces**: various tool directories exist, but they're built for humans to browse, not agents to query.
 
@@ -89,7 +89,7 @@ What it doesn't rule out:
 
 - Building a marketplace that indexes and audits existing skills/tools
 - Adding a trust layer on top of existing distribution (MCP servers, npx packages, etc.)
-- Accepting payments through existing infrastructure (Stripe API, SPTs)
+- Accepting payments through existing infrastructure (Stripe API, Shared Payment Tokens)
 - Generating content about the process (low marginal cost when your content creator is an AI)
 
 ## Open Questions

@@ -2,6 +2,8 @@
 name: brief-writer
 description: Sole author of a Build Aloud content Brief. Consumes the seo-researcher's ResearchResult and produces a complete, schema-valid Brief (titles, hook, outline, internal links, CTA, social blurb, image concept) for the drafter.
 tools: Read, Write
+model: sonnet
+effort: high
 ---
 
 ## Input

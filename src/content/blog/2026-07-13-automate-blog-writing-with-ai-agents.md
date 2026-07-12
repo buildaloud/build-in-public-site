@@ -28,6 +28,7 @@ I don't write these posts with one big prompt anymore. Seven narrow agents run t
 - Tone gate (rejects anything that reads like AI slop)
 - Review pass
 - Generated image
+- Summary and digest
 
 I only approve the topic.
 
@@ -64,7 +65,7 @@ Anthropic ran this exact comparison inside their own research system. An Opus mo
 
 That's the whole design behind the eight stages above. The research agent doesn't touch tone. The tone gate doesn't touch facts. The review pass never writes new copy. It only reads what already exists and flags what's wrong with it.
 
-Splitting work across agents isn't automatically a win, though. A study comparing single-agent and multi-agent systems found up to 81% gains on tasks that parallelize cleanly, and up to 70% degradation on tasks that are strictly sequential. Hand sequential work to a swarm of agents all trying to move at once and you've added coordination overhead nobody asked for. Research and drafting don't parallelize. Drafting depends on the brief, which depends on the research, in that order. That's why the pipeline stages things deliberately instead of firing every agent off at once, and why the only human checkpoint sits at the very front, before any of it starts.
+Splitting work across agents isn't automatically a win, though. Google Research's agent-scaling study found up to 81% gains on tasks that parallelize cleanly and up to 70% degradation on strictly sequential ones (summarized in Augment Code's guide). Hand sequential work to a swarm of agents all trying to move at once and you've added coordination overhead nobody asked for. Research and drafting don't parallelize. Drafting depends on the brief, which depends on the research, in that order. That's why the pipeline stages things deliberately instead of firing every agent off at once, and why the only human checkpoint sits at the very front, before any of it starts.
 
 ## The anti-slop point
 
@@ -78,4 +79,4 @@ Every one of those eight stages is a narrow, single-purpose skill doing one job 
 
 ---
 
-*Sources: Anthropic's engineering writeup on its multi-agent research system, including the 90.2% result and the four things a subagent needs ([anthropic.com/engineering/multi-agent-research-system](https://anthropic.com/engineering/multi-agent-research-system)); Augment Code's guide comparing single-agent and multi-agent systems, including the 81% parallel gain and 70% sequential degradation figures ([augmentcode.com/guides/single-agent-vs-multi-agent-ai](https://augmentcode.com/guides/single-agent-vs-multi-agent-ai)); Rankability's 2026 data on AI content and Google rankings, including the 83% human-written figure and Google's spam policy language ([rankability.com/data/does-google-penalize-ai-content/](https://rankability.com/data/does-google-penalize-ai-content/)); and Pebblous' case study on a 7-subagent, 9-stage blog pipeline logging 141 tool calls ([blog.pebblous.ai/blog/dc-story-produce-pipeline-meta/en/](https://blog.pebblous.ai/blog/dc-story-produce-pipeline-meta/en/)).*
+*Sources: Anthropic's engineering writeup on its multi-agent research system, including the 90.2% result and the four things a subagent needs ([anthropic.com/engineering/multi-agent-research-system](https://anthropic.com/engineering/multi-agent-research-system)); Augment Code's guide summarizing Google Research's agent-scaling study, including the 81% parallel gain and 70% sequential degradation figures ([augmentcode.com/guides/single-agent-vs-multi-agent-ai](https://augmentcode.com/guides/single-agent-vs-multi-agent-ai)); Rankability's 2026 data on AI content and Google rankings, including the 83% human-written figure and Google's spam policy language ([rankability.com/data/does-google-penalize-ai-content/](https://rankability.com/data/does-google-penalize-ai-content/)); and Pebblous' case study on a 7-subagent, 9-stage blog pipeline logging 141 tool calls ([blog.pebblous.ai/blog/dc-story-produce-pipeline-meta/en/](https://blog.pebblous.ai/blog/dc-story-produce-pipeline-meta/en/)).*

@@ -45,16 +45,16 @@ While the blog was getting polished, Chad started building the actual marketplac
 
 The first step is knowing what's out there. There are existing directories of MCP servers and agent tools scattered around the internet. Chad wrote a scraper that pulls skill metadata (names, descriptions, source repos, categories) from public listings. So far: **12,959 unique skills discovered** across 13 major categories.
 
-The categories break down roughly like this:
+The category tags on the source listings break down roughly like this:
 
-- Tools: ~72K listings
+- Tools: ~72K tagged listings
 - Development: ~57K
 - Business: ~45K
 - Data/AI: ~37K
 - DevOps: ~30K
 - Testing & Security: ~29K
 
-These numbers include duplicates across categories. The deduplicated count is what matters: about 13K unique skills so far. The scraper's only finished two of its three passes. It has resume support, so it picks up where it left off.
+Those are raw tag counts from the public directories, not a skill inventory. The same listing shows up under many tags and across multiple directories, so the totals balloon fast. What actually matters is the deduplicated count, and after collapsing the overlap we're at 12,959 unique skills so far. The scraper's only finished two of its three passes. It has resume support, so it picks up where it left off.
 
 ### The First Audit
 
@@ -86,7 +86,7 @@ This means:
 - The "database" is just the git history
 - Costs stay near zero until there's actual traffic
 
-The web layer will be Next.js on Vercel (same host as this blog), with Vercel KV for user accounts and API keys when that becomes necessary.
+The web layer will be Next.js on Vercel, with Vercel KV for user accounts and API keys when that becomes necessary.
 
 ## The Competition
 
@@ -94,7 +94,7 @@ We spent some time looking at what already exists in this space. Here's what we 
 
 **AI provider built-in tools:** Claude has its own plugin ecosystem. So does ChatGPT. They're walled gardens: build a tool for Claude and it doesn't work in ChatGPT's ecosystem. Nobody's doing ecosystem-agnostic discovery.
 
-**Security-focused skill collections:** Some security firms maintain curated sets of audited tools. Trail of Bits, for example, has one where everything's been reviewed by their own staff. But it's narrow: their tools, for their own use cases. Not a general marketplace.
+**Security-focused skill collections:** Some security firms maintain curated sets of audited tools. Trail of Bits, for example, publishes a set of security tools reviewed by their own staff. But it's narrow: their tools, for their own use cases. Not a general marketplace.
 
 **Community skill directories:** There are public listings of MCP servers and agent tools. Some have thousands of entries. None of them do security auditing. You browse, you pick something, you trust the author. That's it.
 
@@ -102,7 +102,7 @@ We spent some time looking at what already exists in this space. Here's what we 
 
 **The gap we see**: Nobody is combining discovery + security auditing + trust verification + cross-ecosystem compatibility into one thing. Lots of people are doing pieces of it. Nobody's tying it together.
 
-The cost math is encouraging, too. Running an AI security analysis on a skill costs pennies. Even at 100,000 skills, we're talking maybe $500 in API costs. The hard part isn't running the audits. It's making the results trustworthy and the interface useful.
+The cost math is encouraging, too. We don't run the audits on a metered API — they run inside the Claude subscription we already pay for, so there's no per-skill charge ticking up as the catalog grows. On the sub, one more audit is basically free: a flat monthly fee instead of a usage meter, so scale doesn't blow up the bill. The hard part isn't the cost. It's making the results trustworthy and the interface useful.
 
 ## What's Next
 

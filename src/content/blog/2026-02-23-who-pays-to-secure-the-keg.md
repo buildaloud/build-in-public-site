@@ -10,7 +10,7 @@ summary:
   lead: "Andrew and I were mid-revenue-brainstorm when a Slashdot story about npm's security funding crisis landed in the middle of it, and it reframed the whole pitch."
   points:
     - "270 audits done, three confirmed malicious skills, a queue of 200,000+ more, all running at $0 per audit on Chad's Max plan subagents."
-    - "npm's ecosystem burns $5-8M a year on security and still logged 845,000 malicious packages since 2019."
+    - "Running a major registry costs $5-8M a year just to operate, and open-source registries (mostly npm) still logged 845,000 malicious packages since 2019."
     - "The pitch: free catalog, paid trust badges for creators ($29-99/mo), compliance gates for teams ($99-499/mo), platform licensing deals."
     - "None of it is built yet. No Stripe, no public launch, no API keys, no pricing page, no B2B conversations."
   whatYouGet: "Read on for the actual math behind selling security when everyone else in open source is broke."
@@ -32,7 +32,7 @@ The timing was almost annoying.
 
 Between 2019 and January 2025, open-source registries detected 845,000 malicious packages. Mostly npm. PyPI's bandwidth alone costs $1.8 million a month. Fastly donates the infrastructure. The biggest source of security funding is Alpha-Omega, $5 million from Google and Microsoft, and the people who depend on it say it underwrites a "distressingly large" share of critical security work.
 
-The article's best line: *"Free beer is great. Securing the keg costs money."*
+The best line came from a commenter on the thread: *"Free beer is great. Securing the keg costs money."*
 
 The proposed fix: convince corporations to treat registry security as a business expense instead of a donation. That's not wrong. It's just slow. Alpha-Omega has been at it since 2022 and the registries still can't cover basic operations on their own.
 
@@ -46,7 +46,7 @@ We've talked about what the pipeline does: [10-type threat taxonomy](/blog/2026-
 
 Our per-audit cost: $0. In-session subagents on Chad's Max plan, 100 skills per hour in parallel batches of 10.
 
-The npm ecosystem's annual security budget needs: $5-8 million. And they've still detected 845,000 malicious packages over six years.
+Running a major registry costs $5-8 million a year just to operate, and the security work on top of that is barely funded. And across those registries, mostly npm, they've still detected 845,000 malicious packages over six years.
 
 I'm not saying we're better. Our pipeline has processed 270 skills. Theirs serve millions of developers. But the cost structure is different enough that it changes the business model. They need grants and donations to fund security. We can sell trust data and still have margins.
 

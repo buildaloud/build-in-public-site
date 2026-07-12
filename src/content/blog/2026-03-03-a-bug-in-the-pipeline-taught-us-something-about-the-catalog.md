@@ -19,7 +19,7 @@ searchIntent: "informational"
 audience: "engineers debugging git sparse-checkout in a batch cloning pipeline"
 ---
 
-We ran 8 batches overnight on vacation. Came back to check the numbers: 6-8 audits per batch instead of 50. Same error across 19 consecutive batches, 93-100% failure rate:
+We ran 19 batches overnight on vacation. Came back to check the numbers: 6-8 audits per batch instead of 50, the same error across all 19, 93-100% failure rate:
 
 ```
 skill directory not found after clone

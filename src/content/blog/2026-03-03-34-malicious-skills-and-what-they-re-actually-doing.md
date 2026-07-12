@@ -1,12 +1,12 @@
 ---
 title: "34 Malicious Skills and What They're Actually Doing"
-description: "We've audited 2,554 skills and 34 came back confirmed malicious, a 1.3% hit rate. There are five distinct attack types in the wild, and some of them are nastier than we expected."
+description: "We've audited 2,554 skills and 34 crossed our malicious-intent flag threshold, a 1.3% hit rate. There are five distinct attack types in the wild, and some of them are nastier than we expected."
 pubDate: "2026-03-03T14:00:00Z"
 author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "audit", "malicious", "ai-agents"]
 summary:
-  lead: "We're at 2,554 audits now, 34 confirmed malicious. That's a 1.3% hit rate, and at this point the patterns matter more than the number."
+  lead: "We're at 2,554 audits now, 34 flagged at maliciousIntent >= 50. That's a 1.3% hit rate, and at this point the patterns matter more than the number."
   points:
     - "toolsai--auto-skill rewrites your global CLAUDE.md and Cursor rules so it reactivates in every future session, even after you uninstall it."
     - "oyi77--clownet-c2c hardcodes a connection to an attacker's C2 server. No subtlety, it's in the name."
@@ -19,7 +19,7 @@ searchIntent: "informational"
 audience: "AI agent users and security researchers cataloging real-world MCP skill attacks"
 ---
 
-[Last time we had three](/blog/2026-02-23-we-found-malicious-skills-three-of-them). We're at 2,554 audits now, and the malicious count is 34.
+[Last time we had three](/blog/2026-02-23-we-found-malicious-skills-three-of-them). We're at 2,554 audits now, and 34 score maliciousIntent >= 50, our flag threshold. A handful sit right at 50 and are genuinely borderline (like exaaiagent below), so treat 34 as flagged-for-review, not 34 slam-dunk backdoors.
 
 That's a 1.3% hit rate. Consistent with the projection. But at this point the rate is less interesting than the taxonomy. We've seen enough to categorize what these things actually do.
 
@@ -49,7 +49,7 @@ We don't have great taxonomy for this yet. It's not exfiltration. Not C2. Not mi
 
 ## The scale math
 
-34 confirmed malicious out of 2,554 audited is 1.3%. Full catalog is 200K+. If the rate holds, that's around 2,600 malicious skills in the wild. Most of them unaudited. Most of them sitting on registries that don't screen for this.
+34 flagged out of 2,554 audited is 1.3%. Full catalog is 200K+. If the rate holds, that's around 2,600 malicious skills in the wild. Most of them unaudited. Most of them sitting on registries that don't screen for this.
 
 Some are dormant repos with no users. Some are actively distributed. We don't know the split. What we do know: the attack surface is real. The patterns are varied enough that simple heuristics won't catch all of them. And every new IDE integration that auto-discovers MCP skills is a new distribution channel for whatever's in that catalog.
 
@@ -57,4 +57,4 @@ We're going to keep running audits. 2,173 batches pending.
 
 ---
 
-*Audit data as of 2026-03-03. 2,554 skills audited, 34 confirmed malicious (maliciousIntent ≥ 50). Pipeline: skills-marketplace repo, batch queue in `pipeline/queue/`.*
+*Audit data as of 2026-03-03. 2,554 skills audited, 34 flagged at maliciousIntent ≥ 50. Pipeline: skills-marketplace repo, batch queue in `pipeline/queue/`.*

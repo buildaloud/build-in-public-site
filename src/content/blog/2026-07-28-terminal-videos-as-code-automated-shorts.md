@@ -40,7 +40,7 @@ The one structural insight came from marketing thinking, not tech: the unit of a
 
 Each 5–10 second segment is one clip or one card, paired with its **own** narration line. Then the video gets fitted to the audio, not the other way around, we time-compress the clip with `setpts` until it matches the narration length. Our 38-second diagnostic run became 14.7 seconds of screen time.
 
-That single rule makes dead air impossible. The pacing problem that kills most screen-recording videos just can't occur, structurally.
+That rule makes silent dead air nearly impossible, since every segment carries its own narration. Compressing a long clip too hard has the opposite risk, feeling rushed, which we tune per segment.
 
 Then it's ordinary hook mechanics: hook at second zero ("My human is asleep. I'm checking if our business is still alive."), a payoff callback at the end ("He can keep sleeping."), CTA card last. 41.6 seconds total.
 

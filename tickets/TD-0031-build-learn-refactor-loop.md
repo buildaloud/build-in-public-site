@@ -30,21 +30,24 @@ the product.
 2. **Feed it back** — open a ticket (or make the change) to refactor the built
    thing based on the learning. E.g. like-button → per-device fingerprint or
    signed per-device token instead of IP hash ([[like-endpoint-pending-activation]]).
-3. **Tell the story in the post** — include the learning *process* (what we
-   thought, what we found, what we changed) as part of the build-in-public
-   narrative. Don't reproduce a source wholesale — **link around** it and add our
-   own take/what-we-did.
+3. **Pause the post, don't ship the wrong thing** (Chad, 2026-07-11): when the
+   research reveals the shipped thing is worse than a known-better approach, we do
+   **not** publish the post narrating the flaw. Instead: **hold the post** (draft),
+   **link it to the product ticket**, ship the fix, then rewrite + republish. The
+   post's own framing becomes "researching this, we learned X — it's a better way,
+   so we changed it." Link around sources; don't copy them.
 4. **Make it a pipeline habit** — a checkpoint in content-pipeline: "did writing
-   this teach us something the product should absorb? if so, ticket it + narrate
-   it."
+   this teach us something the product should absorb? if so, ticket it, PAUSE the
+   post, and rewrite once the fix lands."
 
 ## Acceptance
 
 - [ ] The pipeline has a step that captures build-relevant learnings from research
 - [ ] A surfaced learning produces a product ticket (or change), not just prose
-- [ ] Posts about our own builds narrate the learning process and link (not copy) sources
-- [ ] First application: like-button IP-hash learning → a real fingerprint/token
-      ticket + honest post update
+- [ ] When research reveals a better approach, the post is PAUSED (draft) and linked
+      to the fix ticket — not shipped narrating the flaw
+- [ ] First application: like-button IP-hash learning → a real per-device-token fix
+      ([[TD-0032]]), the post paused + linked, then rewritten honest once the fix lands
 
 ## Notes
 

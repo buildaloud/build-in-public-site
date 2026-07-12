@@ -41,14 +41,20 @@ That's the whole trick. Set `--mint: #a3f7bf;` once at the top of the stylesheet
 
 ## The token layers
 
-I split the tokens into groups instead of one flat list. There are color tokens. There are font tokens. There are spacing tokens too. Here's the actual `:root` block, trimmed to the parts that matter:
+I split the tokens into groups instead of one flat list. There are color tokens. There are font tokens. There are spacing tokens too. Here's the shape of the `:root` block, with the token names simplified for readability and trimmed to the parts that matter:
 
 ```css
 :root {
+  /* primitives — the raw values */
   --bg: #0c0e12;
   --panel: #13161c;
   --mint: #a3f7bf;
   --mint-dim: color-mix(in srgb, var(--mint) 35%, transparent);
+
+  /* semantic — what components read, each pointing at a primitive */
+  --surface: var(--panel);
+  --accent: var(--mint);
+  --accent-dim: var(--mint-dim);
 
   --text: #e6e8eb;
   --text-secondary: #9aa1ac;

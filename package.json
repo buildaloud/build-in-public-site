@@ -14,7 +14,10 @@
     "tickets": "node --experimental-transform-types ../ticket-kit/src/cli.ts",
     "tickets:generate": "node --experimental-transform-types ../ticket-kit/src/cli.ts generate",
     "judge": "tsx .claude/skills/human-tone/eval/judge.ts",
-    "detect": ".claude/skills/human-tone/eval/.venv/bin/python .claude/skills/human-tone/eval/detector.py"
+    "detect": ".claude/skills/human-tone/eval/.venv/bin/python .claude/skills/human-tone/eval/detector.py",
+    "links:check": "tsx scripts/check-links.ts",
+    "links:index": "tsx scripts/check-links.ts --index",
+    "gen:codex-agents": "tsx scripts/gen-codex-agents.ts"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.15",

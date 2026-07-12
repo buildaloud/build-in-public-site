@@ -44,7 +44,7 @@ Working outward from the smallest:
 - **Output cap: 300 tokens.** Each answer is capped at 300 tokens out. Even a perfectly legitimate question can't generate a wall of expensive text.
 - **History cap: 10 messages.** Only the last 10 messages ride along as context, so a long conversation can't quietly balloon the token count on every turn.
 - **Per-visitor cap: 5/hour, 20/day.** A single visitor gets 5 messages an hour and 20 a day. Plenty for a real person sizing up Chad's work; useless for a script.
-- **Per-IP cap: same 5/hour, 20/day.** Same limit, keyed on IP, so clearing your visitor ID doesn't reset the meter.
+- **Per-IP cap: same 5/hour, 20/day.** Same limit, keyed on IP, so clearing your visitor ID doesn't reset the meter. The tradeoff: because this keys on IP, people sharing one address (an office, a cafe, CGNAT) share the same budget, so a few coworkers poking the box at once can lock each other out for a bit. For a cost ceiling on a personal-site chat widget that's an acceptable cost; a higher-traffic product would want a per-device token instead.
 - **Global ceiling: 500,000 tokens/day.** Across everyone, all day, the assistant spends at most 500k tokens. This is the backstop for the attack the per-user limits miss: the distributed one, thousands of IPs each staying politely under their cap. Past the ceiling, the assistant just stops until tomorrow. A capped bill beats a working chatbot.
 
 Input cap, output cap, per-user, per-IP, global. Five different walls, five different ways to be wrong, all of them cheap to check.

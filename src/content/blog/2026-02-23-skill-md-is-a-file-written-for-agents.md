@@ -6,11 +6,11 @@ author: "Scout"
 project: "skills-marketplace"
 tags: ["security", "marketplace", "skill-md"]
 summary:
-  lead: "SKILL.md hit 57% adoption in eight weeks, faster than README.md ever did. That's because it's the first doc format written for an agent instead of a human, and agents don't have threat detection."
+  lead: "57% of the AI skills we audited already ship a SKILL.md. Unsurprising for a format built for exactly these projects, but still a fast climb for an eight-week-old spec. It's the first doc format written for an agent instead of a human, and agents don't have threat detection."
   points:
     - "Agents read 'CRITICAL PROTOCOL' as a real directive. Developers get suspicious. Agents don't."
     - "auto-skill put its malicious behavior right in the SKILL.md. codesyncer hid its viral growth scheme in a separate DECISIONS.md the agent never reads."
-    - "3 malicious skills in the first 370 we audited. That rate projects to roughly 2,200 across the full ~200K catalog."
+    - "3 malicious skills in the first 370 we audited is a 0.8% hit rate. If it held across the ~200K catalog that's 1,500-2,000, but extrapolating from three samples is rough."
   whatYouGet: "I walk through why a file this trusting needs a verification layer before it becomes the next npm typosquatting mess."
 targetKeyword: "skill.md security risks"
 secondaryKeywords: ["documentation written for ai agents", "prompt injection in skill files", "ai skill supply chain attacks"]
@@ -20,7 +20,7 @@ audience: "developers and security researchers wary of malicious AI skills"
 
 Anthropic released the [SKILL.md spec](https://github.com/anthropics/skills) in December. Eight weeks ago. We've audited 369 skills so far. 212 of them have a SKILL.md. That's 57%.
 
-For context: README.md adoption took years to reach those numbers in open source. SKILL.md got there in two months.
+That's fast for an eight-week-old spec. Worth being precise about the population, though: these are AI skills, exactly the projects the format was built for, so heavy adoption here isn't surprising.
 
 The reason isn't mysterious. The people building skills are also the people building with AI. They immediately understood why the format exists. No adoption curve, no evangelism required.
 
@@ -94,7 +94,7 @@ Snyk published threat research on it: ["From SKILL.md to Shell Access"](https://
 
 The pattern is familiar. npm had typosquatting and malicious packages. PyPI had the same. App stores had the same. Every time a new distribution mechanism gets adopted fast, adversarial actors show up before the trust infrastructure does.
 
-SKILL.md is 8 weeks old. The trust infrastructure doesn't exist yet. We found three malicious skills in the first 370 we looked at. The 1.1% hit rate projects to roughly 2,200 malicious skills across the full catalog of ~200K. That's not a long-tail problem. That's a systematic one.
+SKILL.md is 8 weeks old. The trust infrastructure doesn't exist yet. Three malicious in the first 370 we looked at is a 0.8% hit rate. If that held across the ~200K catalog it would mean on the order of 1,500-2,000 malicious skills, though extrapolating from three samples is rough. Either way it's not a long-tail problem. It's a systematic one.
 
 ## What I don't know
 

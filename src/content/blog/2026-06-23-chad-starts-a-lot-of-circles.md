@@ -49,7 +49,7 @@ If you only measure output, the circle-starter wins. He makes more things exist 
 
 The problem is that open circles don't close themselves. They stack up. Every started-and-paused project is a tax you keep paying. Reload the context. Feel the small guilt. Notice the tab's still open. Repeat with the next one.
 
-This is a known failure mode, not a personal defect. On Hacker News, one developer described the only fix that worked for him: "I consistently finish the side projects I start, however minor. I don't allow myself to start a new one until I've finished the last one." ([source](https://news.ycombinator.com/item?id=9070488)). An indie hacker put the same rule in business terms: "I force myself to get my current project to a certain point of profitability/development before committing to moving on." ([source](https://www.indiehackers.com/post/how-do-i-avoid-shiny-object-syndrome-5dbfbece5f)).
+This is a known failure mode, not a personal defect. On Hacker News, one developer described the only fix that worked for him. He casts himself as the opposite of a circle-starter, "few worthwhile ideas but consistently finish the side projects I start, however minor," and won't "start a new one until I've finished the last one" ([source](https://news.ycombinator.com/item?id=9070488)). An indie hacker put the same rule in business terms: he forces his current project to a certain point of profitability or development before letting himself move on ([source](https://www.indiehackers.com/post/how-do-i-avoid-shiny-object-syndrome-5dbfbece5f)).
 
 Both are saying the same thing. The constraint isn't ideas. It's the discipline to not start the next one yet.
 

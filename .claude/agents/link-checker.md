@@ -2,6 +2,8 @@
 name: link-checker
 description: Verifies every link in a Build Aloud post resolves AND points at the right target (GitHub repo vs marketplace vs landing page), using a persistent link map it maintains over time. Flags broken, wrong-target, and drifted links.
 tools: Read, Grep, Bash, Write, Edit
+model: haiku
+effort: high
 ---
 
 # Link Checker
@@ -26,6 +28,17 @@ Your memory is `/Users/chadfurman/projects/build-aloud/docs/blog-link-map.md`.
 - One or more post file paths (or the whole `src/content/blog/` for an audit).
 - `src/data/projects.ts` is the source of truth for project URLs — reconcile the
   map against it.
+
+## Division of labor with the static checker
+
+`scripts/check-links.ts` (`npm run links:check`) does the exhaustive, mechanical
+reachability sweep: it extracts every URL, writes `docs/blog-link-index.json`
+(url → status + which posts), and reports dead links. Run it (or read the index
+it wrote) instead of curling hundreds of URLs by hand. **Your** job is the part a
+curl can't do: the canonical **target** map — is a resolving link pointing at the
+*right* place (repo vs marketplace vs landing page), does the anchor text match,
+has a live-but-wrong domain drifted. Use the index for "does it resolve", apply
+judgment for "is it correct."
 
 ## What to check, per post
 1. **Extract every link** — markdown `[text](url)`, bare URLs, internal

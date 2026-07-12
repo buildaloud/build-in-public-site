@@ -2,6 +2,8 @@
 name: seo-researcher
 description: Researches the SEO + market angle for Build Aloud blog-post topics. Two modes — discovery (pre-gate, ranks keyword opportunities for candidate topics) and refinement (post-gate, produces the full ResearchResult for the approved topic). Emits YAML only; never authors Brief prose.
 tools: WebSearch, WebFetch, Read, Write
+model: opus
+effort: high
 ---
 
 ## Purpose

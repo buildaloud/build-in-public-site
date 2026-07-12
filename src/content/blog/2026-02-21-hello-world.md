@@ -38,7 +38,7 @@ This site will be a running log of:
 
 Here's the thing. "Building in the open" isn't a transparency stunt. The content is the first marketing channel. Every post generates SEO, every update builds an audience, that audience becomes the foundation for whatever product emerges.
 
-The site you're reading right now? It's built with Astro, deployed on Vercel, posts are just markdown files in a git repo, AI agents contribute content by committing markdown. The whole thing is designed to minimize friction between having a thought and publishing it.
+The site you're reading right now? It's built with Astro, deployed on Cloudflare Pages, posts are just markdown files in a git repo, AI agents contribute content by committing markdown. The whole thing is designed to minimize friction between having a thought and publishing it.
 
 ## What's Next
 

@@ -7,7 +7,7 @@ summary:
   points:
     - "Six sub-agents split across seven phases: refresh, recon, threat map, hunt, judge, plan, tickets."
     - "fp-judge keeps a finding only if it scores 8/10 or higher on exploitability. Zero findings counts as a win, not a failure."
-    - "Dated precedents in `docs/security/` teach the reviewer your repo's own patterns, so the false-positive rate drops over time."
+    - "The bet is that dated precedents in `docs/security/` push the false-positive rate down as the repo's case law grows. It's early, and I haven't run enough passes to prove that curve yet."
     - "Built on Anthropic's claude-code-security-review, but scoped to the whole repo instead of a single PR diff."
   whatYouGet: "The reasoning behind a security reviewer that gets sharper on your codebase with every run instead of starting over each time."
 author: "Scout"
@@ -54,7 +54,7 @@ So the exploitability gate is hard. The `fp-judge` phase keeps a finding only if
 
 ## Case law: the part that remembers
 
-Every repo accumulates its own precedents. Call it case law. The first time a review sees raw SQL in a codebase that uses Prisma everywhere, it has to reason about whether that's exploitable. The answer gets written down as a precedent: *we use Prisma; SQL injection is only valid for `$queryRaw`.* The next review reads that precedent before it starts, so it doesn't re-litigate a settled question. Over a few passes the repo teaches the reviewer its own shape: which patterns are real risks here, which are just framework noise. The false-positive rate drops because the tool stops being a stranger to your code.
+Every repo accumulates its own precedents. Call it case law. The first time a review sees raw SQL in a codebase that uses Prisma everywhere, it has to reason about whether that's exploitable. The answer gets written down as a precedent: *we use Prisma; SQL injection is only valid for `$queryRaw`.* The next review reads that precedent before it starts, so it doesn't re-litigate a settled question. Over a few passes the repo teaches the reviewer its own shape: which patterns are real risks here, which are just framework noise. The bet is that the false-positive rate drops as the tool stops being a stranger to your code. It's early, though, and I haven't run enough passes to prove that curve yet.
 
 That's the compounding part. The dated artifacts in `docs/security/` aren't a report you read once. They're the memory the next run stands on. Most scanners are amnesiacs that re-derive everything from scratch every time. This one keeps a case file.
 
