@@ -50,17 +50,10 @@ applies). You DO edit your own memory file, and note that you did.
 
 ## Output
 
-Return the shared adversarial-constructive finding schema (identical across ALL
-reviewers). `gateFindings` (broken / wrong-target / drift / anchor-mismatch) drive
-the fixpoint loop; `elevations` are "for your consideration" (e.g. a resolving but
-sub-optimal link that could point somewhere better).
-
-```
-{
-  "axis": "<this reviewer's axis>",
-  "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact>", "problem": "<what fails on THIS axis>", "fix": "<concrete instruction>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more interesting>", "rewrite": "<a concrete better version>" } ]
-}
-```
+Return the shared adversarial-constructive finding schema defined in
+`docs/specs/2026-07-12-document-review-fanout-design.md` (axis / verdict /
+gateFindings[] / elevations[]); gateFindings drive the loop, elevations are
+for-your-consideration. `gateFindings` here are broken / wrong-target / drift /
+anchor-mismatch; `elevations` cover a resolving but sub-optimal link that
+could point somewhere better.
 """

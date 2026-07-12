@@ -172,12 +172,14 @@ A fixpoint loop over the outline artifact from Step 4.5, per
    names. Each returns the shared adversarial-constructive finding schema
    (`axis`, `verdict`, `gateFindings[]`, `elevations[]`).
 2. **Synthesize** — dispatch `.claude/agents/synthesis.md` with the outline
-   path, all 12 findings arrays, and the round number. It dedups, ranks by
-   disposition (**gate**: flatness / formulaic / voice / fact-checker /
-   bullshit-detector / outline-structure / a missing-or-broken hook;
-   **advisory**: everything else), resolves conflicting edits, and runs the
-   content-safety scrub + banned-term (`change-factory`) scan (see Content
-   Safety section) — synthesis owns both checks.
+   path, all 12 findings arrays, and the round number. Disposition per
+   reviewer is classified by `lib/review-disposition.ts`'s
+   `classifyDisposition` (single source of truth — gate / auto-apply /
+   advisory); hook is advisory unless missing/broken, in which case it
+   escalates to gate (`HOOK_ESCALATION_NOTE` in that file). Synthesis dedups,
+   ranks, resolves conflicting edits, and runs the content-safety scrub +
+   banned-term (`change-factory`) scan (see Content Safety section) —
+   synthesis owns both checks.
 3. **Edit** — on ANOTHER ROUND, dispatch a Sonnet editor agent (Read + Edit,
    ad hoc — no dedicated agent file) with synthesis's consolidated edit set to
    apply the fixes directly to `<slug>.outline.md`.
@@ -222,22 +224,32 @@ with one fixpoint loop over the drafted post, at draft grain, graded against
 the outline's per-beat guidance — same shape as Step 4.6's outline loop, one
 grain deeper. Design: `docs/specs/2026-07-12-document-review-fanout-design.md`.
 
-**Tone signal — feeds the loop, is not its own gate step.** Run both before the
-first round and again after every edit pass:
-1. `npx tsx .claude/skills/human-tone/eval/run.ts` (or `eval/tone-grader.ts`'s
-   `scoreText` on just this draft) for the regex `aiScore` / `banned` signal.
-2. The Gemini judge (`.claude/skills/human-tone/eval/judge.ts`) for
-   `emotion_impact` and formulaic-crutch density.
-Hand both scores to the fan-out as evidence. `flatness-reviewer`,
-`formulaic-reviewer`, and `voice-reviewer` are what actually gate tone now —
-a bad `aiScore` or judge score should surface as one of THEIR gate findings,
-not a separate pass/fail step.
+**Deterministic tone gate — mechanical, feeds synthesis directly, no LLM
+discretion.** Run before the first round and again after every edit pass, on
+the single current draft (never the whole corpus):
+1. Call `scoreText` (`.claude/skills/human-tone/eval/tone-grader.ts`) on this
+   draft's body. If `banned > 0` OR `aiScore > 2`, that's a MANDATORY critical
+   gate finding — inject it directly into synthesis's gate set (see Synthesize
+   below). This is a hard code check: a hit here gates regardless of what any
+   reviewer concludes about the same prose.
+2. Call `judgeText` (`.claude/skills/human-tone/eval/judge.ts`) or the
+   `runJudgePass` helper it exports from `run.ts`, on just this draft, for
+   `emotion_impact` and formulaic-crutch density — handed to synthesis as
+   evidence alongside the mechanical result.
+
+`npx tsx .claude/skills/human-tone/eval/run.ts` scores the WHOLE blog corpus
+(every post since a fixed date) — that's a manual calibration tool for
+checking the eval baseline, never a step in this loop.
+
+Hand both scores to the fan-out too — `flatness-reviewer`, `formulaic-reviewer`,
+and `voice-reviewer` add LLM judgment ON TOP of the mechanical gate above; they
+are additional coverage, not a substitute for it.
 
 **Round (repeat until converged or round cap 3):**
 1. **Fan out** — dispatch, in parallel via the Agent tool (`model: "sonnet"`
-   unless the agent's own frontmatter says otherwise), the DRAFT-mode
-   reviewers — the full 15-agent roster minus `outline-structure-reviewer`
-   (outline-only): `hook-reviewer`, `impact-reviewer`, `emotion-reviewer`,
+   unless the agent's own frontmatter says otherwise), the 15 draft-mode
+   reviewers (`outline-structure-reviewer` is outline-only, not in this list):
+   `hook-reviewer`, `impact-reviewer`, `emotion-reviewer`,
    `flatness-reviewer`, `formulaic-reviewer`, `voice-reviewer`,
    `structure-reviewer`, `wordsmith-reviewer`, `grammar-reviewer`,
    `seo-reviewer`, `link-integrity-reviewer`, `link-opportunity-reviewer`,
@@ -249,13 +261,16 @@ not a separate pass/fail step.
    `docs/blog-bullshit-ledger.md` — all three keep updating their memory files
    after each run, same as before.
 2. **Synthesize** — dispatch `.claude/agents/synthesis.md` with the draft
-   path, all 15 findings arrays, and the round number. It dedups, ranks by
-   disposition (**gate**: flatness / formulaic / voice / link-integrity /
-   fact-checker / bullshit-detector; **auto-apply**: structure / wordsmith /
-   grammar; **advisory**: hook / impact / emotion / seo / link-opportunity /
-   meta-content), resolves conflicting edits, and runs the content-safety
-   scrub + banned-term (`change-factory`) scan (see Content Safety section) —
-   synthesis owns both checks; there is no separate content-reviewer step.
+   path, all 15 findings arrays, the round number, and the mechanical
+   tone-gate result from above. Disposition per reviewer is classified by
+   `lib/review-disposition.ts`'s `classifyDisposition` (single source of
+   truth — gate / auto-apply / advisory); hook is advisory UNLESS the hook is
+   missing or broken, in which case it escalates to gate (`HOOK_ESCALATION_NOTE`
+   in that file). Synthesis dedups, ranks, resolves conflicting edits, folds
+   in the mandatory tone-gate finding (if any) as a gate finding no reviewer
+   discretion can override, and runs the content-safety scrub + banned-term
+   (`change-factory`) scan (see Content Safety section) — synthesis owns both
+   checks; there is no separate content-reviewer step.
 3. **Edit** — on ANOTHER ROUND, dispatch a Sonnet editor agent (Read + Edit,
    ad hoc — no dedicated agent file) with synthesis's consolidated edit set to
    revise the draft file directly — gate fixes always applied, auto-apply
@@ -422,6 +437,16 @@ keeps the products improving from the act of writing about them (see [[TD-0031]]
 ---
 
 ### 12. Build and Commit
+
+**Final safety grep** — the safety scrub + banned-term scan in Steps 4.6/6
+cover the outline and draft, but not the summary/digest prose authored in
+Steps 8-9 or the assembled frontmatter. Immediately before committing, run
+both checks over the final assembled post file:
+```bash
+grep -i "change.factory" src/content/blog/<new-post>.md
+grep -iE "api[_-]?key|secret|token|password" src/content/blog/<new-post>.md
+```
+Any match blocks the commit — fix it before proceeding.
 
 ```bash
 npm run build

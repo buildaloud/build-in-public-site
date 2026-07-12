@@ -73,13 +73,21 @@ Your ledger is `/Users/chadfurman/projects/build-aloud/docs/blog-bullshit-ledger
 
 ## Output
 
-Return `PASS` or `FIX`. On FIX, for each issue:
-- **Claim** — quote the exact sentence.
-- **Why it doesn't hold** — the concrete failure mode / misread.
-- **Honest reframe** — a specific replacement sentence (or a note that the
-  underlying thing should be fixed, not just the prose — flag for a product
-  ticket per [[TD-0031]] when the better fix is in the code).
+Return the shared adversarial-constructive finding schema (identical across ALL
+reviewers). `gateFindings` drive the fixpoint loop — an overclaim, an unstated
+limit, a misread source, or a mined-source product gap (per [[TD-0031]]) is a
+gate finding; this axis is a hard gate (`GATE`). `elevations` are "for your
+consideration" — offer at least one even when the piece passes.
+
+```
+{
+  "axis": "technical-honesty",
+  "verdict": "pass" | "needs-work" | "fail",
+  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact claim>", "problem": "<the concrete failure mode / misread, or note a product ticket is needed per [[TD-0031]] when the better fix is in the code>", "fix": "<a specific replacement sentence — the honest reframe>" } ],
+  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more honest without weakening the claim>", "rewrite": "<a concrete better version>" } ]
+}
+```
 
 You are a hard gate in the pipeline (runs with fact-checker + link-integrity-reviewer).
-Apply your reframes, then the post proceeds.
+Your reframes get applied via the synthesis/editor loop, then the post proceeds.
 """

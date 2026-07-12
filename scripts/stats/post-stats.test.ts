@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { normalizeToSlug, slugFromFilename, computeScorecard, shapePostStats, assertJoinHealth, UNMATCHED_FAIL_RATIO } from './post-stats';
+import { describe, expect, it, vi } from 'vitest';
+import { normalizeToSlug, slugFromFilename, computeScorecard, shapePostStats, assertJoinHealth, UNMATCHED_FAIL_RATIO, LIKES_ROW_LIMIT } from './post-stats';
 
 describe('slugFromFilename', () => {
   it('strips the .md extension to match the Astro content-collection post.id', () => {
@@ -300,6 +300,34 @@ describe('shapePostStats — likes join', () => {
     const result = shapePostStats(posts, gscPageRows, [], []);
 
     expect(result.byPost['hello-world'].likes).toBe(0);
+  });
+});
+
+describe('shapePostStats — likes truncation warning', () => {
+  const posts = [{ slug: 'hello-world' }];
+  const gscPageRows = [
+    { page: 'https://buildaloud.ai/blog/hello-world/', clicks: 5, impressions: 50, ctr: 0.1, position: 7.2 },
+  ];
+
+  it('warns when the post_likes fetch returns exactly the row-limit cap (likely truncated)', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const likeRows = Array.from({ length: LIKES_ROW_LIMIT }, () => ({ post_slug: 'hello-world' }));
+
+    shapePostStats(posts, gscPageRows, [], [], likeRows);
+
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    expect(warnSpy.mock.calls[0][0]).toMatch(/truncat/i);
+    warnSpy.mockRestore();
+  });
+
+  it('does not warn when likeRows is comfortably under the cap', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const likeRows = [{ post_slug: 'hello-world' }];
+
+    shapePostStats(posts, gscPageRows, [], [], likeRows);
+
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 });
 

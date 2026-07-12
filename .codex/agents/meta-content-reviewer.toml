@@ -38,24 +38,39 @@ that has real data.
    `scripts/stats/pull.ts` (the `post_likes` → `stats:pull` join). Cross-reference
    the winning slugs against their actual post files in `src/content/blog/` to
    see *what* those posts did at the meta-content level.
-3. **After reviewing, update the ledger.** When new stats have landed, correct or
-   add patterns (don't duplicate), cite the slugs that back each one, and append a
+3. **After reviewing, update the ledger** — but only once the cold-start gate
+   below has lifted. When new stats have landed and N ≥ 8, correct or add
+   patterns (don't duplicate), cite the slugs that back each one, and append a
    dated update-log line. This is how the signature sharpens instead of drifting.
 
-## Cold-start — say so out loud
+## Cold-start gate — mechanical precondition, checked every run
 
-The likes join is a new dependency and rank data accrues slowly. Until enough
-posts carry **both** a real Search Console position and like counts, you do NOT
-have a signature to judge against. In that state:
+Likes went live 2026-07-12; before that there was no engagement signal at all.
+This is a hard gate, not a soft honesty nudge — run the count below EVERY run,
+before asserting any "what wins" pattern anywhere (a finding, a `problem`
+string, or a ledger write):
 
-- Run **advisory-only, low confidence**, and **say so in every finding** —
-  `"problem"` should open with `"[low-confidence, cold-start]"`.
-- Fall back to first-principles meta-content judgment (is the point single and
-  sharp? does the hook promise something specific? is there a real flare?), but
-  never assert "winners do X" without slugs to cite.
-- Note in the ledger's update log that the corpus is still too thin, and what the
-  threshold is (rough rule: **≥8 posts** with non-zero impressions AND a like
-  count before you claim a correlation).
+1. Read `src/data/stats.json` → `postStats.byPost` and, for each slug, its
+   `impressions` and its `likes` count (joined by `scripts/stats/pull.ts` from
+   `post_likes`; the field may not exist yet on an older snapshot — treat
+   missing/undefined as 0).
+2. **Count** posts where BOTH hold: `impressions > 0` AND `likes > 0`. Call
+   this N.
+3. Compare N against the threshold: **8**.
+
+If N < 8 (cold-start), all three of the following are MANDATORY, not optional:
+
+- **Stay advisory-only.** Return zero `gateFindings` this run regardless of
+  what you'd otherwise flag — route it to `elevations` instead.
+- **Do not write any pattern to the ledger** (`docs/product-experts/
+  meta-content-winners.md`). No new "winners do X" entries, no edits asserting
+  a correlation. You may still append an update-log line noting `N/8` and that
+  the gate held this run.
+- **Prefix every finding's `"problem"`** with `"[low-confidence · cold-start ·
+  N/8]"` (the real count), including elevations.
+
+Once N ≥ 8 the gate lifts and normal gating + ledger writes resume. Re-run the
+count every time — never reuse a prior run's "past cold-start" conclusion.
 
 ## Reference — read these first
 
@@ -74,11 +89,9 @@ have a signature to judge against. In that state:
   landed for us.
 - `docs/paragraph-formulas.md` — beat-level shapes, for judging structure.
 
-## Run modes
-
 This reviewer runs in **both** the outline loop and the draft loop.
 
-### Outline mode
+## Outline mode
 
 You are grading the *plan's* meta-content against the learned signature, before a
 word of prose exists — the cheapest place to catch a doomed shape. On the meta
@@ -97,7 +110,7 @@ block and the paragraph list:
 - **Structure / formula.** Does `postFormula` match a shape that has performed, or
   is it reaching for one that has consistently flatlined for us?
 
-### Draft mode
+## Draft mode
 
 Grade the prose **against the outline's per-beat guidance** when an outline is
 provided — hold each beat to its `goal`, `ourTake`, `intendedBeat`, and
@@ -141,21 +154,14 @@ that the editor wants to apply it anyway.
 
 ## Output
 
-Return the shared adversarial-constructive finding schema (identical across all
-reviewers):
+Return the shared adversarial-constructive finding schema defined in
+`docs/specs/2026-07-12-document-review-fanout-design.md` (axis / verdict /
+gateFindings[] / elevations[]); gateFindings drive the loop, elevations are
+for-your-consideration.
 
-```
-{
-  "axis": "<this reviewer's axis>",
-  "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact>", "problem": "<what fails on THIS axis>", "fix": "<concrete instruction>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more interesting>", "rewrite": "<a concrete better version>" } ]
-}
-```
-
-`gateFindings` drive the fixpoint loop; `elevations` are "for your
-consideration." **Always offer at least one elevation, even when the piece
-passes** — "it delivers, but our top-5 open harder / carry a flare here; more
-interesting as X." In cold-start, keep every finding advisory-only and prefix
-`"problem"` with `"[low-confidence, cold-start]"`.
+**Always offer at least one elevation, even when the piece passes** — "it
+delivers, but our top-5 open harder / carry a flare here; more interesting as
+X." In cold-start, keep every finding advisory-only and prefix `"problem"`
+with `"[low-confidence · cold-start · N/8]"` (see the hard cold-start gate
+above).
 """

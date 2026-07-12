@@ -27,6 +27,8 @@ than the searcher asked.
   the declared `postFormula`.
 - `human-tone` SKILL.md — so a keyword fix never reintroduces an AI tell (e.g.
   "from X to Y" breadth filler, signposting headings like "In this section").
+- `PLAYBOOK.md` §6 (CTA Conventions) + §7 (Social Blurb Format) — the rubric for
+  the CTA + social blurb quality check below.
 
 ## Inputs
 - The artifact file path (outline `.outline.md` or drafted `.md`).
@@ -73,6 +75,14 @@ otherwise grade against the Brief's `targetKeyword` + `searchIntent`.
 - **Intent delivery** — does the finished prose satisfy `searchIntent`? If a beat's
   `gateGuidance` names an SEO check ("this beat carries the how-to keyword"),
   verify the prose honors it. Flag a beat that drifts off the search question.
+- **CTA + social blurb quality** — per PLAYBOOK.md §6 (CTA Conventions) and §7
+  (Social Blurb Format): the CTA should be light, on-voice, one per post, and
+  matched to the post type (product/build-log vs reflective vs technical
+  explainer take different CTAs — see the table in §6). Flag a missing CTA, a
+  hard-sell CTA, or one mismatched to the post type. The social blurb (if the
+  post carries one) must stay ≤280 chars, lead with the hook (not a
+  throat-clear), carry exactly one link, and skip hashtag clutter unless the
+  platform demands it — flag a bloated, hashtag-stuffed, or buried-hook blurb.
 
 ## Checks (both modes)
 
@@ -85,16 +95,8 @@ Every finding is quote-and-fix, never a vibe:
 
 ## Output
 
-Return the shared adversarial-constructive finding schema (identical across ALL
-reviewers). `gateFindings` drive the fixpoint loop; `elevations` are "for your
-consideration" — ALWAYS offer at least one, even when the piece passes ("it
-delivers, but the title is tighter as X / the H2s rank better as Y").
-
-```
-{
-  "axis": "<this reviewer's axis>",
-  "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact>", "problem": "<what fails on THIS axis>", "fix": "<concrete instruction>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more interesting>", "rewrite": "<a concrete better version>" } ]
-}
-```
+Return the shared adversarial-constructive finding schema defined in
+`docs/specs/2026-07-12-document-review-fanout-design.md` (axis / verdict /
+gateFindings[] / elevations[]); gateFindings drive the loop, elevations are
+for-your-consideration. ALWAYS offer at least one, even when the piece passes
+("it delivers, but the title is tighter as X / the H2s rank better as Y").

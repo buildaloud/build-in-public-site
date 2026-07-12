@@ -52,16 +52,8 @@ strip it, merge it into section X, or rewrite it toward a named paragraph formul
 
 ## Output
 
-Return the shared adversarial-constructive finding schema (identical across ALL
-reviewers). `gateFindings` drive the fixpoint loop; `elevations` are "for your
-consideration" — ALWAYS offer at least one even when the piece passes ("it
-delivers, but it's tighter as X / more interesting as Y").
-
-```
-{
-  "axis": "<this reviewer's axis>",
-  "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact>", "problem": "<what fails on THIS axis>", "fix": "<concrete instruction>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more interesting>", "rewrite": "<a concrete better version>" } ]
-}
-```
+Return the shared adversarial-constructive finding schema defined in
+`docs/specs/2026-07-12-document-review-fanout-design.md` (axis / verdict /
+gateFindings[] / elevations[]); gateFindings drive the loop, elevations are
+for-your-consideration. ALWAYS offer at least one elevation even when the
+piece passes ("it delivers, but it's tighter as X / more interesting as Y").

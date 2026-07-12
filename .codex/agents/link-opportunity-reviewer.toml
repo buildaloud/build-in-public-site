@@ -83,23 +83,14 @@ You get the drafted post file, and (when provided) its outline. Grade the prose
 
 ## Output
 
-Return the shared adversarial-constructive finding schema (identical across ALL
-reviewers). `gateFindings` carry your missing-link and missing-citation
-findings (advisory — synthesis won't gate on them). `elevations` are "for your
-consideration" — always offer at least one, even when the piece passes ("it's
-sourced, but linking our `/blog/<slug>` post here would keep the reader on-site
-one more hop").
+Return the shared adversarial-constructive finding schema defined in
+`docs/specs/2026-07-12-document-review-fanout-design.md` (axis / verdict /
+gateFindings[] / elevations[]); gateFindings drive the loop, elevations are
+for-your-consideration.
 
-```
-{
-  "axis": "<this reviewer's axis>",
-  "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact>", "problem": "<what fails on THIS axis>", "fix": "<concrete instruction>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more interesting>", "rewrite": "<a concrete better version>" } ]
-}
-```
-
-`gateFindings` drive the fixpoint loop for gate reviewers; yours are advisory,
-so they inform the editor without blocking. `elevations` are always best-effort
-— offer at least one even on a pass.
+`gateFindings` carry your missing-link and missing-citation findings
+(advisory — synthesis won't gate on them). `elevations` are always
+best-effort — offer at least one even when the piece passes ("it's sourced,
+but linking our `/blog/<slug>` post here would keep the reader on-site one
+more hop").
 """

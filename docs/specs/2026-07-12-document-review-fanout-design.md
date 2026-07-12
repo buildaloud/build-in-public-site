@@ -168,13 +168,26 @@ Memory-backed (product-expert pattern: read-first / update-last, ledger under
   `impact-reviewer`; `link-checker` → `link-integrity-reviewer`.
 - **New:** hook, emotion, flatness, formulaic, voice, structure, wordsmith, grammar,
   seo, link-opportunity, meta-content, outline-structure reviewers; the outline
-  artifact + schema; the fan-out Workflow; the stats likes-join.
+  artifact + schema; the fan-out loop; the stats likes-join.
+- **Note:** `content-judge` (brief-stage advisory judge,
+  `.claude/agents/content-judge.md`) already has a `weak-hook` check that
+  pre-dates and overlaps with the new `hook-reviewer` axis — not reconciled
+  here, flagged for a future cleanup. The reviewer fixture harness (one file
+  per reviewer: a beat that should trip it + a clean beat that shouldn't) now
+  lives at `.claude/skills/content-pipeline/eval/review-fixtures/`.
 
 ## Runs as
 
-A **Workflow** (`pipeline`) dispatched from the content-pipeline skill:
-`pipeline(artifact → parallel(army) → synthesize → edit → re-review-until-converged)`.
-Deterministic fan-out, capped concurrency, round cap 3.
+An **LLM-followed protocol**, encoded as steps in the content-pipeline SKILL
+(`.claude/skills/content-pipeline/SKILL.md` Steps 4.5/4.6/6) — not a workflow
+engine. Nothing enforces parallelism or a concurrency cap at runtime; the
+orchestrating agent dispatches the fan-out in practical batches via the Agent
+tool. What IS mechanically enforced:
+- **Convergence + disposition** — `lib/review-disposition.ts`'s
+  `classifyDisposition` and `isConverged`, not prose judgment.
+- **The tone gate** — `tone-grader.ts`'s `scoreText` (`banned` / `aiScore`), a
+  hard code check with zero LLM discretion.
+- **The round cap (3)** — enforced by the loop's own round counting.
 
 ## Testing
 
@@ -188,7 +201,9 @@ Deterministic fan-out, capped concurrency, round cap 3.
 ## Risks / open
 
 - **Cost/latency:** ~15 agents × 2 loops × ≤3 rounds per post. Mitigate with the
-  outline pass catching structure early (fewer draft rounds) and capped concurrency.
+  outline pass catching structure early (fewer draft rounds); there is no
+  concurrency cap to lean on — batches are dispatched at the orchestrator's
+  discretion.
 - **Elevation churn:** elevations must not oscillate the text; the editor applies
   only clearly-better ones, and gate-findings alone define convergence.
 - **Learner cold-start:** until enough posts have rank+like data, `meta-content-reviewer`

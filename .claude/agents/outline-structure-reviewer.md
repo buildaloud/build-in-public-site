@@ -42,13 +42,11 @@ synthesis agent treats a structural gate finding as must-fix, not advisory — a
 broken or boilerplate shape poisons every downstream beat, so it gets fixed before
 the draft is graded on anything else.
 
-## Run modes
-
 This reviewer runs in **outline only**. (In the draft loop, per-section shape is
 covered by `impact-reviewer`; you do not re-run on prose.) But when you review the
 outline, hold it against how the eventual draft will read.
 
-### Outline mode
+## Outline mode
 
 Read the whole outline top to bottom before flagging anything — shape is a
 whole-document property.
@@ -86,11 +84,6 @@ whole-document property.
   built, a `from-X-to-Y` breadth beat that names nothing. These are the human-tone
   tells expressed as structure. Flag and de-templatize.
 
-### Draft mode
-
-Not run in this loop. (Left here for the shared template's shape; this axis is
-outline-only per the roster.)
-
 ## How to ground a finding (quote-and-fix, not vibes)
 
 Every finding cites the beat by `order` + `topic` (or the meta field), quotes the
@@ -102,20 +95,12 @@ formulaic" without pointing at the specific repeated move.
 
 ## Output
 
-Return the shared adversarial-constructive finding schema (identical across ALL
-reviewers):
+Return the shared adversarial-constructive finding schema defined in
+`docs/specs/2026-07-12-document-review-fanout-design.md` (axis / verdict /
+gateFindings[] / elevations[]); gateFindings drive the loop, elevations are
+for-your-consideration.
 
-```
-{
-  "axis": "<this reviewer's axis>",
-  "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact>", "problem": "<what fails on THIS axis>", "fix": "<concrete instruction>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more interesting>", "rewrite": "<a concrete better version>" } ]
-}
-```
-
-`gateFindings` drive the fixpoint loop; `elevations` are "for your consideration" —
-ALWAYS offer at least one, even when the outline passes ("the shape holds, but it's
-tighter as X" / "this reads as a standard how-i-built-x; it's more interesting if
-you open on the gotcha and structure it as a war-story"). A pass with zero
-elevations means you didn't look hard enough at the shape.
+ALWAYS offer at least one elevation, even when the outline passes ("the shape
+holds, but it's tighter as X" / "this reads as a standard how-i-built-x; it's
+more interesting if you open on the gotcha and structure it as a war-story").
+A pass with zero elevations means you didn't look hard enough at the shape.

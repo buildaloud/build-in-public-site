@@ -135,6 +135,8 @@ export function shapePostStats(
     ga4BySlug.set(slug, row.pageviews);
   }
 
+  checkLikesTruncation(likeRows);
+
   // Likes are a separate engagement signal, not an SEO join — a like row for an
   // unknown/deleted slug is silently dropped, never counted toward unmatchedGsc/Ga4.
   const likesBySlug = new Map<string, number>();
@@ -166,6 +168,25 @@ export function shapePostStats(
     unmatched: { gsc: unmatchedGsc, ga4: unmatchedGa4 },
     totalRows: blogGscPageRows.length + blogGa4Rows.length,
   };
+}
+
+// Must match the `limit=10000` in pull.ts's post_likes fetch — a raw row count
+// landing on the cap means the single-page fetch likely truncated real rows
+// past it, not that exactly 10000 likes exist.
+export const LIKES_ROW_LIMIT = 10000;
+
+/**
+ * post_likes is fetched unpaginated (see pull.ts) — loud like assertJoinHealth's
+ * join-miss guard, but a warning, not a throw: low current volume makes a hard
+ * fail overkill, and under-counting a few likes shouldn't take down the snapshot.
+ */
+export function checkLikesTruncation(likeRows: LikeRow[]): void {
+  if (likeRows.length >= LIKES_ROW_LIMIT) {
+    console.warn(
+      `\n!!! post_likes fetch returned ${likeRows.length} rows — likely truncated at the ` +
+        `${LIKES_ROW_LIMIT}-row limit; likes counts may under-count until pull.ts paginates this fetch\n`,
+    );
+  }
 }
 
 export const UNMATCHED_FAIL_RATIO = 0.1;

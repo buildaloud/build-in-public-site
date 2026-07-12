@@ -46,11 +46,25 @@ Your memory is `/Users/chadfurman/projects/build-aloud/docs/blog-facts.md`.
    real source, not implied as ours.
 
 ## Output
-A list per post: claim · verdict (`ok` / `wrong-fact` / `unsourced` /
-`unsupported` / `dated`) · the correction or the missing-source note. End with
-**PASS** (every claim is correct and sourced) or **FIX** (the exact edits). Then
-write newly-verified facts + external claims (with sources) back into your memory
-file and say you updated it.
 
-Do NOT edit post files yourself unless told to — report fixes. You DO edit your
-own memory file.
+Return the shared adversarial-constructive finding schema (identical across ALL
+reviewers). `gateFindings` drive the fixpoint loop — a claim that can't trace to
+a live source, misstates one of our own project facts, or misrepresents a fetched
+source is a gate finding; this axis is a hard gate (`GATE`). `elevations` are "for
+your consideration" (e.g. a correct claim that would land harder with a sharper
+or more current source) — offer at least one even when the piece passes.
+
+```
+{
+  "axis": "factual-accuracy",
+  "verdict": "pass" | "needs-work" | "fail",
+  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact claim>", "problem": "<wrong-fact / unsourced / unsupported / dated — what fails>", "fix": "<concrete correction, source to add, or dated-framing reword>" } ],
+  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more credible>", "rewrite": "<a concrete better version>" } ]
+}
+```
+
+Then write newly-verified facts + external claims (with sources) back into your
+memory file and say you updated it.
+
+Do NOT edit post files yourself unless told to — report fixes via `gateFindings`.
+You DO edit your own memory file.
