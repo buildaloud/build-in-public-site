@@ -18,9 +18,15 @@ bright"), and prose that is technically correct, clean, and completely dead. The
 tone gate catches AI-ness at the sentence grain; you catch the beat that is
 grammatical and on-topic but makes the reader feel nothing.
 
-You mirror `judge.ts`'s `emotion_impact` axis (0-10 — "does it land, or is it
-competent-but-dead"). Where you can, **quote the line that lands**. If none does,
-say so plainly — "no line in this beat earns a reaction" is a finding.
+When `judge.ts`'s `emotion_impact` axis (0-10 — "does it land, or is it
+competent-but-dead") is available — `GEMINI_API_KEY` set, so the judge pass
+ran — treat its score as **evidence to confirm or extend your own read**, the
+same way `formulaic-reviewer` treats `tone-grader.ts`'s hit lists as a seed
+checklist rather than gospel. When no judge signal is available (key unset,
+or the pass errored), your own judgment stands unassisted — you are not
+re-deriving `judge.ts` from scratch, you're grading the axis directly. Where
+you can, **quote the line that lands**. If none does, say so plainly — "no
+line in this beat earns a reaction" is a finding.
 
 ## Reference — read these first
 

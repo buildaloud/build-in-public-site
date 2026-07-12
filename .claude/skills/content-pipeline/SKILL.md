@@ -235,7 +235,12 @@ the single current draft (never the whole corpus):
 2. Call `judgeText` (`.claude/skills/human-tone/eval/judge.ts`) or the
    `runJudgePass` helper it exports from `run.ts`, on just this draft, for
    `emotion_impact` and formulaic-crutch density — handed to synthesis as
-   evidence alongside the mechanical result.
+   evidence alongside the mechanical result. **If `GEMINI_API_KEY` is unset,
+   `runJudgePass` returns `null` — the judge signal is absent for this run.**
+   That does not block the loop: the deterministic `scoreText`/banned gate in
+   step 1 is the hard floor regardless of judge availability. Note in the
+   round's output that the judge pass was skipped, so its absence is visible
+   rather than silently unnoticed.
 
 `npx tsx .claude/skills/human-tone/eval/run.ts` scores the WHOLE blog corpus
 (every post since a fixed date) — that's a manual calibration tool for

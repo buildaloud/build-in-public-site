@@ -98,6 +98,9 @@ function printReport(opts: {
 
 async function main() {
   const geminiKey = process.env.GEMINI_API_KEY;
+  if (!geminiKey) {
+    console.warn('GEMINI_API_KEY not set — judge pass skipped for this run; scores are regex-only (tone-grader.ts).');
+  }
   const { humanScores, humanAgg } = scoreHumanCorpus();
 
   const blogDir = join(repo, 'src', 'content', 'blog');

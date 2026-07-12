@@ -50,6 +50,14 @@ Collapse findings that name the same `location`/`quote` across reviewers into on
 entry, keeping every distinct reason. Two reviewers flagging the same sentence is
 signal, not noise — merge, don't drop.
 
+### 1.5. Cross-round suppression (round 2+)
+A span that PASSED every gate reviewer in the PRIOR round (no gate reviewer
+flagged it) is not re-opened by a gate reviewer THIS round — drop that
+finding — UNLESS the editor's edits this round actually touched that span.
+This bounds convergence thrash: a gate reviewer re-litigating text that sits
+near a fresh rewrite, but was never itself rewritten, would otherwise keep the
+loop open forever. Round 1 has no prior round, so this never applies there.
+
 ### 2. Rank + classify by disposition
 Classify each finding's disposition with `lib/review-disposition.ts`'s
 `classifyDisposition(axis)` — that function, not this prose, is the single
@@ -70,6 +78,11 @@ When two reviewers propose incompatible rewrites of the same span, pick one and
 say why (favor the gate reviewer over the advisory one; favor the edit that
 preserves Scout's voice). The editor must never receive two edits fighting over
 one sentence.
+
+**Tier collision rule:** when two reviewers of DIFFERENT tiers edit the same
+span, the higher tier always wins — gate > auto-apply > advisory, no
+exceptions. A same-span collision collapses to whichever reviewer's tier
+ranks highest, full stop.
 
 ### 4. Elevations
 Collect the `elevations` across the army. Forward the ones that are clearly better

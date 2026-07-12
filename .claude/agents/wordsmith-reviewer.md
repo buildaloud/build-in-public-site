@@ -45,11 +45,12 @@ choices **against its guidance**:
 
 ## Tone-grader seed
 
-`.claude/skills/human-tone/eval/tone-grader.ts` computes exact hit lists
-(`hedgeHits` / `tricolonHits` / `aiVocabHits` / `negParallelHits`, among
-others) for the text you're reviewing. Treat those as a mandatory starting
-checklist to confirm and extend, not something to re-derive from scratch —
-run it (or read its output when provided) before you hunt manually.
+`.claude/skills/human-tone/eval/tone-grader.ts`'s `scoreText` computes exact
+hit lists on its returned `hits` object (`hits.hedges` / `hits.tricolon` /
+`hits.aiVocab` / `hits.negParallel`, among others) for the text you're
+reviewing. Treat those as a mandatory starting checklist to confirm and
+extend, not something to re-derive from scratch — run it (or read its output
+when provided) before you hunt manually.
 
 ## Disposition — auto-apply (low risk)
 

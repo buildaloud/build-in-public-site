@@ -102,8 +102,8 @@ adversarial finding schema.
 | 10 | `seo-reviewer` | keyword usage, title/meta length, headings, intent match | ✓ | ✓ | advisory |
 | 11 | `link-integrity-reviewer` | links resolve + right target *(← link-checker)* | | ✓ | **gate** |
 | 12 | `link-opportunity-reviewer` | missing internal links (PLAYBOOK) + needed citations | ✓ | ✓ | advisory |
-| 13 | `fact-checker` | claims trace to a live source *(exists, unchanged)* | ✓ | ✓ | **gate** |
-| 14 | `bullshit-detector` | technical claims honest, sources understood *(exists)* | ✓ | ✓ | **gate** |
+| 13 | `fact-checker` | claims trace to a live source *(schema-migrated)* | ✓ | ✓ | **gate** |
+| 14 | `bullshit-detector` | technical claims honest, sources understood *(schema-migrated)* | ✓ | ✓ | **gate** |
 | 15 | `meta-content-reviewer` | learned "what wins" (SEO rank + likes) vs this post | ✓ | ✓ | advisory |
 | — | `outline-structure-reviewer` | whole-shape coherence, type-appropriate, non-rigid | ✓ | | **gate** |
 
@@ -195,8 +195,20 @@ tool. What IS mechanically enforced:
   shouldn't (guards false positives).
 - The em-dash "Punctuation is decoration" passage is the golden fixture for
   `flatness-reviewer` — it must fire on the back half, pass the concrete front.
-- The loop gets an integration test: a deliberately-flat draft converges to clean
-  within the cap.
+- `isConverged` and `classifyDisposition` (`.claude/skills/content-pipeline/lib/
+  review-disposition.ts`) are unit-tested in the sibling `.test.ts` — including
+  a round-sequence simulation that drives `isConverged` across a mock round 1
+  (gate findings open) → round 2 (findings cleared, safety + banned clear)
+  transition, proving the predicate flips correctly across rounds.
+- Per-reviewer fixtures live at `eval/review-fixtures/` — a manual drift-check
+  today, no CI runner wired up yet.
+- **Known gaps, tracked as follow-up:** no full multi-round LLM loop-integration
+  test (a deliberately-flat draft actually converging to clean end-to-end); no
+  CI fixture runner over `eval/review-fixtures/`; no fully-mechanical cold-start
+  precompute. These are gaps by the nature of the design, not oversights — the
+  loop itself is an LLM-followed protocol (see "Runs as" above), not a code
+  engine, so its end-to-end behavior isn't unit-testable the way the pure
+  predicates above are.
 
 ## Risks / open
 

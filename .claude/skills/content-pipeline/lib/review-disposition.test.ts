@@ -57,3 +57,18 @@ describe('isConverged', () => {
     expect(isConverged([], true, false)).toBe(false);
   });
 });
+
+describe('isConverged — round sequence simulation', () => {
+  it('flips from not-converged to converged across a round 1 -> round 2 sequence', () => {
+    const rounds = [
+      { gateFindings: [{ location: 'p1' }, { location: 'p3' }], safetyClear: true, bannedClear: true },
+      { gateFindings: [], safetyClear: true, bannedClear: true },
+    ];
+
+    const results = rounds.map((r) => isConverged(r.gateFindings, r.safetyClear, r.bannedClear));
+
+    expect(results).toEqual([false, true]);
+    const convergedRound = results.findIndex(Boolean);
+    expect(convergedRound).toBeLessThan(3); // within the round cap
+  });
+});
