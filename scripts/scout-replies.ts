@@ -19,7 +19,7 @@ const REPO_ROOT = path.resolve(__dirname, '..');
 
 // ─── Constants ───────────────────────────────────────────────────────────────
 
-const REPO_OWNER = 'chadfurman';
+const REPO_OWNER = 'buildaloud';
 const REPO_NAME = 'build-in-public-site';
 const CATEGORY_ID = 'DIC_kwDORVwLe84C282K'; // General category from BlogPost.astro
 const BOT_LOGIN = 'scout-buildaloud';

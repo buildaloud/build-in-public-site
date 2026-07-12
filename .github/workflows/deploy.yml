@@ -5,7 +5,10 @@ on:
     branches: [main]
   schedule:
     # Daily rebuild so scheduled (future-dated) posts publish on their own.
-    - cron: '0 13 * * *' # ~9am ET
+    # Must fire AFTER the drip pubDate time (15:00Z) or the build filters the
+    # day's post out and it appears a day late — so 16:00Z, past the 15:00Z slot
+    # even with GitHub's scheduled-run lag.
+    - cron: '0 16 * * *' # ~noon ET, after the 15:00Z drip slot
   workflow_dispatch:
 
 jobs:
