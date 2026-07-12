@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-08T13:01:37.247Z",
+  "generatedAt": "2026-07-12T16:19:21.068Z",
   "ga4": {
     "available": true,
     "window": {
@@ -7,24 +7,24 @@
       "endDate": "today"
     },
     "metrics": {
-      "sessions": 65,
-      "totalUsers": 39,
-      "activeUsers": 39,
-      "screenPageViews": 237,
-      "engagementRate": 0.2923076923076923,
-      "averageSessionDuration": 112.85626093846153
+      "sessions": 120,
+      "totalUsers": 73,
+      "activeUsers": 73,
+      "screenPageViews": 164,
+      "engagementRate": 0.20833333333333334,
+      "averageSessionDuration": 79.831535825
     }
   },
   "searchConsole": {
     "available": true,
     "window": {
-      "startDate": "2026-06-10",
-      "endDate": "2026-07-08"
+      "startDate": "2026-06-14",
+      "endDate": "2026-07-12"
     },
-    "clicks": 0,
-    "impressions": 20,
-    "ctr": 0,
-    "position": 19.55
+    "clicks": 1,
+    "impressions": 42,
+    "ctr": 0.023809523809523808,
+    "position": 24.547619047619047
   },
   "buttondown": {
     "available": true,
@@ -34,9 +34,15 @@
     "available": true,
     "products": {
       "demo": {
-        "users": 4,
-        "signups7d": 4,
-        "signins7d": 0,
+        "users": 5,
+        "signups7d": 1,
+        "signins7d": 8,
+        "paidOrders": 0
+      },
+      "panel": {
+        "users": 1,
+        "signups7d": 1,
+        "signins7d": 12,
         "paidOrders": 0
       }
     }
@@ -58,12 +64,12 @@
   "agentUsage": {
     "available": true,
     "currentMonth": {
-      "tokens": 2518870321,
-      "apiEquivalentUSD": 1665.3339833000005
+      "tokens": 16453844846,
+      "apiEquivalentUSD": 11778.666125250002
     },
     "allTime": {
-      "tokens": 8061700013,
-      "apiEquivalentUSD": 5513.325692900002
+      "tokens": 21995583406,
+      "apiEquivalentUSD": 15625.054011850003
     },
     "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
   },
@@ -78,22 +84,60 @@
   "postStats": {
     "available": true,
     "window": {
-      "startDate": "2026-06-10",
-      "endDate": "2026-07-08"
+      "startDate": "2026-06-14",
+      "endDate": "2026-07-12"
     },
     "meta": {
       "unmatchedRows": {
         "gsc": 0,
         "ga4": 0
       },
-      "totalRows": 15
+      "totalRows": 25
     },
     "byPost": {
+      "2026-03-03-34-malicious-skills-and-what-they-re-actually-doing": {
+        "clicks": 1,
+        "impressions": 3,
+        "ctr": 0.3333333333333333,
+        "position": 6.666666666666667,
+        "pageviews": 4,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
       "2026-02-22-we-let-haiku-do-the-audits-it-missed-things": {
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 11,
         "ctr": 0,
-        "position": 28.2,
+        "position": 26.09090909090909,
+        "pageviews": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-02-23-not-all-malicious-is-equal": {
+        "clicks": 0,
+        "impressions": 3,
+        "ctr": 0,
+        "position": 51.333333333333336,
+        "pageviews": 0,
+        "scorecard": {
+          "status": "measured",
+          "targetKeyword": "severity weighted risk score",
+          "rankedForTarget": false,
+          "targetPosition": null,
+          "targetImpressions": 0,
+          "targetClicks": 0,
+          "secondaryHits": 0
+        }
+      },
+      "2026-02-23-we-found-malicious-skills-three-of-them": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 33,
         "pageviews": 0,
         "scorecard": {
           "status": "insufficient-data",
@@ -111,12 +155,12 @@
           "reason": "no-gsc-rows"
         }
       },
-      "2026-03-03-34-malicious-skills-and-what-they-re-actually-doing": {
+      "2026-03-03-a-bug-in-the-pipeline-taught-us-something-about-the-catalog": {
         "clicks": 0,
         "impressions": 1,
         "ctr": 0,
-        "position": 4,
-        "pageviews": 3,
+        "position": 24,
+        "pageviews": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -124,10 +168,21 @@
       },
       "2026-06-16-building-a-game-with-claude-code-in-3-weeks": {
         "clicks": 0,
-        "impressions": 5,
+        "impressions": 8,
         "ctr": 0,
-        "position": 8.4,
-        "pageviews": 3,
+        "position": 7.5,
+        "pageviews": 5,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-06-23-chad-starts-a-lot-of-circles": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 32,
+        "pageviews": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -135,13 +190,18 @@
       },
       "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
         "clicks": 0,
-        "impressions": 1,
+        "impressions": 10,
         "ctr": 0,
-        "position": 9,
+        "position": 31.8,
         "pageviews": 1,
         "scorecard": {
-          "status": "insufficient-data",
-          "reason": "no-gsc-rows"
+          "status": "measured",
+          "targetKeyword": "claude code ticket tracker plugin",
+          "rankedForTarget": false,
+          "targetPosition": null,
+          "targetImpressions": 0,
+          "targetClicks": 0,
+          "secondaryHits": 0
         }
       },
       "2026-02-21-i-have-a-face-now": {
@@ -150,6 +210,28 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 3,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-08-cloudflare-pages-functions-404-custom-domain": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 2,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-10-claude-security-team-that-remembers": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 2,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -211,6 +293,50 @@
         }
       },
       "2026-06-26-ai-on-my-site-told-it-to-defer": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-07-launch-day-bugs-only-showed-up-in-prod": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-09-can-an-ai-run-a-business": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-10-gpt-5-6-vs-claude-for-coding-agents": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-11-anonymous-like-button-without-login": {
         "clicks": 0,
         "impressions": 0,
         "ctr": 0,
