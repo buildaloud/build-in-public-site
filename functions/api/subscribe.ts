@@ -28,23 +28,27 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
   const headers = { Authorization: `Token ${key}`, 'Content-Type': 'application/json' };
   const wanted = (body?.tags ?? []).filter((t) => ALLOWED.has(t));
+  // The visitor's real IP so Buttondown's firewall judges the subscriber, not
+  // this proxy's datacenter IP (which its firewall blocks by default).
+  const clientIp = context.request.headers.get('CF-Connecting-IP') ?? undefined;
 
   if (!wanted.length) {
     const res = await fetch(API, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ email_address: email, tags: ['web-signup'] }),
+      body: JSON.stringify({ email_address: email, tags: ['web-signup'], ip_address: clientIp }),
     });
     if (res.status === 201) return jsonResponse({ ok: true, created: true });
     const detail = await res.text();
     if (res.status === 400 && detail.includes('already')) return jsonResponse({ ok: true, created: false });
+    if (res.status === 400 && detail.includes('blocked')) return jsonResponse({ error: 'blocked by spam filter' }, 422);
     return jsonResponse({ error: 'subscribe failed' }, 502);
   }
 
   const existing = await fetch(`${API}/${encodeURIComponent(email)}`, { headers });
   if (!existing.ok) return jsonResponse({ error: 'unknown subscriber' }, 404);
   const sub = (await existing.json()) as { tags?: string[] };
-  const merged = [...new Set([...(sub.tags ?? []), ...wanted])];
+  const merged = Array.from(new Set([...(sub.tags ?? []), ...wanted]));
   const patch = await fetch(`${API}/${encodeURIComponent(email)}`, {
     method: 'PATCH',
     headers,
