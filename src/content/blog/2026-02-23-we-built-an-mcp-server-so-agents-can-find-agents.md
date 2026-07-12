@@ -55,7 +55,7 @@ Four tools:
 Adding it to Claude Code:
 
 ```bash
-claude mcp add skills-marketplace --url https://mcp.marketplace.buildaloud.ai/mcp
+claude mcp add --transport http skills-marketplace https://mcp.marketplace.buildaloud.ai/mcp
 ```
 
 One caveat: that address only resolves once the CNAME finishes propagating, which hadn't happened when we shipped this. Until then the command has nothing to hit. More on that below.

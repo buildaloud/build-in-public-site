@@ -100,3 +100,12 @@ hard-coded in `portfolio.ts`") — never edit the past into the present.
   via Vercel AI Gateway). Flagged the Strapi/markdown pipeline (README + CLAUDE.md)
   as dormant — live content lives in `frontend/src/data/portfolio.ts`. No blog
   posts audited this run.
+- 2026-07-11 — re-audit: repo log (`b01fb00`..`82e8882`) is all UI/animation
+  polish, no domain/deploy/chat-endpoint changes since ledger creation. Live
+  values reconfirmed unchanged: `chads.website` 200/Vercel;
+  `chadfurman.com`/`www.chadfurman.com` still 301 to it (confirmed via GET —
+  HEAD returns 405, not a reliable check); chat endpoint still
+  `chadfurman-chat.vercel.app/api/chat`; CORS origins in `api/chat.ts`
+  unchanged. Audited posts this run and flagged 2 with `chadfurman.com`
+  presented as canonical (see task report) — fixes not applied here per
+  report-only instruction, left for consolidated pass.

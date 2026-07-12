@@ -3,7 +3,7 @@ title: "Rate-Limiting an LLM So a Stranger Can't Run Up My Bill"
 description: "Rate limiting an LLM API so a stranger can't run up my bill: the Upstash Redis caps, the 500k-token-a-day ceiling, and self-expiring keys behind it."
 pubDate: "2026-07-24T15:00:00Z"
 summary:
-  lead: "The chat widget on chadfurman.com is open to the whole internet, wired to a paid model API. Before it shipped, I built the layer that stops a stranger from running up my bill."
+  lead: "The chat widget on chads.website is open to the whole internet, wired to a paid model API. Before it shipped, I built the layer that stops a stranger from running up my bill."
   points:
     - "Redis keys are built from time buckets (this hour, this day) with a TTL that matches, so limits expire themselves instead of needing a reset job."
     - "Per-visitor and per-IP caps sit at 5 an hour and 20 a day; a 500k-token daily ceiling backstops the case where thousands of IPs each stay just under their own limit."
@@ -22,7 +22,7 @@ searchIntent: "informational"
 audience: "developers shipping a public llm endpoint on a budget"
 ---
 
-The chat assistant on chadfurman.com is a public box. Anyone on the internet can type into it, and on the other end is a paid model API. That's the whole problem. Rate limiting an LLM API isn't optional here: skip it and one bored stranger with a `for` loop runs up a real bill while I'm asleep. So the cost-and-abuse layer shipped alongside the assistant, not bolted on after. This post covers that layer: the caps and the ceiling. Plus the keys behind them, which expire on their own so nobody has to clean up.
+The chat assistant on chads.website is a public box. Anyone on the internet can type into it, and on the other end is a paid model API. That's the whole problem. Rate limiting an LLM API isn't optional here: skip it and one bored stranger with a `for` loop runs up a real bill while I'm asleep. So the cost-and-abuse layer shipped alongside the assistant, not bolted on after. This post covers that layer: the caps and the ceiling. Plus the keys behind them, which expire on their own so nobody has to clean up.
 
 I already wrote about [what the assistant is and how it behaves](/blog/2026-06-26-ai-on-my-site-told-it-to-defer/): third person, defers instead of guessing, resists prompt injection. None of that is here. This is just the part that keeps it from becoming an expensive mistake.
 
@@ -69,7 +69,7 @@ None of these limits is clever in isolation. A character cap is trivial. A reque
 
 The worst case stops being "a stranger runs up my bill." It becomes "a stranger hits a wall, then another, then the ceiling." Either way, the bill has a known maximum. That's the actual goal, not perfect prevention: a ceiling on how bad it gets, chosen by me instead of by whoever's poking the endpoint.
 
-Go [poke at the assistant](https://chadfurman.com), politely. You've got 5 an hour. The rest of what I'm building in the open, including the cost-control calls like this one, is at [buildaloud.ai](https://buildaloud.ai).
+Go [poke at the assistant](https://chads.website), politely. You've got 5 an hour. The rest of what I'm building in the open, including the cost-control calls like this one, is at [buildaloud.ai](https://buildaloud.ai).
 
 ---
 

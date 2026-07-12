@@ -209,6 +209,12 @@
       "2026-07-09-how-to-measure-blog-seo.md"
     ]
   },
+  "https://artificialanalysis.ai/articles/gpt-5-6-has-landed": {
+    "status": 200,
+    "posts": [
+      "2026-07-10-gpt-5-6-vs-claude-for-coding-agents.md"
+    ]
+  },
   "https://blog.pebblous.ai/blog/dc-story-produce-pipeline-meta/en/": {
     "status": 200,
     "posts": [
@@ -244,16 +250,16 @@
       "2026-07-29-one-command-saas-up-and-down.md"
     ]
   },
+  "https://anthropic.com/engineering/multi-agent-research-system": {
+    "status": 200,
+    "posts": [
+      "2026-07-13-automate-blog-writing-with-ai-agents.md"
+    ]
+  },
   "https://blog.hubspot.com/marketing/blogging-frequency-benchmarks": {
     "status": 200,
     "posts": [
       "2026-07-20-automate-blog-publishing-schedule.md"
-    ]
-  },
-  "https://artificialanalysis.ai/articles/gpt-5-6-has-landed": {
-    "status": 200,
-    "posts": [
-      "2026-07-10-gpt-5-6-vs-claude-for-coding-agents.md"
     ]
   },
   "https://code.claude.com/docs/en/plugin-marketplaces": {
@@ -262,16 +268,29 @@
       "2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md"
     ]
   },
-  "https://css-tricks.com/a-complete-guide-to-custom-properties/": {
+  "https://chads.website": {
     "status": 200,
     "posts": [
-      "2026-07-17-design-system-with-css-variables.md"
+      "2026-06-26-ai-on-my-site-told-it-to-defer.md",
+      "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.md"
     ]
   },
   "https://augmentcode.com/guides/single-agent-vs-multi-agent-ai": {
     "status": 200,
     "posts": [
       "2026-07-13-automate-blog-writing-with-ai-agents.md"
+    ]
+  },
+  "https://css-tricks.com/a-complete-guide-to-custom-properties/": {
+    "status": 200,
+    "posts": [
+      "2026-07-17-design-system-with-css-variables.md"
+    ]
+  },
+  "https://buttondown.com": {
+    "status": 200,
+    "posts": [
+      "2026-02-21-wiring-up-the-machine.md"
     ]
   },
   "https://demo.buildaloud.ai": {
@@ -281,10 +300,21 @@
       "2026-07-29-one-command-saas-up-and-down.md"
     ]
   },
-  "https://chadfurman.com": {
+  "https://dev.to/klement_gunndu/pick-the-right-claude-code-model-for-every-task-1p6a": {
     "status": 200,
     "posts": [
-      "2026-06-26-ai-on-my-site-told-it-to-defer.md",
+      "2026-07-18-which-claude-model-to-use.md"
+    ]
+  },
+  "https://demo.buildaloud.ai/app/`": {
+    "status": 200,
+    "posts": [
+      "2026-07-26-supabase-magic-link-redirect-bug.md"
+    ]
+  },
+  "https://dev.to/pranay_batta/rate-limiting-in-llm-applications-why-you-need-it-and-how-to-build-it-5gf4": {
+    "status": 200,
+    "posts": [
       "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.md"
     ]
   },
@@ -294,40 +324,10 @@
       "2026-07-26-supabase-magic-link-redirect-bug.md"
     ]
   },
-  "https://demo.buildaloud.ai/app/`": {
-    "status": 200,
-    "posts": [
-      "2026-07-26-supabase-magic-link-redirect-bug.md"
-    ]
-  },
-  "https://aiforbusinessautomation.com/best-ai-tools-for-solo-founders": {
-    "status": 200,
-    "posts": [
-      "2026-07-19-ai-automation-stack.md"
-    ]
-  },
-  "https://dev.to/pranay_batta/rate-limiting-in-llm-applications-why-you-need-it-and-how-to-build-it-5gf4": {
-    "status": 200,
-    "posts": [
-      "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.md"
-    ]
-  },
-  "https://dev.to/klement_gunndu/pick-the-right-claude-code-model-for-every-task-1p6a": {
-    "status": 200,
-    "posts": [
-      "2026-07-18-which-claude-model-to-use.md"
-    ]
-  },
   "https://demo.buildaloud.ai/foo`": {
     "status": 200,
     "posts": [
       "2026-07-26-supabase-magic-link-redirect-bug.md"
-    ]
-  },
-  "https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties": {
-    "status": 200,
-    "posts": [
-      "2026-07-17-design-system-with-css-variables.md"
     ]
   },
   "https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion": {
@@ -336,10 +336,10 @@
       "2026-06-19-redesigned-my-own-site-animation-rabbit-hole.md"
     ]
   },
-  "https://developers.cloudflare.com/pages/functions/": {
+  "https://developers.cloudflare.com/pages/platform/known-issues/": {
     "status": 200,
     "posts": [
-      "2026-07-11-anonymous-like-button-without-login.md"
+      "2026-07-08-cloudflare-pages-functions-404-custom-domain.md"
     ]
   },
   "https://developers.cloudflare.com/waf/rate-limiting-rules/": {
@@ -348,10 +348,10 @@
       "2026-07-11-anonymous-like-button-without-login.md"
     ]
   },
-  "https://developers.cloudflare.com/pages/platform/known-issues/": {
+  "https://developers.cloudflare.com/pages/functions/": {
     "status": 200,
     "posts": [
-      "2026-07-08-cloudflare-pages-functions-404-custom-domain.md"
+      "2026-07-11-anonymous-like-button-without-login.md"
     ]
   },
   "https://developers.cloudflare.com/workers/configuration/routing/custom-domains/": {
@@ -360,10 +360,10 @@
       "2026-07-08-cloudflare-pages-functions-404-custom-domain.md"
     ]
   },
-  "https://buttondown.com": {
+  "https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties": {
     "status": 200,
     "posts": [
-      "2026-02-21-wiring-up-the-machine.md"
+      "2026-07-17-design-system-with-css-variables.md"
     ]
   },
   "https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing": {
@@ -378,35 +378,10 @@
       "2026-02-21-wiring-up-the-machine.md"
     ]
   },
-  "https://github.com/bitjaru/codesyncer": {
+  "https://aiforbusinessautomation.com/best-ai-tools-for-solo-founders": {
     "status": 200,
     "posts": [
-      "2026-02-23-skill-md-is-a-file-written-for-agents.md",
-      "2026-02-23-we-found-malicious-skills-three-of-them.md"
-    ]
-  },
-  "https://datawrapper.de/blog/fonts-for-data-visualization": {
-    "status": 200,
-    "posts": [
-      "2026-07-14-dark-dashboard-design.md"
-    ]
-  },
-  "https://github.com/anthropics/claude-code-security-review": {
-    "status": 200,
-    "posts": [
-      "2026-07-10-claude-security-team-that-remembers.md"
-    ]
-  },
-  "https://github.com/blader/taskmaster": {
-    "status": 200,
-    "posts": [
-      "2026-02-22-we-let-haiku-do-the-audits-it-missed-things.md"
-    ]
-  },
-  "https://github.com/anthropics/skills": {
-    "status": 200,
-    "posts": [
-      "2026-02-23-skill-md-is-a-file-written-for-agents.md"
+      "2026-07-19-ai-automation-stack.md"
     ]
   },
   "https://developers.google.com/search/docs/monitor-debug/search-console-start": {
@@ -421,17 +396,53 @@
       "2026-03-02-we-re-moving-to-cloudflare-and-rethinking-everything-that-costs-money.md"
     ]
   },
+  "https://github.com/anthropics/skills": {
+    "status": 200,
+    "posts": [
+      "2026-02-23-skill-md-is-a-file-written-for-agents.md"
+    ]
+  },
+  "https://developers.google.com/search/docs/appearance/google-images": {
+    "status": 200,
+    "posts": [
+      "2026-07-16-writing-alt-text-seo-accessibility.md"
+    ]
+  },
+  "https://github.com/anthropics/claude-code-security-review": {
+    "status": 200,
+    "posts": [
+      "2026-07-10-claude-security-team-that-remembers.md"
+    ]
+  },
+  "https://datawrapper.de/blog/fonts-for-data-visualization": {
+    "status": 200,
+    "posts": [
+      "2026-07-14-dark-dashboard-design.md"
+    ]
+  },
+  "https://github.com/blader/taskmaster": {
+    "status": 200,
+    "posts": [
+      "2026-02-22-we-let-haiku-do-the-audits-it-missed-things.md"
+    ]
+  },
+  "https://github.com/bitjaru/codesyncer": {
+    "status": 200,
+    "posts": [
+      "2026-02-23-skill-md-is-a-file-written-for-agents.md",
+      "2026-02-23-we-found-malicious-skills-three-of-them.md"
+    ]
+  },
   "https://github.com/buildaloud/safe-oss-forever": {
     "status": 200,
     "posts": [
       "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company.md"
     ]
   },
-  "https://github.com/chadfurman/security-kit": {
+  "https://github.com/intellectronica/skillz": {
     "status": 200,
     "posts": [
-      "2026-07-10-claude-security-team-that-remembers.md",
-      "2026-07-21-hired-a-team-of-specialists.md"
+      "2026-02-21-wiring-up-the-machine.md"
     ]
   },
   "https://github.com/buildaloud/skills-marketplace-mcp": {
@@ -454,48 +465,11 @@
       "2026-02-23-we-found-malicious-skills-three-of-them.md"
     ]
   },
-  "https://github.com/intellectronica/skillz": {
+  "https://github.com/chadfurman/security-kit": {
     "status": 200,
     "posts": [
-      "2026-02-21-wiring-up-the-machine.md"
-    ]
-  },
-  "https://machinelearningmastery.com/7-agentic-ai-trends-to-watch-in-2026": {
-    "status": 200,
-    "posts": [
-      "2026-07-09-can-an-ai-run-a-business.md"
-    ]
-  },
-  "https://github.com/medevs/smart-portfolio": {
-    "status": 200,
-    "posts": [
-      "2026-06-26-ai-on-my-site-told-it-to-defer.md"
-    ]
-  },
-  "https://goteleport.com/blog/hashing-for-anonymization/": {
-    "status": 200,
-    "posts": [
-      "2026-07-11-anonymous-like-button-without-login.md"
-    ]
-  },
-  "https://mcp.marketplace.buildaloud.ai/mcp": {
-    "status": 200,
-    "posts": [
-      "2026-02-23-the-broker-is-live.md",
-      "2026-02-23-we-built-an-mcp-server-so-agents-can-find-agents.md"
-    ]
-  },
-  "https://github.com/Toolsai/auto-skill": {
-    "status": 200,
-    "posts": [
-      "2026-02-23-skill-md-is-a-file-written-for-agents.md",
-      "2026-02-23-we-found-malicious-skills-three-of-them.md"
-    ]
-  },
-  "https://github.com/mgoellnitz/trackdown": {
-    "status": 200,
-    "posts": [
-      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md"
+      "2026-07-10-claude-security-team-that-remembers.md",
+      "2026-07-21-hired-a-team-of-specialists.md"
     ]
   },
   "https://marketplace.buildaloud.ai": {
@@ -507,22 +481,47 @@
       "2026-07-15-grill-me-what-an-auditor-sees.md"
     ]
   },
+  "https://mcp.marketplace.buildaloud.ai/mcp": {
+    "status": 200,
+    "posts": [
+      "2026-02-23-the-broker-is-live.md",
+      "2026-02-23-we-built-an-mcp-server-so-agents-can-find-agents.md"
+    ]
+  },
   "https://marketplace.buildaloud.ai/ast": {
     "status": 200,
     "posts": [
       "2026-02-22-we-rewrote-the-security-scoring-here-s-why.md"
     ]
   },
+  "https://machinelearningmastery.com/7-agentic-ai-trends-to-watch-in-2026": {
+    "status": 200,
+    "posts": [
+      "2026-07-09-can-an-ai-run-a-business.md"
+    ]
+  },
+  "https://goteleport.com/blog/hashing-for-anonymization/": {
+    "status": 200,
+    "posts": [
+      "2026-07-11-anonymous-like-button-without-login.md"
+    ]
+  },
+  "https://github.com/medevs/smart-portfolio": {
+    "status": 200,
+    "posts": [
+      "2026-06-26-ai-on-my-site-told-it-to-defer.md"
+    ]
+  },
+  "https://github.com/mgoellnitz/trackdown": {
+    "status": 200,
+    "posts": [
+      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md"
+    ]
+  },
   "https://onlinepmcourses.com/failing-project-do-you-know-when-its-time-to-pause-your-project/": {
     "status": 200,
     "posts": [
       "2026-07-25-putting-the-big-swings-on-ice.md"
-    ]
-  },
-  "https://anthropic.com/engineering/multi-agent-research-system": {
-    "status": 200,
-    "posts": [
-      "2026-07-13-automate-blog-writing-with-ai-agents.md"
     ]
   },
   "https://obot.ai/blog/mcp-security-agent-skills-supply-chain/": {
@@ -544,10 +543,17 @@
       "2026-02-22-the-part-of-the-pipeline-i-don-t-control-yet.md"
     ]
   },
-  "https://github.com/supabase/supabase-js/issues/1334": {
+  "https://github.com/Toolsai/auto-skill": {
     "status": 200,
     "posts": [
-      "2026-07-07-launch-day-bugs-only-showed-up-in-prod.md"
+      "2026-02-23-skill-md-is-a-file-written-for-agents.md",
+      "2026-02-23-we-found-malicious-skills-three-of-them.md"
+    ]
+  },
+  "https://platform.claude.com/docs/en/about-claude/models/choosing-a-model": {
+    "status": 200,
+    "posts": [
+      "2026-07-18-which-claude-model-to-use.md"
     ]
   },
   "https://news.ycombinator.com/item?id=9070488": {
@@ -556,10 +562,16 @@
       "2026-06-23-chad-starts-a-lot-of-circles.md"
     ]
   },
-  "https://platform.claude.com/docs/en/about-claude/models/choosing-a-model": {
+  "https://penpot.app/blog/the-developers-guide-to-design-tokens-and-css-variables/": {
     "status": 200,
     "posts": [
-      "2026-07-18-which-claude-model-to-use.md"
+      "2026-07-17-design-system-with-css-variables.md"
+    ]
+  },
+  "https://github.com/supabase/supabase-js/issues/1334": {
+    "status": 200,
+    "posts": [
+      "2026-07-07-launch-day-bugs-only-showed-up-in-prod.md"
     ]
   },
   "https://pmc.ncbi.nlm.nih.gov/articles/PMC12331776/": {
@@ -574,22 +586,16 @@
       "2026-07-11-anonymous-like-button-without-login.md"
     ]
   },
-  "https://penpot.app/blog/the-developers-guide-to-design-tokens-and-css-variables/": {
-    "status": 200,
-    "posts": [
-      "2026-07-17-design-system-with-css-variables.md"
-    ]
-  },
   "https://platform.claude.com/docs/en/about-claude/models/overview": {
     "status": 200,
     "posts": [
       "2026-07-18-which-claude-model-to-use.md"
     ]
   },
-  "https://nngroup.com/articles/empty-state-interface-design": {
+  "https://safe-oss-forever.com/install": {
     "status": 200,
     "posts": [
-      "2026-07-14-dark-dashboard-design.md"
+      "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company.md"
     ]
   },
   "https://rollingstone.com/culture/culture-features/chatgpt-hypen-em-dash-ai-writing-1235314945/": {
@@ -604,22 +610,16 @@
       "2026-07-13-automate-blog-writing-with-ai-agents.md"
     ]
   },
-  "https://safe-oss-forever.com": {
-    "status": 200,
-    "posts": [
-      "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company.md"
-    ]
-  },
-  "https://safe-oss-forever.com/install": {
-    "status": 200,
-    "posts": [
-      "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company.md"
-    ]
-  },
   "https://simonwillison.net/2026/Jul/9/gpt-5-6/": {
     "status": 200,
     "posts": [
       "2026-07-10-gpt-5-6-vs-claude-for-coding-agents.md"
+    ]
+  },
+  "https://safe-oss-forever.com": {
+    "status": 200,
+    "posts": [
+      "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company.md"
     ]
   },
   "https://ringly.io/blog/ai-automation-statistics-2026": {
@@ -628,10 +628,22 @@
       "2026-07-19-ai-automation-stack.md"
     ]
   },
+  "https://nngroup.com/articles/empty-state-interface-design": {
+    "status": 200,
+    "posts": [
+      "2026-07-14-dark-dashboard-design.md"
+    ]
+  },
   "https://stability.ai": {
     "status": 200,
     "posts": [
       "2026-02-22-the-part-of-the-pipeline-i-don-t-control-yet.md"
+    ]
+  },
+  "https://searchenginejournal.com/how-often-should-you-blog-tips-for-ideal-posting-frequency/530884/": {
+    "status": 200,
+    "posts": [
+      "2026-07-20-automate-blog-publishing-schedule.md"
     ]
   },
   "https://pangram.com/blog/why-perplexity-and-burstiness-fail-to-detect-ai": {
@@ -644,12 +656,6 @@
     "status": 200,
     "posts": [
       "2026-02-23-who-pays-to-secure-the-keg.md"
-    ]
-  },
-  "https://searchenginejournal.com/how-often-should-you-blog-tips-for-ideal-posting-frequency/530884/": {
-    "status": 200,
-    "posts": [
-      "2026-07-20-automate-blog-publishing-schedule.md"
     ]
   },
   "https://snyk.io/articles/skill-md-shell-access/": {
@@ -676,10 +682,10 @@
       "2026-07-23-teaching-a-robot-to-balance-my-game.md"
     ]
   },
-  "https://supabase.com/docs/guides/auth/server-side/nextjs": {
+  "https://ticket-kit.buildaloud.ai": {
     "status": 200,
     "posts": [
-      "2026-07-07-launch-day-bugs-only-showed-up-in-prod.md"
+      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md"
     ]
   },
   "https://td.buildaloud.ai": {
@@ -692,10 +698,10 @@
       "2026-07-23-teaching-a-robot-to-balance-my-game.md"
     ]
   },
-  "https://ticket-kit.buildaloud.ai": {
+  "https://supabase.com/docs/guides/auth/server-side/nextjs": {
     "status": 200,
     "posts": [
-      "2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md"
+      "2026-07-07-launch-day-bugs-only-showed-up-in-prod.md"
     ]
   },
   "https://symphony-solutions.com/insights/ai-agents-in-2026": {
@@ -710,16 +716,22 @@
       "2026-07-16-writing-alt-text-seo-accessibility.md"
     ]
   },
+  "https://wordpress.com/go/content-blogging/how-to-schedule-and-automate-wordpress-blog-post-publishing/": {
+    "status": 200,
+    "posts": [
+      "2026-07-20-automate-blog-publishing-schedule.md"
+    ]
+  },
   "https://tldl.io/blog/ai-zero-human-companies-autonomous-business": {
     "status": 200,
     "posts": [
       "2026-07-09-can-an-ai-run-a-business.md"
     ]
   },
-  "https://wordpress.com/go/content-blogging/how-to-schedule-and-automate-wordpress-blog-post-publishing/": {
+  "https://www.agenticcommerce.dev/": {
     "status": 200,
     "posts": [
-      "2026-07-20-automate-blog-publishing-schedule.md"
+      "2026-02-21-the-brainstorm-an-ai-skills-marketplace.md"
     ]
   },
   "https://www.gamedeveloper.com/design/predicting-game-difficulty-and-engagement-using-ai": {
@@ -734,28 +746,10 @@
       "2026-07-10-gpt-5-6-vs-claude-for-coding-agents.md"
     ]
   },
-  "https://www.agenticcommerce.dev/": {
-    "status": 200,
-    "posts": [
-      "2026-02-21-the-brainstorm-an-ai-skills-marketplace.md"
-    ]
-  },
   "https://www.ai21.com/glossary/ai-agent/what-is-parallel-subagent-execution/": {
     "status": 200,
     "posts": [
       "2026-07-21-hired-a-team-of-specialists.md"
-    ]
-  },
-  "https://stripe.com/resources/more/how-to-split-equity-among-cofounders-in-a-startup": {
-    "status": 200,
-    "posts": [
-      "2026-07-22-dividing-a-company-that-makes-no-money.md"
-    ]
-  },
-  "https://web.dev/articles/animations-guide": {
-    "status": 200,
-    "posts": [
-      "2026-06-19-redesigned-my-own-site-animation-rabbit-hole.md"
     ]
   },
   "https://www.lxahub.com/stories/rise-of-the-machines-can-a-business-be-run-entirely-by-ai": {
@@ -764,10 +758,10 @@
       "2026-07-09-can-an-ai-run-a-business.md"
     ]
   },
-  "https://www.oneupweb.com/blog/google-search-console-vs-google-analytics-4/": {
+  "https://www.mindstudio.ai/blog/claude-code-sub-agents-explained": {
     "status": 200,
     "posts": [
-      "2026-07-09-how-to-measure-blog-seo.md"
+      "2026-07-18-which-claude-model-to-use.md"
     ]
   },
   "https://www.mitiga.io/blog/ai-agent-supply-chain-risk-silent-codebase-exfiltration-via-skills": {
@@ -776,16 +770,16 @@
       "2026-07-15-grill-me-what-an-auditor-sees.md"
     ]
   },
-  "https://www.mindstudio.ai/blog/claude-code-sub-agents-explained": {
+  "https://www.oneupweb.com/blog/google-search-console-vs-google-analytics-4/": {
     "status": 200,
     "posts": [
-      "2026-07-18-which-claude-model-to-use.md"
+      "2026-07-09-how-to-measure-blog-seo.md"
     ]
   },
-  "https://www.pointguardai.com/blog/when-a-stolen-ai-api-key-becomes-an-82-000-problem": {
+  "https://web.dev/articles/animations-guide": {
     "status": 200,
     "posts": [
-      "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.md"
+      "2026-06-19-redesigned-my-own-site-animation-rabbit-hole.md"
     ]
   },
   "https://www.kunalganglani.com/blog/prompt-injection-2026-owasp-llm-vulnerability": {
@@ -794,34 +788,22 @@
       "2026-06-26-ai-on-my-site-told-it-to-defer.md"
     ]
   },
-  "https://www.pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends": {
+  "https://www.pointguardai.com/blog/when-a-stolen-ai-api-key-becomes-an-82-000-problem": {
+    "status": 200,
+    "posts": [
+      "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill.md"
+    ]
+  },
+  "https://stripe.com/resources/more/how-to-split-equity-among-cofounders-in-a-startup": {
     "status": 200,
     "posts": [
       "2026-07-22-dividing-a-company-that-makes-no-money.md"
     ]
   },
-  "https://wendyzhou.se/blog/dark-dashboard-ui-design-inspiration": {
+  "https://www.pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends": {
     "status": 200,
     "posts": [
-      "2026-07-14-dark-dashboard-design.md"
-    ]
-  },
-  "https://www.indiehackers.com/post/i-killed-7-side-projects-in-2024-heres-what-i-learned-about-focus-a43ac86660": {
-    "status": 200,
-    "posts": [
-      "2026-07-25-putting-the-big-swings-on-ice.md"
-    ]
-  },
-  "https://yatil.net/blog/there-is-no-character-limit-for-alt-text": {
-    "status": 200,
-    "posts": [
-      "2026-07-16-writing-alt-text-seo-accessibility.md"
-    ]
-  },
-  "https://www.indiehackers.com/post/how-do-i-avoid-shiny-object-syndrome-5dbfbece5f": {
-    "status": 200,
-    "posts": [
-      "2026-06-23-chad-starts-a-lot-of-circles.md"
+      "2026-07-22-dividing-a-company-that-makes-no-money.md"
     ]
   },
   "https://yoast.com/image-seo-alt-tag-and-title-tag-optimization": {
@@ -830,10 +812,28 @@
       "2026-07-16-writing-alt-text-seo-accessibility.md"
     ]
   },
-  "https://developers.google.com/search/docs/appearance/google-images": {
+  "https://wendyzhou.se/blog/dark-dashboard-ui-design-inspiration": {
+    "status": 200,
+    "posts": [
+      "2026-07-14-dark-dashboard-design.md"
+    ]
+  },
+  "https://yatil.net/blog/there-is-no-character-limit-for-alt-text": {
     "status": 200,
     "posts": [
       "2026-07-16-writing-alt-text-seo-accessibility.md"
+    ]
+  },
+  "https://www.indiehackers.com/post/i-killed-7-side-projects-in-2024-heres-what-i-learned-about-focus-a43ac86660": {
+    "status": 200,
+    "posts": [
+      "2026-07-25-putting-the-big-swings-on-ice.md"
+    ]
+  },
+  "https://www.indiehackers.com/post/how-do-i-avoid-shiny-object-syndrome-5dbfbece5f": {
+    "status": 200,
+    "posts": [
+      "2026-06-23-chad-starts-a-lot-of-circles.md"
     ]
   }
 }

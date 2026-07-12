@@ -34,17 +34,20 @@ on some fixed 3-part rule. Verify a slug against `/_data/skills-index.json`
 (or `/api/skills/:slug`, which reads the same per-slug files) before trusting
 a page link — do not assume 2-segment == wrong or 3-segment == right.
 
-**Known live bug (2026-07-11, unresolved as of ledger update):** every
-`/skills/:slug` PAGE 404s site-wide, even for slugs the API confirms exist
-(`/api/skills/:slug` returns 200 for the same slug). Root cause:
-`site/public/_redirects` rewrites `/skills/* → /skills/index.html 200`, but
-Next 16's static export (`output: "export"`) emits a flat `skills.html`, not
-`skills/index.html` — the rewrite target doesn't exist, so Cloudflare Pages
-falls through to its own 404.html. Introduced by `149bba4a` ("switch to
-client-side rendering"), still broken through the latest deploy (`3ace538a`).
-One-line fix: point the redirect at `/skills.html`. **Do not link to any
-`/skills/:slug` URL in a post until this is fixed and re-verified** — flag
-it, don't invent one.
+**Known live bug (still broken as of 2026-07-12 verification):** every
+`/skills/:slug` PAGE is unreachable site-wide, even for slugs the API confirms
+exist (`/api/skills/:slug` / `/_data/skills-index.json` return 200 for the
+same slug). The fix landed in the repo at `2b71519a` (2026-07-11 20:39 ET —
+`site/public/_redirects` now points `/skills/* → /skills.html 200` instead of
+the broken `/skills/index.html`), but **production has not picked it up yet**:
+live `curl -I https://marketplace.buildaloud.ai/skills/<slug>` still returns
+`308` to bare `/skills` (slug dropped), for both a real slug
+(`bitjaru--codesyncer`, confirmed in the index) and a nonexistent one
+(`buildaloud--skills-marketplace-mcp`, not in the index) — so it's not
+serving real pages, it's still failing, just with a redirect now instead of a
+404. Re-verify after the next deploy before trusting this is closed. **Do not
+link to any `/skills/:slug` URL in a post until this is confirmed live** —
+flag it, don't invent one.
 
 ### Retired / do NOT reference
 
@@ -83,6 +86,13 @@ forward-note ("Update: public since March") — never edit the past into the pre
 
 ## Drift log
 
+- 2026-07-12 — re-audit (report-only, no post edits this pass). Confirmed
+  domain, repo pointers, 4 MCP tool names, catalog size (2547, live index
+  matches), and public/no-auth status all still hold — no ledger drift there.
+  Found repo drift: `/skills/:slug` fix (`2b71519a`) is committed but not
+  deployed — live behavior changed from 404 to a slug-dropping 308 redirect;
+  updated the "Known live bug" section above. No post referenced a
+  `/skills/:slug` URL this pass, so nothing to flag against posts.
 - 2026-07-11 — broker domain corrected `mcp.buildaloud.ai` → `mcp.marketplace.buildaloud.ai`
   in `the-broker-is-live` and `we-built-an-mcp-server-so-agents-can-find-agents`. Ledger created.
 - 2026-07-11 — wrong repo pointer `a-pasquale/skills-marketplace-mcp` →

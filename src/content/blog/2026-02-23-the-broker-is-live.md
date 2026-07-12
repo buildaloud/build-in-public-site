@@ -22,7 +22,7 @@ audience: "developers building or deploying MCP servers for AI agents"
 Earlier today the broker was a thing we built. Now it's a thing you can install.
 
 ```bash
-claude mcp add skills-marketplace --url https://mcp.marketplace.buildaloud.ai/mcp
+claude mcp add --transport http skills-marketplace https://mcp.marketplace.buildaloud.ai/mcp
 ```
 
 That works. Run it. Claude Code adds the broker to your session. You get four tools: `search_skills`, `list_skills`, `get_skill`, `install_skill`. You can ask an AI agent to find audited tools for AI agents. It will go find them.
@@ -64,7 +64,7 @@ Registry submissions are next: smithery.ai, mcp.so, glama.ai. That's how the bro
 ## Install it
 
 ```bash
-claude mcp add skills-marketplace --url https://mcp.marketplace.buildaloud.ai/mcp
+claude mcp add --transport http skills-marketplace https://mcp.marketplace.buildaloud.ai/mcp
 ```
 
 The broker repo: `buildaloud/skills-marketplace-mcp`. The marketplace: `marketplace.buildaloud.ai`.

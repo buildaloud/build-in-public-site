@@ -33,7 +33,7 @@ the wires — flag and fix it.
 
 | Thing | Current value | Notes |
 | --- | --- | --- |
-| GitHub repo | `github.com/chadfurman/security-kit` | **Private.** Installs from private via your `git`/`gh` creds |
+| GitHub repo | `github.com/chadfurman/security-kit` | **Public** as of 2026-07-11 (`gh repo view` confirms `visibility: PUBLIC`). Was private at ledger creation earlier the same day — flipped mid-day. Note: the repo's own `README.md` still describes install as working "from a **private** repo" with SSH-routing instructions — that's now stale *inside the repo itself*, not a blog-post issue |
 | Local repo | `~/projects/security-kit` | ground truth |
 | Git remote (this machine) | `git@github.com-personal:chadfurman/security-kit.git` | SSH host alias carrying the personal key; canonical URL is still `github.com/chadfurman/security-kit` |
 | Version | `0.1.0` | in `plugin.json` + `marketplace.json`; verify before quoting |
@@ -111,3 +111,14 @@ narrative — flag it for a product-learning pass per [[TD-0031]] instead.
   / 2-skill roster (flagged the frequently-dropped `untrusted-input-tracer`),
   and the inward (security-kit reviews your own code) vs outward (marketplace
   audits others' skills) distinction. No posts audited yet — build-only run.
+- 2026-07-11 — first post audit. Drift-check against repo found version, remote,
+  6-agent/2-skill roster, and install commands all still match — no code-side
+  drift there. But repo **visibility flipped to PUBLIC** since ledger creation
+  (was private this morning); corrected the table above. `2026-07-10-claude-security-team-that-remembers.md`
+  already says "the code's public" — that line is now *correct*, not drift (it
+  would have been flagged wrong under the stale private assumption). Also found
+  a real phase-count miscount in that same post: it says "seven-phase pipeline"
+  three times (frontmatter summary, H2, closing italic) and lists only 7 phases,
+  but `skills/security-review/SKILL.md` defines **Phase 0–7 (8 phases)** —
+  the post's numbered list skips Phase 6 (write docs entry + rolling data)
+  entirely. Flagged to build-aloud, not auto-fixed (report-only pass).

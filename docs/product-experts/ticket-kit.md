@@ -121,3 +121,12 @@ narrative — flag it for a product-learning pass per [[TD-0031]] instead.
   and **PUBLIC** via `gh repo view`. Noted the in-repo version drift (code `0.3.1`
   vs plugin manifests `0.3.0`) and that no Codex install command is documented
   (Codex support inferred from plugin `source: "."`, exact command unverified).
+- 2026-07-11 (re-audit) — Repo HEAD still `4c28f9f`, no new commits; version drift
+  unchanged (`0.3.1` code / `0.3.0` manifests); domain grep in `site/` shows only
+  `buildaloud.ai`, no `chads.website` remnants. Landing page re-confirmed LIVE via
+  WebFetch (title "ticket-kit — your tickets are just files"). Swept
+  `src/content/blog/`: 3 posts reference ticket-kit
+  (`2026-06-23-chad-starts-a-lot-of-circles.md`,
+  `2026-07-01-ticket-tracker-where-ai-does-the-ticketing.md`,
+  `2026-07-10-claude-security-team-that-remembers.md`). All URLs, commands, and
+  version mentions check out against this table — **no drift found**, PASS.

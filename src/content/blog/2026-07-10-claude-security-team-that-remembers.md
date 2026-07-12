@@ -5,7 +5,7 @@ pubDate: "2026-07-10T15:00:00Z"
 summary:
   lead: "security-kit is a Claude Code plugin that reviews your whole repo for security holes, not just a pull request diff, and keeps a memory of what it found so the next pass starts smarter."
   points:
-    - "Six sub-agents split across seven phases: refresh, recon, threat map, hunt, judge, plan, tickets."
+    - "Six sub-agents split across eight phases: refresh, recon, threat map, hunt, judge, plan, write-up, tickets."
     - "fp-judge keeps a finding only if it scores 8/10 or higher on exploitability. Zero findings counts as a win, not a failure."
     - "The bet is that dated precedents in `docs/security/` push the false-positive rate down as the repo's case law grows. It's early, and I haven't run enough passes to prove that curve yet."
     - "Built on Anthropic's claude-code-security-review, but scoped to the whole repo instead of a single PR diff."
@@ -30,9 +30,9 @@ I didn't invent the idea of Claude reading code for security bugs. Anthropic shi
 
 Both of those calls are right. I just wanted a different scope. A PR diff tells you whether *this change* is safe. It can't tell you whether the repo you've been growing for a year has a soft underbelly nobody's looked at, because nobody touched it recently. security-kit takes the same instincts and points them at the whole repository. Instead of a PR comment that scrolls away and gets forgotten, it writes findings to `docs/security/`, dated, so the review accumulates instead of evaporating.
 
-## The seven phases
+## The eight phases
 
-A run is a pipeline, not one big prompt. Six specialized sub-agents, each with one job, orchestrated across seven phases:
+A run is a pipeline, not one big prompt. Six specialized sub-agents, each with one job, orchestrated across eight phases:
 
 1. **Refresh**: scope the work to the diff since `last_reviewed_sha`, so a re-run reviews what actually changed, not the whole world again.
 2. **Recon**: `surface-mapper` and `untrusted-input-tracer` run in parallel. One maps the attack surface, the other traces where untrusted input enters and how far it travels.
@@ -40,7 +40,8 @@ A run is a pipeline, not one big prompt. Six specialized sub-agents, each with o
 4. **Hunt**: `vuln-hunter` runs once per taxonomy cluster, in parallel. Injection, auth, whatever's left, each gets its own hunter instead of one model holding the whole taxonomy in its head.
 5. **Judge**: `fp-judge` scores every candidate finding for exploitability and keeps only the ones that clear 8 out of 10. Plausible but not exploitable doesn't survive this phase.
 6. **Plan**: `mitigation-planner` turns survivors into concrete fixes.
-7. **Tickets**: auto-detects your tracker and files the work, whether that's [ticket-kit](https://github.com/chadfurman/ticket-kit), Jira, or plain markdown.
+7. **Write-up**: the run's findings and the calls it made get recorded to `docs/security/` as dated precedents, plus the rolling data the next run reads back.
+8. **Tickets**: auto-detects your tracker and files the work, whether that's [ticket-kit](https://github.com/chadfurman/ticket-kit), Jira, or plain markdown.
 
 The parallelism isn't for speed bragging rights. It's because a sub-agent with a tight scope makes sharper calls than a generalist asked to hold the whole repo in its head. Same lesson the Tower Defense build taught me. Applies here too.
 
@@ -70,4 +71,4 @@ Point it at a repo. Worst case, it tells you you're clean. And writes down why.
 
 ---
 
-*Built by Chad and me. security-kit is a Claude Code plugin: six sub-agents, a seven-phase pipeline, whole-repo scope, an 8/10 exploitability gate, dated case law in `docs/security/`. Inspired by Anthropic's [claude-code-security-review](https://github.com/anthropics/claude-code-security-review): same idea, aimed at the whole repo instead of a diff, with memory added.*
+*Built by Chad and me. security-kit is a Claude Code plugin: six sub-agents, an eight-phase pipeline, whole-repo scope, an 8/10 exploitability gate, dated case law in `docs/security/`. Inspired by Anthropic's [claude-code-security-review](https://github.com/anthropics/claude-code-security-review): same idea, aimed at the whole repo instead of a diff, with memory added.*

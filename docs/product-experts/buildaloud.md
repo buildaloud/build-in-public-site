@@ -38,12 +38,17 @@ from $0 to $10K/month. Two halves:
 
 ### Agent roster (the pipeline's experts)
 
-Lives in `.claude/agents/`. As of this ledger: `brief-writer`,
-`bullshit-detector`, `content-judge`, `content-reviewer`, `drafter`,
-`fact-checker`, `link-checker`, `marketplace-expert`, `section-impact-reviewer`,
-`seo-researcher`, `web-researcher`, plus this expert (`buildaloud-expert`).
-Verify the count against `ls .claude/agents/` before quoting a number — the
-roster grows. Product experts also keep ledgers in `docs/product-experts/`.
+Lives in `.claude/agents/`. As of 2026-07-11: `brief-writer`,
+`bullshit-detector`, `buildaloud-expert`, `content-judge`, `content-reviewer`,
+`drafter`, `fact-checker`, `link-checker`, `marketplace-expert`,
+`microsaas-expert`, `section-impact-reviewer`, `security-kit-expert`,
+`seo-researcher`, `ticket-kit-expert`, `tower-defense-expert`, `web-researcher`,
+`website-expert` — 17 total. The newer ones (`microsaas-expert`,
+`security-kit-expert`, `ticket-kit-expert`, `tower-defense-expert`,
+`website-expert`) are product experts for other projects in the fleet, not
+Build Aloud pipeline stages. Verify the count against `ls .claude/agents/`
+before quoting a number — the roster grows. Product experts also keep ledgers
+in `docs/product-experts/`.
 
 ### The pipeline shape (how a post is made)
 
@@ -70,12 +75,17 @@ capture product-learnings, (12) build + commit + push. Drip cadence is owned by
 
 ## Other durable facts
 
-- **`/api/*` on the custom domain has a known live issue.** Per project memory,
-  `buildaloud.ai` has 404'd `/api/*` (Pages Functions) while the `*.pages.dev`
-  URL served them — a zone Worker Route/Rule shadowing `/api/*`. The like
-  endpoint also shipped inert (needs a Supabase migration + CF env vars). Treat
-  any post claiming the like counter / subscribe endpoint is live on
-  `buildaloud.ai` as **unverified** until re-checked against the live site.
+- **Live-checked 2026-07-11:** the old "`/api/*` 404s on the custom domain"
+  Worker-collision bug (per `2026-07-08-cloudflare-pages-functions-404-custom-domain.md`)
+  is fixed — `GET https://buildaloud.ai/api/like?slug=...` returns `200
+  {"likes":N,"hasLiked":false}` same as `*.pages.dev`. But **writes are broken
+  right now**: `POST /api/like` (with a matching `Origin` header) and `POST
+  /api/subscribe` both return a raw Cloudflare **502** (not the app's own JSON
+  error shape), on the custom domain, as of this check. Reading likes works;
+  actually liking a post or subscribing does not. Any post asserting the like
+  button or subscribe form *currently works end-to-end* on `buildaloud.ai` is
+  overclaiming — flag it, don't silently confirm. Re-check live before trusting
+  either direction.
 - **Deploy must pin `--branch=main`.** CF Pages deploys silently go to a preview
   (prod frozen) unless wrangler is pinned to `--branch=main` — it is, in
   `deploy.yml`. Don't "simplify" that flag away.
@@ -116,3 +126,23 @@ stale live domain. To reflect a change, add a dated forward-note ("Update: …")
   this expert. Flagged the stale "Vercel auto-deploys" line in `SKILL.md` Step 12
   and the `build-aloud` vs `build-in-public-site` repo-name trap. No posts swept
   yet — first audit pending.
+- 2026-07-11 (re-audit) — re-ran drift check: domain/hosting/deploy/repo all
+  unchanged and confirmed again. `SKILL.md` Step 12 still says "Vercel
+  auto-deploys from `main`" (line ~404) — still stale, still unfixed in the
+  skill file itself. Agent roster grew to 17 (`ls .claude/agents/`); added 5
+  new non-pipeline product experts to the roster note. Live-checked
+  `buildaloud.ai/api/like` and `/api/subscribe`: GET like-count works; POST
+  (like-write and subscribe) both 502 on the custom domain right now — updated
+  the "Other durable facts" entry from "unverified" to this concrete
+  read-works/write-broken split. Swept `src/content/blog/*.md` for Vercel,
+  repo-name, and domain drift: zero true hits — every "Vercel" mention in posts
+  is either (a) historical narrative describing the actual Feb 2026 migration
+  off Vercel (`2026-03-02-we-re-moving-to-cloudflare-...`), (b) about a
+  *different* product/site (the skills marketplace on Vercel, Chad's personal
+  portfolio site, the April Fools `safe-oss-forever.com` site, or the separate
+  Vercel AI Gateway used for an on-site chat widget) — none of these describe
+  Build Aloud's own hosting. No post claims buildaloud.ai itself is on Vercel.
+  No `github.com/buildaloud/build-aloud` repo-pointer errors found. Domain is
+  consistently `buildaloud.ai` everywhere. Flagged (not fixed, per this run's
+  instructions) posts that assert the like button works live end-to-end given
+  the POST 502 finding above — see audit output for this run's file list.
