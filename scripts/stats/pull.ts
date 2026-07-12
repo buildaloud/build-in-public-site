@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { JWT } from 'google-auth-library';
 import { scanFrontmatter } from './frontmatter-scan';
-import { shapePostStats, assertJoinHealth, slugFromFilename, type GscPageRow, type GscQueryRow, type Ga4Row } from './post-stats';
+import { shapePostStats, assertJoinHealth, slugFromFilename, type GscPageRow, type GscQueryRow, type Ga4Row, type LikeRow } from './post-stats';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '../../src/data/stats.json');
 const BLOG_DIR = join(dirname(fileURLToPath(import.meta.url)), '../../src/content/blog');
@@ -275,6 +275,20 @@ async function pullSupabase() {
   return { available: true, products };
 }
 
+// Raw like rows (one per like) — grouping/counting per slug happens in
+// shapePostStats, same as gsc/ga4 rows. Not paginated: post_likes rows are
+// tiny (one text column) and volume is low at this stage.
+async function pullPostLikes(): Promise<Source & { rows: LikeRow[] }> {
+  const url = process.env.SUPABASE_URL ?? 'https://clweuvbzerykadyamdpw.supabase.co';
+  const key = process.env.SUPABASE_SECRET_KEY ?? factorySecret('SUPABASE_SECRET_KEY');
+  if (!key) return { available: false, reason: 'SUPABASE_SECRET_KEY not set', rows: [] };
+  const headers = { apikey: key, Authorization: `Bearer ${key}` };
+  const res = await fetch(`${url}/rest/v1/post_likes?select=post_slug&limit=10000`, { headers });
+  if (!res.ok) return { available: false, reason: `post_likes ${res.status}`, rows: [] };
+  const rows = (await res.json()) as LikeRow[];
+  return { available: true, rows };
+}
+
 function factorySecret(name: string): string | undefined {
   try {
     const line = readFileSync(join(homedir(), 'projects/micro-blueprint/.env'), 'utf8')
@@ -286,7 +300,7 @@ function factorySecret(name: string): string | undefined {
   }
 }
 
-  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath] = await Promise.all([
+  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes] = await Promise.all([
     safe('ga4', () => pullGA4(creds)),
     safe('searchConsole', () => pullSearchConsole(creds)),
     safe('buttondown', () => pullButtondown()),
@@ -298,6 +312,7 @@ function factorySecret(name: string): string | undefined {
     safe('gscPage', () => pullSearchConsolePerPage(creds)),
     safe('gscPageQuery', () => pullSearchConsolePerPageQuery(creds)),
     safe('ga4PerPath', () => pullGA4PerPath(creds)),
+    safe('postLikes', () => pullPostLikes()),
   ]);
 
   const blogFiles = readdirSync(BLOG_DIR)
@@ -307,7 +322,8 @@ function factorySecret(name: string): string | undefined {
   const gscPageRows = 'rows' in gscPage ? (gscPage.rows as GscPageRow[]) : [];
   const gscQueryRows = 'rows' in gscPageQuery ? (gscPageQuery.rows as GscQueryRow[]) : [];
   const ga4PathRows = 'rows' in ga4PerPath ? (ga4PerPath.rows as Ga4Row[]) : [];
-  const shaped = shapePostStats(eligiblePosts, gscPageRows, gscQueryRows, ga4PathRows);
+  const likeRows = 'rows' in postLikes ? (postLikes.rows as LikeRow[]) : [];
+  const shaped = shapePostStats(eligiblePosts, gscPageRows, gscQueryRows, ga4PathRows, likeRows);
   let postStats: Source & { window: typeof WINDOW; meta: { unmatchedRows: typeof shaped.unmatched; totalRows: number }; byPost: typeof shaped.byPost };
   try {
     assertJoinHealth(shaped.unmatched, shaped.totalRows);
@@ -335,7 +351,7 @@ function factorySecret(name: string): string | undefined {
   const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, postStats };
   writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`wrote ${OUT}`);
-  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath })) {
+  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes })) {
     console.log(v.available ? `  ${k}: ok` : `  ${k}: skipped — ${v.reason}`);
   }
   console.log(

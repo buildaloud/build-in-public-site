@@ -16,6 +16,11 @@ export type PostStat = {
   ctr: number;
   position: number;
   pageviews: number;
+  // Optional (not just zero-safe) because older stats.json snapshots
+  // written before this field existed genuinely omit it — shapePostStats
+  // always sets a real number when it builds an entry; only a stale,
+  // not-yet-repulled snapshot on disk would lack the key entirely.
+  likes?: number;
   scorecard: Scorecard;
 };
 
@@ -28,6 +33,7 @@ export type PostFrontmatter = {
 export type GscPageRow = { page: string; clicks: number; impressions: number; ctr: number; position: number };
 export type GscQueryRow = { page: string; query: string; clicks: number; impressions: number; position: number };
 export type Ga4Row = { path: string; pageviews: number };
+export type LikeRow = { post_slug: string };
 
 function pathSegments(pathOrUrl: string): string[] {
   const withoutHost = pathOrUrl.trim().replace(/^[a-z][a-z0-9+.-]*:\/\/[^/]+/i, '');
@@ -90,6 +96,7 @@ export function shapePostStats(
   gscPageRows: GscPageRow[],
   gscQueryRows: GscQueryRow[],
   ga4Rows: Ga4Row[],
+  likeRows: LikeRow[] = [],
 ): { byPost: Record<string, PostStat>; unmatched: { gsc: number; ga4: number }; totalRows: number } {
   const postBySlug = new Map(posts.map((p) => [p.slug, p]));
 
@@ -128,6 +135,13 @@ export function shapePostStats(
     ga4BySlug.set(slug, row.pageviews);
   }
 
+  // Likes are a separate engagement signal, not an SEO join — a like row for an
+  // unknown/deleted slug is silently dropped, never counted toward unmatchedGsc/Ga4.
+  const likesBySlug = new Map<string, number>();
+  for (const row of likeRows) {
+    likesBySlug.set(row.post_slug, (likesBySlug.get(row.post_slug) ?? 0) + 1);
+  }
+
   // byPost membership is page/ga4-derived only — a query-only row for a slug
   // (known or unknown) never creates an entry on its own.
   const matchedSlugs = new Set<string>([...gscBySlug.keys(), ...ga4BySlug.keys()]);
@@ -142,6 +156,7 @@ export function shapePostStats(
       ctr: pageRow?.ctr ?? 0,
       position: pageRow?.position ?? 0,
       pageviews: ga4BySlug.get(slug) ?? 0,
+      likes: likesBySlug.get(slug) ?? 0,
       scorecard: computeScorecard(post, queryRows),
     };
   }

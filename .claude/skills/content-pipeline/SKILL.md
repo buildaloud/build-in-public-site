@@ -1,13 +1,13 @@
 ---
 name: content-pipeline
-description: Orchestrate the Build Aloud content pipeline — gather source material, gate on topic approval, run SEO research, brief, draft, tone-gate, review, generate a hero image, author the structured summary + rolling digest, assemble the final post, and commit. Invoke when Chad says "write a new post", "what should we post about?", or to advance the drip queue.
+description: Orchestrate the Build Aloud content pipeline — gather source material, gate on topic approval, run SEO research, brief, outline, run the outline + draft review-army loops, generate a hero image, author the structured summary + rolling digest, assemble the final post, and commit. Invoke when Chad says "write a new post", "what should we post about?", or to advance the drip queue.
 ---
 
 # Content Pipeline Skill (Orchestrator)
 
 Today it orchestrates blog-post production end-to-end: source scan → topic
-gate → SEO research → brief → draft → tone gate → review → hero image →
-summary + digest → assemble → bookkeeping. It's named generally
+gate → SEO research → brief → outline → outline review loop → draft → draft
+review loop → hero image → summary + digest → assemble → bookkeeping. It's named generally
 (`content-pipeline`, not `blog-post`) because it's the home for other content
 tasks as they're added — but blog-post is the only task type implemented now.
 
@@ -137,11 +137,65 @@ keywordRationale
 
 ---
 
+### 4.5. Outline — expand the Brief into `<slug>.outline.md`
+
+Dispatch a Sonnet agent (`model: "sonnet"`, ad hoc — no dedicated agent file, same pattern as Step 9) with:
+- The full Brief from Step 4 (`postFormula`, `outline[]`, and every other field)
+- `docs/post-formulas.md` + `docs/paragraph-formulas.md` — expand the Brief's `postFormula` beats into full paragraph nodes
+- `PERSONALITY.md` for voice register
+
+It writes `<slug>.outline.md` — a YAML meta block (`point`, `hook`,
+`emotionalCore`, `flare`, `targetAudience`, `targetKeyword`, `searchIntent`,
+`postFormula`) plus an ordered `paragraphs[]` list, one node per beat, each
+carrying `order`, `topic`, `goal`, `paragraphFormula`, `audienceNote`,
+`intendedBeat`, `ourTake`, `facts`, `sources`, `keyword`, `links`,
+`gateGuidance`, `rendersAsProse`. Validate against `OutlineSchema`
+(`.claude/skills/content-pipeline/lib/outline-schema.ts`) before proceeding —
+a schema failure routes back to this step, not forward. This outline becomes
+both the drafter's input (Step 5) and the rubric every reviewer grades against.
+
+---
+
+### 4.6. Outline Review Loop — fan-out → synthesize → edit → re-review (◆)
+
+A fixpoint loop over the outline artifact from Step 4.5, per
+`docs/specs/2026-07-12-document-review-fanout-design.md`.
+
+**Round (repeat until converged or round cap 3):**
+1. **Fan out** — dispatch, in parallel via the Agent tool (`model: "sonnet"`
+   unless the agent's own frontmatter says otherwise), the OUTLINE-mode
+   reviewers: `hook-reviewer`, `impact-reviewer`, `emotion-reviewer`,
+   `flatness-reviewer`, `formulaic-reviewer`, `voice-reviewer`, `seo-reviewer`,
+   `link-opportunity-reviewer`, `outline-structure-reviewer`,
+   `meta-content-reviewer`, `fact-checker`, `bullshit-detector`. Each gets the
+   outline file path, the Brief, and whatever reference docs its own file
+   names. Each returns the shared adversarial-constructive finding schema
+   (`axis`, `verdict`, `gateFindings[]`, `elevations[]`).
+2. **Synthesize** — dispatch `.claude/agents/synthesis.md` with the outline
+   path, all 12 findings arrays, and the round number. It dedups, ranks by
+   disposition (**gate**: flatness / formulaic / voice / fact-checker /
+   bullshit-detector / outline-structure / a missing-or-broken hook;
+   **advisory**: everything else), resolves conflicting edits, and runs the
+   content-safety scrub + banned-term (`change-factory`) scan (see Content
+   Safety section) — synthesis owns both checks.
+3. **Edit** — on ANOTHER ROUND, dispatch a Sonnet editor agent (Read + Edit,
+   ad hoc — no dedicated agent file) with synthesis's consolidated edit set to
+   apply the fixes directly to `<slug>.outline.md`.
+4. **Re-review** — go to 1.
+
+**Convergence:** zero gate findings + safety CLEAR + banned CLEAR →
+**AUTO-PROCEED to Step 5** — no human gate, an explicit design decision. Round
+cap (3) hit with gate findings still open → surface to Chad with the
+remaining blockers.
+
+---
+
 ### 5. Draft — `drafter` subagent (Sonnet)
 
 Dispatch `.claude/agents/drafter.md` via the Agent tool with `model: "sonnet"` and:
 - The perspective call from Step 2 (`author: "Scout"` or `"Chad"`) — the drafter writes in whichever first person you assign
-- Brief's **editorial + publish fields only** (topic, postFormula, seoTitle, headlineVariants, metaDescription, hook, outline, internalLinks, cta, socialBlurb, imageConcept) — exclude `marketResearch[]` and `keywordRationale`. Write to the `postFormula`'s beats.
+- The **approved `<slug>.outline.md`** from Step 4.6 — the drafter's primary input and the rubric every beat must satisfy (`goal`, `ourTake`, `intendedBeat`, `facts`, `sources`, `keyword`, `links`, `gateGuidance`, `paragraphFormula` per node)
+- Brief's **editorial + publish fields** the outline doesn't carry (seoTitle, headlineVariants, metaDescription, internalLinks, cta, socialBlurb, imageConcept) — exclude `marketResearch[]` and `keywordRationale`. Write to the outline's beats.
 - `PERSONALITY.md`
 - 2–3 most recent posts (voice calibration)
 
@@ -161,79 +215,59 @@ Dispatch `.claude/agents/drafter.md` via the Agent tool with `model: "sonnet"` a
 
 ---
 
-### 6. Tone Gate — hard gate, not optional
+### 6. Draft Review Loop — fan-out → synthesize → edit → re-review (◆)
 
-The draft does not proceed to Review until it passes both checks below. Loop until clean — do not skip or cap retries.
+Replaces the old Tone Gate / Review / Section-Impact / Fact-Link-Bullshit steps
+with one fixpoint loop over the drafted post, at draft grain, graded against
+the outline's per-beat guidance — same shape as Step 4.6's outline loop, one
+grain deeper. Design: `docs/specs/2026-07-12-document-review-fanout-design.md`.
 
-1. **Score it.** Run `npx tsx .claude/skills/human-tone/eval/run.ts` (scores every post in `src/content/blog/`, ranks worst-first) or grade just this draft with `eval/tone-grader.ts`'s `scoreText`. Require **aiScore ≤ 2** (the corpus now sits there; <15 let regressions through). Also require **`banned` = 0** — any permabanned-phrase hit is an automatic fail. If it's over, run the humanizer loop (`scripts/score-post.ts`) to find and fix the exact hits, then re-score.
-2. **Sonnet tone double-check.** Dispatch an Agent (`model: "sonnet"`) to read the draft cold against `.claude/skills/human-tone/SKILL.md` — the tell table (em-dash, rule-of-three, hedging, signposting, AI-vocab, negative parallelism, tidy-bow) AND the texture checklist (a fragment? a real number? a flat opinion?). A draft that scores clean but reads voiceless still fails here.
+**Tone signal — feeds the loop, is not its own gate step.** Run both before the
+first round and again after every edit pass:
+1. `npx tsx .claude/skills/human-tone/eval/run.ts` (or `eval/tone-grader.ts`'s
+   `scoreText` on just this draft) for the regex `aiScore` / `banned` signal.
+2. The Gemini judge (`.claude/skills/human-tone/eval/judge.ts`) for
+   `emotion_impact` and formulaic-crutch density.
+Hand both scores to the fan-out as evidence. `flatness-reviewer`,
+`formulaic-reviewer`, and `voice-reviewer` are what actually gate tone now —
+a bad `aiScore` or judge score should surface as one of THEIR gate findings,
+not a separate pass/fail step.
 
-If either check fails: dispatch a Sonnet tone-fix pass (`model: "sonnet"`) against `.claude/skills/human-tone/SKILL.md`'s tell→fix table, rewrite the flagged passages, then re-run both checks.
+**Round (repeat until converged or round cap 3):**
+1. **Fan out** — dispatch, in parallel via the Agent tool (`model: "sonnet"`
+   unless the agent's own frontmatter says otherwise), the DRAFT-mode
+   reviewers — the full 15-agent roster minus `outline-structure-reviewer`
+   (outline-only): `hook-reviewer`, `impact-reviewer`, `emotion-reviewer`,
+   `flatness-reviewer`, `formulaic-reviewer`, `voice-reviewer`,
+   `structure-reviewer`, `wordsmith-reviewer`, `grammar-reviewer`,
+   `seo-reviewer`, `link-integrity-reviewer`, `link-opportunity-reviewer`,
+   `fact-checker`, `bullshit-detector`, `meta-content-reviewer`. Each gets the
+   draft file path, the approved outline (the per-beat rubric), the Brief, and
+   the tone-signal scores above. `fact-checker` still reads
+   `docs/blog-facts.md`, `link-integrity-reviewer` still reads
+   `docs/blog-link-map.md`, and `bullshit-detector` still reads
+   `docs/blog-bullshit-ledger.md` — all three keep updating their memory files
+   after each run, same as before.
+2. **Synthesize** — dispatch `.claude/agents/synthesis.md` with the draft
+   path, all 15 findings arrays, and the round number. It dedups, ranks by
+   disposition (**gate**: flatness / formulaic / voice / link-integrity /
+   fact-checker / bullshit-detector; **auto-apply**: structure / wordsmith /
+   grammar; **advisory**: hook / impact / emotion / seo / link-opportunity /
+   meta-content), resolves conflicting edits, and runs the content-safety
+   scrub + banned-term (`change-factory`) scan (see Content Safety section) —
+   synthesis owns both checks; there is no separate content-reviewer step.
+3. **Edit** — on ANOTHER ROUND, dispatch a Sonnet editor agent (Read + Edit,
+   ad hoc — no dedicated agent file) with synthesis's consolidated edit set to
+   revise the draft file directly — gate fixes always applied, auto-apply
+   axes applied directly, advisory/elevation edits applied when clearly
+   better.
+4. **Re-review** — go to 1.
 
----
-
-### 7. Review — `content-reviewer` subagent (Sonnet)
-
-Dispatch `.claude/agents/content-reviewer.md` via the Agent tool with `model: "sonnet"` and:
-- Draft from Step 5 (post-Tone-Gate)
-- Full Brief from Step 4
-- `PLAYBOOK.md` + `PERSONALITY.md`
-
-The reviewer returns:
-- Scorecard: voice fidelity, SEO checklist, marketing punch — pass/fail per axis
-- Concrete edits
-- Banned-term scan (must flag "change-factory" anywhere in the draft)
-- Content safety scrub (see Content Safety section)
-
-**On REVISE:** send the reviewer's edits back to `drafter` (re-run Step 5), then re-run the Tone Gate (Step 6) before returning here.
-
-**On BLOCKED** (safety issue or structural problem): route back to `brief-writer` (re-run Step 4) before re-drafting.
-
-Do not assemble until the reviewer passes all axes.
-
----
-
-### 7.2 Section-Impact Review — `section-impact-reviewer` subagent (Sonnet)
-
-Dispatch `.claude/agents/section-impact-reviewer.md` via the Agent tool with
-`model: "sonnet"` and the post-review draft + its Brief (including `postFormula`).
-
-It judges each section on its own (purpose / concept / impact) then against the
-whole doc (consistent / non-redundant / unique / resonant), referencing
-`docs/post-formulas.md` + `docs/paragraph-formulas.md`. Returns `PASS` or
-`REVISE` with per-section strip/merge/rewrite edits.
-
-**On REVISE:** apply the edits — prefer cutting a weak section over padding it —
-then re-run the Tone Gate (Step 6, edits can reintroduce tells) and this step
-until PASS. This is where a correct-but-flat draft gets sharpened; do not skip it.
-
----
-
-### 7.5 Fact + Link + Bullshit Check — hard gate (persistent experts)
-
-Three memory-backed experts run after review, before the hero. All are dispatched
-in parallel; all must return **PASS** before the post proceeds. Loop on FIX —
-apply the exact edits they list, then re-run — do not skip.
-
-- **`fact-checker`** (Sonnet) — verifies our-project claims against its facts
-  ledger (`docs/blog-facts.md`) and every external statistic against a live,
-  fetched source. Catches the expensive errors: misdescribing our own tools
-  (e.g. conflating security-kit with the marketplace) and unsourced numbers.
-- **`link-checker`** (Sonnet) — verifies every link resolves AND points at the
-  right target using its link map (`docs/blog-link-map.md`). Catches wrong-target
-  links (a `*-kit` plugin pointed at the marketplace), domain drift, and dead
-  internal `/blog/...` paths.
-- **`bullshit-detector`** (Sonnet) — stress-tests the post's technical claims:
-  does the thing actually do what we say, with limits named honestly? Also checks
-  we quote/understand our cited sources correctly. Ledger: `docs/blog-bullshit-ledger.md`.
-  Catches the overclaim (the IP-hash-as-"private" like button) that's neither a
-  false fact nor an AI tell. When the honest fix is in the code, it flags a
-  product ticket per Step 11.5, not just a softer sentence.
-
-All three are **experts with memory**: they read their memory file first and write
-newly-confirmed facts/links/overclaims back after each run, so the checks get
-sharper over time. Apply their FIX edits to the draft (a mechanical edit pass, or
-route wrong facts back to the drafter), then re-run until all PASS.
+**Convergence:** zero gate findings + safety CLEAR + banned CLEAR → proceed to
+Step 8. Round cap (3) hit with gate findings still open → surface to Chad with
+the remaining blockers, same as Step 4.6. When `bullshit-detector` flags an
+overclaim whose honest fix lives in the code, open the product ticket per
+Step 11.5 rather than just softening the sentence.
 
 ---
 
@@ -372,7 +406,7 @@ When the post is about **something we built**, ask one question before shipping:
 *did researching or writing this teach us something the product should absorb?*
 A better mechanism, a real limitation, a source that named a stronger approach
 (e.g. the like button's IP-hash → device fingerprinting). The `bullshit-detector`
-(Step 7.5) often surfaces exactly these.
+(Step 6, the Draft Review Loop) often surfaces exactly these.
 
 If yes:
 1. **Open a ticket** (ticket-kit) to refactor the built thing based on the
@@ -382,7 +416,7 @@ If yes:
    source that taught us; never reproduce it wholesale.
 
 If the learning is big enough that the post's current claim is now dishonest,
-route back and fix the claim (Step 7.5) before shipping. This is the loop that
+route back and fix the claim (Step 6, the Draft Review Loop) before shipping. This is the loop that
 keeps the products improving from the act of writing about them (see [[TD-0031]]).
 
 ---
@@ -427,7 +461,7 @@ Rules it enforces:
 ## Content Safety — What NOT to Post
 
 - **No API keys, tokens, secrets, or credentials.** Redact completely if found in source material.
-- **No literal `change-factory` string (or an obvious alias)** anywhere in content. It's a private internal tool name — talk about "specialized sub-agents" or "domain experts" generically instead. content-reviewer's banned-term scan (Step 7) gates on this.
+- **No literal `change-factory` string (or an obvious alias)** anywhere in content. It's a private internal tool name — talk about "specialized sub-agents" or "domain experts" generically instead. `synthesis`'s banned-term scan (Steps 4.6 and 6) gates on this.
 - **No passwords, private URLs, or internal infrastructure details.**
 - **No questionable or potentially embarrassing activity.** Leave out sketchy workarounds, frustrated rants, off-color jokes, accidental data exposure. When in doubt, skip or ask Chad.
 - **No personal information** beyond first names already used in published posts (e.g. "Andrew" is fine).
@@ -436,4 +470,4 @@ Rules it enforces:
 
 When in doubt: **ask Chad before publishing sensitive material.**
 
-The `content-reviewer` subagent runs the safety scrub in Step 7 — it is an additional check, not a substitute for judgment here.
+The `synthesis` agent runs the safety scrub in both review loops (Steps 4.6 and 6) — it is an additional check, not a substitute for judgment here.

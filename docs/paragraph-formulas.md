@@ -1,8 +1,9 @@
 # Paragraph Formulas
 
 Named paragraph shapes. Each beat in a post should be one of these — a paragraph
-with a job, not filler. The `section-impact-reviewer` names the shape of each
-beat; a beat with no shape is usually the flat one to cut or rewrite.
+with a job, not filler. The `impact-reviewer` (formerly `section-impact-reviewer`)
+names the shape of each beat; a beat with no shape is usually the flat one to
+cut or rewrite.
 
 ---
 

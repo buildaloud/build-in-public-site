@@ -33,11 +33,13 @@ postStats: {
   reason?: string,          // present when available is false
   window: { startDate, endDate },
   meta: { unmatchedRows: { gsc, ga4 }, totalRows },
-  byPost: { [slug]: { clicks, impressions, ctr, position, pageviews, scorecard } },
+  byPost: { [slug]: { clicks, impressions, ctr, position, pageviews, likes, scorecard } },
 }
 ```
 
 `scorecard` reports whether the post ranks for its frontmatter `targetKeyword` and how many `secondaryKeywords` got hits, or `insufficient-data` when there's no target keyword or no GSC rows yet.
+
+`likes` is joined in from the Supabase `post_likes` table (see `functions/api/like.ts` / `supabase/migrations/0001_post_likes.sql`) — a separate engagement signal, not part of the GSC/GA4 join. It's only added to posts that already have a `byPost` entry (from GSC or GA4 data); a matched post with no likes gets `likes: 0`, and a like row for an unknown/deleted slug is silently dropped — neither case affects the unmatched-row join-health guard above.
 
 **Thresholds** (`scripts/stats/post-stats.ts`):
 - `UNMATCHED_FAIL_RATIO` (10%) — scoped to `/blog/*` rows only (every other site route — `/`, `/privacy`, `/stats`, `/projects/*`, `/todo` — is excluded from the ratio entirely, since it's not a join failure, just not a post). If genuinely-unmatched `/blog/` rows exceed 10%, normalization is probably broken; `postStats` degrades to `available: false` (loudly, via `console.error`) instead of taking down the rest of the snapshot.

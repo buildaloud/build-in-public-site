@@ -38,26 +38,37 @@ from $0 to $10K/month. Two halves:
 
 ### Agent roster (the pipeline's experts)
 
-Lives in `.claude/agents/`. As of 2026-07-11: `brief-writer`,
-`bullshit-detector`, `buildaloud-expert`, `content-judge`, `content-reviewer`,
-`drafter`, `fact-checker`, `link-checker`, `marketplace-expert`,
-`microsaas-expert`, `section-impact-reviewer`, `security-kit-expert`,
-`seo-researcher`, `ticket-kit-expert`, `tower-defense-expert`, `web-researcher`,
-`website-expert` — 17 total. The newer ones (`microsaas-expert`,
-`security-kit-expert`, `ticket-kit-expert`, `tower-defense-expert`,
-`website-expert`) are product experts for other projects in the fleet, not
-Build Aloud pipeline stages. Verify the count against `ls .claude/agents/`
-before quoting a number — the roster grows. Product experts also keep ledgers
-in `docs/product-experts/`.
+Lives in `.claude/agents/`. As of 2026-07-12: `content-reviewer`,
+`section-impact-reviewer`, and `link-checker` are **RETIRED**, replaced by the
+document-review fan-out (`docs/specs/2026-07-12-document-review-fanout-design.md`)
+— a 15-agent review army (`hook`, `impact` [← section-impact], `emotion`,
+`flatness`, `formulaic`, `voice`, `structure`, `wordsmith`, `grammar`, `seo`,
+`link-integrity` [← link-checker], `link-opportunity`, `fact-checker`,
+`bullshit-detector`, `meta-content` reviewers) plus `synthesis`
+(coordinator, ← content-reviewer) and `outline-structure-reviewer`
+(outline-only). Also pipeline stages: `brief-writer`, `drafter`,
+`seo-researcher`, `web-researcher`. Non-pipeline: `buildaloud-expert`,
+`content-judge`. The rest (`like-button-expert`, `marketplace-expert`,
+`microsaas-expert`, `security-kit-expert`, `subscriber-expert`,
+`ticket-kit-expert`, `tower-defense-expert`, `website-expert`) are product
+experts for other projects in the fleet, not Build Aloud pipeline stages.
+Verify the count against `ls .claude/agents/` before quoting a number — the
+roster grows. Product experts also keep ledgers in `docs/product-experts/`.
 
 ### The pipeline shape (how a post is made)
 
 Numbered stages in `SKILL.md`: (1) gather source material, (2) topic-approval
 gate + keyword discovery, (3) SEO research → `ResearchResult`, (4) brief →
-schema-valid `.brief.md`, (5) draft in Scout/Chad voice, (6) **human-tone gate**
-(hard: `aiScore ≤ 2`, `banned = 0`), (7) content review, (7.2) section-impact
-review, (7.5) fact + link + bullshit check (three memory-backed experts, all
-must PASS), (8) hero image (real screenshot or `codex exec` imagegen), (9)
+schema-valid `.brief.md`, (4.5) outline → `<slug>.outline.md`, (4.6) **outline
+review loop** (◆ fan-out 12 outline-mode reviewers → synthesize → edit →
+re-review, cap 3, auto-proceeds on pass — no human gate), (5) draft into the
+approved outline, (6) **draft review loop** (◆ fan-out all 15 draft-mode
+reviewers → synthesize → edit → re-review, cap 3 — replaces the old tone
+gate/content-review/section-impact/fact-link-bullshit steps; the human-tone
+`aiScore`/`banned` regex score and the Gemini judge now feed this loop as
+evidence for the flatness/formulaic/voice reviewers, not a separate gate; the
+`synthesis` agent owns the content-safety scrub + banned-term scan), (8) hero
+image (real screenshot or `codex exec` imagegen), (9)
 structured summary + rolling digest, (10) assemble frontmatter, (10.5)
 score & schedule per `docs/seo-impact-model.md`, (11) bookkeeping, (11.5)
 capture product-learnings, (12) build + commit + push. Drip cadence is owned by
@@ -146,3 +157,17 @@ stale live domain. To reflect a change, add a dated forward-note ("Update: …")
   consistently `buildaloud.ai` everywhere. Flagged (not fixed, per this run's
   instructions) posts that assert the like button works live end-to-end given
   the POST 502 finding above — see audit output for this run's file list.
+- 2026-07-12 — document-review fan-out shipped
+  (`docs/specs/2026-07-12-document-review-fanout-design.md`): retired
+  `content-reviewer`, `section-impact-reviewer`, `link-checker`, replaced by
+  `synthesis`, `impact-reviewer`, `link-integrity-reviewer` + a 12-more-agent
+  review army, and a new outline artifact/step. `SKILL.md` rewired: new Steps
+  4.5 (outline) and 4.6 (outline review loop); old Steps 6/7/7.2/7.5 (tone
+  gate/content-review/section-impact/fact-link-bullshit) collapsed into one
+  Step 6 draft review loop. Updated the agent roster note and pipeline-shape
+  summary above to match; corrected the stale `link-checker`/
+  `section-impact-reviewer` mentions in `docs/blog-link-map.md`,
+  `docs/post-formulas.md`, `docs/paragraph-formulas.md`, and
+  `bullshit-detector.md`'s peer-gate line. Did not touch the dated
+  `docs/specs/2026-07-07-*.md` spec or `docs/audit-2026-07-11.md` — those are
+  historical records of a past pipeline shape, not live references.

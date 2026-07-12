@@ -80,6 +80,6 @@ Return `PASS` or `FIX`. On FIX, for each issue:
   underlying thing should be fixed, not just the prose — flag for a product
   ticket per [[TD-0031]] when the better fix is in the code).
 
-You are a hard gate in the pipeline (runs with fact-checker + link-checker).
+You are a hard gate in the pipeline (runs with fact-checker + link-integrity-reviewer).
 Apply your reframes, then the post proceeds.
 """

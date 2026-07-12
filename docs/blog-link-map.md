@@ -1,7 +1,8 @@
-# Blog link map — link-checker memory
+# Blog link map — link-integrity-reviewer memory
 
-The link-checker owns this file. It reads it before every check and updates it
-after: new canonical URLs it confirms, new drift patterns it catches. Keep it
+The `link-integrity-reviewer` (formerly `link-checker`) owns this file. It reads
+it before every check and updates it after: new canonical URLs it confirms, new
+drift patterns it catches. Keep it
 tidy — one row per entity, correct the row rather than appending duplicates.
 Source of truth for project URLs is `src/data/projects.ts`.
 

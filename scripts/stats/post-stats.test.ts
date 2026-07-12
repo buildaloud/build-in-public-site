@@ -116,6 +116,7 @@ describe('shapePostStats', () => {
       ctr: 0.1,
       position: 7.2,
       pageviews: 80,
+      likes: 0,
       scorecard: {
         status: 'measured',
         targetKeyword: 'build in the open',
@@ -142,6 +143,7 @@ describe('shapePostStats', () => {
       ctr: 0,
       position: 0,
       pageviews: 0,
+      likes: 0,
       scorecard: { status: 'insufficient-data', reason: 'no-gsc-rows' },
     });
     expect(result.unmatched).toEqual({ gsc: 0, ga4: 0 });
@@ -243,6 +245,61 @@ describe('shapePostStats', () => {
       targetClicks: 5,
       secondaryHits: 0,
     });
+  });
+});
+
+describe('shapePostStats — likes join', () => {
+  const posts = [
+    { slug: 'hello-world', targetKeyword: 'build in the open' },
+    { slug: 'zero-clicks-post' },
+  ];
+
+  it('counts post_likes rows per matched slug into byPost[slug].likes', () => {
+    const gscPageRows = [
+      { page: 'https://buildaloud.ai/blog/hello-world/', clicks: 5, impressions: 50, ctr: 0.1, position: 7.2 },
+    ];
+    const likeRows = [
+      { post_slug: 'hello-world' },
+      { post_slug: 'hello-world' },
+      { post_slug: 'hello-world' },
+    ];
+
+    const result = shapePostStats(posts, gscPageRows, [], [], likeRows);
+
+    expect(result.byPost['hello-world'].likes).toBe(3);
+  });
+
+  it('gives a matched post zero likes (true-zero, not omitted) when it has no post_likes rows', () => {
+    const gscPageRows = [
+      { page: 'https://buildaloud.ai/blog/zero-clicks-post/', clicks: 0, impressions: 0, ctr: 0, position: 0 },
+    ];
+    const likeRows = [{ post_slug: 'hello-world' }]; // likes exist, but for a different post
+
+    const result = shapePostStats(posts, gscPageRows, [], [], likeRows);
+
+    expect(result.byPost['zero-clicks-post'].likes).toBe(0);
+  });
+
+  it('ignores like rows for a slug with no byPost entry — not a join failure, no unmatched bump', () => {
+    const gscPageRows = [
+      { page: 'https://buildaloud.ai/blog/hello-world/', clicks: 5, impressions: 50, ctr: 0.1, position: 7.2 },
+    ];
+    const likeRows = [{ post_slug: 'deleted-post' }, { post_slug: 'deleted-post' }];
+
+    const result = shapePostStats(posts, gscPageRows, [], [], likeRows);
+
+    expect(result.unmatched).toEqual({ gsc: 0, ga4: 0 });
+    expect(result.byPost['deleted-post']).toBeUndefined();
+  });
+
+  it('defaults likes to an empty join when no likeRows argument is passed at all', () => {
+    const gscPageRows = [
+      { page: 'https://buildaloud.ai/blog/hello-world/', clicks: 5, impressions: 50, ctr: 0.1, position: 7.2 },
+    ];
+
+    const result = shapePostStats(posts, gscPageRows, [], []);
+
+    expect(result.byPost['hello-world'].likes).toBe(0);
   });
 });
 

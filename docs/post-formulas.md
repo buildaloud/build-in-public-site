@@ -1,8 +1,9 @@
 # Post Formulas
 
 Named structures for Build Aloud posts. The `brief-writer` picks one per post
-(`postFormula` in the Brief); the outline follows its beats; the
-`section-impact-reviewer` checks the draft actually holds the shape.
+(`postFormula` in the Brief); the outline follows its beats;
+`outline-structure-reviewer` (outline grain) and `impact-reviewer` (draft
+grain, formerly `section-impact-reviewer`) check the shape actually holds.
 
 Pick by what the post *is*, not by habit. Most Build Aloud posts are build-log
 war stories or how-I-built-X — reach for others deliberately.
