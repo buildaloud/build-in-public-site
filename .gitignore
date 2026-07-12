@@ -24,6 +24,7 @@ pnpm-debug.log*
 .idea/
 
 # plans
+.plans
 .plans/
 
 # local reference material
