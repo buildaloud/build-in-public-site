@@ -18,6 +18,7 @@ or `ticket-kit serve` for a live board.
 | [TD-0022](TD-0022-down-completeness.md) | 'lifecycle down: auth-user + Buttondown-tag cleanup' | open | P2 | 22 | build |
 | [TD-0023](TD-0023-social-integration.md) | 'social integration: magnet + Bluesky-first queue+approve' | open | P2 | 23 | marketing |
 | [TD-0024](TD-0024-interaction-feedback-animations.md) | 'blueprint: immediate animated feedback on all non-pageload interactions' | open | P2 | 24 | build |
+| [TD-0033](TD-0033-harden-the-document-review-fan-out-mechanical-ga.md) | Harden the document-review fan-out: mechanical gates + loop tests | open | P2 | 55 | content |
 | [TD-0007](TD-0007-splashpage-template.md) | splashpage template (what-is-this + CTA + subscribe) | open | P2 | 60 | marketing |
 | [TD-0014](TD-0014-consolidate-vercel-to-cloudflare.md) | 'Consolidate Vercel deployments onto Cloudflare' | open | P2 | 65 | operations |
 | [TD-0015](TD-0015-social-media-support.md) | 'Social media: posting support + metrics ingestion' | open | P2 | 72 | marketing |
@@ -28,6 +29,7 @@ or `ticket-kit serve` for a live board.
 | [TD-0028](TD-0028-post-and-paragraph-formulas-section-review-agent.md) | 'post + paragraph formulas + a per-section impact-review agent for the content pipeline' | in-progress | P1 | 18 | content |
 | [TD-0030](TD-0030-bullshit-detection-agent.md) | 'bullshit-detection agent — catch claims that don''t hold up (usefulness/technical honesty)' | in-progress | P1 | 20 | content |
 | [TD-0031](TD-0031-build-learn-refactor-loop.md) | 'build→blog→learn→refactor loop — feed research learnings back into the thing we built' | in-progress | P1 | 21 | content |
+| [TD-0032](TD-0032-like-button-per-device-dedup.md) | 'like button: dedup per-device (cookie token), not per-IP — shared IPs shouldn''t block each other' | in-progress | P1 | 22 | engineering |
 | [TD-0004](TD-0004-research-stage-template.md) | research-stage template: idea -> validation brief | in-progress | P1 | 30 | research |
 | [TD-0029](TD-0029-sources-as-bulleted-lists.md) | 'post "Sources" sections must be bulleted lists' | in-progress | P2 | 19 | content |
 | [TD-0002](TD-0002-finish-stats-credentials.md) | finish stats credentials (GA4 + GSC + Buttondown) | done | P0 | 10 | measurement |

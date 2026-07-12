@@ -24,8 +24,8 @@ and it reads as a real citation block.
    bulleted list — one source per bullet, with a linked title.
 2. Bake it into the drafter / assemble step so new posts emit it that way by
    default (content-pipeline Step 5 + the source-attribution footer convention).
-3. Add a check (link-checker or content-reviewer) that flags a non-bulleted
-   sources section.
+3. Add a check (`link-integrity-reviewer` or `synthesis`) that flags a
+   non-bulleted sources section.
 4. Backfill: sweep existing published posts and convert prose/loose source
    footers to bulleted lists.
 

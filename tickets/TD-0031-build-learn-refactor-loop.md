@@ -52,5 +52,5 @@ the product.
 ## Notes
 
 Sibling of the bullshit-detector ([[TD-0030]], which caught the like-button
-weakness) and the section-impact reviewer ([[TD-0028]]). This one is about the
+weakness) and the impact-reviewer (formerly section-impact reviewer, [[TD-0028]]). This one is about the
 *loop back into the product*, not just catching the problem.

@@ -28,7 +28,7 @@ now the tone gate catches AI-ness but nothing checks whether a section actually
 2. **Paragraph formulas** — named paragraph shapes (hook, evidence, turn,
    payoff, etc.) so each beat has an intended job, not just filler prose.
 3. **Section-impact review agent** — a new memory-backed expert (change-factory
-   pattern, like fact-checker/link-checker). For each section it judges:
+   pattern, like fact-checker/link-integrity-reviewer). For each section it judges:
    - **purpose** — what job is this section doing? does it have one?
    - **impact** — is it interesting / emotional / would it resonate with the
      target audience? or is it flat?

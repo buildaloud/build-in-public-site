@@ -25,8 +25,8 @@ overstates what the thing actually does.
 
 This is distinct from the existing checkers:
 - **fact-checker** — is the stated fact true / sourced?
-- **link-checker** — does the link resolve to the right target?
-- **section-impact reviewer** ([[TD-0028]]) — does each section earn its place / land?
+- **link-integrity-reviewer** (formerly link-checker) — does the link resolve to the right target?
+- **impact-reviewer** (formerly section-impact reviewer, [[TD-0028]]) — does each section earn its place / land?
 - **bullshit-detector (this)** — does the post's *technical claim* actually hold
   up? does the thing do what we say it does, with the limitations named honestly?
 
