@@ -11,6 +11,13 @@ on:
     - cron: '0 16 * * *' # ~noon ET, after the 15:00Z drip slot
   workflow_dispatch:
 
+# Serialize deploys — two near-simultaneous pushes once raced their wrangler
+# uploads and production ended up missing a hashed CSS asset (2026-07-13).
+# cancel-in-progress drops the stale older run; the newest deploy always lands.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
