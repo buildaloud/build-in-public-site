@@ -34,7 +34,7 @@ transcripts/
 .claude/skills/content-pipeline/config.json
 
 # agent scratch memory (machine-local)
-.claude/agent-memory/
+.claude/agent-memory/change-factory-*/
 
 # private tone corpus (local calibration only)
 .claude/skills/human-tone/eval/corpus/
