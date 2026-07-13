@@ -30,11 +30,11 @@ Brief (SEO + editorial contract, unchanged)
    ↓
 OUTLINE            ← new artifact: guidance-rich, per-paragraph blueprint
    ↓
-◆ OUTLINE review loop   fan-out → synthesize → edit → re-review  (cap 3, gate=0)
+◆ OUTLINE review loop   fan-out → synthesize → edit → re-review  (cap 5, gate=0)
    ↓  (passes autonomously → drafting; no human gate)
 DRAFT              ← written to the approved outline
    ↓
-◆ DRAFT review loop     fan-out → synthesize → edit → re-review  (cap 3, gate=0)
+◆ DRAFT review loop     fan-out → synthesize → edit → re-review  (cap 5, gate=0)
    ↓  (draft reviewers grade the prose AGAINST the outline's per-beat guidance)
 Assemble → hero image → summary/digest → commit  (unchanged)
 ```
@@ -42,7 +42,7 @@ Assemble → hero image → summary/digest → commit  (unchanged)
 Each ◆ loop: dispatch the whole army in parallel on the current artifact →
 `synthesis` agent dedups + ranks findings + arbitrates done → a single editor
 applies fixes (one hand on the pen) → re-run the army. Repeat until zero **gate**
-findings remain or 3 rounds elapse, then surface to Chad. Only gate findings gate;
+findings remain or 5 rounds elapse, then surface to Chad. Only gate findings gate;
 **elevations** (see below) are applied opportunistically within the cap and never
 block convergence.
 
@@ -111,18 +111,38 @@ adversarial finding schema.
 
 ## Adversarial-constructive finding schema
 
+Every finding — gate or elevation — is an **apply-ready edit**, not a description
+of a problem. It quotes the exact current text and hands over the literal
+replacement, so the editor applies `quote → replacement` mechanically:
+
 ```ts
+type Edit = {
+  location: string,   // section/heading/beat the edit lands in
+  quote: string,      // EXACT current text, verbatim (the find-target)
+  problem: string,    // one short clause — WHY; not a paragraph
+  editType: "replace" | "delete" | "insert-after",
+  replacement: string,// APPLY-READY literal text to paste (empty for delete).
+                      // NEVER a description ("this is negative parallelism") —
+                      // the actual words: "replace THIS with THAT" / "delete this".
+}
 {
   axis: string,
   verdict: "pass" | "needs-work" | "fail",
-  gateFindings: [{ location, quote, problem, fix }],      // drive the loop
-  elevations:   [{ location, quote, betterBecause, rewrite }], // "for your consideration"
+  gateFindings: Edit[],   // drive the loop — ONLY a gate-disposition axis may populate this
+  elevations:   Edit[],   // "for your consideration" — never gate
 }
 ```
 
-Reviewers are prompted to *always* offer elevations even on a passing beat —
-"it delivers, but it's tighter as X / more interesting as Y." Gate findings loop;
-elevations are best-effort within the round cap.
+**Disposition routes the lane, not the reviewer's self-labeling.** A reviewer whose
+axis is `advisory` or `auto-apply` (per `lib/review-disposition.ts`) leaves
+`gateFindings` EMPTY and puts everything in `elevations` — polish must not
+masquerade as a blocker. Only gate-disposition axes populate `gateFindings`.
+
+Reviewers *always* offer at least one elevation even on a passing beat — "it
+delivers, but it's tighter as X." Gate findings loop; elevations are best-effort
+within the round cap. Because findings are apply-ready, synthesis forwards each
+edit's `quote`/`editType`/`replacement` to the editor verbatim — it never
+collapses them back into prose the editor then has to re-interpret.
 
 ## Coordination
 
@@ -187,7 +207,7 @@ tool. What IS mechanically enforced:
   `classifyDisposition` and `isConverged`, not prose judgment.
 - **The tone gate** — `tone-grader.ts`'s `scoreText` (`banned` / `aiScore`), a
   hard code check with zero LLM discretion.
-- **The round cap (3)** — enforced by the loop's own round counting.
+- **The round cap (5)** — enforced by the loop's own round counting.
 
 ## Testing
 
@@ -212,7 +232,7 @@ tool. What IS mechanically enforced:
 
 ## Risks / open
 
-- **Cost/latency:** ~15 agents × 2 loops × ≤3 rounds per post. Mitigate with the
+- **Cost/latency:** ~15 agents × 2 loops × ≤5 rounds per post. Mitigate with the
   outline pass catching structure early (fewer draft rounds); there is no
   concurrency cap to lean on — batches are dispatched at the orchestrator's
   discretion.

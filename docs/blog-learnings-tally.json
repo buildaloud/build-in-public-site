@@ -1,0 +1,120 @@
+{
+  "version": 1,
+  "note": "Staging tally for the automated generation-side learner (TD-0035). Owned by .claude/agents/blog-learner.md — it runs after each post's review loops, abstracts that post's ROUND-1 CONFIRMED gate edits (synthesis's gate tier) into content-agnostic patterns, and tallies them across posts. A pattern promotes into docs/blog-drafter-pitfalls.md only at promoteThreshold distinct posts. Health metrics (rounds/tone per post) live here too — they are a SIGNAL, never the optimization target.",
+  "promoteThreshold": 3,
+  "patterns": [
+    {
+      "key": "neg-parallelism-construction",
+      "axis": "negative parallelism",
+      "description": "Dismiss-then-reframe or 'I don't X, Y does' negation constructions in outline beats and draft prose.",
+      "scope": "outline intendedBeat/ourTake fields; draft closing/summary sentences",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #1 Negative parallelism — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "tricolon-rule-of-three",
+      "axis": "rule-of-three / tricolon",
+      "description": "Rule-of-three tricolons (A, B, and C; anaphoric 'its own X, its own Y, its own Z') in lists and prose.",
+      "scope": "outline lists; draft prose lists and asides",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #2 Rule-of-three tricolons — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "pipeline-self-fact-drift",
+      "axis": "factual accuracy about own pipeline",
+      "description": "Outline/draft states a numeric or mechanical fact about our own pipeline (round caps, stage counts, checkpoints) that has drifted from the current value in blog-facts.md.",
+      "scope": "outline facts/ourTake fields describing pipeline mechanics",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #3 Overclaims about our own pipeline — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "future-dated-internal-link",
+      "axis": "link integrity",
+      "description": "Links or Sources-lists an internal /blog/<slug>/ whose pubDate is after this post's own pubDate.",
+      "scope": "outline links fields; draft body links and Sources section",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #4 Future-dated internal links — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "flat-claim-source-conclusion-ourtake",
+      "axis": "voice / stake",
+      "description": "Outline ourTake reads as flat claim, then cited source, then conclusion, with no personal stake, register, or point of view — a view-from-nowhere failure.",
+      "scope": "outline ourTake fields, especially ones citing an external stat or policy",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "skill-vs-agent-terminology-confusion",
+      "axis": "technical accuracy / terminology",
+      "description": "Outline/draft conflates internal pipeline implementation (stages built as narrow agents dispatched via the Agent tool) with the public Skills Marketplace's 'skill' terminology.",
+      "scope": "outline facts fields describing pipeline architecture",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "unhedged-absolute-contradicted-later-beat",
+      "axis": "technical honesty / hedging",
+      "description": "States an absolute ('the only X', 'always Y') about our own system that a later beat in the same outline itself contradicts with a documented exception.",
+      "scope": "outline meta/facts fields making universal claims about pipeline behavior",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "thats-the-whole-point-crutch",
+      "axis": "AI structural crutches / banned phrase",
+      "description": "Closes a sentence or section with 'and that's the whole point' (or equivalent) as a lazy emphasis/summary tag instead of landing the actual point.",
+      "scope": "draft synthesis/closing sentences",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "em-dash-overuse-density",
+      "axis": "tone-gate / prose mechanics",
+      "description": "Reaches for em-dashes by default for asides, contrast, and connectors, pushing draft em-dash density over the tone-gate threshold instead of varying with colons, parens, or sentence breaks.",
+      "scope": "draft prose throughout, especially explanatory asides and reviewer/list descriptions",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "uniform-sentence-rhythm-run",
+      "axis": "voice / rhythm",
+      "description": "A run of several consecutive sentences with the same length and syntactic shape at a section's emotional or explanatory peak, flattening voice through monotone cadence.",
+      "scope": "draft prose, especially mechanism-explanation and emotional-peak sections",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "dropped-qualifier-overclaim",
+      "axis": "technical honesty / overclaim",
+      "description": "Drops a scope/safety qualifier present in the source claim (e.g., 'AI-audited' collapsed to 'audited') when restating a third-party disclaimed claim, turning a hedged assurance into an unqualified one.",
+      "scope": "draft prose citing third-party claims or disclaimers (marketplace audits, vendor claims)",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    }
+  ],
+  "metrics": [
+    {
+      "slug": "automate-blog-writing-with-ai-agents",
+      "outlineRounds": 5,
+      "draftRounds": 5,
+      "finalAiScore": 8,
+      "deTellPasses": 0,
+      "date": "2026-07-13"
+    }
+  ]
+}

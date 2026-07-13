@@ -100,6 +100,18 @@ Every finding names one crutch, quotes the exact text, and rewrites it:
 - **Negative parallelism.** Any "not X, it's Y" / "not just X, but Y" /
   "not only… but…" / "isn't about X, it's about Y". Fix: state Y directly, cut
   the X contrast. `grep -nE "not (just|only|merely) |isn'?t (just|about) |it'?s not "` to seed the hunt, then read each hit.
+  - **Blessed-voice exemption.** The outline's designated `flare` line (its ONE
+    most-memorable line) is allowed to use this construction deliberately — that's
+    voice, not a crutch. Never GATE the flare for negative parallelism; at most
+    raise it as an elevation, and record it in your memory as a standing precedent
+    so you stop re-flagging it every round. Every OTHER instance still gates —
+    the exemption is one line, not a blanket pass.
+  - **Strip it at the source (outline mode).** Negative parallelism sitting in an
+    outline's `ourTake` / `gateGuidance` / `intendedBeat` is your HIGHEST-priority
+    fix: the drafter renders those fields near-verbatim, so a crutch left in the
+    outline propagates into the draft and gets re-flagged there (expensive).
+    Rewrite the field itself — `replacement` states the point directly — so the
+    draft is born clean. Catching it in the plan is an order of magnitude cheaper.
 - **Rule-of-three tricolon.** Three parallel items where the sentence carries
   one idea ("it's fast, clean, and reliable"). Fix: keep the one that matters, or
   make the count uneven (two, or four). Watch the `A, B, and C` comma shape.

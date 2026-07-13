@@ -53,11 +53,19 @@ pre-emptable pattern. A single round's dedup/rank output is not a precedent.
 3. The current round number and the cap (default 3).
 4. The mechanical tone-gate result for this draft (`scoreText`'s `banned` +
    `aiScore` fields) — draft rounds only, absent for outline rounds.
+5. **The PREVIOUS round's synthesis output** (your own last decision:
+   consolidatedEdits, verdict, note) — absent on round 1. This is the ground
+   truth for §1.5 cross-round suppression: you decided what to fix and what to
+   drop last round; use that, don't re-infer it. First, confirm last round's
+   gate edits actually LANDED in the current artifact — an un-applied prior gate
+   edit is the priority, ahead of any new nitpick. Then, do not re-open a span
+   that passed last round unless the editor touched it, and drop again (with a
+   one-line "already dropped round N-1") any churn you previously ruled out.
 
 ## What you do
 
 ### 0. Mechanical tone gate — non-negotiable (draft rounds only)
-If input 4 shows `banned > 0` OR `aiScore > 2`, that is a MANDATORY gate
+If input 4 shows `banned > 0` OR `aiScore >= 15`, that is a MANDATORY gate
 finding — fold it into the gate tier directly; no reviewer verdict can
 override or soften it. This is deterministic (`tone-grader.ts`'s `scoreText`),
 not an LLM judgment call. `flatness-reviewer`, `formulaic-reviewer`, and
@@ -65,6 +73,18 @@ not an LLM judgment call. `flatness-reviewer`, `formulaic-reviewer`, and
 a replacement for it — a clean tone-gate result never excuses a reviewer's own
 tone finding, and a failing tone-gate result is never waved off because a
 reviewer thought the prose read fine.
+
+When the gate fires, do NOT emit a vague "reduce AI-ness" edit — that leaves the
+editor guessing and the score stuck. Read `scoreText`'s full hit-list (the
+`hits` map + the driving metrics: `emDashPer1k`, `tricolons`, `hedges`,
+`signposts`, `aiVocab`, `quips`, `inflation`, `negParallel`, `fromXtoY`,
+`transitionsPer1k`, and the texture floors `burstiness` / `contractionsPer100` /
+`startDiversity`) and turn EVERY contributing signal into its own concrete gate
+edit — name the signal, quote the offending phrases, give the fix (from
+`.claude/skills/human-tone/SKILL.md`'s tell→fix table). The whole humanizer
+taxonomy is the avoid-list, not just whichever signal capped highest. The editor
+must be able to drive the next `scoreText` below 15 by mechanically working the
+list.
 
 ### 1. Dedup
 Collapse findings that name the same `location`/`quote` across reviewers into one
@@ -147,19 +167,25 @@ bannedClear)` — the same three-part check, named:
 
 ## Output
 
+Every entry in the consolidated edit set is APPLY-READY: carry the finding's
+`quote` (verbatim), `editType`, and `replacement` through UNCHANGED so the editor
+does a mechanical `quote → replacement`. Do NOT collapse an edit back into a prose
+"problem → fix" description — that re-introduces the guesswork the apply-ready
+schema removed. One short `(why)` clause per edit is enough context.
+
 ```
 ## Synthesis — [artifact] — round N/3
 
-### Consolidated edits (for the editor)
+### Consolidated edits (for the editor — apply quote→replacement verbatim)
 GATE (must fix):
-  - [location] problem → fix   (from: reviewer(s))
+  - [location] quote: "<exact>" → editType: <replace|delete|insert-after> → replacement: "<literal>"   (why; from: reviewer(s))
 AUTO-APPLY:
-  - [location] fix
+  - [location] quote: "<exact>" → replacement: "<literal>"
 ADVISORY (apply if clearly better):
-  - [location] betterBecause → rewrite
+  - [location] quote: "<exact>" → replacement: "<literal>"   (why)
 
 ### Elevations for your consideration
-  - [location] betterBecause → rewrite
+  - [location] quote: "<exact>" → replacement: "<literal>"   (why)
 
 ### Safety: CLEAR / BLOCKED — [findings]
 ### Banned terms: CLEAR / BLOCKED — [findings]

@@ -43,6 +43,13 @@ project URLs — reconcile the map against it.
    marketplace, a marketplace domain drift (`skills.` vs `marketplace.`), a tool
    pointed at the wrong home. Flag with the correct URL.
 4. **Anchor sanity** — link text must not contradict the destination.
+5. **No future-dated internal links (deterministic).** For every internal
+   `/blog/<slug>/`, read the target's `pubDate` and compare to THIS post's
+   `pubDate` (from the pinned identity). If the target's `pubDate` is LATER than
+   this post's, that link is a false forward-reference — this post could not have
+   linked a post that didn't exist yet. Gate it: `editType: delete` the link (keep
+   the sentence), or `replace` with a live already-published target. This is a
+   date comparison, not a judgment call — apply it every time.
 
 Report fixes as `gateFindings`; do not edit post files yourself (the editor
 applies). You DO edit your own memory file, and note that you did.

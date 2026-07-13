@@ -82,8 +82,8 @@ consideration" — offer at least one even when the piece passes.
 {
   "axis": "technical-honesty",
   "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact claim>", "problem": "<the concrete failure mode / misread, or note a product ticket is needed per [[TD-0031]] when the better fix is in the code>", "fix": "<a specific replacement sentence — the honest reframe>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more honest without weakening the claim>", "rewrite": "<a concrete better version>" } ]
+  "gateFindings": [ { "location": "<beat/heading>", "quote": "<exact current claim, verbatim>", "problem": "<one short clause: the misread / overclaim; or note a product ticket per [[TD-0031]] when the honest fix lives in the code>", "editType": "replace | delete | insert-after", "replacement": "<APPLY-READY: the literal honest reframe to paste in place; empty for delete>" } ],
+  "elevations":   [ { "location": "<...>", "quote": "<exact current text>", "problem": "<why sharper/more honest without weakening the claim>", "editType": "replace | delete | insert-after", "replacement": "<APPLY-READY literal better version to paste>" } ]
 }
 ```
 

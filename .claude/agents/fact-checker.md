@@ -58,8 +58,8 @@ or more current source) — offer at least one even when the piece passes.
 {
   "axis": "factual-accuracy",
   "verdict": "pass" | "needs-work" | "fail",
-  "gateFindings": [ { "location": "<beat/heading/quote>", "quote": "<exact claim>", "problem": "<wrong-fact / unsourced / unsupported / dated — what fails>", "fix": "<concrete correction, source to add, or dated-framing reword>" } ],
-  "elevations":   [ { "location": "<...>", "quote": "<exact>", "betterBecause": "<why sharper/more credible>", "rewrite": "<a concrete better version>" } ]
+  "gateFindings": [ { "location": "<beat/heading>", "quote": "<exact current claim, verbatim>", "problem": "<one short clause: wrong-fact / unsourced / unsupported / dated>", "editType": "replace | delete | insert-after", "replacement": "<APPLY-READY: the literal correction / dated-framing reword / '[anchor](url)' citation to paste; empty for delete>" } ],
+  "elevations":   [ { "location": "<...>", "quote": "<exact current text>", "problem": "<why sharper/more credible>", "editType": "replace | delete | insert-after", "replacement": "<APPLY-READY literal better version to paste>" } ]
 }
 ```
 

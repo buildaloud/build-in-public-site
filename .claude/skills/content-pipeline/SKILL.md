@@ -143,6 +143,7 @@ Dispatch a Sonnet agent (`model: "sonnet"`, ad hoc — no dedicated agent file, 
 - The full Brief from Step 4 (`postFormula`, `outline[]`, and every other field)
 - `docs/post-formulas.md` + `docs/paragraph-formulas.md` — expand the Brief's `postFormula` beats into full paragraph nodes
 - `PERSONALITY.md` for voice register
+- `docs/blog-drafter-pitfalls.md` — pre-empt the review army's recurring flags in the plan (esp. NO negative parallelism in `point`/`ourTake`/`gateGuidance`, which the drafter renders verbatim; the `flare` line is the one exemption)
 
 It writes `<slug>.outline.md` — a YAML meta block (`point`, `hook`,
 `emotionalCore`, `flare`, `targetAudience`, `targetKeyword`, `searchIntent`,
@@ -161,7 +162,7 @@ both the drafter's input (Step 5) and the rubric every reviewer grades against.
 A fixpoint loop over the outline artifact from Step 4.5, per
 `docs/specs/2026-07-12-document-review-fanout-design.md`.
 
-**Round (repeat until converged or round cap 3):**
+**Round (repeat until converged or round cap 5):**
 1. **Fan out** — dispatch, in parallel via the Agent tool (`model: "sonnet"`
    unless the agent's own frontmatter says otherwise), the OUTLINE-mode
    reviewers: `hook-reviewer`, `impact-reviewer`, `emotion-reviewer`,
@@ -187,7 +188,7 @@ A fixpoint loop over the outline artifact from Step 4.5, per
 
 **Convergence:** zero gate findings + safety CLEAR + banned CLEAR →
 **AUTO-PROCEED to Step 5** — no human gate, an explicit design decision. Round
-cap (3) hit with gate findings still open → surface to Chad with the
+cap (5) hit with gate findings still open → surface to Chad with the
 remaining blockers.
 
 ---
@@ -228,7 +229,7 @@ grain deeper. Design: `docs/specs/2026-07-12-document-review-fanout-design.md`.
 discretion.** Run before the first round and again after every edit pass, on
 the single current draft (never the whole corpus):
 1. Call `scoreText` (`.claude/skills/human-tone/eval/tone-grader.ts`) on this
-   draft's body. If `banned > 0` OR `aiScore > 2`, that's a MANDATORY critical
+   draft's body. If `banned > 0` OR `aiScore >= 15`, that's a MANDATORY critical
    gate finding — inject it directly into synthesis's gate set (see Synthesize
    below). This is a hard code check: a hit here gates regardless of what any
    reviewer concludes about the same prose.
@@ -250,7 +251,22 @@ Hand both scores to the fan-out too — `flatness-reviewer`, `formulaic-reviewer
 and `voice-reviewer` add LLM judgment ON TOP of the mechanical gate above; they
 are additional coverage, not a substitute for it.
 
-**Round (repeat until converged or round cap 3):**
+**Every round is TWO-FOLD: mechanical lint, then the fan-out.** The army should
+never burn 15 reviewers on tells a regex already knows. So each round opens with
+a lint pass (step 0 below) before the fan-out fires — round 1 lints the fresh
+draft; later rounds lint the previous round's editor output (which is exactly
+where re-introduced tells come from). The post-loop tone confirmation still
+guards the exit, so the loop is gated clean at the top of every cycle AND on the
+way out.
+
+**Round (repeat until converged or round cap 5):**
+0. **Mechanical lint** — score the current draft with `scoreText`. If dirty
+   (`banned > 0` OR `aiScore >= 15`): dispatch ONE Sonnet tone-only de-tell
+   pass against `docs/blog-drafter-pitfalls.md` (facts/claims/links/structure
+   untouched — and §0's permaban phrases never re-introduced), then re-score.
+   If clean, skip the edit — an unnecessary editor pass only risks introducing
+   tells. The post-lint score is the tone-gate result handed to synthesis in
+   step 2.
 1. **Fan out** — dispatch, in parallel via the Agent tool (`model: "sonnet"`
    unless the agent's own frontmatter says otherwise), the 15 draft-mode
    reviewers (`outline-structure-reviewer` is outline-only, not in this list):
@@ -284,10 +300,21 @@ are additional coverage, not a substitute for it.
 4. **Re-review** — go to 1.
 
 **Convergence:** zero gate findings + safety CLEAR + banned CLEAR → proceed to
-Step 8. Round cap (3) hit with gate findings still open → surface to Chad with
-the remaining blockers, same as Step 4.6. When `bullshit-detector` flags an
-overclaim whose honest fix lives in the code, open the product ticket per
-Step 11.5 rather than just softening the sentence.
+the tone confirmation below. Round cap (5) hit with gate findings still open →
+surface to Chad with the remaining blockers, same as Step 4.6. When
+`bullshit-detector` flags an overclaim whose honest fix lives in the code, open
+the product ticket per Step 11.5 rather than just softening the sentence.
+
+**Final tone confirmation (mandatory — the loop's last edit is otherwise
+unmeasured).** The loop scores tone at the START of each round, so the LAST
+editor pass is never re-scored — it can regress a clean draft by introducing
+tells (e.g. rule-of-three lists) while applying content edits. So after the loop
+exits, run `scoreText` ONE more time on the final draft. If `banned > 0` OR
+`aiScore >= 15`, dispatch a Sonnet **tone-only de-tell pass** (change nothing
+about facts / claims / links / structure — only drive the humanizer tells out)
+and re-score; cap at 2 de-tell passes, then surface if it still won't clear.
+The RETURNED draft must always be tone-clean, regardless of where the review
+loop stopped.
 
 ---
 
@@ -438,6 +465,26 @@ If yes:
 If the learning is big enough that the post's current claim is now dishonest,
 route back and fix the claim (Step 6, the Draft Review Loop) before shipping. This is the loop that
 keeps the products improving from the act of writing about them (see [[TD-0031]]).
+
+---
+
+### 11.7 Learn — generation-side learner (TD-0035)
+
+After the review loops finish, dispatch `.claude/agents/blog-learner.md`
+(`model: "sonnet"`) ONCE for this post, with: the slug, the **round-1 confirmed
+gate edits** from BOTH loops (synthesis's gate-tier `consolidatedEdits` — the
+deduped, false-positive-dropped set is what makes them "confirmed"), and the
+health metrics (outline/draft round counts, final tone score, de-tell passes).
+
+It abstracts each gate edit into a content-agnostic pattern, tallies it across
+posts in `docs/blog-learnings-tally.json`, and — once a pattern recurs on
+`promoteThreshold` (3) distinct posts — promotes a **context-scoped** entry (never
+a blanket ban) into the `## Auto-derived pitfalls` section of
+`docs/blog-drafter-pitfalls.md`, so the drafter/outline-builder (Steps 4.5, 5)
+stop producing it. It is the generation-side mirror of the reviewer ledgers, and
+it **never** touches a reviewer or softens a gate. Round-count is a health signal
+it records, never a target it optimizes. This runs on every post so the queue
+both feeds and benefits from it.
 
 ---
 

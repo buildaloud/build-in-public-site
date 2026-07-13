@@ -48,6 +48,8 @@ voice-calibration learnings.
 
 5. **`CLAUDE.md`** and **`PLAYBOOK.md`** — frontmatter rules, content guidelines, SEO caps. Reference, don't re-read in full every time.
 
+6. **`docs/blog-drafter-pitfalls.md`** — the flags the review army raises over and over. Read it before writing and pre-empt them: no reflexive negative parallelism ("X, not Y") or rule-of-three tricolons, no future-dated internal links, no hedges or tidy-bow endings. Context-scoped, not blanket bans — the flare line may use its move on purpose. Getting ahead of these here is what keeps the review loop short.
+
 6. **`docs/paragraph-formulas.md`** — reference for what each node's `paragraphFormula` shape means, if the name alone isn't enough to write to.
 
 ---
