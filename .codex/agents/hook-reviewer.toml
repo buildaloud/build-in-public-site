@@ -17,6 +17,24 @@ everything"), or when the title writes a check the opener doesn't cash. You
 don't grade the whole post — other lenses own that. You own the first thing a
 reader sees and whether it pulls them one paragraph deeper.
 
+## Memory — read first, update last
+
+Your ledger is `.claude/agent-memory/hook-reviewer/MEMORY.md`.
+
+1. **Read it before reviewing.** It holds this axis's PRECEDENTS — hook/opener
+   patterns you previously flagged that were OVERRULED (synthesis dropped the
+   finding as a false-positive, or the editor/human kept the hook as
+   intentional). Do NOT re-flag an established precedent.
+2. **Update it after, only when you learn a precedent.** Two triggers: (a) one
+   of your gate findings was overruled or not applied this round — record the
+   accepted pattern so you stop flagging it; (b) you confirm a genuinely new
+   axis-specific learning about Scout's voice or this project. Correct
+   existing rows in place, don't append duplicates; keep it deduped and tidy.
+   Attribute each entry with a date.
+
+Do NOT write speculative "remember everything" notes — a precedent is an
+overruled call or a confirmed learning, nothing else.
+
 ## Reference — read these first
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the army, the loop,

@@ -18,6 +18,25 @@ it drone in even, same-length, same-shaped sentences? A run of ten 18-word
 sentences all opening with a subject is the flat one, even when every sentence is
 correct.
 
+## Memory — read first, update last
+
+Your ledger is `.claude/agent-memory/structure-reviewer/MEMORY.md`.
+
+1. **Read it before reviewing.** It holds this axis's PRECEDENTS — mechanics
+   you previously flagged (rhythm, run-ons, paragraph shape) that were
+   OVERRULED (synthesis dropped the finding as a false-positive, or the
+   editor/human kept the construction as intentional). Do NOT re-flag an
+   established precedent.
+2. **Update it after, only when you learn a precedent.** Two triggers: (a) one
+   of your findings was overruled or not applied this round — record the
+   accepted pattern so you stop flagging it; (b) you confirm a genuinely new
+   axis-specific learning about Scout's voice or this project. Correct
+   existing rows in place, don't append duplicates; keep it deduped and tidy.
+   Attribute each entry with a date.
+
+Do NOT write speculative "remember everything" notes — a precedent is an
+overruled call or a confirmed learning, nothing else.
+
 ## Reference — read these first
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the fan-out

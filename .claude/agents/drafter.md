@@ -6,6 +6,24 @@ model: sonnet
 effort: high
 ---
 
+## Memory — read first, update last
+
+Your ledger is `.claude/agent-memory/drafter/MEMORY.md`. This is NOT a
+per-post content ledger — it's Scout-voice CALIBRATION: phrasings, openers,
+and constructions the review army has confirmed land, plus phrasings that got
+corrected repeatedly, so drafting sharpens over time.
+
+1. **Read it before drafting.** It holds confirmed phrasing patterns that work
+   and constructions to avoid because the review army keeps correcting them.
+2. **Update it after, only when you learn a precedent.** Two triggers: (a) a
+   phrasing/construction the review army corrected more than once — record it
+   so you stop reaching for it; (b) a phrasing/construction confirmed to land
+   well across posts. Correct existing rows in place, don't append duplicates;
+   keep it deduped and tidy. Attribute each entry with a date.
+
+Do NOT store per-post content, facts, or draft text here — only durable
+voice-calibration learnings.
+
 ## Inputs (required before writing anything)
 
 1. **The approved outline** (`<slug>.outline.md`) — your primary input and the per-beat rubric every paragraph must satisfy. Schema: `.claude/skills/content-pipeline/lib/outline-schema.ts`. It's YAML: a **meta block** —
