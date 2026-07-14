@@ -179,7 +179,7 @@ A fixpoint loop over the outline artifact from Step 4.5, per
    advisory); hook is advisory unless missing/broken, in which case it
    escalates to gate (`HOOK_ESCALATION_NOTE` in that file). Synthesis dedups,
    ranks, resolves conflicting edits, and runs the content-safety scrub +
-   banned-term (`change-factory`) scan (see Content Safety section) —
+   banned-term (`change-factory`, `FOSSA`) scan (see Content Safety section) —
    synthesis owns both checks.
 3. **Edit** — on ANOTHER ROUND, dispatch a Sonnet editor agent (Read + Edit,
    ad hoc — no dedicated agent file) with synthesis's consolidated edit set to
@@ -290,7 +290,7 @@ way out.
    in that file). Synthesis dedups, ranks, resolves conflicting edits, folds
    in the mandatory tone-gate finding (if any) as a gate finding no reviewer
    discretion can override, and runs the content-safety scrub + banned-term
-   (`change-factory`) scan (see Content Safety section) — synthesis owns both
+   (`change-factory`, `FOSSA`) scan (see Content Safety section) — synthesis owns both
    checks; there is no separate content-reviewer step.
 3. **Edit** — on ANOTHER ROUND, dispatch a Sonnet editor agent (Read + Edit,
    ad hoc — no dedicated agent file) with synthesis's consolidated edit set to
@@ -495,7 +495,7 @@ cover the outline and draft, but not the summary/digest prose authored in
 Steps 8-9 or the assembled frontmatter. Immediately before committing, run
 both checks over the final assembled post file:
 ```bash
-grep -i "change.factory" src/content/blog/<new-post>.md
+grep -iE "change.factory|fossa" src/content/blog/<new-post>.md
 grep -iE "api[_-]?key|secret|token|password" src/content/blog/<new-post>.md
 ```
 Any match blocks the commit — fix it before proceeding.
@@ -539,6 +539,7 @@ Rules it enforces:
 
 - **No API keys, tokens, secrets, or credentials.** Redact completely if found in source material.
 - **No literal `change-factory` string (or an obvious alias)** anywhere in content. It's a private internal tool name — talk about "specialized sub-agents" or "domain experts" generically instead. `synthesis`'s banned-term scan (Steps 4.6 and 6) gates on this.
+- **No mention of `FOSSA` (or `fossabot`)** anywhere in content or docs — Chad's employer stays entirely out of Build Aloud. Say "the day job" if a career reference is unavoidable. Same banned-term gate enforces this.
 - **No passwords, private URLs, or internal infrastructure details.**
 - **No questionable or potentially embarrassing activity.** Leave out sketchy workarounds, frustrated rants, off-color jokes, accidental data exposure. When in doubt, skip or ask Chad.
 - **No personal information** beyond first names already used in published posts (e.g. "Andrew" is fine).

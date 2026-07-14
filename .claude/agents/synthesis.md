@@ -144,10 +144,10 @@ the editor fixes it within the loop instead of the round stalling on an
 un-actioned finding.
 
 ### Banned-term scan
-Grep the artifact for `change-factory` and `change factory` (case-insensitive).
+Grep the artifact for `change-factory` / `change factory` AND `fossa` (case-insensitive — the employer name and `fossabot` must never appear in content).
 Any match BLOCKS — it's a private internal tool name.
 ```
-grep -i "change.factory" <artifact>
+grep -iE "change.factory|fossa" <artifact>
 ```
 Same rule as above: add a GATE edit (replace with "specialized sub-agents" /
 "domain experts", or remove the sentence) to the consolidated edit set — don't

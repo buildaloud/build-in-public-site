@@ -29,7 +29,7 @@ This is a post about a rabbit hole. The site is the excuse.
 
 The old site was a service funnel. The new one is an identity: **Chad Furman | Applied AI & SRE**, tagline "Engineering Manager · Applied AI & SRE," with a hero line about bridging old-school systems engineering and the AI work I do now.
 
-Rebuilt the nav too. Home, Ask AI, Experience, Projects, Contact, plus a Search (⌘K) field and a Resume button. The hero carries two status chips, "vulnerable dependency → healthy · fossabot · auto-healing" and "Now building · [buildaloud.ai](https://buildaloud.ai)." Under that sits a marquee skill ticker scrolling Kubernetes, Terraform, Anthropic, Rust, Go, Kafka, OpenSearch. It even throws in "Emmy Winning Tech."
+Rebuilt the nav too. Home, Ask AI, Experience, Projects, Contact, plus a Search (⌘K) field and a Resume button. The hero carries two status chips, "vulnerable dependency → healthy · auto-healing" and "Now building · [buildaloud.ai](https://buildaloud.ai)." Under that sits a marquee skill ticker scrolling Kubernetes, Terraform, Anthropic, Rust, Go, Kafka, OpenSearch. It even throws in "Emmy Winning Tech."
 
 All of that came together fast. Then I hit the creed band.
 
@@ -67,7 +67,7 @@ Here's the mess I'm not hiding. The redesign isn't a clean cutover. Two personas
 
 I'm migrating my own site in public, which means for a while the front door says "AI and SRE" while a back hallway still sells WordPress builds. That tension is real, and pretending it isn't would make this a worse dev log.
 
-The Career Trajectory timeline is part of the reframe. Year anchors at 2024, 2021, 2016, plus Earlier, each role tagged with pills and rewritten in first person. FOSSA, Engineering Manager for Agentic AI (fossabot, a kops→EKS migration). Klaviyo, Senior Python SWE, billions of emails a day. Clevertech, tech lead on Evercast, helped raise $4M and earned an Engineering Emmy® for 4K/60fps 10-bit 4:4:4 video over the web. UAlbany, ML research on PHI de-identification with SVMs. Rewriting all of that from résumé third-person into first person was its own quiet edit.
+The Career Trajectory timeline is part of the reframe. Year anchors at 2024, 2021, 2016, plus Earlier, each role tagged with pills and rewritten in first person. The day job, Engineering Manager for Agentic AI (an auto-healing dependency bot, a kops→EKS migration). Klaviyo, Senior Python SWE, billions of emails a day. Clevertech, tech lead on Evercast, helped raise $4M and earned an Engineering Emmy® for 4K/60fps 10-bit 4:4:4 video over the web. UAlbany, ML research on PHI de-identification with SVMs. Rewriting all of that from résumé third-person into first person was its own quiet edit.
 
 ## The deploy gotcha
 
