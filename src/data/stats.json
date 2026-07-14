@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-12T16:19:21.068Z",
+  "generatedAt": "2026-07-14T16:42:23.085Z",
   "ga4": {
     "available": true,
     "window": {
@@ -7,24 +7,24 @@
       "endDate": "today"
     },
     "metrics": {
-      "sessions": 120,
-      "totalUsers": 73,
-      "activeUsers": 73,
-      "screenPageViews": 164,
-      "engagementRate": 0.20833333333333334,
-      "averageSessionDuration": 79.831535825
+      "sessions": 142,
+      "totalUsers": 79,
+      "activeUsers": 78,
+      "screenPageViews": 218,
+      "engagementRate": 0.2112676056338028,
+      "averageSessionDuration": 89.63936980985916
     }
   },
   "searchConsole": {
     "available": true,
     "window": {
-      "startDate": "2026-06-14",
-      "endDate": "2026-07-12"
+      "startDate": "2026-06-16",
+      "endDate": "2026-07-14"
     },
     "clicks": 1,
-    "impressions": 42,
-    "ctr": 0.023809523809523808,
-    "position": 24.547619047619047
+    "impressions": 48,
+    "ctr": 0.020833333333333332,
+    "position": 24.229166666666668
   },
   "buttondown": {
     "available": true,
@@ -64,12 +64,12 @@
   "agentUsage": {
     "available": true,
     "currentMonth": {
-      "tokens": 16453844846,
-      "apiEquivalentUSD": 11778.666125250002
+      "tokens": 16913124884,
+      "apiEquivalentUSD": 12250.171941600001
     },
     "allTime": {
-      "tokens": 21995583406,
-      "apiEquivalentUSD": 15625.054011850003
+      "tokens": 22454863444,
+      "apiEquivalentUSD": 16096.559828200003
     },
     "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
   },
@@ -84,23 +84,36 @@
   "postStats": {
     "available": true,
     "window": {
-      "startDate": "2026-06-14",
-      "endDate": "2026-07-12"
+      "startDate": "2026-06-16",
+      "endDate": "2026-07-14"
     },
     "meta": {
       "unmatchedRows": {
         "gsc": 0,
         "ga4": 0
       },
-      "totalRows": 25
+      "totalRows": 28
     },
     "byPost": {
       "2026-03-03-34-malicious-skills-and-what-they-re-actually-doing": {
         "clicks": 1,
-        "impressions": 3,
-        "ctr": 0.3333333333333333,
-        "position": 6.666666666666667,
+        "impressions": 4,
+        "ctr": 0.25,
+        "position": 16.75,
         "pageviews": 4,
+        "likes": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-02-21-i-have-a-face-now": {
+        "clicks": 0,
+        "impressions": 1,
+        "ctr": 0,
+        "position": 5,
+        "pageviews": 3,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -112,6 +125,7 @@
         "ctr": 0,
         "position": 26.09090909090909,
         "pageviews": 0,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -123,6 +137,7 @@
         "ctr": 0,
         "position": 51.333333333333336,
         "pageviews": 0,
+        "likes": 0,
         "scorecard": {
           "status": "measured",
           "targetKeyword": "severity weighted risk score",
@@ -139,6 +154,7 @@
         "ctr": 0,
         "position": 33,
         "pageviews": 0,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -150,6 +166,7 @@
         "ctr": 0,
         "position": 18,
         "pageviews": 0,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -161,6 +178,7 @@
         "ctr": 0,
         "position": 24,
         "pageviews": 0,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -172,6 +190,7 @@
         "ctr": 0,
         "position": 7.5,
         "pageviews": 5,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -179,10 +198,11 @@
       },
       "2026-06-23-chad-starts-a-lot-of-circles": {
         "clicks": 0,
-        "impressions": 1,
+        "impressions": 2,
         "ctr": 0,
-        "position": 32,
+        "position": 30,
         "pageviews": 0,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -190,10 +210,11 @@
       },
       "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
         "clicks": 0,
-        "impressions": 10,
+        "impressions": 13,
         "ctr": 0,
-        "position": 31.8,
+        "position": 28.46153846153846,
         "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "measured",
           "targetKeyword": "claude code ticket tracker plugin",
@@ -204,12 +225,37 @@
           "secondaryHits": 0
         }
       },
-      "2026-02-21-i-have-a-face-now": {
+      "2026-07-11-anonymous-like-button-without-login": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 35,
+        "likes": 1,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-13-automate-blog-writing-with-ai-agents": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 12,
+        "likes": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-07-10-claude-security-team-that-remembers": {
         "clicks": 0,
         "impressions": 0,
         "ctr": 0,
         "position": 0,
         "pageviews": 3,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -221,17 +267,19 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 2,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
         }
       },
-      "2026-07-10-claude-security-team-that-remembers": {
+      "2026-07-12-make-ai-writing-sound-human": {
         "clicks": 0,
         "impressions": 0,
         "ctr": 0,
         "position": 0,
         "pageviews": 2,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -243,6 +291,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
+        "likes": 1,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -254,17 +303,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
-        "scorecard": {
-          "status": "insufficient-data",
-          "reason": "no-gsc-rows"
-        }
-      },
-      "2026-02-22-we-rewrote-the-security-scoring-here-s-why": {
-        "clicks": 0,
-        "impressions": 0,
-        "ctr": 0,
-        "position": 0,
-        "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -276,6 +315,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -287,6 +327,19 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
+        "likes": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        }
+      },
+      "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -298,6 +351,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -309,6 +363,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -320,6 +375,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
@@ -331,17 +387,7 @@
         "ctr": 0,
         "position": 0,
         "pageviews": 1,
-        "scorecard": {
-          "status": "insufficient-data",
-          "reason": "no-gsc-rows"
-        }
-      },
-      "2026-07-11-anonymous-like-button-without-login": {
-        "clicks": 0,
-        "impressions": 0,
-        "ctr": 0,
-        "position": 0,
-        "pageviews": 1,
+        "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"

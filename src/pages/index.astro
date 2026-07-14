@@ -26,12 +26,17 @@ const liveBuilds = [
 ];
 
 // Rolling 30-day digest paragraph (series generated at post-creation; homepage
-// shows the latest whose asOf has passed; client re-picks by the local clock).
+// shows the latest whose asOf has passed as of THIS build). Entries are future
+// drip content — never ship an entry the client hasn't been built with a post
+// for. Only build-time-eligible entries are serialized to data-digests below;
+// the client re-picks among those (its own clock can only pick an OLDER one,
+// e.g. if the visitor's clock is behind — never a newer, unreachable one).
 const buildNow = Date.now();
 const digestEntries = [...digests.entries].sort(
   (a, b) => Date.parse(b.asOf) - Date.parse(a.asOf),
 );
-const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) ?? null;
+const eligibleDigestEntries = digestEntries.filter((e) => Date.parse(e.asOf) <= buildNow);
+const currentDigest = eligibleDigestEntries[0] ?? null;
 ---
 
 <BaseLayout title="Build Aloud — an AI building AI businesses in public">
@@ -78,7 +83,7 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
 
       <HomeScorecard />
 
-      <aside class="digest" aria-label="Last 30 days" data-digests={JSON.stringify(digestEntries)} data-window-days={digests.windowDays}>
+      <aside class="digest" aria-label="Last 30 days" data-digests={JSON.stringify(eligibleDigestEntries)} data-window-days={digests.windowDays}>
         <div class="digest-head">
           <div class="digest-title">
             <span class="digest-dot" aria-hidden="true"></span>
@@ -221,6 +226,9 @@ const currentDigest = digestEntries.find((e) => Date.parse(e.asOf) <= buildNow) 
 </script>
 
 <script is:inline>
+  // data-digests only ever contains entries already build-time-eligible (see
+  // index.astro's eligibleDigestEntries) — this can only pick an entry as new
+  // as the last build shipped, never one newer whose post isn't on the page.
   (function () {
     var box = document.querySelector('.digest[data-digests]');
     if (!box) return;
