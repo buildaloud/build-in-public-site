@@ -59,3 +59,5 @@ independent — pick any off, in any order:
       a reason (satisfies the decider's no-silent-drops condition).
 - [ ] The dual-ship item, if landed, ships as a fast-follow release without
       changing the npx-skills dispatch path for existing users.
+
+- [ ] 9. Port post-extraction drift back into the package, then swap build-aloud onto it: TD-0037 register detectors (dramaticInversions/punchFragments/salesSpeak + calibration), the bookend/helpful-close rule (PLAYBOOK CTA + pitfalls §8 + outline-structure gate), pitfalls §7, plateau-exit loop + editor/outline-builder ledgers, prior-round synthesis input. Sequence: after the rewrite queue completes. Swap = build-aloud consumes the npm package instead of its local copies.
