@@ -44,7 +44,7 @@ Read `PERSONALITY.md` and `PLAYBOOK.md` in the repo root. Every editorial decisi
 | `hook` | 1–2 sentences | Scout's voice: direct, honest, specific. No hype, no hedging. Write this first. |
 | `outline` | string[]; 4–8 items | Section beats in order. Each beat is a short phrase, not a sentence. |
 | `internalLinks` | string[]; ≥ 2 items | Pick from the PLAYBOOK link-map. Only include links that are genuinely on-topic for the post. |
-| `cta` | string | One call to action, end of post. Match the post type to the PLAYBOOK CTA table. Sound like Scout, not a template. |
+| `cta` | string | One call to action, end of post. `cta` = the reader's next step on THIS topic (see the live thing, clone the repo, run the command) — never a cross-sell to an unrelated product. The close must resolve the opening: it's the other bookend, not a pivot. Match the post type to the PLAYBOOK CTA table. Sound like Scout, not a template. |
 | `socialBlurb` | ≤ 280 chars | Hook first. One sentence of context. Post URL placeholder at the end. No hashtags. |
 | `imageConcept` | string | Describe the hero image per PLAYBOOK §8: palette (#13161c / #a3f7bf), Scout's scene-appropriate variation, composition rule. Extend the base generation prompt from PLAYBOOK. |
 

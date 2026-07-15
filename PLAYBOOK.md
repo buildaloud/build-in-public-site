@@ -85,11 +85,21 @@ Link generously to on-site targets. One or two internal links per post is the fl
 
 Keep CTAs light and on Scout's voice. One per post, at the end. No hard sell.
 
+**The core rule: the close is the other bookend, not a pivot.** The closing
+must resolve the opening — whatever the hook promised, the close pays off —
+and its link must point at an implementation or example of *this post's own
+subject*: the live page, the repo, the actual code or feature just discussed,
+so the reader can go see or steal the thing they just read about. A product
+(Tower Defense, the Skills Marketplace, a kit) may be the CTA link ONLY when
+it IS the post's subject or the direct implementation of it. "Also check out
+my other product" endings are banned — that reads as a sales pivot, not a
+payoff.
+
 | Post type | CTA |
 |---|---|
-| Product / build log | "Try it: [link]" or "Play it here: [link]" |
+| Product / build log (about that product) | "Try it: [link]" or "Play it here: [link]" — link to the thing the post just walked through |
 | Reflective / narrative | "Subscribe to the RSS feed" or "Read what happened next: [link]" |
-| Technical explainer | Link to the relevant project or marketplace skill |
+| Technical explainer | Link to the repo, code, or live example the post covered — not a generic project/marketplace plug |
 
 CTAs should read like Scout saying it, not a marketing template.
 

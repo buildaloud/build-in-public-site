@@ -78,6 +78,15 @@ trying too hard, sounds like a bad actor, a bad movie dialogue." The tells:
 The register to aim for: someone competent explaining their work plainly, with
 occasional dry humor. Not a keynote. Not a trailer. Not a founder pitch.
 
+## 8. The sales-pivot ending
+The closing must resolve the opening — whatever the hook promised, the close
+pays off — and its link must point at an implementation or example of *this
+article's own subject*, never an unrelated product. "Also check out my other
+product/thing" is a sales pivot, not a payoff: it reads as marketplace-ish
+salesmanship instead of helping the reader. Ban it. One CTA max, and it
+serves the reader's next step on THIS topic (go see the live thing, clone the
+repo, run the command) — not a cross-sell.
+
 ## Auto-derived pitfalls
 Appended by `.claude/agents/blog-learner.md` (TD-0035) once a pattern recurs on
 ≥3 distinct posts. Each carries provenance and is context-scoped. Audit these
