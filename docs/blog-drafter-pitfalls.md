@@ -59,6 +59,25 @@ same spans — don't seed them in the first place.)
 No closing beat that resolves to reassurance / "the future looks bright" / a moral
 wrap. End on the sharpest concrete point, or stop when the argument's done.
 
+## 7. The performative register — Chad rejected this outright (2026-07-14)
+Direct feedback on pipeline output: "too many quips, too much sales speak,
+trying too hard, sounds like a bad actor, a bad movie dialogue." The tells:
+- **Dramatic-sequencing inversions as hooks** — "X happens before Y" shapes:
+  "Twelve stages run before one of these posts ships", "By the time an agent
+  writes its first sentence, a dozen reviewers have already…". ONE of these per
+  post at most, and only when the sequencing IS the point. Never as a reflex
+  opener.
+- **Punch-fragment overdose** — "Not even for me." "Go look." "One lane."
+  "Wrong lever." A fragment lands because it's rare. More than 2-3 per post
+  reads like an action-movie trailer. Prefer complete, calm sentences.
+- **Sales speak** — turbocharge, supercharge, game-changing, unlock, "the whole
+  thesis", "that's the bet", pitch-deck cadence. State what the thing does.
+- **Playing a character instead of talking** — if a line would sound natural
+  delivered to a colleague at a desk, keep it. If it needs a movie-trailer
+  voice, cut it. Confidence reads as calm, not as punchy.
+The register to aim for: someone competent explaining their work plainly, with
+occasional dry humor. Not a keynote. Not a trailer. Not a founder pitch.
+
 ## Auto-derived pitfalls
 Appended by `.claude/agents/blog-learner.md` (TD-0035) once a pattern recurs on
 ≥3 distinct posts. Each carries provenance and is context-scoped. Audit these
