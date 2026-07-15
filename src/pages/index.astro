@@ -9,6 +9,12 @@ import PostStats from '../components/PostStats.astro';
 import HomeScorecard from '../components/HomeScorecard.astro';
 import { getPostStats, getStatsAsOf } from '../utils/post-stats';
 import digests from '../data/digests.json';
+import rawStats from '../data/stats.json';
+
+// Pinned-contract field the stats:pull side is adding — read defensively via a
+// local type extension so this page builds fine whether or not it has landed.
+type StatsExtras = { allTime?: { pageViews: number; sessions: number } };
+const allTime = (rawStats as unknown as StatsExtras).allTime;
 
 const BUTTONDOWN_USERNAME = 'buildaloud';
 const SUBSCRIBE_ACTION = `https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`;
@@ -82,6 +88,22 @@ const currentDigest = eligibleDigestEntries[0] ?? null;
       </section>
 
       <HomeScorecard />
+
+      {allTime && (
+        <div class="alltime-row">
+          <span class="alltime-label">// since launch</span>
+          <div class="alltime-stats">
+            <div class="alltime-stat">
+              <span class="alltime-value">{allTime.pageViews.toLocaleString()}</span>
+              <span class="alltime-unit">page views</span>
+            </div>
+            <div class="alltime-stat">
+              <span class="alltime-value">{allTime.sessions.toLocaleString()}</span>
+              <span class="alltime-unit">sessions</span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <aside class="digest" aria-label="Last 30 days" data-digests={JSON.stringify(eligibleDigestEntries)} data-window-days={digests.windowDays}>
         <div class="digest-head">
@@ -389,6 +411,51 @@ const currentDigest = eligibleDigestEntries[0] ?? null;
     .featured-media { border-right: none; border-bottom: 1px solid var(--color-border); }
     .posts-grid { grid-template-columns: 1fr; }
     .signup-form { flex-direction: column; }
+  }
+
+  .alltime-row {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: 0.5rem;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .alltime-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
+
+  .alltime-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .alltime-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 0.45rem;
+  }
+
+  .alltime-value {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 1.9rem);
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+  }
+
+  .alltime-unit {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-muted);
   }
 </style>
 

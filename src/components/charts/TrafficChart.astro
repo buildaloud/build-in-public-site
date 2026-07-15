@@ -1,0 +1,262 @@
+---
+// Server-rendered SVG line chart — 2 series (page views, sessions) over the trailing
+// window. Geometry math (scales, paths, ticks) lives in chart-math.ts and is unit
+// tested; this file only wires that tested math into markup + a small hover script.
+import { scaleLinear, niceCeiling, buildLinePath, pickTickIndices, formatTickLabel, niceTicks } from './chart-math';
+import EmptyPanel from './EmptyPanel.astro';
+
+interface DailyPoint {
+  date: string;
+  pageViews: number;
+  sessions: number;
+}
+
+interface Props {
+  daily?: DailyPoint[];
+}
+
+const { daily } = Astro.props;
+const length = daily?.length ?? 0;
+
+const width = 640;
+const height = 200;
+const marginLeft = 38;
+const marginRight = 8;
+const marginTop = 10;
+const marginBottom = 26;
+const chartWidth = width - marginLeft - marginRight;
+const chartHeight = height - marginTop - marginBottom;
+
+const maxRaw = length ? Math.max(...daily!.map((d) => Math.max(d.pageViews, d.sessions))) : 0;
+const maxVal = niceCeiling(maxRaw);
+const yScale = scaleLinear([0, maxVal], [chartHeight, 0]);
+const xForIndex = (i: number) => (length > 1 ? marginLeft + (chartWidth * i) / (length - 1) : marginLeft);
+
+const viewsPoints = daily?.map((d, i) => ({ x: xForIndex(i), y: marginTop + yScale(d.pageViews) })) ?? [];
+const sessionsPoints = daily?.map((d, i) => ({ x: xForIndex(i), y: marginTop + yScale(d.sessions) })) ?? [];
+const viewsPath = buildLinePath(viewsPoints);
+const sessionsPath = buildLinePath(sessionsPoints);
+
+const gridlines = niceTicks(maxVal, 4).map((value) => ({
+  y: marginTop + yScale(value),
+  value,
+}));
+
+const tickIndices = length ? pickTickIndices(length, 6) : [];
+const bandWidth = length > 0 ? chartWidth / length : 0;
+---
+
+<div class="chart-panel">
+  <div class="chart-panel-head">
+    <span class="chart-panel-label">// traffic (28d)</span>
+    <div class="chart-legend">
+      <span class="legend-item"><span class="legend-chip legend-chip--views" aria-hidden="true"></span>views</span>
+      <span class="legend-item"><span class="legend-chip legend-chip--sessions" aria-hidden="true"></span>sessions</span>
+    </div>
+  </div>
+
+  {length === 0 ? (
+    <EmptyPanel label="gathering signal — not enough traffic data yet" />
+  ) : (
+    <div class="chart-wrap" data-traffic-chart>
+      <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" role="img" aria-label="Page views and sessions over the last 28 days">
+        {gridlines.map((g) => (
+          <>
+            <line class="gridline" x1={marginLeft} y1={g.y} x2={width - marginRight} y2={g.y} />
+            <text class="axis-label" x={marginLeft - 6} y={g.y} text-anchor="end" dominant-baseline="middle">{g.value}</text>
+          </>
+        ))}
+
+        {tickIndices.map((i) => (
+          <text class="axis-label" x={xForIndex(i)} y={height - 6} text-anchor={i === length - 1 ? 'end' : 'middle'}>{formatTickLabel(daily![i].date)}</text>
+        ))}
+
+        <path class="series-line series-line--sessions" d={sessionsPath} fill="none" />
+        <path class="series-line series-line--views" d={viewsPath} fill="none" />
+
+        <line class="crosshair-line" x1={marginLeft} y1={marginTop} x2={marginLeft} y2={marginTop + chartHeight} />
+
+        {daily!.map((d, i) => (
+          <rect
+            class="hit-rect"
+            x={marginLeft + i * bandWidth}
+            y={marginTop}
+            width={bandWidth}
+            height={chartHeight}
+            fill="transparent"
+            data-x={xForIndex(i)}
+            data-date={formatTickLabel(d.date)}
+            data-views={d.pageViews}
+            data-sessions={d.sessions}
+          />
+        ))}
+      </svg>
+      <div class="chart-tooltip" hidden></div>
+    </div>
+  )}
+</div>
+
+<script>
+  function wireTrafficCharts(): void {
+    const charts = document.querySelectorAll<HTMLElement>('[data-traffic-chart]');
+    charts.forEach((wrap) => {
+      const svg = wrap.querySelector('svg');
+      const crosshair = wrap.querySelector<SVGLineElement>('.crosshair-line');
+      const tooltip = wrap.querySelector<HTMLElement>('.chart-tooltip');
+      const rects = wrap.querySelectorAll<SVGRectElement>('.hit-rect');
+      const viewBoxWidth = svg?.viewBox.baseVal.width || 1;
+      if (!crosshair || !tooltip) return;
+
+      rects.forEach((rect) => {
+        rect.addEventListener('mouseenter', () => {
+          const x = Number(rect.dataset.x);
+          crosshair.setAttribute('x1', String(x));
+          crosshair.setAttribute('x2', String(x));
+          crosshair.classList.add('is-active');
+
+          tooltip.hidden = false;
+          tooltip.innerHTML = `<strong>${rect.dataset.date}</strong><span>views: ${rect.dataset.views}</span><span>sessions: ${rect.dataset.sessions}</span>`;
+          const pct = Math.min(92, Math.max(8, (x / viewBoxWidth) * 100));
+          tooltip.style.left = `${pct}%`;
+        });
+      });
+
+      wrap.addEventListener('mouseleave', () => {
+        crosshair.classList.remove('is-active');
+        tooltip.hidden = true;
+      });
+    });
+  }
+
+  wireTrafficCharts();
+</script>
+
+<style>
+  .chart-panel {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .chart-panel-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  .legend-chip {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+  }
+
+  .legend-chip--views { background: var(--color-series-views); }
+  .legend-chip--sessions { background: var(--color-series-sessions); }
+
+  .chart-wrap {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .chart-wrap svg {
+    display: block;
+    width: 100%;
+    min-width: 480px;
+    height: auto;
+  }
+
+  .gridline {
+    stroke: var(--color-border);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+
+  .axis-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: var(--color-muted);
+  }
+
+  .series-line {
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .series-line--views { stroke: var(--color-series-views); }
+  .series-line--sessions { stroke: var(--color-series-sessions); }
+
+  .crosshair-line {
+    stroke: var(--color-border-hover);
+    stroke-width: 1;
+    opacity: 0;
+  }
+
+  .crosshair-line.is-active {
+    opacity: 1;
+  }
+
+  .hit-rect {
+    cursor: crosshair;
+  }
+
+  .chart-tooltip {
+    position: absolute;
+    top: 0.5rem;
+    transform: translateX(-50%);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-hover);
+    border-radius: 0.35rem;
+    padding: 0.4rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-text-secondary);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .chart-tooltip[hidden] {
+    display: none;
+  }
+
+  .chart-tooltip strong {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .crosshair-line { transition: none; }
+  }
+</style>

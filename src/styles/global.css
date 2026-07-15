@@ -19,6 +19,9 @@
   --paper-faint: #6b7280;
   --mint: #a3f7bf;
   --coral: #ff6b6b;
+  /* Dataviz series colors only — never used for chrome/borders/labels (those stay --mint). */
+  --series-green: #1ea855;
+  --series-blue: #4c78dd;
 
   /* Semantic — what the app actually uses. Each points at a primitive above
      (dims derive from their primitive via color-mix), so components never carry
@@ -35,6 +38,10 @@
   --color-accent-dim: color-mix(in srgb, var(--mint) 12%, transparent);
   --color-hot: var(--coral);
   --color-hot-dim: color-mix(in srgb, var(--coral) 10%, transparent);
+  /* Series colors follow the metric everywhere it appears: views always green, sessions/search always blue. */
+  --color-series-views: var(--series-green);
+  --color-series-sessions: var(--series-blue);
+  --color-series-search: var(--series-blue);
 
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-body: 'DM Sans', -apple-system, sans-serif;

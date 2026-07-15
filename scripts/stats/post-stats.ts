@@ -21,6 +21,9 @@ export type PostStat = {
   // always sets a real number when it builds an entry; only a stale,
   // not-yet-repulled snapshot on disk would lack the key entirely.
   likes?: number;
+  // Same staleness rationale as likes — attached in pull.ts (via
+  // joinDailyViewsBySlug), not inside shapePostStats itself.
+  dailyViews?: number[];
   scorecard: Scorecard;
 };
 
@@ -206,4 +209,116 @@ export function assertJoinHealth(unmatched: { gsc: number; ga4: number }, totalR
         'normalization likely broken, refusing to write a misleading snapshot',
     );
   }
+}
+
+/** Ascending YYYY-MM-DD dates, the last `n` days ending at (and including) `today`. */
+export function lastNDates(n: number, today: Date = new Date()): string[] {
+  const dates: string[] = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(today);
+    d.setUTCDate(d.getUTCDate() - i);
+    dates.push(d.toISOString().slice(0, 10));
+  }
+  return dates;
+}
+
+/** GA4's `date` dimension returns YYYYMMDD (no dashes); every other date field here is YYYY-MM-DD. */
+export function ga4DateToIso(ga4Date: string): string {
+  return `${ga4Date.slice(0, 4)}-${ga4Date.slice(4, 6)}-${ga4Date.slice(6, 8)}`;
+}
+
+export type DailySiteRow = { date: string; pageViews: number; sessions: number };
+
+export function shapeDailySite(dates: string[], rows: DailySiteRow[]): DailySiteRow[] {
+  const byDate = new Map(rows.map((r) => [r.date, r]));
+  return dates.map((date) => ({
+    date,
+    pageViews: byDate.get(date)?.pageViews ?? 0,
+    sessions: byDate.get(date)?.sessions ?? 0,
+  }));
+}
+
+export type DailySearchRow = { date: string; clicks: number; impressions: number };
+
+export function shapeDailySearch(dates: string[], rows: DailySearchRow[]): DailySearchRow[] {
+  const byDate = new Map(rows.map((r) => [r.date, r]));
+  return dates.map((date) => ({
+    date,
+    clicks: byDate.get(date)?.clicks ?? 0,
+    impressions: byDate.get(date)?.impressions ?? 0,
+  }));
+}
+
+export type Ga4DatePathRow = { date: string; path: string; pageviews: number };
+
+/**
+ * Per-post daily pageviews aligned to `dates`, zero-filled. Non-blog paths are
+ * excluded entirely — same join scoping as shapePostStats's isBlogPath filter.
+ */
+export function joinDailyViewsBySlug(dates: string[], rows: Ga4DatePathRow[]): Record<string, number[]> {
+  const bySlug = new Map<string, Map<string, number>>();
+  for (const row of rows) {
+    if (!isBlogPath(row.path)) continue;
+    const slug = normalizeToSlug(row.path);
+    const byDate = bySlug.get(slug) ?? new Map<string, number>();
+    byDate.set(row.date, (byDate.get(row.date) ?? 0) + row.pageviews);
+    bySlug.set(slug, byDate);
+  }
+  const result: Record<string, number[]> = {};
+  for (const [slug, byDate] of bySlug) {
+    result[slug] = dates.map((date) => byDate.get(date) ?? 0);
+  }
+  return result;
+}
+
+/** The Monday (YYYY-MM-DD) of the ISO week containing `dateStr`. */
+export function isoWeekStart(dateStr: string): string {
+  const d = new Date(`${dateStr}T00:00:00Z`);
+  const day = d.getUTCDay();
+  const diffToMonday = day === 0 ? -6 : 1 - day;
+  d.setUTCDate(d.getUTCDate() + diffToMonday);
+  return d.toISOString().slice(0, 10);
+}
+
+/** Ascending Monday week-starts, the last `n` ISO weeks ending with the week containing `today`. */
+export function lastNIsoWeekStarts(n: number, today: Date = new Date()): string[] {
+  const currentWeekStart = isoWeekStart(today.toISOString().slice(0, 10));
+  const weeks: string[] = [];
+  for (let i = n - 1; i >= 0; i--) {
+    const d = new Date(`${currentWeekStart}T00:00:00Z`);
+    d.setUTCDate(d.getUTCDate() - i * 7);
+    weeks.push(d.toISOString().slice(0, 10));
+  }
+  return weeks;
+}
+
+/**
+ * Groups date+path rows into "blog" (/blog/*) and "site" (every other
+ * top-level path) products, summed per ISO week. Rows outside `weekStarts`
+ * are dropped; a product with no rows in-window is omitted, not zeroed —
+ * keeps this GA4 blog-site-only and honest about what's actually present.
+ */
+export function shapeProductWeekly(
+  weekStarts: string[],
+  rows: Ga4DatePathRow[],
+): { product: string; weeks: { weekStart: string; pageViews: number }[] }[] {
+  const weekSet = new Set(weekStarts);
+  const byProductWeek = new Map<string, Map<string, number>>();
+  for (const row of rows) {
+    const weekStart = isoWeekStart(row.date);
+    if (!weekSet.has(weekStart)) continue;
+    const product = isBlogPath(row.path) ? 'blog' : 'site';
+    const byWeek = byProductWeek.get(product) ?? new Map<string, number>();
+    byWeek.set(weekStart, (byWeek.get(weekStart) ?? 0) + row.pageviews);
+    byProductWeek.set(product, byWeek);
+  }
+  return Array.from(byProductWeek.keys())
+    .sort()
+    .map((product) => ({
+      product,
+      weeks: weekStarts.map((weekStart) => ({
+        weekStart,
+        pageViews: byProductWeek.get(product)?.get(weekStart) ?? 0,
+      })),
+    }));
 }

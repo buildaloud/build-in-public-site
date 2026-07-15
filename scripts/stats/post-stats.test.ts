@@ -1,5 +1,8 @@
 import { describe, expect, it, vi } from 'vitest';
-import { normalizeToSlug, slugFromFilename, computeScorecard, shapePostStats, assertJoinHealth, UNMATCHED_FAIL_RATIO, LIKES_ROW_LIMIT } from './post-stats';
+import {
+  normalizeToSlug, slugFromFilename, computeScorecard, shapePostStats, assertJoinHealth, UNMATCHED_FAIL_RATIO, LIKES_ROW_LIMIT,
+  lastNDates, ga4DateToIso, shapeDailySite, shapeDailySearch, joinDailyViewsBySlug, isoWeekStart, lastNIsoWeekStarts, shapeProductWeekly,
+} from './post-stats';
 
 describe('slugFromFilename', () => {
   it('strips the .md extension to match the Astro content-collection post.id', () => {
@@ -347,5 +350,135 @@ describe('assertJoinHealth', () => {
 
   it('does not divide by zero when there are no rows at all', () => {
     expect(() => assertJoinHealth({ gsc: 0, ga4: 0 }, 0)).not.toThrow();
+  });
+});
+
+describe('lastNDates', () => {
+  it('returns n ascending YYYY-MM-DD dates ending at the given today', () => {
+    const dates = lastNDates(5, new Date('2026-07-14T12:00:00Z'));
+    expect(dates).toEqual(['2026-07-10', '2026-07-11', '2026-07-12', '2026-07-13', '2026-07-14']);
+  });
+
+  it('spans a month boundary correctly', () => {
+    const dates = lastNDates(3, new Date('2026-08-01T00:00:00Z'));
+    expect(dates).toEqual(['2026-07-30', '2026-07-31', '2026-08-01']);
+  });
+});
+
+describe('ga4DateToIso', () => {
+  it('inserts dashes into a GA4 YYYYMMDD date string', () => {
+    expect(ga4DateToIso('20260714')).toBe('2026-07-14');
+  });
+});
+
+describe('shapeDailySite', () => {
+  const dates = ['2026-07-12', '2026-07-13', '2026-07-14'];
+
+  it('zero-fills days missing from the source rows', () => {
+    const rows = [{ date: '2026-07-13', pageViews: 40, sessions: 10 }];
+    expect(shapeDailySite(dates, rows)).toEqual([
+      { date: '2026-07-12', pageViews: 0, sessions: 0 },
+      { date: '2026-07-13', pageViews: 40, sessions: 10 },
+      { date: '2026-07-14', pageViews: 0, sessions: 0 },
+    ]);
+  });
+
+  it('emits every date present even with no rows at all', () => {
+    expect(shapeDailySite(dates, [])).toEqual([
+      { date: '2026-07-12', pageViews: 0, sessions: 0 },
+      { date: '2026-07-13', pageViews: 0, sessions: 0 },
+      { date: '2026-07-14', pageViews: 0, sessions: 0 },
+    ]);
+  });
+});
+
+describe('shapeDailySearch', () => {
+  it('zero-fills days missing from the source rows', () => {
+    const dates = ['2026-07-13', '2026-07-14'];
+    const rows = [{ date: '2026-07-14', clicks: 5, impressions: 60 }];
+    expect(shapeDailySearch(dates, rows)).toEqual([
+      { date: '2026-07-13', clicks: 0, impressions: 0 },
+      { date: '2026-07-14', clicks: 5, impressions: 60 },
+    ]);
+  });
+});
+
+describe('joinDailyViewsBySlug', () => {
+  const dates = ['2026-07-13', '2026-07-14'];
+
+  it('aligns per-post daily pageviews to the given dates, zero-filling gaps', () => {
+    const rows = [
+      { date: '2026-07-14', path: '/blog/hello-world/', pageviews: 12 },
+      { date: '2026-07-13', path: 'https://buildaloud.ai/blog/hello-world/', pageviews: 4 },
+    ];
+    const result = joinDailyViewsBySlug(dates, rows);
+    expect(result['hello-world']).toEqual([4, 12]);
+  });
+
+  it('sums multiple rows for the same slug and date', () => {
+    const rows = [
+      { date: '2026-07-14', path: '/blog/hello-world/', pageviews: 5 },
+      { date: '2026-07-14', path: '/blog/hello-world', pageviews: 3 },
+    ];
+    const result = joinDailyViewsBySlug(dates, rows);
+    expect(result['hello-world']).toEqual([0, 8]);
+  });
+
+  it('excludes non-blog paths entirely — not a slug, not counted', () => {
+    const rows = [{ date: '2026-07-14', path: '/stats', pageviews: 30 }];
+    const result = joinDailyViewsBySlug(dates, rows);
+    expect(result['stats']).toBeUndefined();
+    expect(Object.keys(result)).toHaveLength(0);
+  });
+});
+
+describe('isoWeekStart', () => {
+  it('returns the same Monday for every day in that ISO week', () => {
+    expect(isoWeekStart('2026-07-13')).toBe('2026-07-13'); // Monday
+    expect(isoWeekStart('2026-07-14')).toBe('2026-07-13'); // Tuesday
+    expect(isoWeekStart('2026-07-19')).toBe('2026-07-13'); // Sunday
+  });
+
+  it('handles a Sunday rolling back to the prior Monday', () => {
+    expect(isoWeekStart('2026-07-12')).toBe('2026-07-06'); // Sunday belongs to the prior week
+  });
+});
+
+describe('lastNIsoWeekStarts', () => {
+  it('returns n ascending Monday week-starts ending with the current week', () => {
+    const weeks = lastNIsoWeekStarts(4, new Date('2026-07-14T12:00:00Z')); // Tuesday
+    expect(weeks).toEqual(['2026-06-22', '2026-06-29', '2026-07-06', '2026-07-13']);
+  });
+});
+
+describe('shapeProductWeekly', () => {
+  const weekStarts = ['2026-06-29', '2026-07-06'];
+
+  it('groups blog paths into "blog" and other top-level paths into "site"', () => {
+    const rows = [
+      { date: '2026-07-01', path: '/blog/hello-world/', pageviews: 10 },
+      { date: '2026-07-07', path: '/blog/hello-world/', pageviews: 5 },
+      { date: '2026-07-01', path: '/stats', pageviews: 3 },
+      { date: '2026-07-07', path: '/', pageviews: 7 },
+    ];
+    const result = shapeProductWeekly(weekStarts, rows);
+    expect(result).toEqual(
+      expect.arrayContaining([
+        { product: 'blog', weeks: [{ weekStart: '2026-06-29', pageViews: 10 }, { weekStart: '2026-07-06', pageViews: 5 }] },
+        { product: 'site', weeks: [{ weekStart: '2026-06-29', pageViews: 3 }, { weekStart: '2026-07-06', pageViews: 7 }] },
+      ]),
+    );
+  });
+
+  it('drops rows outside the given weekStarts window', () => {
+    const rows = [{ date: '2026-05-01', path: '/blog/old-post/', pageviews: 100 }];
+    const result = shapeProductWeekly(weekStarts, rows);
+    expect(result).toEqual([]);
+  });
+
+  it('omits a product entirely when no rows fall into it', () => {
+    const rows = [{ date: '2026-07-01', path: '/blog/hello-world/', pageviews: 10 }];
+    const result = shapeProductWeekly(weekStarts, rows);
+    expect(result.find((p) => p.product === 'site')).toBeUndefined();
   });
 });

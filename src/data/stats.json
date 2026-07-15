@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-14T16:42:23.085Z",
+  "generatedAt": "2026-07-15T00:26:08.337Z",
   "ga4": {
     "available": true,
     "window": {
@@ -7,19 +7,19 @@
       "endDate": "today"
     },
     "metrics": {
-      "sessions": 142,
-      "totalUsers": 79,
-      "activeUsers": 78,
-      "screenPageViews": 218,
-      "engagementRate": 0.2112676056338028,
-      "averageSessionDuration": 89.63936980985916
+      "sessions": 151,
+      "totalUsers": 83,
+      "activeUsers": 82,
+      "screenPageViews": 230,
+      "engagementRate": 0.2781456953642384,
+      "averageSessionDuration": 95.55457135099337
     }
   },
   "searchConsole": {
     "available": true,
     "window": {
-      "startDate": "2026-06-16",
-      "endDate": "2026-07-14"
+      "startDate": "2026-06-17",
+      "endDate": "2026-07-15"
     },
     "clicks": 1,
     "impressions": 48,
@@ -64,12 +64,12 @@
   "agentUsage": {
     "available": true,
     "currentMonth": {
-      "tokens": 16913124884,
-      "apiEquivalentUSD": 12250.171941600001
+      "tokens": 16952115663,
+      "apiEquivalentUSD": 12314.3925791
     },
     "allTime": {
-      "tokens": 22454863444,
-      "apiEquivalentUSD": 16096.559828200003
+      "tokens": 22493854223,
+      "apiEquivalentUSD": 16160.780465700002
     },
     "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
   },
@@ -84,8 +84,8 @@
   "postStats": {
     "available": true,
     "window": {
-      "startDate": "2026-06-16",
-      "endDate": "2026-07-14"
+      "startDate": "2026-06-17",
+      "endDate": "2026-07-15"
     },
     "meta": {
       "unmatchedRows": {
@@ -105,7 +105,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-21-i-have-a-face-now": {
         "clicks": 0,
@@ -117,7 +147,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-22-we-let-haiku-do-the-audits-it-missed-things": {
         "clicks": 0,
@@ -129,7 +189,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-23-not-all-malicious-is-equal": {
         "clicks": 0,
@@ -146,7 +236,37 @@
           "targetImpressions": 0,
           "targetClicks": 0,
           "secondaryHits": 0
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-23-we-found-malicious-skills-three-of-them": {
         "clicks": 0,
@@ -158,7 +278,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-23-who-pays-to-secure-the-keg": {
         "clicks": 0,
@@ -170,7 +320,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-03-03-a-bug-in-the-pipeline-taught-us-something-about-the-catalog": {
         "clicks": 0,
@@ -182,7 +362,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-06-16-building-a-game-with-claude-code-in-3-weeks": {
         "clicks": 0,
@@ -194,7 +404,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-06-23-chad-starts-a-lot-of-circles": {
         "clicks": 0,
@@ -206,7 +446,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
         "clicks": 0,
@@ -223,7 +493,37 @@
           "targetImpressions": 0,
           "targetClicks": 0,
           "secondaryHits": 0
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-07-11-anonymous-like-button-without-login": {
         "clicks": 0,
@@ -235,19 +535,79 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          34,
+          0,
+          0,
+          0
+        ]
       },
       "2026-07-13-automate-blog-writing-with-ai-agents": {
         "clicks": 0,
         "impressions": 0,
         "ctr": 0,
         "position": 0,
-        "pageviews": 12,
+        "pageviews": 16,
         "likes": 0,
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          12,
+          4,
+          0
+        ]
       },
       "2026-07-10-claude-security-team-that-remembers": {
         "clicks": 0,
@@ -259,7 +619,79 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          1,
+          0,
+          0,
+          0
+        ]
+      },
+      "2026-07-12-make-ai-writing-sound-human": {
+        "clicks": 0,
+        "impressions": 0,
+        "ctr": 0,
+        "position": 0,
+        "pageviews": 3,
+        "likes": 0,
+        "scorecard": {
+          "status": "insufficient-data",
+          "reason": "no-gsc-rows"
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          1,
+          1,
+          0
+        ]
       },
       "2026-07-08-cloudflare-pages-functions-404-custom-domain": {
         "clicks": 0,
@@ -271,19 +703,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
-      },
-      "2026-07-12-make-ai-writing-sound-human": {
-        "clicks": 0,
-        "impressions": 0,
-        "ctr": 0,
-        "position": 0,
-        "pageviews": 2,
-        "likes": 0,
-        "scorecard": {
-          "status": "insufficient-data",
-          "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-21-hello-world": {
         "clicks": 0,
@@ -295,7 +745,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-21-wiring-up-the-machine": {
         "clicks": 0,
@@ -307,7 +787,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-23-skill-md-is-a-file-written-for-agents": {
         "clicks": 0,
@@ -319,7 +829,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-02-23-the-broker-is-live": {
         "clicks": 0,
@@ -331,7 +871,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company": {
         "clicks": 0,
@@ -343,7 +913,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
       },
       "2026-06-26-ai-on-my-site-told-it-to-defer": {
         "clicks": 0,
@@ -355,7 +955,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-07-07-launch-day-bugs-only-showed-up-in-prod": {
         "clicks": 0,
@@ -367,7 +997,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-07-09-can-an-ai-run-a-business": {
         "clicks": 0,
@@ -379,7 +1039,37 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
       },
       "2026-07-10-gpt-5-6-vs-claude-for-coding-agents": {
         "clicks": 0,
@@ -391,8 +1081,370 @@
         "scorecard": {
           "status": "insufficient-data",
           "reason": "no-gsc-rows"
-        }
+        },
+        "dailyViews": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
       }
     }
+  },
+  "dailySite": [
+    {
+      "date": "2026-06-18",
+      "pageViews": 1,
+      "sessions": 1
+    },
+    {
+      "date": "2026-06-19",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-06-20",
+      "pageViews": 3,
+      "sessions": 3
+    },
+    {
+      "date": "2026-06-21",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-06-22",
+      "pageViews": 8,
+      "sessions": 2
+    },
+    {
+      "date": "2026-06-23",
+      "pageViews": 1,
+      "sessions": 2
+    },
+    {
+      "date": "2026-06-24",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-06-25",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-06-26",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-06-27",
+      "pageViews": 3,
+      "sessions": 3
+    },
+    {
+      "date": "2026-06-28",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-06-29",
+      "pageViews": 2,
+      "sessions": 3
+    },
+    {
+      "date": "2026-06-30",
+      "pageViews": 2,
+      "sessions": 1
+    },
+    {
+      "date": "2026-07-01",
+      "pageViews": 14,
+      "sessions": 9
+    },
+    {
+      "date": "2026-07-02",
+      "pageViews": 5,
+      "sessions": 6
+    },
+    {
+      "date": "2026-07-03",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-07-04",
+      "pageViews": 8,
+      "sessions": 8
+    },
+    {
+      "date": "2026-07-05",
+      "pageViews": 0,
+      "sessions": 0
+    },
+    {
+      "date": "2026-07-06",
+      "pageViews": 2,
+      "sessions": 2
+    },
+    {
+      "date": "2026-07-07",
+      "pageViews": 1,
+      "sessions": 1
+    },
+    {
+      "date": "2026-07-08",
+      "pageViews": 24,
+      "sessions": 14
+    },
+    {
+      "date": "2026-07-09",
+      "pageViews": 12,
+      "sessions": 5
+    },
+    {
+      "date": "2026-07-10",
+      "pageViews": 8,
+      "sessions": 4
+    },
+    {
+      "date": "2026-07-11",
+      "pageViews": 29,
+      "sessions": 23
+    },
+    {
+      "date": "2026-07-12",
+      "pageViews": 62,
+      "sessions": 26
+    },
+    {
+      "date": "2026-07-13",
+      "pageViews": 30,
+      "sessions": 22
+    },
+    {
+      "date": "2026-07-14",
+      "pageViews": 11,
+      "sessions": 12
+    },
+    {
+      "date": "2026-07-15",
+      "pageViews": 0,
+      "sessions": 0
+    }
+  ],
+  "dailySearch": [
+    {
+      "date": "2026-06-18",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-19",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-20",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-21",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-22",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-23",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-24",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-25",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-26",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-27",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-28",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-29",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-06-30",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-07-01",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-07-02",
+      "clicks": 0,
+      "impressions": 7
+    },
+    {
+      "date": "2026-07-03",
+      "clicks": 0,
+      "impressions": 3
+    },
+    {
+      "date": "2026-07-04",
+      "clicks": 0,
+      "impressions": 1
+    },
+    {
+      "date": "2026-07-05",
+      "clicks": 0,
+      "impressions": 3
+    },
+    {
+      "date": "2026-07-06",
+      "clicks": 0,
+      "impressions": 6
+    },
+    {
+      "date": "2026-07-07",
+      "clicks": 0,
+      "impressions": 3
+    },
+    {
+      "date": "2026-07-08",
+      "clicks": 1,
+      "impressions": 7
+    },
+    {
+      "date": "2026-07-09",
+      "clicks": 0,
+      "impressions": 6
+    },
+    {
+      "date": "2026-07-10",
+      "clicks": 0,
+      "impressions": 6
+    },
+    {
+      "date": "2026-07-11",
+      "clicks": 0,
+      "impressions": 4
+    },
+    {
+      "date": "2026-07-12",
+      "clicks": 0,
+      "impressions": 2
+    },
+    {
+      "date": "2026-07-13",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-07-14",
+      "clicks": 0,
+      "impressions": 0
+    },
+    {
+      "date": "2026-07-15",
+      "clicks": 0,
+      "impressions": 0
+    }
+  ],
+  "productWeekly": [
+    {
+      "product": "blog",
+      "weeks": [
+        {
+          "weekStart": "2026-06-22",
+          "pageViews": 0
+        },
+        {
+          "weekStart": "2026-06-29",
+          "pageViews": 10
+        },
+        {
+          "weekStart": "2026-07-06",
+          "pageViews": 48
+        },
+        {
+          "weekStart": "2026-07-13",
+          "pageViews": 19
+        }
+      ]
+    },
+    {
+      "product": "site",
+      "weeks": [
+        {
+          "weekStart": "2026-06-22",
+          "pageViews": 12
+        },
+        {
+          "weekStart": "2026-06-29",
+          "pageViews": 21
+        },
+        {
+          "weekStart": "2026-07-06",
+          "pageViews": 90
+        },
+        {
+          "weekStart": "2026-07-13",
+          "pageViews": 22
+        }
+      ]
+    }
+  ],
+  "allTime": {
+    "pageViews": 640,
+    "sessions": 321
   }
 }

@@ -1,0 +1,248 @@
+---
+// Two small-multiple SVGs, never a dual-axis chart: impressions (line) and clicks
+// (bars) each get their own tiny y-scale. Geometry math lives in chart-math.ts
+// (unit tested); this file wires that math into markup + a small hover script.
+import { scaleLinear, niceCeiling, buildLinePath, pickTickIndices, formatTickLabel, niceTicks } from './chart-math';
+import EmptyPanel from './EmptyPanel.astro';
+
+interface DailySearchPoint {
+  date: string;
+  clicks: number;
+  impressions: number;
+}
+
+interface Props {
+  daily?: DailySearchPoint[];
+}
+
+const { daily } = Astro.props;
+const length = daily?.length ?? 0;
+
+const height = 120;
+const marginLeft = 28;
+const marginRight = 6;
+const marginTop = 8;
+const marginBottom = 18;
+const chartHeight = height - marginTop - marginBottom;
+
+// impressions (line)
+const impChartWidth = 264;
+const impWidth = impChartWidth + marginLeft + marginRight;
+const impMax = length ? niceCeiling(Math.max(...daily!.map((d) => d.impressions))) : 0;
+const impYScale = scaleLinear([0, impMax], [chartHeight, 0]);
+const impXForIndex = (i: number) => (length > 1 ? marginLeft + (impChartWidth * i) / (length - 1) : marginLeft);
+const impPoints = daily?.map((d, i) => ({ x: impXForIndex(i), y: marginTop + impYScale(d.impressions) })) ?? [];
+const impPath = buildLinePath(impPoints);
+const impGridlines = niceTicks(impMax, 3).map((value) => ({ y: marginTop + impYScale(value), value }));
+const impTickIndices = length ? pickTickIndices(length, 4) : [];
+
+// clicks (bars)
+const barWidth = 4;
+const barGap = 2;
+const clkChartWidth = length ? length * (barWidth + barGap) - barGap : 0;
+const clkWidth = clkChartWidth + marginLeft + marginRight;
+const clkMax = length ? niceCeiling(Math.max(...daily!.map((d) => d.clicks))) : 0;
+const clkYScale = scaleLinear([0, clkMax], [chartHeight, 0]);
+const bars = daily?.map((d, i) => {
+  const y = marginTop + clkYScale(d.clicks);
+  return {
+    x: marginLeft + i * (barWidth + barGap),
+    y,
+    barHeight: chartHeight - clkYScale(d.clicks),
+    date: formatTickLabel(d.date),
+    clicks: d.clicks,
+  };
+}) ?? [];
+const clkGridlines = niceTicks(clkMax, 3).map((value) => ({ y: marginTop + clkYScale(value), value }));
+const clkTickIndices = length ? pickTickIndices(length, 4) : [];
+---
+
+<div class="chart-panel">
+  <span class="chart-panel-label">// search (28d)</span>
+
+  {length === 0 ? (
+    <EmptyPanel label="gathering signal — not enough search data yet" />
+  ) : (
+    <div class="search-multiples">
+      <div class="multiple">
+        <span class="multiple-title">impressions</span>
+        <div class="chart-wrap">
+          <svg viewBox={`0 0 ${impWidth} ${height}`} preserveAspectRatio="none" role="img" aria-label="Search impressions over the last 28 days">
+            {impGridlines.map((g) => (
+              <>
+                <line class="gridline" x1={marginLeft} y1={g.y} x2={impWidth - marginRight} y2={g.y} />
+                <text class="axis-label" x={marginLeft - 4} y={g.y} text-anchor="end" dominant-baseline="middle">{g.value}</text>
+              </>
+            ))}
+            {impTickIndices.map((i) => (
+              <text class="axis-label" x={impXForIndex(i)} y={height - 4} text-anchor={i === length - 1 ? 'end' : 'middle'}>{formatTickLabel(daily![i].date)}</text>
+            ))}
+            <path class="series-line series-line--search" d={impPath} fill="none" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="multiple">
+        <span class="multiple-title">clicks</span>
+        <div class="chart-wrap" data-clicks-chart>
+          <svg viewBox={`0 0 ${clkWidth} ${height}`} preserveAspectRatio="none" role="img" aria-label="Search clicks over the last 28 days">
+            {clkGridlines.map((g) => (
+              <>
+                <line class="gridline" x1={marginLeft} y1={g.y} x2={clkWidth - marginRight} y2={g.y} />
+                <text class="axis-label" x={marginLeft - 4} y={g.y} text-anchor="end" dominant-baseline="middle">{g.value}</text>
+              </>
+            ))}
+            {clkTickIndices.map((i) => (
+              <text class="axis-label" x={marginLeft + i * (barWidth + barGap) + barWidth / 2} y={height - 4} text-anchor={i === length - 1 ? 'end' : 'middle'}>{formatTickLabel(daily![i].date)}</text>
+            ))}
+            {bars.map((b) => (
+              <rect
+                class="click-bar"
+                x={b.x}
+                y={b.y}
+                width={barWidth}
+                height={b.barHeight}
+                rx="2"
+                ry="2"
+                data-date={b.date}
+                data-clicks={b.clicks}
+              />
+            ))}
+          </svg>
+          <div class="chart-tooltip" hidden></div>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
+
+<script>
+  function wireClicksCharts(): void {
+    const charts = document.querySelectorAll<HTMLElement>('[data-clicks-chart]');
+    charts.forEach((wrap) => {
+      const svg = wrap.querySelector('svg');
+      const tooltip = wrap.querySelector<HTMLElement>('.chart-tooltip');
+      const viewBoxWidth = svg?.viewBox.baseVal.width || 1;
+      if (!tooltip) return;
+
+      wrap.querySelectorAll<SVGRectElement>('.click-bar').forEach((bar) => {
+        bar.addEventListener('mouseenter', () => {
+          const x = Number(bar.getAttribute('x')) + Number(bar.getAttribute('width')) / 2;
+          tooltip.hidden = false;
+          tooltip.innerHTML = `<strong>${bar.dataset.date}</strong><span>clicks: ${bar.dataset.clicks}</span>`;
+          const pct = Math.min(92, Math.max(8, (x / viewBoxWidth) * 100));
+          tooltip.style.left = `${pct}%`;
+        });
+        bar.addEventListener('mouseleave', () => {
+          tooltip.hidden = true;
+        });
+      });
+    });
+  }
+
+  wireClicksCharts();
+</script>
+
+<style>
+  .chart-panel {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-panel-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .search-multiples {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .multiple {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .multiple-title {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.4rem;
+  }
+
+  .chart-wrap {
+    position: relative;
+    overflow-x: auto;
+  }
+
+  .chart-wrap svg {
+    display: block;
+    width: 100%;
+    min-width: 220px;
+    height: auto;
+  }
+
+  .gridline {
+    stroke: var(--color-border);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+
+  .axis-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: var(--color-muted);
+  }
+
+  .series-line--search {
+    stroke: var(--color-series-search);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .click-bar {
+    fill: var(--color-series-search);
+    cursor: crosshair;
+  }
+
+  .chart-tooltip {
+    position: absolute;
+    top: 0.25rem;
+    transform: translateX(-50%);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-hover);
+    border-radius: 0.35rem;
+    padding: 0.35rem 0.55rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--color-text-secondary);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  .chart-tooltip[hidden] {
+    display: none;
+  }
+
+  .chart-tooltip strong {
+    color: var(--color-text);
+    font-weight: 700;
+  }
+</style>

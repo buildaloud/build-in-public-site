@@ -1,0 +1,51 @@
+---
+// Tiny inline per-post trend line. Geometry math (scale, path) lives in
+// chart-math.ts (unit tested); this file only wires it into markup.
+import { scaleLinear, buildLinePath } from './chart-math';
+
+interface Props {
+  dailyViews?: number[];
+}
+
+const { dailyViews } = Astro.props;
+const values = dailyViews ?? [];
+const hasSignal = values.some((v) => v > 0);
+
+const width = 120;
+const height = 28;
+const padding = 3;
+const max = Math.max(0, ...values);
+const yScale = scaleLinear([0, max], [height - padding, padding]);
+const xForIndex = (i: number) => (values.length > 1 ? (i * width) / (values.length - 1) : 0);
+const points = values.map((v, i) => ({ x: xForIndex(i), y: yScale(v) }));
+const path = buildLinePath(points);
+const last = points[points.length - 1];
+---
+
+{hasSignal ? (
+  <svg class="spark" width={width} height={height} viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Daily views trend, last 28 days">
+    <path d={path} fill="none" />
+    {last && <circle cx={last.x} cy={last.y} r="2.5" />}
+  </svg>
+) : (
+  <span class="spark-empty">no signal yet</span>
+)}
+
+<style>
+  .spark path {
+    stroke: var(--color-series-views);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .spark circle {
+    fill: var(--color-series-views);
+  }
+
+  .spark-empty {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--color-muted);
+  }
+</style>

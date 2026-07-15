@@ -1,0 +1,150 @@
+---
+// Small-multiple weekly bar chart per product/surface. Each multiple scales
+// independently (own max). Geometry math lives in chart-math.ts (unit tested);
+// this file only wires that math into markup — no interactivity, static bars.
+import { scaleLinear, niceCeiling, formatTickLabel, pickTickIndices } from './chart-math';
+import EmptyPanel from './EmptyPanel.astro';
+
+interface WeeklyPoint {
+  weekStart: string;
+  pageViews: number;
+}
+
+interface ProductWeekly {
+  product: string;
+  weeks: WeeklyPoint[];
+}
+
+interface Props {
+  productWeekly?: ProductWeekly[];
+}
+
+const { productWeekly } = Astro.props;
+const products = productWeekly ?? [];
+
+const height = 96;
+const marginTop = 8;
+const marginBottom = 20;
+const chartHeight = height - marginTop - marginBottom;
+const barWidth = 26;
+const barGap = 4;
+
+const GENERIC_PRODUCT_NAMES = new Set(['blog', 'site']);
+const genericOnly = products.length > 0 && products.every((p) => GENERIC_PRODUCT_NAMES.has(p.product.toLowerCase()));
+
+const multiples = products.map((p) => {
+  const chartWidth = p.weeks.length * barWidth + Math.max(0, p.weeks.length - 1) * barGap;
+  const max = niceCeiling(Math.max(0, ...p.weeks.map((w) => w.pageViews)));
+  const yScale = scaleLinear([0, max], [chartHeight, 0]);
+  // Full-width labels on every bar collide at this bar pitch — thin to roughly
+  // half the bars (always keeping the first + last) via the same tested
+  // index-picker the time-axis charts use.
+  const labelCount = Math.min(p.weeks.length, Math.max(2, Math.ceil(p.weeks.length / 2)));
+  const labelIndices = new Set(pickTickIndices(p.weeks.length, labelCount));
+  const lastIndex = p.weeks.length - 1;
+  const bars = p.weeks.map((w, i) => ({
+    x: i * (barWidth + barGap),
+    y: marginTop + yScale(w.pageViews),
+    barHeight: chartHeight - yScale(w.pageViews),
+    label: formatTickLabel(w.weekStart),
+    showLabel: labelIndices.has(i),
+    labelAnchor: i === 0 ? 'start' : i === lastIndex ? 'end' : 'middle',
+    pageViews: w.pageViews,
+  }));
+  return { product: p.product, chartWidth, bars };
+});
+---
+
+<div class="chart-panel">
+  <span class="chart-panel-label">// by surface (weekly)</span>
+
+  {products.length === 0 ? (
+    <EmptyPanel label="gathering signal — not enough surface data yet" />
+  ) : (
+    <>
+      <div class="surface-multiples">
+        {multiples.map((m) => (
+          <div class="multiple">
+            <span class="multiple-title">{m.product}</span>
+            <svg viewBox={`0 0 ${m.chartWidth} ${height}`} preserveAspectRatio="xMinYMid meet" role="img" aria-label={`Weekly page views for ${m.product}`}>
+              {m.bars.map((b) => (
+                <>
+                  <rect class="surface-bar" x={b.x} y={b.y} width={barWidth} height={b.barHeight} rx="4" ry="4" />
+                  {b.showLabel && (
+                    <text class="axis-label" x={b.x + barWidth / 2} y={height - 4} text-anchor={b.labelAnchor}>{b.label}</text>
+                  )}
+                </>
+              ))}
+            </svg>
+          </div>
+        ))}
+      </div>
+      {genericOnly && (
+        <p class="surface-note">// only site-wide traffic split available — no per-project breakdown yet</p>
+      )}
+    </>
+  )}
+</div>
+
+<style>
+  .chart-panel {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-panel-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .surface-multiples {
+    display: flex;
+    gap: 1.75rem;
+    flex-wrap: wrap;
+    overflow-x: auto;
+  }
+
+  .multiple {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .multiple-title {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+  }
+
+  .multiple svg {
+    display: block;
+    height: 6rem;
+    width: auto;
+  }
+
+  .surface-bar {
+    fill: var(--color-series-views);
+  }
+
+  .axis-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    fill: var(--color-muted);
+  }
+
+  .surface-note {
+    margin-top: 0.9rem;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-muted);
+  }
+</style>

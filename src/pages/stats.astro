@@ -3,8 +3,22 @@ import { getCollection } from 'astro:content';
 import { isPublished } from '../utils/posts';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostStats from '../components/PostStats.astro';
+import TrafficChart from '../components/charts/TrafficChart.astro';
+import SearchPanel from '../components/charts/SearchPanel.astro';
+import SurfacePanel from '../components/charts/SurfacePanel.astro';
 import { getPostStats, getRollup, getSiteMetrics, getStatsAsOf } from '../utils/post-stats';
 import { formatDateShort } from '../utils/dates';
+import rawStats from '../data/stats.json';
+
+// Pinned-contract fields the stats:pull side is adding — read defensively via a
+// local type extension (not on StatsSnapshot yet) so this page builds fine
+// whether or not that side has landed them.
+type StatsExtras = {
+  dailySite?: { date: string; pageViews: number; sessions: number }[];
+  dailySearch?: { date: string; clicks: number; impressions: number }[];
+  productWeekly?: { product: string; weeks: { weekStart: string; pageViews: number }[] }[];
+};
+const extras = rawStats as unknown as StatsExtras;
 
 const posts = (await getCollection('blog', ({ data }) => isPublished(data)))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
@@ -51,6 +65,10 @@ const siteVitals = [
         ))}
       </div>
     </div>
+
+    <TrafficChart daily={extras.dailySite} />
+    <SearchPanel daily={extras.dailySearch} />
+    <SurfacePanel productWeekly={extras.productWeekly} />
 
     <span class="rollup-caption">// posts only (28d)</span>
     <div class="rollup">

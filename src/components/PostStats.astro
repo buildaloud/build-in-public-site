@@ -1,5 +1,11 @@
 ---
 import type { PostStat, Scorecard } from '../../scripts/stats/post-stats';
+import Sparkline from './charts/Sparkline.astro';
+
+// dailyViews is a pinned-contract field the stats:pull side is adding to
+// PostStat; not yet declared on the shared type, so read it defensively —
+// absent on any snapshot generated before that field lands.
+type PostStatWithDaily = PostStat & { dailyViews?: number[] };
 
 interface Props {
   stat: PostStat | null;
@@ -7,6 +13,7 @@ interface Props {
 }
 
 const { stat, variant } = Astro.props;
+const dailyViews = (stat as PostStatWithDaily | null)?.dailyViews;
 
 type Tone = 'hit' | 'miss' | 'unknown';
 
@@ -40,6 +47,7 @@ const ctr = stat && stat.ctr > 0 ? `${(stat.ctr * 100).toFixed(1)}%` : '0%';
     <div class="tele-hero">
       <span class="tele-num">{stat.pageviews.toLocaleString()}</span>
       <span class="tele-unit">view{stat.pageviews === 1 ? '' : 's'}<span class="tele-window">28d</span></span>
+      <span class="tele-spark"><Sparkline dailyViews={dailyViews} /></span>
     </div>
     <div class="tele-rule" aria-hidden="true"></div>
     <dl class="tele-grid">
@@ -115,6 +123,13 @@ const ctr = stat && stat.ctr > 0 ? `${(stat.ctr * 100).toFixed(1)}%` : '0%';
     display: flex;
     align-items: baseline;
     gap: 0.55rem;
+    flex-wrap: wrap;
+  }
+
+  .tele-spark {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
   }
 
   .tele-num {

@@ -26,6 +26,7 @@ or `ticket-kit serve` for a live board.
 | [TD-0011](TD-0011-micropreneur-post.md) | publish the micropreneur machine post | open | P2 | 95 | marketing |
 | [TD-0034](TD-0034-portable-review-army-provider-agnostic-dispatch.md) | Portable review-army: provider-agnostic dispatch to run the pipeline on a second ship (Codex/GPT) | open | P3 | 85 | content |
 | [TD-0035](TD-0035-generation-side-learner-feed-recurring-confirmed.md) | Generation-side learner: feed recurring confirmed review findings back into the drafter/outline-builder | open | P3 | 100 | content |
+| [TD-0036](TD-0036-agentic-content-pipeline-post-v1-follow-ups-from.md) | agentic-content-pipeline: post-v1 follow-ups from the ship-gate review | open | P3 | 100 | content |
 | [TD-0003](TD-0003-expense-tracking-v0.md) | expense tracking v0 (private ledger + monthly ritual) | in-progress | P0 | 20 | operations |
 | [TD-0020](TD-0020-lifecycle-cli.md) | 'lifecycle CLI: product up/down/status at the push of a button' | in-progress | P1 | 15 | build |
 | [TD-0028](TD-0028-post-and-paragraph-formulas-section-review-agent.md) | 'post + paragraph formulas + a per-section impact-review agent for the content pipeline' | in-progress | P1 | 18 | content |

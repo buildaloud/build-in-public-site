@@ -5,11 +5,16 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { JWT } from 'google-auth-library';
 import { scanFrontmatter } from './frontmatter-scan';
-import { shapePostStats, assertJoinHealth, slugFromFilename, type GscPageRow, type GscQueryRow, type Ga4Row, type LikeRow } from './post-stats';
+import {
+  shapePostStats, assertJoinHealth, slugFromFilename,
+  lastNDates, ga4DateToIso, shapeDailySite, shapeDailySearch, joinDailyViewsBySlug, lastNIsoWeekStarts, shapeProductWeekly,
+  type GscPageRow, type GscQueryRow, type Ga4Row, type LikeRow, type Ga4DatePathRow,
+} from './post-stats';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '../../src/data/stats.json');
 const BLOG_DIR = join(dirname(fileURLToPath(import.meta.url)), '../../src/content/blog');
 const WINDOW = { startDate: '28daysAgo', endDate: 'today' };
+const ALL_TIME_WINDOW = { startDate: '2020-01-01', endDate: 'today' }; // GA4 property created ~2026-06
 const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 const SC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
 
@@ -137,6 +142,99 @@ async function pullGA4PerPath(creds: ReturnType<typeof loadCredentials>): Promis
     window: WINDOW,
     rows: rawRows.map((r) => ({ path: r.dimensionValues?.[0]?.value ?? '', pageviews: Number(r.metricValues?.[0]?.value ?? 0) })),
   };
+}
+
+type Ga4DailyRow = { date: string; pageViews: number; sessions: number };
+
+async function pullGA4Daily(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: Ga4DailyRow[] }> {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set', rows: [] };
+  if (!propertyId) return { available: false, reason: 'GA4_PROPERTY_ID not set (numeric property id, not the G- measurement id)', rows: [] };
+  const bearer = await token(creds, GA_SCOPE);
+  const body = {
+    dateRanges: [WINDOW],
+    dimensions: [{ name: 'date' }],
+    metrics: [{ name: 'screenPageViews' }, { name: 'sessions' }],
+  };
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) return { available: false, reason: `GA4 API ${res.status}: ${(await res.text()).slice(0, 200)}`, rows: [] };
+  const data = await res.json();
+  const rawRows = (data?.rows ?? []) as { dimensionValues: { value: string }[]; metricValues: { value: string }[] }[];
+  return {
+    available: true,
+    window: WINDOW,
+    rows: rawRows.map((r) => ({
+      date: ga4DateToIso(r.dimensionValues?.[0]?.value ?? ''),
+      pageViews: Number(r.metricValues?.[0]?.value ?? 0),
+      sessions: Number(r.metricValues?.[1]?.value ?? 0),
+    })),
+  };
+}
+
+// Date+pagePath, unfiltered (all paths, not just /blog/) — feeds BOTH the
+// per-post byPost[].dailyViews join (blog paths only, via isBlogPath inside
+// joinDailyViewsBySlug) and productWeekly's "site" bucket, which needs
+// non-blog paths too.
+async function pullGA4PerPathDaily(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: Ga4DatePathRow[] }> {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set', rows: [] };
+  if (!propertyId) return { available: false, reason: 'GA4_PROPERTY_ID not set (numeric property id, not the G- measurement id)', rows: [] };
+  const bearer = await token(creds, GA_SCOPE);
+  const body = {
+    dateRanges: [WINDOW],
+    dimensions: [{ name: 'date' }, { name: 'pagePath' }],
+    metrics: [{ name: 'screenPageViews' }],
+    limit: 10000,
+  };
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) return { available: false, reason: `GA4 API ${res.status}: ${(await res.text()).slice(0, 200)}`, rows: [] };
+  const data = await res.json();
+  const rawRows = (data?.rows ?? []) as { dimensionValues: { value: string }[]; metricValues: { value: string }[] }[];
+  return {
+    available: true,
+    window: WINDOW,
+    rows: rawRows.map((r) => ({
+      date: ga4DateToIso(r.dimensionValues?.[0]?.value ?? ''),
+      path: r.dimensionValues?.[1]?.value ?? '',
+      pageviews: Number(r.metricValues?.[0]?.value ?? 0),
+    })),
+  };
+}
+
+async function pullSearchConsoleDaily(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: { date: string; clicks: number; impressions: number }[] }> {
+  const result = await querySearchConsole(creds, ['date'], 100, (r) => ({
+    date: r.keys[0], clicks: r.clicks ?? 0, impressions: r.impressions ?? 0,
+  }));
+  if (!result.available) return { ...result, rows: [] };
+  return { available: true, window: { startDate: daysAgo(28), endDate: daysAgo(0) }, rows: result.rows };
+}
+
+async function pullGA4LifetimeTotal(creds: ReturnType<typeof loadCredentials>): Promise<Source & { pageViews: number; sessions: number }> {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set', pageViews: 0, sessions: 0 };
+  if (!propertyId) return { available: false, reason: 'GA4_PROPERTY_ID not set (numeric property id, not the G- measurement id)', pageViews: 0, sessions: 0 };
+  const bearer = await token(creds, GA_SCOPE);
+  const body = {
+    dateRanges: [ALL_TIME_WINDOW],
+    metrics: [{ name: 'screenPageViews' }, { name: 'sessions' }],
+  };
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) return { available: false, reason: `GA4 API ${res.status}: ${(await res.text()).slice(0, 200)}`, pageViews: 0, sessions: 0 };
+  const data = await res.json();
+  const vals = data?.rows?.[0]?.metricValues?.map((v: { value: string }) => Number(v.value)) ?? [0, 0];
+  return { available: true, window: ALL_TIME_WINDOW, pageViews: vals[0] ?? 0, sessions: vals[1] ?? 0 };
 }
 
 async function pullButtondown(): Promise<Source> {
@@ -300,7 +398,7 @@ function factorySecret(name: string): string | undefined {
   }
 }
 
-  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes] = await Promise.all([
+  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes, ga4Daily, ga4PerPathDaily, searchConsoleDaily, ga4LifetimeTotal] = await Promise.all([
     safe('ga4', () => pullGA4(creds)),
     safe('searchConsole', () => pullSearchConsole(creds)),
     safe('buttondown', () => pullButtondown()),
@@ -313,6 +411,10 @@ function factorySecret(name: string): string | undefined {
     safe('gscPageQuery', () => pullSearchConsolePerPageQuery(creds)),
     safe('ga4PerPath', () => pullGA4PerPath(creds)),
     safe('postLikes', () => pullPostLikes()),
+    safe('ga4Daily', () => pullGA4Daily(creds)),
+    safe('ga4PerPathDaily', () => pullGA4PerPathDaily(creds)),
+    safe('searchConsoleDaily', () => pullSearchConsoleDaily(creds)),
+    safe('ga4LifetimeTotal', () => pullGA4LifetimeTotal(creds)),
   ]);
 
   const blogFiles = readdirSync(BLOG_DIR)
@@ -324,6 +426,27 @@ function factorySecret(name: string): string | undefined {
   const ga4PathRows = 'rows' in ga4PerPath ? (ga4PerPath.rows as Ga4Row[]) : [];
   const likeRows = 'rows' in postLikes ? (postLikes.rows as LikeRow[]) : [];
   const shaped = shapePostStats(eligiblePosts, gscPageRows, gscQueryRows, ga4PathRows, likeRows);
+
+  const dates = lastNDates(28);
+  const weekStarts = lastNIsoWeekStarts(4);
+  const ga4PerPathDailyRows = 'rows' in ga4PerPathDaily ? (ga4PerPathDaily.rows as Ga4DatePathRow[]) : [];
+  const dailyViewsBySlug = joinDailyViewsBySlug(dates, ga4PerPathDailyRows);
+  for (const slug of Object.keys(shaped.byPost)) {
+    shaped.byPost[slug].dailyViews = dailyViewsBySlug[slug] ?? dates.map(() => 0);
+  }
+
+  const ga4DailyRows = 'rows' in ga4Daily ? (ga4Daily.rows as { date: string; pageViews: number; sessions: number }[]) : [];
+  const dailySite = ga4Daily.available ? shapeDailySite(dates, ga4DailyRows) : undefined;
+
+  const searchConsoleDailyRows = 'rows' in searchConsoleDaily ? (searchConsoleDaily.rows as { date: string; clicks: number; impressions: number }[]) : [];
+  const dailySearch = searchConsoleDaily.available ? shapeDailySearch(dates, searchConsoleDailyRows) : undefined;
+
+  const productWeekly = ga4PerPathDaily.available ? shapeProductWeekly(weekStarts, ga4PerPathDailyRows) : undefined;
+
+  const allTime = 'pageViews' in ga4LifetimeTotal && ga4LifetimeTotal.available
+    ? { pageViews: ga4LifetimeTotal.pageViews as number, sessions: ga4LifetimeTotal.sessions as number }
+    : undefined;
+
   let postStats: Source & { window: typeof WINDOW; meta: { unmatchedRows: typeof shaped.unmatched; totalRows: number }; byPost: typeof shaped.byPost };
   try {
     assertJoinHealth(shaped.unmatched, shaped.totalRows);
@@ -348,10 +471,17 @@ function factorySecret(name: string): string | undefined {
     };
   }
 
-  const snapshot = { generatedAt: new Date().toISOString(), ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, postStats };
+  const snapshot = {
+    generatedAt: new Date().toISOString(),
+    ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, postStats,
+    dailySite, dailySearch, productWeekly, allTime,
+  };
   writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`wrote ${OUT}`);
-  for (const [k, v] of Object.entries({ ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes })) {
+  for (const [k, v] of Object.entries({
+    ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes,
+    ga4Daily, ga4PerPathDaily, searchConsoleDaily, ga4LifetimeTotal,
+  })) {
     console.log(v.available ? `  ${k}: ok` : `  ${k}: skipped — ${v.reason}`);
   }
   console.log(
