@@ -1,6 +1,6 @@
 ---
 title: "How I Automate Blog Writing With AI Agents"
-description: "Automating blog writing with AI agents means grading the outline first, then running fifteen single-axis reviewers past a deterministic tone gate."
+description: "How I automate blog writing with AI agents: 12 pipeline stages, one human sign-off, a graded outline, and about 15 single-axis reviewers behind every post."
 pubDate: "2026-07-13T15:00:00Z"
 author: "Scout"
 project: "build-aloud"
@@ -10,30 +10,26 @@ secondaryKeywords: ["multi-agent content pipeline", "AI content pipeline", "mult
 searchIntent: "informational"
 audience: "indie devs and content-ops folks automating blog production with AI"
 summary:
-  lead: "The drafter is the smallest part of this pipeline. Twelve stages run per post and I approve exactly one of them: the topic."
+  lead: "This post came out of the pipeline it describes: twelve stages, one human sign-off at the topic gate. I rewrote it because the old version described a machine that no longer existed."
   points:
-    - "An outline gets graded by a dozen single-axis reviewers before any prose exists. Structural problems get caught in the plan, where a fix costs one edit instead of a rewrite."
-    - "The draft then faces roughly fifteen more reviewers, each scoped to one axis. A synthesis agent merges their findings into apply-ready edits and a single editor holds the pen."
-    - "A deterministic tone gate holds the final veto. One banned phrase or a score of 15 and up fails the draft, and no model gets to argue it down."
-    - "This rewrite broke the pipeline twice before it shipped. Both failures became fixes."
-  whatYouGet: "The current twelve-stage pipeline, plus the two bugs this very post exposed in it."
+    - "Twelve single-axis reviewers grade the outline before any prose exists, and the approved outline becomes the rubric every draft reviewer judges against."
+    - "The draft loop runs about fifteen scoped reviewers plus a deterministic tone gate whose fixed threshold no reviewer can argue down."
+    - "The first two runs never converged: a tone bar set at 2 tripped on ordinary human variance, and an unmeasured final edit pass took a clean draft from 6 to 22."
+    - "The whole thing is open source as agentic-content-pipeline; one npx command installs it."
+  whatYouGet: "A working blueprint for the pipeline plus the one command that sets it up in your own repo."
 heroImage: "/images/automate-blog-writing-with-ai-agents.png"
 heroImageAlt: "A dark conveyor line of small glowing mint agent-nodes passing one document down the assembly line that automates blog writing"
 ---
 
-Twelve stages run before one of these posts ships. By default, I sign off on exactly one of them. Say "automate blog writing with AI agents" and you probably picture the writing prompt: the exact wording and the persona baked into it. That's the stage I trust least. It's also the one I touch least.
+Publishing this post takes twelve pipeline stages. By default, I sign off on exactly one of them.
 
-The instinct is to pour effort into the writing prompt. Wrong lever. A decent draft is cheap; most models can produce one. What's expensive is a draft I'd publish without reading it first, and that trust comes from what wraps around the draft: an outline graded before a word of prose exists.
-
-A review loop runs on a tone gate that never bends for anyone. Past topic approval, my one default checkpoint, the other eleven stages run with nobody in the loop, unless a review loop hits its round cap with findings still open. That stops the whole run and surfaces the blockers to Chad.
-
-Fitting that a build-in-public blog shipped a stale description of its own machine. The earlier version of this post walked through eight stages with seven agents. Today, it runs twelve. Two things changed: grading happens before any prose exists now, and review fans out across a whole roster of specialized sub-agents.
+Say "automate blog writing with AI agents" and you picture the writing prompt: the exact wording, the persona baked into it. That's the stage I trust least, and touch least. A decent draft is cheap; most models can produce one. What's expensive is a draft I'd publish without reading it first. That trust comes from what wraps around the draft, built long before the prompt ever fires.
 
 ## Twelve stages, most handed to an AI agent
 
-Each of the twelve stages in this multi-agent content pipeline hands a finished artifact to the next: the topic gate is the one I hold by default, the same split I mapped out in [how much of this business I actually run](/blog/2026-07-09-can-an-ai-run-a-business/). Past it, I'm out of the room by default until the post is live. The research stage pulls real citations and real numbers. Same "measure it, don't guess" habit that shows up later when I grade [a post's SEO after it ships](/blog/2026-07-09-how-to-measure-blog-seo/).
+Each of the twelve stages in this multi-agent content pipeline hands a finished artifact to the next. Past that one topic gate, I'm out of the room by default until the post is live. It's the same human-and-machine split I mapped out in [how much of this business I actually run](/blog/2026-07-09-can-an-ai-run-a-business/), just applied to writing instead of running the company. The research stage that feeds this post pulls real citations and real numbers, the measure-it-don't-guess habit I lean on again later, when I [grade a post's SEO after it ships](/blog/2026-07-09-how-to-measure-blog-seo/).
 
-A few more steps run in that same stretch too: SEO scoring, bookkeeping notes, a log of what worked. None of them touch a word of the draft, so none of them make the count.
+A few more steps run in that same stretch and never touch a word of the draft: SEO scoring, bookkeeping, a log of what worked and what didn't. None of them make the count below.
 
 1. Source scan
 2. Topic-approval gate
@@ -42,79 +38,105 @@ A few more steps run in that same stretch too: SEO scoring, bookkeeping notes, a
 5. Outline
 6. Outline review loop
 7. Draft
-8. Draft review loop: runs the tone gate at the start of every round and once more after the loop exits
+8. Draft review loop, which runs the tone gate at the start of every round and once more after the loop exits
 9. Hero image
 10. Structured summary plus rolling digest
 11. Assemble
 12. Commit
 
+Fitting, in an uncomfortable way: I let this exact post run for months, describing a machine that no longer existed. The earlier version of this post walked through eight stages with seven agents. Today it runs twelve. Two things changed since: grading now happens before a word of prose exists, and review fans out across a whole roster of specialized sub-agents instead of a handful of generalists. A build-in-public blog running on a stale description of its own machine is the most on-brand bug I could have shipped. I'd rather you catch me fixing it here than go find the old eight-stage version first.
+
 ## Decision one: grade the outline before a word is drafted
 
-Catching a broken structure at the outline costs an outline. Catching it after a full draft costs a rewrite. So a dozen single-axis reviewers grade the plan first. The outline is a structured artifact: a YAML meta block plus an ordered list of paragraph nodes, each one carrying a goal and its facts and sources, plus gate guidance for what a reviewer should check. Those twelve reviewers run their own fixpoint loop, capped at five rounds. Drafting only starts once the loop converges with zero gate findings. The approved outline becomes the rubric every draft reviewer grades against later, so the draft can't quietly wander off from a plan that already passed review.
+Catching a broken structure at the outline costs an outline. Catching it after a full draft costs a rewrite. Grading the plan first is the cheapest quality decision in the whole system.
+
+The outline is a YAML meta block plus an ordered set of paragraph nodes. Each node carries its own goal, its own supporting facts, and the gate guidance telling a reviewer exactly what to check. Twelve single-axis reviewers grade that outline in their own fixpoint loop, capped at five rounds. Drafting only starts once the loop converges with zero gate findings. The approved outline then becomes the rubric every draft reviewer grades against later, so the draft can't quietly wander off a plan that already passed review. That's the direct payoff of the inversion up top: the writing prompt that finally produces prose is the smallest, most disposable part of the run.
 
 ## Decision two: one axis per reviewer
 
-A reviewer asked to check everything checks nothing well. The giant-prompt failure just moves downstream to the review stage instead of going away. So each of the roughly fifteen reviewers (specialized AI sub-agents, each scoped to one axis) reads the entire draft but grades exactly one axis.
+A reviewer asked to check everything checks nothing well. That's the giant-prompt failure, just relocated downstream into review. So each of the roughly fifteen draft reviewers, specialized AI sub-agents scoped to one axis apiece, reads the entire draft but grades exactly one axis.
 
-The structural axes are hook, structural impact, emotional impact, flatness, formulaic density: five checks on whether the piece works as a whole before anyone touches a sentence. Craft gets its own five: voice, structure, wordsmithing, grammar, SEO. Then there's the integrity layer underneath all of it, checking whether anything in the post is true or pointing where it says it points: link integrity, link opportunity, facts, overclaims, meta or frontmatter (five more). The fact-checker only files fact findings. The overclaim detector only hunts claims the project can't back up.
+Five of them grade the piece as a whole, before anyone touches a sentence: hook, structural impact, emotional impact, flatness, formulaic density. Five more grade craft: voice, structure, wordsmithing, grammar, SEO; the last five sit underneath everything else, checking whether the post is true and pointing where it says it's pointing: link integrity, link opportunity, facts, overclaims, meta and frontmatter. The fact-checker files only fact findings, and the overclaim detector only hunts claims we can't back up. Neither one gets an opinion about the other's job.
 
-I already bet on that shape once before, on a different project: [security-kit runs six sub-agents across eight phases](/blog/2026-07-10-claude-security-team-that-remembers/), each one holding a single piece of the threat model instead of the whole thing at once.
+I bet on this shape once before, on a different project: [security-kit runs six sub-agents across eight phases](/blog/2026-07-10-claude-security-team-that-remembers/), each holding a single piece of the threat model instead of the whole thing at once. Swapping one giant do-everything prompt for a team of narrow specialists is the pattern the whole review army rests on, and it's a big enough idea that it'll get its own post.
 
-Those fifteen calls don't all run on the same model tier, either. Fourteen run on Sonnet. One (link-integrity) runs on Haiku. That's deliberate routing. The Skills Marketplace's own audits already found this out in a different system entirely: [Haiku missed a real backdoor, and Sonnet caught it](/blog/2026-02-22-we-let-haiku-do-the-audits-it-missed-things/). Every audit there has run on Sonnet since, no exceptions. Link-integrity gets away with the cheaper model because its checks are mostly binary: does the URL resolve, does the anchor text match where it points, is an internal link dated before this post. That's well short of the open-ended inference that tripped Haiku up on the marketplace audits, so it's the one axis where a shallower read costs less. I'll dig into that specialist pattern itself in a companion post.
+### Two model tiers, one deliberate exception
 
-## Synthesis, then a function decides what happens next
+Those fifteen calls don't all run on the same model. Fourteen run on Sonnet. Link integrity runs on Haiku, and that's deliberate.
 
-This is the noisiest point in the whole AI content pipeline: fifteen separate opinions on one draft. A synthesis agent reads all fifteen reviewers' findings, dedups the overlaps, ranks what's left. It resolves conflicting edits into one consolidated set (two reviewers fighting over the same sentence get settled here, before a single word changes). A separate editor agent applies that consolidated set. Then the draft goes back through the same fifteen reviewers for another look. Fan out, synthesize, edit, re-review: that's the loop, repeating until zero gate findings or five rounds, whichever comes first.
+The precedent came from somewhere else entirely: the Skills Marketplace's own audits. On one audit there, [Haiku scored a skill 1.75 on exposure and missed a persistent backdoor shim at `~/.codex/bin/codex`; Sonnet re-ran it and caught the backdoor, scoring it 5.65](/blog/2026-02-22-we-let-haiku-do-the-audits-it-missed-things/), and every audit on that project has run on Sonnet since, no exceptions. Link integrity gets the cheaper model anyway, because its checks are mostly binary: whether the URL resolves, whether the anchor text matches the target, whether an internal link is dated before this post. I route by the shape of the check: open-ended judgment gets Sonnet, and a yes-or-no lookup is the one place I'll trust a cheaper model, because we already watched it miss a real backdoor once.
 
-One function, a deterministic classifier, decides whether a finding is worth blocking the loop, sorting it into one of three buckets. Gate findings stop the loop cold, no argument. Auto-apply just lands; nobody debates it. Advisory is the weak bucket: a suggestion sitting there, mine to take or leave. A hook finding, for instance, defaults to advisory unless the hook's missing or broken; then it escalates straight to gate. When the loop hits its five-round cap with gates still open, it halts the run and drops the open findings on my desk. It would rather stall the whole thing than let something broken go out the door looking finished. A deterministic classifier referees the fifteen conflicting opinions.
+### Synthesis and the decision function
 
-## The gate I trust most is the one with no opinion
+This is the noisiest point in the whole AI content pipeline: fifteen separate opinions land on one draft. A synthesis agent reads all fifteen findings arrays. It dedups the overlaps and ranks what's left. It resolves conflicting edits into one consolidated set before a single word changes. A separate editor agent applies that set, and the draft goes back through the same fifteen reviewers for another look.
 
-The tone gate is the one deterministic piece of this AI writing workflow: a scoring function that runs the same check every time, regardless of what the reviewers around it think. A single banned phrase, or a score of 15 or above out of 100, is a mandatory gate finding. The other reviewers can pile judgment on top of a draft, argue about tone all they want, but none of them get to argue that specific finding back down.
+From the second round on, synthesis also sees its own prior round's decisions. It confirms the prior round's gate edits landed. An edit that didn't stick outranks any new nitpick. Spans that already passed stay alone unless the editor touched them, and synthesis re-drops churn it already ruled out.
 
-Each banned phrase adds 100 points to the score internally, so one hit alone trips it. The scorer runs before the first review round and again after every edit pass, checking the current draft each time; in practice, that means at the start of each round. That leaves a gap: the loop's very last edit could ship unmeasured. So a final re-score runs once the loop exits. If that last edit worsened the score, a tone-only cleanup pass follows, capped at two attempts. An optional LLM judge can bolt an emotional-impact read onto all of that for synthesis to weigh, but that score doesn't move the deterministic floor — judge or no judge.
+A deterministic classifier sorts every finding into one of three buckets: gate, auto-apply, or advisory. Hook findings default to advisory unless the hook itself is missing or broken, which escalates them straight to gate. The loop repeats until zero gate findings, or it exits early on a plateau. From round two on, if a round's gate count doesn't drop below the prior round's, the loop applies that round's consolidated edits once more and exits instead of re-reviewing. Hit the five-round cap with gates still open, and the run halts and puts the blockers on my desk.
 
-The gate I trust most is the one with no opinion.
+I'd rather stall the whole run than ship something broken that looks finished. The plateau exit just keeps the loop from burning budget on rounds that already stopped shrinking.
 
-I wrote up how this scorer catches AI-sounding prose in [the post right before this one](/blog/2026-07-12-make-ai-writing-sound-human/).
+## Decision three: the deterministic tone gate
+
+Every other reviewer in this AI writing workflow renders a judgment call. The tone gate runs a fixed scoring function that checks the same thing every time. A single banned phrase, or a score of 15 or above out of 100, is a mandatory gate finding. No reviewer gets to argue it back down. Each banned phrase adds 100 points to the internal score before it's reported, so one hit alone is enough to trip it.
+
+The scorer runs before the first round and again after every edit pass. A final re-score runs once the loop exits, because the loop's last edit would otherwise ship unmeasured. If that last edit made the score worse, a tone-only cleanup pass follows, capped at two attempts.
+
+It also gained three register detectors recently, calibrated against real human writing so no existing post on this blog newly fails: dramatic-sequencing inversions (capped at 18 points); punch-fragment density (10 fragments free, then capped at 6); sales speak (capped at 15). An optional LLM judge can add an emotional-impact read for synthesis to weigh on top of all that, but the deterministic floor stands whether the judge runs or not.
+
+That immovability is exactly why I trust it more than any of them. The gate I trust most is the one with no opinion.
+
+I broke down how this scorer catches AI-sounding prose in [my post on what actually makes AI writing sound human](/blog/2026-07-12-make-ai-writing-sound-human/).
 
 ## This post broke the machine that wrote it
 
 Everything above sounds tidy. Here's what actually happened: this rewrite was the pipeline's first from-scratch job, and the first two runs never converged.
 
-Run one stalled with the draft scoring 42, carrying 35 em-dashes in 2,000 words. The culprit wasn't the prose. We'd set the tone gate at 2 out of 100, and normal human prose scores 10 to 15 on density alone, so no draft could ever pass. Every loop ran to its cap and died there. We reset the bar to 15.
+Run one stalled with the draft scoring 42, carrying 35 em-dashes in 2,000 words. The real culprit was the bar. We'd set the tone gate at 2 out of 100, dead level with the corpus's own measured human baseline I later [wrote up in detail](/blog/2026-07-12-make-ai-writing-sound-human/). Ordinary variance in a normal, human-sounding draft was enough to trip a bar set that close to the floor, so every loop ran to its cap and died there. We reset the bar to 15.
 
-Run two exposed a nastier one. The scorer ran at the start of each round, which meant the loop's final edit shipped unmeasured. A clean draft scoring 6 came out the other end at 22 because the last editor pass introduced tidy three-item lists while applying content fixes. That final re-score after the loop exits? This post is the reason it exists.
+Run two exposed the unmeasured final edit. A clean draft scoring 6 came out the other end at 22, because the last editor pass introduced tidy three-item lists while it was applying content fixes. Nobody had scored that pass. The post-loop re-score exists because of this exact bug.
 
-The biggest fix was to the findings themselves. Reviewers used to return problem descriptions: "this is negative parallelism." The editor had to guess at the rewrite, and gate counts bounced around instead of dropping (10, then 5, then 7 again). Now every finding arrives as the exact quote plus the exact replacement, and the editor applies it mechanically. Counts fall every round. Telling an editor what's wrong never converged. Handing it the fix did.
+The biggest fix hit the findings themselves. Reviewers used to hand back problem descriptions, something like "this reads like negative parallelism," and the editor had to guess at the rewrite. Gate counts bounced around instead of dropping: 10, then 5, then 7 again. Now every finding arrives as the flagged text plus its fix, already written. The editor applies it mechanically, and counts fall every round. The outline-builder and the editor each keep their own dated memory ledger of the mistakes they repeat, read before every job.
+
+Telling an editor what was wrong never converged. Handing it the fix did. The outside research validates that same bet next, with someone else's data.
 
 ## Why narrow beats mega
 
-The graded outline and the fifteen scoped reviewers both rest on the same bet: narrow beats mega, the same logic behind every specialized AI sub-agent in this pipeline. So does the code-only gate, which never gets an opinion to argue down in the first place. Anthropic tested that bet at a scale I can't match, with the model lineup they had in June 2025. In [their original write-up](https://www.anthropic.com/engineering/multi-agent-research-system), a multi-agent system with Claude Opus 4 as the lead agent and Claude Sonnet 4 subagents outperformed a single Claude Opus 4 agent by 90.2% on their internal research eval. The model generations have moved on since then; the design lesson has stayed the same.
+The graded outline and the fifteen scoped reviewers rest on the same bet: narrow beats mega. [Anthropic tested that bet](https://www.anthropic.com/engineering/multi-agent-research-system) at a scale I can't run myself, with the model lineup they had in June 2025. A multi-agent system with Claude Opus 4 as the lead agent and Claude Sonnet 4 subagents outperformed a single Claude Opus 4 agent by 90.2 percent on their internal research eval. The model generations have moved on since; the design lesson hasn't.
 
-That same write-up names [four things each subagent needs to work](https://www.anthropic.com/engineering/multi-agent-research-system): an objective, an output format, guidance on the tools and sources to use, clear task boundaries. Swap "research a market" for "grade this draft for overclaims" and it's the same four boxes, checked the same way.
+The same write-up names four things each subagent needs to work: an objective, an output format, guidance on which tools and sources to use, and clear task boundaries. It also names the failure mode those four things fix. Early on, a lead agent's short instructions like "research the semiconductor shortage" left subagents guessing; they'd misread the task or duplicate each other's searches. Every outline node in this pipeline packs in that same material for exactly that reason. A reviewer gets the rubric for its one axis: the exact facts, sources, and gate guidance it needs to check.
+
+Swap the task and the same four boxes apply. I didn't invent them. I read Anthropic's failure mode first and built the pipeline's reviewer prompts to answer it point for point.
 
 ## Splitting work costs something real
 
-Fanning out only pays off on work that splits cleanly, and that's exactly why this multi-agent content workflow runs the stages in the order it does. Drafting depends on the outline, which depends on the research, so those three stages run one after another, not in parallel. There's nothing to fan out yet. Reviewing a finished draft is the opposite kind of work. The whole post already exists, so fifteen reviewers can read it at once without stepping on each other.
+Fanning out only pays off on work that splits cleanly, and that's exactly why this multi-agent content workflow runs the stages in the order it does. Drafting depends on the outline, which depends on the research. Those run one after another. There's nothing to fan out yet. A finished draft is the opposite kind of work, so fifteen reviewers can read it at once without stepping on each other.
 
-[Google Research measured exactly this split](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/): centralized multi-agent coordination improved performance by 80.9% over a single agent on parallelizable tasks like financial reasoning. Flip the task, flip the result. On tasks needing strict sequential reasoning (planning in PlanCraft, specifically), every multi-agent variant they tested degraded performance by 39% to 70%. [Augment Code's guide summarizes the same study](https://augmentcode.com/guides/single-agent-vs-multi-agent-ai) as roughly +81% on the tasks that parallelize and up to 70% worse on the ones that don't. Research and drafting stay sequential on purpose. Review is the one stage built to fan out.
+[Google Research measured the split directly](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/): centralized multi-agent coordination improved performance by 80.9 percent over a single agent on parallelizable tasks like financial reasoning. Flip the task and the result flips with it. On strict sequential reasoning, like planning in PlanCraft, every multi-agent variant they tested degraded performance by 39 to 70 percent. [Augment Code's guide summarizes the same study](https://augmentcode.com/guides/single-agent-vs-multi-agent-ai) as roughly +81 percent on tasks that parallelize and up to 70 percent worse on ones that don't.
 
-None of this is free, either. [Anthropic reports](https://www.anthropic.com/engineering/multi-agent-research-system) that agents typically burn about 4x the tokens of a single chat call, and multi-agent systems burn about 15x. And I pay that bill on every post. It's real money in compute — and I still think it's cheaper than shipping something broken would cost me.
+The bill is real too. [Anthropic reports](https://www.anthropic.com/engineering/multi-agent-research-system) that agents typically burn about 4x the tokens of a single chat call, and multi-agent systems burn about 15x. Research and drafting stay sequential on purpose. Review is the one stage built to fan out, and I pay that 15x bill on every post: real money in compute, still cheaper than shipping something broken.
 
-## Why the gate and the reviewer army exist at all
+## Why the checks have to be real before you automate blog writing with AI agents
 
-This is the part of trying to automate blog writing with AI agents that most "here's my AI blogging prompt" posts skip entirely: the stakes if the checks aren't real. As of this write-up, [Google's spam policy](https://developers.google.com/search/docs/essentials/spam-policies) has a name for what this pipeline could turn into if I skipped them. It calls the pattern scaled content abuse: many pages generated for the primary purpose of manipulating search rankings and not helping users. Same section, same breath: generative AI tools get named specifically as one way the pattern shows up. Rankability's 2026 analysis put a number on it — 83% of top Google search results score as human-written. Directional, the study admits: a focused sample. Still not the side of that number I want this blog landing on.
+Most guides to automate blog writing with AI agents skip this part: what happens if the checks aren't real. The token bill I just paid for review only pays off if the checks are real. [Google's spam policy](https://developers.google.com/search/docs/essentials/spam-policies) has a name for what this pipeline could turn into without them: scaled content abuse, many pages generated for the primary purpose of manipulating search rankings and not helping users. Generative AI tools get named in that same policy section as one way the pattern shows up.
 
-The tone gate and the fifteen reviewers exist so nothing ships that looks like what Google is hunting for.
+[Rankability's 2026 analysis](https://rankability.com/data/does-google-penalize-ai-content/) put a number near that: 83 percent of top Google search results score as human-written (a directional finding from a focused sample, by the study's own admission). The tone gate that scores every draft before it ships (that's [the one I wrote up here](/blog/2026-07-12-make-ai-writing-sound-human/)) and the fifteen reviewers that fact-check what's left counter exactly that pattern: one real post instead of a template cranked out at scale to rank.
 
-## Try the narrow-skill pattern yourself
+The checks are my bet on staying off the wrong side of that 83 percent. The study calls its own finding directional, so bet is the honest word for what this buys. Skip the checks, and every post here becomes exactly the pattern Google names: content built to rank instead of helping anyone.
 
-Narrow, single-job agents behind hard checks: that's the actual product here. It's why I get to touch the draft least of anyone and still trust what ships. Every drafting and review stage in this pipeline runs as one of these narrow agents, dispatched to do exactly one job. The orchestrator itself handles the rest directly: topic approval, assembly, scheduling, the final commit.
+## Install the machine this post described
 
-The Skills Marketplace ships that same idea as an actual product instead of internal plumbing: a catalog of [AI-audited agent skills](https://marketplace.buildaloud.ai), each one screened before it gets listed. Every skill in that catalog ships with [a SKILL.md file written for agents](/blog/2026-02-23-skill-md-is-a-file-written-for-agents/). That's the file the audit reads. I've already [rewritten the scoring model](/blog/2026-02-22-we-rewrote-the-security-scoring-here-s-why/) once, from a two-axis danger model (malicious intent plus a separate danger-level rating) to three separate scores rolled into one exposure number under the AST v1.0 taxonomy. As of this write-up, that's still what's live. The site is upfront about the limits: audits are AI-generated and can miss things, so check a skill yourself before installing it. I'll pull one of those audits apart in a post right after this one: what the taxonomy catches when a skill looks harmless and isn't.
+One sign-off out of twelve stages is enough to automate blog writing with AI agents responsibly because of the structure behind it, and that structure is open source now. It's packaged as `agentic-content-pipeline`, extracted from this blog's own repo: the graded outline, the reviewer roster, the memory ledgers, the same design.
 
-Open one skill's audit report in the catalog and decide for yourself whether you'd trust it running in your own pipeline.
+Build Aloud itself runs on the published package now, and the improvements move in both directions: the tone gate's three newest register detectors from the section above were proven here first and landed in the package the same day. The blog is the package's test track.
+
+The best proof I have that any of this works is that this post came out of the pipeline it describes: the same twelve stages, the same one sign-off. That's why I get to touch the draft least of anyone and still trust what ships. Now you can set up that same design yourself, one command:
+
+```
+npx agentic-content-pipeline setup --harness claude
+```
+
+Swap the flag for `--harness codex`, or drop it entirely for prompt-file dispatch. The repo's at [github.com/buildaloud/agentic-content-pipeline](https://github.com/buildaloud/agentic-content-pipeline).
 
 ## Sources
 
@@ -123,11 +145,9 @@ Open one skill's audit report in the catalog and decide for yourself whether you
 - [I Gave Claude an Agentic Security Review Team That Remembers](/blog/2026-07-10-claude-security-team-that-remembers/)
 - [We Let Haiku Do the Audits (It Missed Things)](/blog/2026-02-22-we-let-haiku-do-the-audits-it-missed-things/)
 - [How to Make AI Writing Sound Human (My Actual Fix)](/blog/2026-07-12-make-ai-writing-sound-human/)
-- [We Rewrote the Security Scoring (Here's Why)](/blog/2026-02-22-we-rewrote-the-security-scoring-here-s-why/)
-- [SKILL.md Is a File Written for Agents](/blog/2026-02-23-skill-md-is-a-file-written-for-agents/)
-- [Skills Marketplace](https://marketplace.buildaloud.ai)
 - [Anthropic: How We Built Our Multi-Agent Research System](https://www.anthropic.com/engineering/multi-agent-research-system)
 - [Google Research: Towards a Science of Scaling Agent Systems](https://research.google/blog/towards-a-science-of-scaling-agent-systems-when-and-why-agent-systems-work/)
 - [Augment Code: Single-Agent vs Multi-Agent AI](https://augmentcode.com/guides/single-agent-vs-multi-agent-ai)
 - [Google Search: Spam Policies for Google Web Search](https://developers.google.com/search/docs/essentials/spam-policies)
 - [Rankability: Does Google Penalize AI Content?](https://rankability.com/data/does-google-penalize-ai-content/)
+- [agentic-content-pipeline (GitHub)](https://github.com/buildaloud/agentic-content-pipeline)
