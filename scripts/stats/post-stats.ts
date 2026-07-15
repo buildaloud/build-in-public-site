@@ -24,6 +24,9 @@ export type PostStat = {
   // Same staleness rationale as likes — attached in pull.ts (via
   // joinDailyViewsBySlug), not inside shapePostStats itself.
   dailyViews?: number[];
+  // Same staleness rationale as likes/dailyViews — attached in pull.ts (via
+  // joinCommentsBySlug), not inside shapePostStats itself.
+  comments?: number;
   scorecard: Scorecard;
 };
 
@@ -321,4 +324,67 @@ export function shapeProductWeekly(
         pageViews: byProductWeek.get(product)?.get(weekStart) ?? 0,
       })),
     }));
+}
+
+export type DiscussionRow = { title: string; comments: number };
+
+/**
+ * Giscus (pathname mapping) titles a discussion after the page's pathname,
+ * minus the leading slash — verified live against the repo's actual
+ * discussions: "blog/2026-02-23-who-pays-to-secure-the-keg/", not
+ * "/blog/...". Returns null for a non-blog-post discussion title (e.g. one
+ * created by hand rather than by giscus commenting on a post).
+ */
+export function slugFromGiscusTitle(title: string): string | null {
+  const segments = title.trim().replace(/^\/+|\/+$/g, '').split('/').filter(Boolean);
+  if (segments[0] !== 'blog') return null;
+  return segments.slice(1).join('/');
+}
+
+/** Sums comment counts per slug — a discussion title that isn't a blog post pathname is dropped, not an error. */
+export function joinCommentsBySlug(rows: DiscussionRow[]): Record<string, number> {
+  const bySlug: Record<string, number> = {};
+  for (const row of rows) {
+    const slug = slugFromGiscusTitle(row.title);
+    if (slug === null) continue;
+    bySlug[slug] = (bySlug[slug] ?? 0) + row.comments;
+  }
+  return bySlug;
+}
+
+export type TrafficSourceRow = { source: string; medium: string; sessions: number };
+
+/**
+ * Sorts by sessions desc; top `limit` rows kept individually, the remainder
+ * summed into one trailing {source:"other",medium:"",sessions} row — always
+ * appended (even at 0) so the UI gets a stable shape regardless of how many
+ * distinct source/medium pairs GA4 returned.
+ */
+export function shapeTrafficSources(rows: TrafficSourceRow[], limit = 15): TrafficSourceRow[] {
+  const sorted = [...rows].sort((a, b) => b.sessions - a.sessions);
+  const top = sorted.slice(0, limit);
+  const restSessions = sorted.slice(limit).reduce((sum, r) => sum + r.sessions, 0);
+  return [...top, { source: 'other', medium: '', sessions: restSessions }];
+}
+
+export type OrganicSplit = { organic: number; direct: number; referral: number; other: number };
+
+/** Buckets 28d sessions by GA4 sessionMedium: organic search, direct ((none)/direct), referral, everything else. */
+export function shapeOrganicSplit(rows: TrafficSourceRow[]): OrganicSplit {
+  const split: OrganicSplit = { organic: 0, direct: 0, referral: 0, other: 0 };
+  for (const row of rows) {
+    const medium = row.medium.toLowerCase();
+    if (medium === 'organic') split.organic += row.sessions;
+    else if (medium === '(none)' || medium === 'direct') split.direct += row.sessions;
+    else if (medium === 'referral') split.referral += row.sessions;
+    else split.other += row.sessions;
+  }
+  return split;
+}
+
+export type TopQuery = { query: string; clicks: number; impressions: number; position: number };
+
+/** Sorts by clicks desc and caps at `limit` — a local safety net; the Search Console fetch also caps rowLimit at the API level. */
+export function shapeTopQueries(rows: TopQuery[], limit = 10): TopQuery[] {
+  return [...rows].sort((a, b) => b.clicks - a.clicks).slice(0, limit);
 }

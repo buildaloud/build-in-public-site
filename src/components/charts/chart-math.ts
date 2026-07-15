@@ -50,3 +50,18 @@ export function formatTickLabel(isoDate: string): string {
   const [, month, day] = isoDate.split('-').map(Number);
   return `${TICK_MONTHS[month - 1]} ${day}`;
 }
+
+export type StackSegment = { key: string; value: number; pct: number };
+
+/**
+ * Percent-of-total width for each part of a horizontal stacked bar. Zero/negative
+ * parts are dropped (nothing to render at 0% width); an all-zero input returns []
+ * so the caller can fall back to an empty state instead of drawing an empty bar.
+ */
+export function stackSegments(parts: { key: string; value: number }[]): StackSegment[] {
+  const total = parts.reduce((sum, p) => sum + Math.max(0, p.value), 0);
+  if (total <= 0) return [];
+  return parts
+    .filter((p) => p.value > 0)
+    .map((p) => ({ key: p.key, value: p.value, pct: (p.value / total) * 100 }));
+}

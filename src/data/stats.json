@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-15T00:26:08.337Z",
+  "generatedAt": "2026-07-15T01:02:19.609Z",
   "ga4": {
     "available": true,
     "window": {
@@ -64,12 +64,12 @@
   "agentUsage": {
     "available": true,
     "currentMonth": {
-      "tokens": 16952115663,
-      "apiEquivalentUSD": 12314.3925791
+      "tokens": 16983435424,
+      "apiEquivalentUSD": 12340.1149906
     },
     "allTime": {
-      "tokens": 22493854223,
-      "apiEquivalentUSD": 16160.780465700002
+      "tokens": 22525173984,
+      "apiEquivalentUSD": 16186.5028772
     },
     "note": "API-equivalent pricing; actual cost is the flat subscription in spend.monthlyBurnUSD"
   },
@@ -135,7 +135,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-21-i-have-a-face-now": {
         "clicks": 0,
@@ -177,7 +178,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-22-we-let-haiku-do-the-audits-it-missed-things": {
         "clicks": 0,
@@ -219,7 +221,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-23-not-all-malicious-is-equal": {
         "clicks": 0,
@@ -266,7 +269,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-23-we-found-malicious-skills-three-of-them": {
         "clicks": 0,
@@ -308,7 +312,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-23-who-pays-to-secure-the-keg": {
         "clicks": 0,
@@ -350,7 +355,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 1
       },
       "2026-03-03-a-bug-in-the-pipeline-taught-us-something-about-the-catalog": {
         "clicks": 0,
@@ -392,7 +398,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-06-16-building-a-game-with-claude-code-in-3-weeks": {
         "clicks": 0,
@@ -434,7 +441,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-06-23-chad-starts-a-lot-of-circles": {
         "clicks": 0,
@@ -476,7 +484,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-01-ticket-tracker-where-ai-does-the-ticketing": {
         "clicks": 0,
@@ -523,7 +532,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-11-anonymous-like-button-without-login": {
         "clicks": 0,
@@ -565,7 +575,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-13-automate-blog-writing-with-ai-agents": {
         "clicks": 0,
@@ -607,7 +618,8 @@
           12,
           4,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-10-claude-security-team-that-remembers": {
         "clicks": 0,
@@ -649,7 +661,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-12-make-ai-writing-sound-human": {
         "clicks": 0,
@@ -691,7 +704,8 @@
           1,
           1,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-08-cloudflare-pages-functions-404-custom-domain": {
         "clicks": 0,
@@ -733,7 +747,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-21-hello-world": {
         "clicks": 0,
@@ -775,7 +790,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-21-wiring-up-the-machine": {
         "clicks": 0,
@@ -817,7 +833,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-23-skill-md-is-a-file-written-for-agents": {
         "clicks": 0,
@@ -859,7 +876,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-02-23-the-broker-is-live": {
         "clicks": 0,
@@ -901,7 +919,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-04-01-we-spent-april-fools-day-building-a-fake-security-company": {
         "clicks": 0,
@@ -943,7 +962,8 @@
           1,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-06-26-ai-on-my-site-told-it-to-defer": {
         "clicks": 0,
@@ -985,7 +1005,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-07-launch-day-bugs-only-showed-up-in-prod": {
         "clicks": 0,
@@ -1027,7 +1048,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-09-can-an-ai-run-a-business": {
         "clicks": 0,
@@ -1069,7 +1091,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       },
       "2026-07-10-gpt-5-6-vs-claude-for-coding-agents": {
         "clicks": 0,
@@ -1111,7 +1134,8 @@
           0,
           0,
           0
-        ]
+        ],
+        "comments": 0
       }
     }
   },
@@ -1446,5 +1470,74 @@
   "allTime": {
     "pageViews": 640,
     "sessions": 321
-  }
+  },
+  "trafficSources": [
+    {
+      "source": "(direct)",
+      "medium": "(none)",
+      "sessions": 130
+    },
+    {
+      "source": "linkedin.com",
+      "medium": "referral",
+      "sessions": 10
+    },
+    {
+      "source": "google",
+      "medium": "organic",
+      "sessions": 5
+    },
+    {
+      "source": "news.ycombinator.com",
+      "medium": "referral",
+      "sessions": 3
+    },
+    {
+      "source": "(not set)",
+      "medium": "(not set)",
+      "sessions": 2
+    },
+    {
+      "source": "(data not available)",
+      "medium": "(data not available)",
+      "sessions": 1
+    },
+    {
+      "source": "other",
+      "medium": "",
+      "sessions": 0
+    }
+  ],
+  "organicSplit": {
+    "organic": 5,
+    "direct": 130,
+    "referral": 13,
+    "other": 3
+  },
+  "topQueries": [
+    {
+      "query": "claude code ticket",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 32
+    },
+    {
+      "query": "claude ticketmatic",
+      "clicks": 0,
+      "impressions": 3,
+      "position": 54.333333333333336
+    },
+    {
+      "query": "malicious (moderate confidence)",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 47
+    },
+    {
+      "query": "malicious algorithm",
+      "clicks": 0,
+      "impressions": 1,
+      "position": 60
+    }
+  ]
 }

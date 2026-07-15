@@ -6,6 +6,8 @@ import PostStats from '../components/PostStats.astro';
 import TrafficChart from '../components/charts/TrafficChart.astro';
 import SearchPanel from '../components/charts/SearchPanel.astro';
 import SurfacePanel from '../components/charts/SurfacePanel.astro';
+import TrafficSourcesPanel from '../components/charts/TrafficSourcesPanel.astro';
+import TopQueriesPanel from '../components/charts/TopQueriesPanel.astro';
 import { getPostStats, getRollup, getSiteMetrics, getStatsAsOf } from '../utils/post-stats';
 import { formatDateShort } from '../utils/dates';
 import rawStats from '../data/stats.json';
@@ -17,6 +19,9 @@ type StatsExtras = {
   dailySite?: { date: string; pageViews: number; sessions: number }[];
   dailySearch?: { date: string; clicks: number; impressions: number }[];
   productWeekly?: { product: string; weeks: { weekStart: string; pageViews: number }[] }[];
+  organicSplit?: { organic: number; direct: number; referral: number; other: number };
+  trafficSources?: { source: string; medium: string; sessions: number }[];
+  topQueries?: { query: string; clicks: number; impressions: number; position: number }[];
 };
 const extras = rawStats as unknown as StatsExtras;
 
@@ -69,6 +74,8 @@ const siteVitals = [
     <TrafficChart daily={extras.dailySite} />
     <SearchPanel daily={extras.dailySearch} />
     <SurfacePanel productWeekly={extras.productWeekly} />
+    <TrafficSourcesPanel organicSplit={extras.organicSplit} trafficSources={extras.trafficSources} />
+    <TopQueriesPanel topQueries={extras.topQueries} />
 
     <span class="rollup-caption">// posts only (28d)</span>
     <div class="rollup">
@@ -144,7 +151,7 @@ const siteVitals = [
                   data-status={st?.scorecard.status ?? 'none'}
                 >
                   <td><a href={`/blog/${post.id}/`}>{post.data.title}</a></td>
-                  <td><PostStats stat={st} variant="full" /></td>
+                  <td><PostStats stat={st} variant="full" slug={post.id} /></td>
                 </tr>
               );
             })}

@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 import {
   normalizeToSlug, slugFromFilename, computeScorecard, shapePostStats, assertJoinHealth, UNMATCHED_FAIL_RATIO, LIKES_ROW_LIMIT,
   lastNDates, ga4DateToIso, shapeDailySite, shapeDailySearch, joinDailyViewsBySlug, isoWeekStart, lastNIsoWeekStarts, shapeProductWeekly,
+  slugFromGiscusTitle, joinCommentsBySlug, shapeTrafficSources, shapeOrganicSplit, shapeTopQueries,
 } from './post-stats';
 
 describe('slugFromFilename', () => {
@@ -480,5 +481,91 @@ describe('shapeProductWeekly', () => {
     const rows = [{ date: '2026-07-01', path: '/blog/hello-world/', pageviews: 10 }];
     const result = shapeProductWeekly(weekStarts, rows);
     expect(result.find((p) => p.product === 'site')).toBeUndefined();
+  });
+});
+
+describe('slugFromGiscusTitle', () => {
+  it('extracts the slug from a giscus pathname-mapped title with no leading slash', () => {
+    expect(slugFromGiscusTitle('blog/2026-02-23-who-pays-to-secure-the-keg/')).toBe('2026-02-23-who-pays-to-secure-the-keg');
+  });
+
+  it('tolerates a leading slash too', () => {
+    expect(slugFromGiscusTitle('/blog/hello-world/')).toBe('hello-world');
+  });
+
+  it('returns null for a non-blog discussion title', () => {
+    expect(slugFromGiscusTitle('Welcome to the forum')).toBeNull();
+  });
+});
+
+describe('joinCommentsBySlug', () => {
+  it('sums comment counts per slug and drops non-blog-titled discussions', () => {
+    const rows = [
+      { title: 'blog/hello-world/', comments: 3 },
+      { title: 'blog/hello-world/', comments: 1 },
+      { title: 'Off-topic chat', comments: 5 },
+    ];
+    expect(joinCommentsBySlug(rows)).toEqual({ 'hello-world': 4 });
+  });
+
+  it('returns an empty object when there are no discussions', () => {
+    expect(joinCommentsBySlug([])).toEqual({});
+  });
+});
+
+describe('shapeTrafficSources', () => {
+  it('sorts by sessions desc, keeps the top N, and sums the remainder into an "other" row', () => {
+    const rows = [
+      { source: 'google', medium: 'organic', sessions: 100 },
+      { source: 'twitter', medium: 'social', sessions: 40 },
+      { source: 'newsletter', medium: 'email', sessions: 10 },
+    ];
+    const result = shapeTrafficSources(rows, 2);
+    expect(result).toEqual([
+      { source: 'google', medium: 'organic', sessions: 100 },
+      { source: 'twitter', medium: 'social', sessions: 40 },
+      { source: 'other', medium: '', sessions: 10 },
+    ]);
+  });
+
+  it('always appends an "other" row, even at zero, when everything fits under the limit', () => {
+    const rows = [{ source: 'google', medium: 'organic', sessions: 5 }];
+    const result = shapeTrafficSources(rows, 15);
+    expect(result).toEqual([
+      { source: 'google', medium: 'organic', sessions: 5 },
+      { source: 'other', medium: '', sessions: 0 },
+    ]);
+  });
+});
+
+describe('shapeOrganicSplit', () => {
+  it('buckets sessions into organic, direct, referral, and other', () => {
+    const rows = [
+      { source: 'google', medium: 'organic', sessions: 50 },
+      { source: '(direct)', medium: '(none)', sessions: 20 },
+      { source: 'some-blog.com', medium: 'referral', sessions: 8 },
+      { source: 'newsletter', medium: 'email', sessions: 3 },
+    ];
+    expect(shapeOrganicSplit(rows)).toEqual({ organic: 50, direct: 20, referral: 8, other: 3 });
+  });
+
+  it('treats a literal "direct" medium the same as "(none)"', () => {
+    expect(shapeOrganicSplit([{ source: 'x', medium: 'direct', sessions: 7 }])).toEqual({
+      organic: 0, direct: 7, referral: 0, other: 0,
+    });
+  });
+});
+
+describe('shapeTopQueries', () => {
+  it('sorts by clicks desc and caps at the given limit', () => {
+    const rows = [
+      { query: 'ai blog agent', clicks: 2, impressions: 30, position: 6 },
+      { query: 'build in the open', clicks: 9, impressions: 80, position: 3 },
+      { query: 'agentic coding', clicks: 5, impressions: 40, position: 5 },
+    ];
+    expect(shapeTopQueries(rows, 2)).toEqual([
+      { query: 'build in the open', clicks: 9, impressions: 80, position: 3 },
+      { query: 'agentic coding', clicks: 5, impressions: 40, position: 5 },
+    ]);
   });
 });

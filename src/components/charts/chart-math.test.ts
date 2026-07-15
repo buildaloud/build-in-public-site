@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { scaleLinear, niceCeiling, buildLinePath, pickTickIndices, nearestIndex, formatTickLabel, niceTicks } from './chart-math';
+import { scaleLinear, niceCeiling, buildLinePath, pickTickIndices, nearestIndex, formatTickLabel, niceTicks, stackSegments } from './chart-math';
 
 describe('scaleLinear', () => {
   it('maps a domain value to the corresponding range value', () => {
@@ -92,5 +92,34 @@ describe('formatTickLabel', () => {
 
   it('does not shift the date across a UTC day boundary', () => {
     expect(formatTickLabel('2026-01-01')).toBe('Jan 1');
+  });
+});
+
+describe('stackSegments', () => {
+  it('converts raw values into percent-of-total widths', () => {
+    const segments = stackSegments([
+      { key: 'organic', value: 60 },
+      { key: 'direct', value: 40 },
+    ]);
+    expect(segments).toEqual([
+      { key: 'organic', value: 60, pct: 60 },
+      { key: 'direct', value: 40, pct: 40 },
+    ]);
+  });
+
+  it('drops zero-value parts entirely', () => {
+    const segments = stackSegments([
+      { key: 'organic', value: 10 },
+      { key: 'referral', value: 0 },
+    ]);
+    expect(segments.map((s) => s.key)).toEqual(['organic']);
+  });
+
+  it('returns an empty array when every part is zero', () => {
+    expect(stackSegments([{ key: 'organic', value: 0 }, { key: 'direct', value: 0 }])).toEqual([]);
+  });
+
+  it('returns an empty array for no parts at all', () => {
+    expect(stackSegments([])).toEqual([]);
   });
 });

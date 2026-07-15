@@ -8,7 +8,9 @@ import { scanFrontmatter } from './frontmatter-scan';
 import {
   shapePostStats, assertJoinHealth, slugFromFilename,
   lastNDates, ga4DateToIso, shapeDailySite, shapeDailySearch, joinDailyViewsBySlug, lastNIsoWeekStarts, shapeProductWeekly,
+  joinCommentsBySlug, shapeTrafficSources, shapeOrganicSplit, shapeTopQueries,
   type GscPageRow, type GscQueryRow, type Ga4Row, type LikeRow, type Ga4DatePathRow,
+  type DiscussionRow, type TrafficSourceRow, type TopQuery,
 } from './post-stats';
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '../../src/data/stats.json');
@@ -17,6 +19,12 @@ const WINDOW = { startDate: '28daysAgo', endDate: 'today' };
 const ALL_TIME_WINDOW = { startDate: '2020-01-01', endDate: 'today' }; // GA4 property created ~2026-06
 const GA_SCOPE = 'https://www.googleapis.com/auth/analytics.readonly';
 const SC_SCOPE = 'https://www.googleapis.com/auth/webmasters.readonly';
+
+// Same repo/category giscus is configured with client-side — see the
+// data-repo/data-category-id attributes in src/layouts/BlogPost.astro.
+const GISCUS_OWNER = 'buildaloud';
+const GISCUS_REPO = 'build-in-public-site';
+const GISCUS_CATEGORY_ID = 'DIC_kwDORVwLe84C282K';
 
 type Source = { available: boolean; reason?: string; [k: string]: unknown };
 
@@ -217,6 +225,92 @@ async function pullSearchConsoleDaily(creds: ReturnType<typeof loadCredentials>)
   return { available: true, window: { startDate: daysAgo(28), endDate: daysAgo(0) }, rows: result.rows };
 }
 
+async function pullGA4TrafficSources(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: TrafficSourceRow[] }> {
+  const propertyId = process.env.GA4_PROPERTY_ID;
+  if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set', rows: [] };
+  if (!propertyId) return { available: false, reason: 'GA4_PROPERTY_ID not set (numeric property id, not the G- measurement id)', rows: [] };
+  const bearer = await token(creds, GA_SCOPE);
+  const body = {
+    dateRanges: [WINDOW],
+    dimensions: [{ name: 'sessionSource' }, { name: 'sessionMedium' }],
+    metrics: [{ name: 'sessions' }],
+    limit: 1000,
+  };
+  const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${bearer}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) return { available: false, reason: `GA4 API ${res.status}: ${(await res.text()).slice(0, 200)}`, rows: [] };
+  const data = await res.json();
+  const rawRows = (data?.rows ?? []) as { dimensionValues: { value: string }[]; metricValues: { value: string }[] }[];
+  return {
+    available: true,
+    window: WINDOW,
+    rows: rawRows.map((r) => ({
+      source: r.dimensionValues?.[0]?.value ?? '',
+      medium: r.dimensionValues?.[1]?.value ?? '',
+      sessions: Number(r.metricValues?.[0]?.value ?? 0),
+    })),
+  };
+}
+
+// Site-wide (no page dimension) query totals, computed directly by Search
+// Console rather than aggregated locally from the page+query rows —
+// pullSearchConsolePerPageQuery's per-page-query rows stay privacy-scoped to
+// feeding computeScorecard only (see its comment); this is a separate,
+// coarser fetch with no page attribution.
+async function pullSearchConsoleQueries(creds: ReturnType<typeof loadCredentials>): Promise<Source & { rows: TopQuery[] }> {
+  const result = await querySearchConsole(creds, ['query'], 10, (r) => ({
+    query: r.keys[0], clicks: r.clicks ?? 0, impressions: r.impressions ?? 0, position: r.position ?? 0,
+  }));
+  if (!result.available) return { ...result, rows: [] };
+  return { available: true, window: { startDate: daysAgo(28), endDate: daysAgo(0) }, rows: result.rows };
+}
+
+// Giscus stores comments as GitHub Discussions (pathname mapping) — no
+// GOOGLE_SERVICE_ACCOUNT_KEY needed, this reuses the machine's authenticated
+// gh CLI token instead (same auth `gh api graphql` would use).
+async function pullGiscusComments(): Promise<Source & { rows: DiscussionRow[] }> {
+  let ghToken: string;
+  try {
+    const { execFileSync } = await import('node:child_process');
+    ghToken = execFileSync('gh', ['auth', 'token'], { encoding: 'utf8' }).trim();
+  } catch {
+    return { available: false, reason: 'gh CLI not authenticated (gh auth token failed)', rows: [] };
+  }
+  if (!ghToken) return { available: false, reason: 'gh CLI not authenticated (gh auth token failed)', rows: [] };
+
+  const query = `
+    query($cursor: String) {
+      repository(owner: "${GISCUS_OWNER}", name: "${GISCUS_REPO}") {
+        discussions(first: 50, categoryId: "${GISCUS_CATEGORY_ID}", after: $cursor) {
+          pageInfo { hasNextPage endCursor }
+          nodes { title comments { totalCount } }
+        }
+      }
+    }`;
+
+  const rows: DiscussionRow[] = [];
+  let cursor: string | null = null;
+  for (let page = 0; page < 10; page++) {
+    const res: Response = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${ghToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, variables: { cursor } }),
+    });
+    if (!res.ok) return { available: false, reason: `GitHub GraphQL API ${res.status}: ${(await res.text()).slice(0, 200)}`, rows: [] };
+    const data: { errors?: unknown; data?: { repository?: { discussions?: { pageInfo?: { hasNextPage?: boolean; endCursor?: string }; nodes?: { title: string; comments: { totalCount: number } }[] } } } } = await res.json();
+    if (data.errors) return { available: false, reason: `GitHub GraphQL errors: ${JSON.stringify(data.errors).slice(0, 200)}`, rows: [] };
+    const discussions = data?.data?.repository?.discussions;
+    const nodes = discussions?.nodes ?? [];
+    rows.push(...nodes.map((n) => ({ title: n.title, comments: n.comments.totalCount })));
+    if (!discussions?.pageInfo?.hasNextPage) break;
+    cursor = discussions.pageInfo.endCursor ?? null;
+  }
+  return { available: true, rows };
+}
+
 async function pullGA4LifetimeTotal(creds: ReturnType<typeof loadCredentials>): Promise<Source & { pageViews: number; sessions: number }> {
   const propertyId = process.env.GA4_PROPERTY_ID;
   if (!creds) return { available: false, reason: 'GOOGLE_SERVICE_ACCOUNT_KEY not set', pageViews: 0, sessions: 0 };
@@ -398,7 +492,7 @@ function factorySecret(name: string): string | undefined {
   }
 }
 
-  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes, ga4Daily, ga4PerPathDaily, searchConsoleDaily, ga4LifetimeTotal] = await Promise.all([
+  const [ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes, ga4Daily, ga4PerPathDaily, searchConsoleDaily, ga4LifetimeTotal, ga4TrafficSources, gscQueries, giscus] = await Promise.all([
     safe('ga4', () => pullGA4(creds)),
     safe('searchConsole', () => pullSearchConsole(creds)),
     safe('buttondown', () => pullButtondown()),
@@ -415,6 +509,9 @@ function factorySecret(name: string): string | undefined {
     safe('ga4PerPathDaily', () => pullGA4PerPathDaily(creds)),
     safe('searchConsoleDaily', () => pullSearchConsoleDaily(creds)),
     safe('ga4LifetimeTotal', () => pullGA4LifetimeTotal(creds)),
+    safe('ga4TrafficSources', () => pullGA4TrafficSources(creds)),
+    safe('gscQueries', () => pullSearchConsoleQueries(creds)),
+    safe('giscus', () => pullGiscusComments()),
   ]);
 
   const blogFiles = readdirSync(BLOG_DIR)
@@ -435,6 +532,12 @@ function factorySecret(name: string): string | undefined {
     shaped.byPost[slug].dailyViews = dailyViewsBySlug[slug] ?? dates.map(() => 0);
   }
 
+  const discussionRows = 'rows' in giscus ? (giscus.rows as DiscussionRow[]) : [];
+  const commentsBySlug = joinCommentsBySlug(discussionRows);
+  for (const slug of Object.keys(shaped.byPost)) {
+    shaped.byPost[slug].comments = commentsBySlug[slug] ?? 0;
+  }
+
   const ga4DailyRows = 'rows' in ga4Daily ? (ga4Daily.rows as { date: string; pageViews: number; sessions: number }[]) : [];
   const dailySite = ga4Daily.available ? shapeDailySite(dates, ga4DailyRows) : undefined;
 
@@ -446,6 +549,13 @@ function factorySecret(name: string): string | undefined {
   const allTime = 'pageViews' in ga4LifetimeTotal && ga4LifetimeTotal.available
     ? { pageViews: ga4LifetimeTotal.pageViews as number, sessions: ga4LifetimeTotal.sessions as number }
     : undefined;
+
+  const trafficSourceRows = 'rows' in ga4TrafficSources ? (ga4TrafficSources.rows as TrafficSourceRow[]) : [];
+  const trafficSources = ga4TrafficSources.available ? shapeTrafficSources(trafficSourceRows) : undefined;
+  const organicSplit = ga4TrafficSources.available ? shapeOrganicSplit(trafficSourceRows) : undefined;
+
+  const gscQueryRowsSiteWide = 'rows' in gscQueries ? (gscQueries.rows as TopQuery[]) : [];
+  const topQueries = gscQueries.available ? shapeTopQueries(gscQueryRowsSiteWide) : undefined;
 
   let postStats: Source & { window: typeof WINDOW; meta: { unmatchedRows: typeof shaped.unmatched; totalRows: number }; byPost: typeof shaped.byPost };
   try {
@@ -474,13 +584,13 @@ function factorySecret(name: string): string | undefined {
   const snapshot = {
     generatedAt: new Date().toISOString(),
     ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, postStats,
-    dailySite, dailySearch, productWeekly, allTime,
+    dailySite, dailySearch, productWeekly, allTime, trafficSources, organicSplit, topQueries,
   };
   writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n');
   console.log(`wrote ${OUT}`);
   for (const [k, v] of Object.entries({
     ga4, searchConsole, buttondown, supabase, stripe, spend, agentUsage, timeSpent, gscPage, gscPageQuery, ga4PerPath, postLikes,
-    ga4Daily, ga4PerPathDaily, searchConsoleDaily, ga4LifetimeTotal,
+    ga4Daily, ga4PerPathDaily, searchConsoleDaily, ga4LifetimeTotal, ga4TrafficSources, gscQueries, giscus,
   })) {
     console.log(v.available ? `  ${k}: ok` : `  ${k}: skipped — ${v.reason}`);
   }

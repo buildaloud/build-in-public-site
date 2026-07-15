@@ -42,6 +42,12 @@
   --color-series-views: var(--series-green);
   --color-series-sessions: var(--series-blue);
   --color-series-search: var(--series-blue);
+  --color-series-organic: var(--series-blue);
+  --color-series-referral: var(--series-green);
+  /* Neutral data-mark greys — distinct from --color-border/-hover (chrome) even
+     though they share primitives, so chart marks can be retuned independently. */
+  --color-mark-mid: var(--ink-500);
+  --color-mark-dim: var(--ink-600);
 
   --font-display: 'Instrument Serif', Georgia, serif;
   --font-body: 'DM Sans', -apple-system, sans-serif;

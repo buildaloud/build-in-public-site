@@ -1,0 +1,237 @@
+---
+// Two halves: a stacked-bar breakdown of organicSplit (percent-of-total math
+// lives in chart-math.ts, unit tested) and a compact top-8 trafficSources
+// table. Either half falls back independently when its field is absent —
+// the pinned contract fields land on stats.json in a later, separate pull.
+import { stackSegments } from './chart-math';
+import EmptyPanel from './EmptyPanel.astro';
+
+type OrganicSplit = { organic: number; direct: number; referral: number; other: number };
+type TrafficSourceRow = { source: string; medium: string; sessions: number };
+
+interface Props {
+  organicSplit?: OrganicSplit;
+  trafficSources?: TrafficSourceRow[];
+}
+
+const { organicSplit, trafficSources } = Astro.props;
+
+const SEGMENT_COLOR: Record<string, string> = {
+  organic: 'var(--color-series-organic)',
+  direct: 'var(--color-mark-mid)',
+  referral: 'var(--color-series-referral)',
+  other: 'var(--color-mark-dim)',
+};
+
+const segments = organicSplit
+  ? stackSegments([
+      { key: 'organic', value: organicSplit.organic },
+      { key: 'direct', value: organicSplit.direct },
+      { key: 'referral', value: organicSplit.referral },
+      { key: 'other', value: organicSplit.other },
+    ])
+  : [];
+
+const sources = (trafficSources ?? []).slice(0, 8);
+const hasSplit = segments.length > 0;
+const hasSources = sources.length > 0;
+---
+
+<div class="chart-panel">
+  <span class="chart-panel-label">// where traffic comes from (28d)</span>
+
+  {!hasSplit && !hasSources ? (
+    <EmptyPanel label="gathering signal — no traffic-source data yet" />
+  ) : (
+    <div class="sources-grid">
+      <div class="split-col">
+        {hasSplit ? (
+          <>
+            <div class="split-bar" role="img" aria-label="Traffic split by organic, direct, referral, and other sources">
+              {segments.map((s) => (
+                <span class="split-seg" style={`width:${s.pct}%; background:${SEGMENT_COLOR[s.key]}`} />
+              ))}
+            </div>
+            <ul class="split-legend">
+              {segments.map((s) => (
+                <li class="legend-item">
+                  <span class="legend-chip" style={`background:${SEGMENT_COLOR[s.key]}`} aria-hidden="true"></span>
+                  <span class="legend-text">
+                    <span class="legend-label">{s.key}</span>
+                    <span class="legend-count">{s.value.toLocaleString()} · {s.pct.toFixed(0)}%</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </>
+        ) : (
+          <p class="col-empty">no split data yet</p>
+        )}
+      </div>
+
+      <div class="sources-col">
+        {hasSources ? (
+          <div class="sources-table-wrap">
+            <table class="sources-table">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Medium</th>
+                  <th class="num">Sessions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sources.map((row) => (
+                  <tr>
+                    <td>{row.source}</td>
+                    <td>{row.medium}</td>
+                    <td class="num">{row.sessions.toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p class="col-empty">no sources recorded yet</p>
+        )}
+      </div>
+    </div>
+  )}
+</div>
+
+<style>
+  .chart-panel {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-panel-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .sources-grid {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .split-col {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .sources-col {
+    flex: 1;
+    min-width: 220px;
+  }
+
+  .col-empty {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    padding: 0.5rem 0;
+  }
+
+  .split-bar {
+    display: flex;
+    gap: 2px;
+    width: 100%;
+    height: 18px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: var(--color-bg-elevated);
+  }
+
+  .split-seg {
+    flex: 0 0 auto;
+    height: 100%;
+  }
+
+  .split-legend {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem 1.4rem;
+    margin-top: 0.9rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .legend-chip {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .legend-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .legend-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+  }
+
+  .legend-count {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--color-muted);
+  }
+
+  .sources-table-wrap {
+    overflow-x: auto;
+  }
+
+  .sources-table {
+    width: 100%;
+    min-width: 220px;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .sources-table th {
+    text-align: left;
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    padding: 0 0.5rem 0.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .sources-table td {
+    padding: 0.4rem 0.5rem 0.4rem 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .sources-table .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-text);
+  }
+
+  .sources-table tr:last-child td {
+    border-bottom: none;
+  }
+</style>

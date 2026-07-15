@@ -10,10 +10,14 @@ type PostStatWithDaily = PostStat & { dailyViews?: number[] };
 interface Props {
   stat: PostStat | null;
   variant: 'compact' | 'full';
+  // Only needed to build the giscus comments-anchor link on the comments cell
+  // below; compact/index callers that don't pass it simply skip that link.
+  slug?: string;
 }
 
-const { stat, variant } = Astro.props;
+const { stat, variant, slug } = Astro.props;
 const dailyViews = (stat as PostStatWithDaily | null)?.dailyViews;
+const comments = stat?.comments;
 
 type Tone = 'hit' | 'miss' | 'unknown';
 
@@ -55,6 +59,16 @@ const ctr = stat && stat.ctr > 0 ? `${(stat.ctr * 100).toFixed(1)}%` : '0%';
       <div><dt>avg pos</dt><dd>{pos}</dd></div>
       <div><dt>clicks</dt><dd>{stat.clicks}</dd></div>
       <div><dt>ctr</dt><dd>{ctr}</dd></div>
+      {comments !== undefined && (
+        <div>
+          <dt>comments</dt>
+          <dd>
+            {comments > 0 && slug ? (
+              <a class="tele-comments-link" href={`/blog/${slug}/#comments`}>{comments}</a>
+            ) : comments}
+          </dd>
+        </div>
+      )}
     </dl>
     <p class={`tele-signal tele-signal--${badge.tone}`}>
       <span class="tele-dot" aria-hidden="true"></span>
@@ -189,6 +203,17 @@ const ctr = stat && stat.ctr > 0 ? `${(stat.ctr * 100).toFixed(1)}%` : '0%';
     font-family: var(--font-mono);
     font-size: 1.05rem;
     color: var(--color-text);
+  }
+
+  .tele-comments-link {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-hover);
+    text-underline-offset: 0.15em;
+  }
+
+  .tele-comments-link:hover {
+    color: var(--color-accent);
   }
 
   .tele-signal {

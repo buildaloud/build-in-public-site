@@ -1,0 +1,143 @@
+---
+// Mono table of the top-10 search queries. The clicks column carries a thin
+// micro-bar proportional to the row with the most clicks — width math reuses
+// the same tested scaleLinear from chart-math.ts every other chart uses.
+import { scaleLinear } from './chart-math';
+import EmptyPanel from './EmptyPanel.astro';
+
+type TopQuery = { query: string; clicks: number; impressions: number; position: number };
+
+interface Props {
+  topQueries?: TopQuery[];
+}
+
+const { topQueries } = Astro.props;
+const queries = (topQueries ?? []).slice(0, 10);
+const maxClicks = Math.max(0, ...queries.map((q) => q.clicks));
+const barScale = scaleLinear([0, maxClicks], [0, 100]);
+---
+
+<div class="chart-panel">
+  <span class="chart-panel-label">// what people search (28d)</span>
+
+  {queries.length === 0 ? (
+    <EmptyPanel label="gathering signal — no queries ranking yet" />
+  ) : (
+    <div class="queries-table-wrap">
+      <table class="queries-table">
+        <thead>
+          <tr>
+            <th>Query</th>
+            <th class="num">Clicks</th>
+            <th class="num">Impressions</th>
+            <th class="num">Avg pos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {queries.map((q) => (
+            <tr>
+              <td class="query-cell">{q.query}</td>
+              <td class="num">
+                <span class="clicks-cell">
+                  <span class="clicks-bar" style={`width:${barScale(q.clicks)}%`} aria-hidden="true"></span>
+                  <span class="clicks-value">{q.clicks.toLocaleString()}</span>
+                </span>
+              </td>
+              <td class="num">{q.impressions.toLocaleString()}</td>
+              <td class="num">#{q.position.toFixed(1)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</div>
+
+<style>
+  .chart-panel {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-accent);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .chart-panel-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-muted);
+    margin-bottom: 0.9rem;
+  }
+
+  .queries-table-wrap {
+    overflow-x: auto;
+  }
+
+  .queries-table {
+    width: 100%;
+    min-width: 420px;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .queries-table th {
+    text-align: left;
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    padding: 0 0.5rem 0.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .queries-table td {
+    padding: 0.45rem 0.5rem 0.45rem 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+  }
+
+  .queries-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .query-cell {
+    color: var(--color-text);
+    max-width: 22ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .clicks-cell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 4.5rem;
+  }
+
+  .clicks-bar {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    background: var(--color-series-views);
+    border-radius: 2px;
+    opacity: 0.35;
+  }
+
+  .clicks-value {
+    position: relative;
+    color: var(--color-text);
+    padding: 0.15rem 0;
+  }
+</style>
