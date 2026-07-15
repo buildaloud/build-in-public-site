@@ -1,0 +1,255 @@
+{
+  "version": 1,
+  "note": "Staging tally for the automated generation-side learner (TD-0035). Owned by .claude/agents/blog-learner.md — it runs after each post's review loops, abstracts that post's ROUND-1 CONFIRMED gate edits (synthesis's gate tier) into content-agnostic patterns, and tallies them across posts. A pattern promotes into docs/blog-drafter-pitfalls.md only at promoteThreshold distinct posts. Health metrics (rounds/tone per post) live here too — they are a SIGNAL, never the optimization target.",
+  "promoteThreshold": 3,
+  "patterns": [
+    {
+      "key": "neg-parallelism-construction",
+      "axis": "negative parallelism",
+      "description": "Dismiss-then-reframe or 'I don't X, Y does' negation constructions in outline beats and draft prose.",
+      "scope": "outline intendedBeat/ourTake fields; draft closing/summary sentences",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 3,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #1 Negative parallelism — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "tricolon-rule-of-three",
+      "axis": "rule-of-three / tricolon",
+      "description": "Rule-of-three tricolons (A, B, and C; anaphoric 'its own X, its own Y, its own Z') in lists and prose.",
+      "scope": "outline lists; draft prose lists and asides",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 2,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #2 Rule-of-three tricolons — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "pipeline-self-fact-drift",
+      "axis": "factual accuracy about own pipeline",
+      "description": "Outline/draft states a numeric or mechanical fact about our own pipeline (round caps, stage counts, checkpoints) that has drifted from the current value in blog-facts.md.",
+      "scope": "outline facts/ourTake fields describing pipeline mechanics",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #3 Overclaims about our own pipeline — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "future-dated-internal-link",
+      "axis": "link integrity",
+      "description": "Links or Sources-lists an internal /blog/<slug>/ whose pubDate is after this post's own pubDate.",
+      "scope": "outline links fields; draft body links and Sources section",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by blog-drafter-pitfalls.md #4 Future-dated internal links — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "flat-claim-source-conclusion-ourtake",
+      "axis": "voice / stake",
+      "description": "Outline ourTake reads as flat claim, then cited source, then conclusion, with no personal stake, register, or point of view — a view-from-nowhere failure.",
+      "scope": "outline ourTake fields, especially ones citing an external stat or policy",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "skill-vs-agent-terminology-confusion",
+      "axis": "technical accuracy / terminology",
+      "description": "Outline/draft conflates internal pipeline implementation (stages built as narrow agents dispatched via the Agent tool) with the public Skills Marketplace's 'skill' terminology.",
+      "scope": "outline facts fields describing pipeline architecture",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "unhedged-absolute-contradicted-later-beat",
+      "axis": "technical honesty / hedging",
+      "description": "States an absolute ('the only X', 'always Y') about our own system that a later beat in the same outline itself contradicts with a documented exception.",
+      "scope": "outline meta/facts fields making universal claims about pipeline behavior",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "thats-the-whole-point-crutch",
+      "axis": "AI structural crutches / banned phrase",
+      "description": "Closes a sentence or section with 'and that's the whole point' (or equivalent) as a lazy emphasis/summary tag instead of landing the actual point.",
+      "scope": "draft synthesis/closing sentences",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "em-dash-overuse-density",
+      "axis": "tone-gate / prose mechanics",
+      "description": "Reaches for em-dashes by default for asides, contrast, and connectors, pushing draft em-dash density over the tone-gate threshold instead of varying with colons, parens, or sentence breaks.",
+      "scope": "draft prose throughout, especially explanatory asides and reviewer/list descriptions",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "uniform-sentence-rhythm-run",
+      "axis": "voice / rhythm",
+      "description": "A run of several consecutive sentences — or consecutive list items sharing an identical syntactic frame (e.g. the same colon-tag shape repeated three times) — at a section's emotional or explanatory peak, flattening voice through monotone cadence.",
+      "scope": "draft prose, especially mechanism-explanation and emotional-peak sections; draft findings/feature lists",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 3,
+      "promoted": true
+    },
+    {
+      "key": "dropped-qualifier-overclaim",
+      "axis": "technical honesty / overclaim",
+      "description": "Drops a scope/safety qualifier present in the source claim (e.g., 'AI-audited' collapsed to 'audited') when restating a third-party disclaimed claim, turning a hedged assurance into an unqualified one.",
+      "scope": "draft prose citing third-party claims or disclaimers (marketplace audits, vendor claims)",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 2,
+      "promoted": false,
+      "note": "recurring on the marketplace 'audited catalog' phrase specifically — watch for promotion next time it appears"
+    },
+    {
+      "key": "beat-rendersasprose-left-false",
+      "axis": "outline structure / schema",
+      "description": "An outline node meant to render as skimmable prose (e.g. a numbered stage rundown, a score list) is left with rendersAsProse set to false, silently dropping the whole beat before it ever reaches the draft.",
+      "scope": "outline node fields controlling whether a beat's content reaches the draft",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 2,
+      "promoted": false,
+      "note": "3 separate beats hit this in the same outline round on grill-me — likely a default-false schema issue, not just a one-off slip; watch for promotion"
+    },
+    {
+      "key": "redundant-claim-echo",
+      "axis": "flatness / redundancy",
+      "description": "Closes a paragraph by restating a claim already made in the immediately preceding sentence, in near-identical words, adding no new information — including a short decorative recap fragment that just repeats the prior sentence's point in fewer words.",
+      "scope": "draft prose, closing lines of explanatory/mechanism beats",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 3,
+      "promoted": true
+    },
+    {
+      "key": "third-person-distancing-at-mistake-ownership",
+      "axis": "voice / first-person ownership",
+      "description": "Frames an admitted mistake or an actively-owned pipeline decision in passive or third-person voice (a blog 'ran with' something, 'the orchestrator', 'the loop') instead of Scout's first person, diluting ownership right at the beat meant to carry it.",
+      "scope": "draft prose describing self-caught mistakes; outline ourTake/intendedBeat fields personifying pipeline components",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "emotional-admission-split-from-stat",
+      "axis": "emotional impact / sentence fusion",
+      "description": "Splits a personal cost/admission clause into its own sentence away from the concrete stat or figure it's reacting to, weakening the felt stake the outline called for.",
+      "scope": "draft prose pairing a sourced statistic with a personal admission (cost, risk, mistake)",
+      "posts": ["automate-blog-writing-with-ai-agents"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "unverified-implementation-detail",
+      "axis": "factual accuracy / grounding claims about our own product",
+      "description": "Outline or draft states specific, checkable details about our own product's implementation (pixel measurements, exact UI copy/labels, which visual states change color) confidently, without verifying against the actual source code, and the invented specifics are wrong.",
+      "scope": "outline facts/intendedBeat fields and draft prose describing our own product's UI/implementation",
+      "posts": ["2026-07-14-dark-dashboard-design"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "unsupported-verification-claim",
+      "axis": "technical honesty / unsupported claim of validation",
+      "description": "Outline or draft claims a design choice underwent a formal verification step (e.g. 'colorblind-validated', 'tested', 'audited') when no such process exists anywhere in the codebase or docs — state the design intent/rationale instead of an unearned claim of verification.",
+      "scope": "outline facts/intendedBeat fields asserting design rationale for a UI/product choice",
+      "posts": ["2026-07-14-dark-dashboard-design"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "external-source-misattribution",
+      "axis": "technical honesty / citation accuracy",
+      "description": "Outline or draft cites an external source as backing a specific design/technical choice or trend, but overstates or misstates what that source actually says, conflating the source's own position/framing with a stronger claim we then repeat as fact.",
+      "scope": "outline/draft prose citing an external article or guidance to justify a decision or trend claim",
+      "posts": ["2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 2,
+      "promoted": false,
+      "note": "grill-me instance: an 'industry is converging on X' claim attributed to a source that actually frames the same facts as attack-chain steps, not an industry trend — watch for promotion"
+    },
+    {
+      "key": "cross-post-reference-inaccuracy",
+      "axis": "factual accuracy / cross-post grounding",
+      "description": "Outline or draft references or links an earlier post of ours — for its current content/state, or as the origin of a feature/decision — without checking what that specific post actually says, producing a misstated current state or misattributed credit.",
+      "scope": "outline/draft prose linking to or summarizing an earlier post in this blog",
+      "posts": ["2026-07-14-dark-dashboard-design"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "own-taxonomy-definition-drift",
+      "axis": "technical honesty / product-spec fidelity",
+      "description": "Defines one axis of our own multi-axis scoring/taxonomy system (e.g. AST v1.0's four scores) in a way that folds a deliberately-separate axis back into another, contradicting the spec and undercutting the post's own thesis that the axes are kept apart on purpose.",
+      "scope": "outline facts/intendedBeat fields defining our own scoring-system axes",
+      "posts": ["2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "overloaded-sentence-buried-list",
+      "axis": "hook / readability",
+      "description": "Buries a list of concrete consequences or reach-items inside a single long sentence's trailing subordinate clause instead of giving the list its own short sentence, weakening the payoff of the sentence carrying it.",
+      "scope": "draft opening/hook paragraphs stacking a payoff clause with a descriptive list",
+      "posts": ["2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "mismatched-stat-comparison",
+      "axis": "factual accuracy / statistical grounding",
+      "description": "Compares our own metric to an external stat without checking they measure the same thing (e.g. our confirmed-malicious rate vs. a cited source's broader any-flaw rate), implying an equivalence the underlying denominators don't support.",
+      "scope": "outline/draft prose comparing an internal metric to an external benchmark figure",
+      "posts": ["2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "misattributed-third-party-authorship",
+      "axis": "technical honesty / citation accuracy",
+      "description": "Attributes ownership or authorship of a third-party skill, tool, or example to the researcher/publication that merely studied or cited it, implying they built what they only analyzed.",
+      "scope": "draft prose citing third-party research examples",
+      "posts": ["2026-07-15-grill-me-what-an-auditor-sees"],
+      "count": 1,
+      "promoted": false
+    }
+  ],
+  "metrics": [
+    {
+      "slug": "automate-blog-writing-with-ai-agents",
+      "outlineRounds": 5,
+      "draftRounds": 5,
+      "finalAiScore": 8,
+      "deTellPasses": 0,
+      "date": "2026-07-13"
+    },
+    {
+      "slug": "automate-blog-writing-with-ai-agents",
+      "outlineRounds": 5,
+      "draftRounds": 5,
+      "finalAiScore": 0,
+      "deTellPasses": 1,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-14-dark-dashboard-design",
+      "outlineRounds": 5,
+      "draftRounds": 4,
+      "finalAiScore": 4,
+      "deTellPasses": 0,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-15-grill-me-what-an-auditor-sees",
+      "outlineRounds": 4,
+      "draftRounds": 5,
+      "finalAiScore": 0,
+      "deTellPasses": 1,
+      "date": "2026-07-15"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "voiceFile": "PERSONALITY.md",
+  "editorialRulesFile": "PLAYBOOK.md",
+  "contentDir": "src/content/blog",
+  "docsRoot": "docs",
+  "siteUrl": "https://buildaloud.ai",
+  "bannedTerms": [
+    "change-factory",
+    "fossa"
+  ],
+  "sourceMaterial": {
+    "chatsDir": "/Users/chadfurman/projects/business-brainstorm/claude-chats",
+    "claudeProjectsDir": "/Users/chadfurman/.claude/projects",
+    "relevancePatterns": [
+      "business-brainstorm"
+    ]
+  },
+  "heroImages": {
+    "provider": "codex",
+    "openaiApiKeyEnv": "OPENAI_API_KEY",
+    "styleNotes": "16:9, matte charcoal #13161c background, single mint #a3f7bf accent, no text overlays"
+  },
+  "toneCorpusDir": ".claude/skills/human-tone/eval/corpus",
+  "statsFile": "src/data/stats.json",
+  "mediums": {
+    "blog": {
+      "enabled": true
+    },
+    "linkedin": {
+      "enabled": false
+    },
+    "email": {
+      "enabled": false
+    },
+    "bluesky": {
+      "enabled": false
+    }
+  }
+}
