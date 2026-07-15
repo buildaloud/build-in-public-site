@@ -29,6 +29,9 @@ Grounded in the Build Aloud corpus — Chad's Claude prompts + team Slack (last 
 | **Copula avoidance** ("serves as", "boasts") | Just write "is". |
 | **Transitions** (Furthermore, Moreover, Additionally) | Drop most. Start with "And" or "But". |
 | **Tidy bow conclusion** ("the future looks bright") | Pick a side, or end abruptly when the point's made. |
+| **Dramatic-sequencing inversion** ("By the time X, Y had already Z" / "Twelve stages run before one of these posts ships") | State it in normal order: what happened, then what happened next. Sequencing hooks are fine once per post at most, only when the order actually is the point. |
+| **Punch fragment** ("Not even for me." "Go look." "One lane." stacked back to back) | Complete the sentence. A rare fragment lands; a run of them reads like a trailer. |
+| **Sales speak** (turbocharge, supercharge, game-changing, unlock, "the whole thesis", "that's the bet", "here's the kicker") | Name what the thing actually does, plainly. |
 
 ## The texture to add (Chad + dev corpus)
 
@@ -50,7 +53,7 @@ Grounded in the Build Aloud corpus — Chad's Claude prompts + team Slack (last 
 
 ## Eval
 
-`eval/tone-grader.ts` scores any string (em-dash/1k, tricolons, hedges, signposts, ai-vocab, negative-parallelism, copula, burstiness → `aiScore` 0-100). `eval/run.ts` compares the human corpus against the drafts. The human corpus lives in `eval/corpus/` (gitignored — it's Chad's redacted private Slack/prompts; local calibration only).
+`eval/tone-grader.ts` scores any string (em-dash/1k, tricolons, hedges, signposts, ai-vocab, negative-parallelism, copula, burstiness, dramatic-sequencing inversions, punch-fragment density, sales speak → `aiScore` 0-100). `eval/run.ts` compares the human corpus against the drafts. The human corpus lives in `eval/corpus/` (gitignored — it's Chad's redacted private Slack/prompts; local calibration only).
 
 **Gate:** shipped posts must score `aiScore < 15` on `tone-grader.ts`. This is the ship gate — required, not advisory.
 

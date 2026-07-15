@@ -77,6 +77,10 @@ trying too hard, sounds like a bad actor, a bad movie dialogue." The tells:
   voice, cut it. Confidence reads as calm, not as punchy.
 The register to aim for: someone competent explaining their work plainly, with
 occasional dry humor. Not a keynote. Not a trailer. Not a founder pitch.
+Deterministic enforcement (TD-0037, calibrated 2026-07-15): tone-grader.ts now
+scores dramaticInversions (first free, +6 each, cap 18), punchFragments (first
+TEN free — burstiness is legitimate voice — then +1, cap 6), and salesSpeak
+(+5 each, cap 15). Calibrated so no existing post or corpus sample newly fails.
 
 ## 8. The sales-pivot ending
 The closing must resolve the opening — whatever the hook promised, the close

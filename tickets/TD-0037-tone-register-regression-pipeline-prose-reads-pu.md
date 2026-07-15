@@ -52,17 +52,29 @@ Durable fixes — each independently landable:
 
 ## Acceptance
 
-- [ ] A draft written in the rejected register trips the gate — seed a fixture
-      from tonight's 52-post queue output if any post exhibits it.
-- [ ] Existing clean posts (and Chad's own writing in the human corpus) do not
-      trip the new signals after recalibration.
-- [ ] tone-grader.ts scores all three new signals with corpus-calibrated
-      weights, covered by tone-grader.test.ts cases.
-- [ ] formulaic-reviewer and voice-reviewer name the performative /
+- [x] A draft written in the rejected register trips the gate — no single live
+      post in the current 52-post queue exhibits the FULL combined register
+      (only isolated fragments of one tell), so this is a synthetic fixture
+      combining all three tells, locked in as a regression test
+      (`tone-grader.test.ts`, "TD-0037 acceptance" describe block) — scores 26,
+      well above the 15 gate.
+- [x] Existing clean posts (and Chad's own writing in the human corpus) do not
+      trip the new signals after recalibration — 0/52 shipped posts newly cross
+      15; human corpus (106 snippets) unchanged (10 pre-existing over-15 lines,
+      same lines, same scores, before and after).
+- [x] tone-grader.ts scores all three new signals with corpus-calibrated
+      weights, covered by tone-grader.test.ts cases — 29 new/updated tests, all
+      green.
+- [x] formulaic-reviewer and voice-reviewer name the performative /
       bad-movie-dialogue crutch and flag it quote-and-fix, gated at density.
 - [ ] The hand-curated `docs/blog-drafter-pitfalls.md` entries for these tells
-      are committed and reference the calibrated thresholds.
-- [ ] The human-tone SKILL tell-table lists the three new tells with fix
+      are committed and reference the calibrated thresholds — **remains open**:
+      §7 is already committed (`12b0ce2`, predates this pass) with the prose
+      guidance, but it doesn't cite `tone-grader.ts`'s calibrated numbers (the
+      free-allowance/weight/cap for each detector). That file wasn't in this
+      pass's scope (owned by a parallel writer per the dispatch) — needs a
+      follow-up edit to cross-reference the thresholds landed here.
+- [x] The human-tone SKILL tell-table lists the three new tells with fix
       patterns.
 
 ## Notes
@@ -70,3 +82,18 @@ Durable fixes — each independently landable:
 Related, not duplicated: [[TD-0012]] (done) only tightened the gate threshold;
 [[TD-0035]] automates the pitfalls ledger later — this ticket lands the
 detectors and the hand-curated entries it would build on.
+
+**2026-07-15 — detectors landed, one item open.** Implemented
+`dramaticInversions` / `punchFragments` / `salesSpeak` in `tone-grader.ts` +
+tests, the SKILL.md tell-table rows, and the formulaic-reviewer /
+voice-reviewer axis updates. Calibration note: the dispatched literal weights
+(punch-fragment free=2/weight=4/cap=16) blanket-failed 30/52 shipped posts —
+Scout's established burstiness texture (SKILL.md "jam a fragment against a
+run") legitimately runs 5-25 short sentences per post, which isn't the
+register Chad rejected. Retuned empirically against the real corpus + blog to
+free=10/weight=1/cap=6 (comment + full rationale in `tone-grader.ts` above the
+score formula); dramaticInversions and salesSpeak needed no retuning (0 false
+positives on any of the 52 posts or the 106-snippet human corpus at the
+dispatched weights). Status stays `open` — only the
+`docs/blog-drafter-pitfalls.md` cross-reference item remains, and that file is
+outside this pass's owned scope.

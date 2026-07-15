@@ -18,6 +18,9 @@ export interface ToneMetrics {
   negParallel: number;
   fromXtoY: number;
   transitionsPer1k: number;
+  dramaticInversions: number; // "By the time X, Y had already Z" / "N things run before X" hook shapes (TD-0037)
+  punchFragments: number; // prose (non-heading/list) ≤3-word sentences ending in . or ! (TD-0037)
+  salesSpeak: number; // turbocharge/supercharge/unlock-as-verb/pitch-deck cadence (TD-0037)
   burstiness: number; // stdev of sentence word-counts; LOW is AI-like
   contractionsPer100: number; // corpus baseline ~1.2-4.9; AI-formal prose goes low
   startDiversity: number; // unique sentence-openers / sentences; corpus ~0.56-0.75
@@ -72,6 +75,79 @@ const INFLATION = [
   'undeniably', 'undoubtedly', 'seamlessly', 'effortlessly', 'remarkably',
   'critically important', 'deeply personal', 'truly unique',
 ];
+// TD-0037: performative/bad-movie-dialogue register — Chad's rejected feedback,
+// verbatim: "too many quips, too much sales speak, trying too hard, sounds like
+// a bad actor, a bad movie dialogue." Three families below.
+
+// Sentence-initial dramatic-sequencing hook shapes. Sentence-INITIAL only —
+// mid-sentence "before"/"by the time"/"already" is normal causal prose
+// (confirmed against the human corpus + shipped posts during calibration;
+// see calibration notes in the TD-0037 report).
+const DRAMATIC_INVERSION_STARTS = [/^by the time\b/i, /^before a single\b/i];
+const DRAMATIC_INVERSION_COUNT_SHAPE =
+  /^(?:\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|dozens?|a dozen|several|many|countless)\s+[a-z]+(?:\s+[a-z]+){0,2}\s+(?:run|runs|happen|happens)\s+before\b/i;
+// "X have/has already Z" paired with before/by-the-time IN THE SAME SENTENCE —
+// deliberately narrow ("have/has already <verb>", not bare "already") so
+// ordinary uses like "is already a little stale by the time it renders" don't
+// trip it.
+const ALREADY_VERB = /\b(?:have|has)\s+already\s+\w+/i;
+const BEFORE_OR_BYTHETIME = /\b(?:before|by the time)\b/i;
+
+// Punch-fragment prose lines to exclude from fragment-counting: headings,
+// list items, blockquotes, code fences — the tell is about PROSE rhythm.
+const NON_PROSE_LINE = /^(?:#{1,6}\s|[-*+]\s|\d+[.)]\s|>|```)/;
+
+const SALES_SPEAK_PHRASES = [
+  'the whole thesis', "that's the bet", 'that is the bet',
+  "here's the kicker", 'here is the kicker', 'the best part?', 'and it works',
+];
+const SALES_SPEAK_REGEXES = [
+  /\bturbocharg(?:e|ed|es|ing)\b/gi,
+  /\bsupercharg(?:e|ed|es|ing)\b/gi,
+  /\bgame[- ]chang\w*/gi,
+  /\bunlock(?:s|ed|ing)?\b/gi, // "unlock" as a verb — pitch-deck cadence
+  /\blevel(?:s)?\s+up\b/gi,
+  /\b10x\b/gi,
+  /\bchef'?s[- ]kiss\b/gi,
+];
+// "chef's-kiss"-adjacent superlative stacking: 2+ of these in ONE sentence
+// reads like ad copy even though each word alone is fine.
+const SUPERLATIVE_WORDS = [
+  'best', 'amazing', 'incredible', 'perfect', 'flawless', 'mind-blowing',
+  'insane', 'unbelievable', 'epic',
+];
+
+function dramaticInversionHits(sentenceParts: string[]): string[] {
+  const hits: string[] = [];
+  for (const s of sentenceParts) {
+    const startShape = DRAMATIC_INVERSION_STARTS.some((re) => re.test(s)) || DRAMATIC_INVERSION_COUNT_SHAPE.test(s);
+    const alreadyBefore = ALREADY_VERB.test(s) && BEFORE_OR_BYTHETIME.test(s);
+    if (startShape || alreadyBefore) hits.push(s);
+  }
+  return hits;
+}
+
+function punchFragmentHits(text: string): string[] {
+  const proseText = text.split('\n').filter((line) => line.trim() && !NON_PROSE_LINE.test(line.trim())).join(' ');
+  const parts = proseText.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+  return parts.filter((s) => {
+    if (!/[.!]$/.test(s)) return false;
+    const wc = (s.match(/\b[\w'-]+\b/g) ?? []).length;
+    return wc > 0 && wc <= 3;
+  });
+}
+
+function salesSpeakHits(text: string, sentenceParts: string[]): string[] {
+  const hits = [
+    ...countMatches(text, SALES_SPEAK_PHRASES),
+    ...SALES_SPEAK_REGEXES.flatMap((re) => regexHits(text, re)),
+  ];
+  for (const s of sentenceParts) {
+    const lower = s.toLowerCase();
+    if (SUPERLATIVE_WORDS.filter((w) => lower.includes(w)).length >= 2) hits.push(s);
+  }
+  return hits;
+}
 
 function countMatches(text: string, phrases: string[]): string[] {
   const lower = text.toLowerCase();
@@ -113,6 +189,9 @@ export function scoreText(raw: string): ToneMetrics {
   const transitionHits = countMatches(text, TRANSITIONS.map((w) => w + ',')).concat(
     countMatches(text, TRANSITIONS.map((w) => w + ' ')),
   );
+  const dramaticInversionMatches = dramaticInversionHits(sentenceParts);
+  const punchFragmentMatches = punchFragmentHits(text);
+  const salesSpeakMatches = salesSpeakHits(text, sentenceParts);
 
   const mean = sentLens.reduce((a, b) => a + b, 0) / sentences;
   const variance = sentLens.reduce((a, b) => a + (b - mean) ** 2, 0) / sentences;
@@ -145,6 +224,18 @@ export function scoreText(raw: string): ToneMetrics {
   score += Math.min(negParallelHits.length * 6, 24);
   score += Math.min(fromToHits.length * 4, 8);
   score += Math.min(transitionsPer1k * 3, 10);
+  score += Math.min(Math.max(0, dramaticInversionMatches.length - 1) * 6, 18); // first hook free (sequencing can be legitimate)
+  // Calibrated 2026-07-15 against the shipped blog corpus (TD-0037): Scout's
+  // established burstiness texture (SKILL.md "jam a fragment against a run")
+  // legitimately produces 2-25 short sentences per post (median ~7) as normal
+  // style, not register drift. The dispatched weight+cap (free=2, +4, cap 16)
+  // blanket-failed 30/52 clean posts; free=10 tracks the observed normal
+  // ceiling (matches the dispatched literal "some are good, density is the
+  // tell" framing) — 0/52 clean posts newly cross the aiScore<15 gate at
+  // free=10/weight=1/cap=6, while genuine outliers (17, 25 raw hits) still
+  // accumulate real score.
+  score += Math.min(Math.max(0, punchFragmentMatches.length - 10) * 1, 6); // established-style ceiling free; density beyond it accumulates
+  score += Math.min(salesSpeakMatches.length * 5, 15);
   if (sentences >= 4 && burstiness < 6) score += (6 - burstiness) * 2.5; // low burstiness penalty
   // Texture deltas vs the human corpus (only on texts big enough to trust).
   if (words >= 120 && contractionsPer100 < 0.8) score += (0.8 - contractionsPer100) * 8; // stiff, uncontracted prose
@@ -164,6 +255,9 @@ export function scoreText(raw: string): ToneMetrics {
     negParallel: negParallelHits.length,
     fromXtoY: fromToHits.length,
     transitionsPer1k: +transitionsPer1k.toFixed(2),
+    dramaticInversions: dramaticInversionMatches.length,
+    punchFragments: punchFragmentMatches.length,
+    salesSpeak: salesSpeakMatches.length,
     burstiness: +burstiness.toFixed(2),
     contractionsPer100: +contractionsPer100.toFixed(2),
     startDiversity: +startDiversity.toFixed(2),
@@ -174,6 +268,7 @@ export function scoreText(raw: string): ToneMetrics {
       tricolon: tricolonHits, hedges: hedgeHits, signposts: signpostHits,
       aiVocab: aiVocabHits, copulaAvoid: copulaHits, quips: quipHits, inflation: inflationHits, negParallel: negParallelHits,
       fromXtoY: fromToHits, banned: bannedHits,
+      dramaticInversions: dramaticInversionMatches, punchFragments: punchFragmentMatches, salesSpeak: salesSpeakMatches,
     },
   };
 }
