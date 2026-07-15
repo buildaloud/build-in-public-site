@@ -9,6 +9,7 @@ or `ticket-kit serve` for a live board.
 <!-- TICKETS:START -->
 | ID | Title | Status | Pri | Rank | Area |
 | --- | --- | --- | --- | --- | --- |
+| [TD-0037](TD-0037-tone-register-regression-pipeline-prose-reads-pu.md) | Tone register regression: pipeline prose reads punchy-AI / salesy / performative | open | P1 | 10 | content |
 | [TD-0025](TD-0025-panel-v1-console-unification.md) | 'panel v1: absorb the localhost console — one dash for everything' | open | P1 | 14 | build |
 | [TD-0021](TD-0021-shared-analytics-strategy.md) | 'Shared analytics: one GA4/GSC/PostHog, filtered per product' | open | P1 | 18 | measurement |
 | [TD-0013](TD-0013-supabase-back-to-free.md) | 'Supabase back to free tier on the shared-DB plan' | open | P1 | 25 | operations |
