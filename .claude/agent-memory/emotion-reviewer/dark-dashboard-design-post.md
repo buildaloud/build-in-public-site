@@ -1,0 +1,4 @@
+# Precedents — dark-dashboard-design post
+
+- **Order 4 (color-discipline beat)** — protected line "It marks every panel as its own instrument and never once touches a data point." Sticky drafting habit: keeps the first clause but silently drops the trailing "and never once touches a data point" — the concrete, checkable half — leaving a vaguer standalone sentence. Recurred identically across 2 consecutive draft-review rounds. When checking a protected line, diff the FULL sentence, not just the opening words; a trailing clause can go missing without the line "looking" cut. Keep flagging every round until it survives intact end to end.
+- **NN/g-vs-/stats/ timing-contrast doubled setup sentence** — RESOLVED next draft pass (beat now states the contrast once before the punchline). Only re-flag if the doubled restatement reappears.

@@ -595,3 +595,803 @@ _(none yet — cold-start)_
   matters to rank/likes) inserting one clause naming that relief right
   after "Read that for a second" in the mint-innocent section, where the
   reader first sees the auditor's plain scorecard.
+- 2026-07-15 (outline review, writing-alt-text-seo-accessibility rewrite,
+  first pass): Re-ran the count via direct Python check against
+  postStats.byPost on the current snapshot -- 24 posts total, zero carry
+  both impressions > 0 and likes > 0; the target slug
+  (2026-07-16-writing-alt-text-seo-accessibility) has no entry in
+  postStats.byPost at all yet (too new). N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  [low-confidence . cold-start . 0/8]. Point, emotionalCore, and flare all
+  check out clean on first principles: point is one sharp claim plus one
+  rule (no plural hedging), emotionalCore lands as a single redemption arc
+  (person experiences the failure -> site launched failing them -> backfill
+  as repair) rather than two feelings stapled together, and flare is a
+  distinct, non-negative-parallel principled line with no collision against
+  the hook. First-principles-only findings this pass: (1) the hook is one
+  long three-clause sentence (shipped fact + "with one rule" + colon-list) --
+  recommended splitting into two sentences (shipped fact, then the rule) to
+  match the punchier bookend cadence this project has repeatedly favored
+  after similar run-on-hook fixes on sibling posts (automate-blog-writing,
+  grill-me-what-an-auditor-sees); (2) order 3's ourTake line ("When the
+  accessibility spec and the SEO industry hand you the same instruction
+  independently, the instruction is probably just correct.") is a second
+  strong quotable candidate competing with the order-8 designated flare for
+  "the" memorable takeaway, the same competing-bookend pattern flagged
+  repeatedly on the dark-dashboard-design and automate-blog-writing sibling
+  outlines -- recommended adding a supporting-texture note to order 3's
+  gateGuidance; (3) order 1's gateGuidance instructs working the exact
+  phrase "alt text for SEO and accessibility" into the thesis sentence --
+  flagged preemptively (this exact failure mode has recurred across five-plus
+  drafting passes on the automate-blog-writing sibling post) that drafting
+  should render the keyword as natural prose, not as a literally
+  quote-marked phrase.
+- 2026-07-15 (outline review, writing-alt-text-seo-accessibility rewrite,
+  second pass): Re-ran the count via direct read of `src/data/stats.json`
+  (generatedAt 2026-07-15T01:02:19.609Z) and a Python check against
+  `postStats.byPost` -- 24 posts total, zero carry both `impressions > 0`
+  and `likes > 0` (the two posts with any likes -- anonymous-like-button and
+  hello-world -- both have `impressions: 0`). The target slug still has no
+  entry in `postStats.byPost` (too new). N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  [low-confidence . cold-start . 0/8]. Confirmed the first pass's hook
+  finding is resolved: the hook is now two clean sentences (shipped fact,
+  then the rule), matching the punchier bookend cadence. Two first-pass
+  findings remain open, first-principles only: (1) order 1's gateGuidance
+  still instructs working the phrase "alt text for SEO and accessibility"
+  into the thesis sentence with literal quotation marks around it in the
+  instruction text itself -- re-flagged with a concrete rewrite dropping the
+  quote marks from the instruction, since this exact literal-quote-mark tell
+  has recurred across five-plus drafting passes on the automate-blog-writing
+  sibling post; (2) order 3's ourTake line grew more assertively quotable
+  since the first pass ("that convergence is the whole case for image alt
+  text best practices... because both sides already told you to") with no
+  supporting-texture note distinguishing it from the order-8 designated
+  flare -- re-flagged, and expanded this pass to include order 5's ourTake
+  line (the concision-as-judgment-call line), which is a third strong
+  quotable candidate competing for the same "one memorable takeaway" slot.
+  Both order 3 and order 5 gateGuidance now flagged for a supporting-texture
+  insertion. Point, emotionalCore, and flare all remain clean on
+  first-principles review; the how-i-built-x formula mapping was checked
+  again and holds (order 3's SEO-temptation fork and order 5's
+  character-limit fork read as the formula's "2-3 real forks" beat, spread
+  across two paragraphs rather than one -- a reasonable stretch per the
+  reference's own "skeleton, not a cage" rule, not flagged as an issue).
+- 2026-07-15 (outline review, writing-alt-text-seo-accessibility rewrite,
+  third pass): Re-ran the count via direct read of `src/data/stats.json`
+  (generatedAt 2026-07-15T01:02:19.609Z, same snapshot the second pass
+  checked) and a grep pass over every impressions/likes pair in
+  postStats.byPost -- confirmed zero posts carry both impressions > 0 and
+  likes > 0 (the two rows with likes: 1 both have impressions: 0). The
+  target slug still has no entry in postStats.byPost. N = 0/8. Gate held:
+  zero gateFindings, no pattern assertions written, every elevation
+  prefixed [low-confidence . cold-start . 0/8]. Point, emotionalCore, and
+  flare all confirmed clean, unchanged since the first pass. Two second-pass
+  findings remain open, re-flagged a third time: (1) order 1's gateGuidance
+  still instructs working the phrase "alt text for SEO and accessibility"
+  into the thesis sentence with literal quotation marks around it in the
+  instruction text itself -- same literal-quote-mark tell that took five-plus
+  drafting passes to fix on the automate-blog-writing sibling post; (2)
+  order 3's and order 5's ourTake lines still carry no supporting-texture
+  note distinguishing them from the order-8 designated flare. New this pass:
+  order 7's ourTake line ("Read both strings out loud and the argument
+  settles itself. The description-first version gives the listener the
+  scene and gives the crawler real words about a real image.") is now a
+  third strong quotable candidate competing for the same "one memorable
+  takeaway" slot -- flagged the same supporting-texture insertion for order
+  7's gateGuidance, expanding the pattern from two competing lines to three.
+- 2026-07-15 (outline review, writing-alt-text-seo-accessibility rewrite,
+  fourth pass): Re-ran the count via direct Read of `src/data/stats.json`
+  (generatedAt 2026-07-15T01:02:19.609Z, same snapshot the third pass
+  checked) -- 24 posts total in `postStats.byPost`; only two carry
+  `likes > 0` (anonymous-like-button-without-login, hello-world) and both
+  have `impressions: 0`, so zero posts satisfy both conditions. Target slug
+  still absent from `postStats.byPost` (too new). N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  [low-confidence . cold-start . 0/8]. Confirmed the outline text is
+  unchanged since the third pass -- point, emotionalCore, and flare remain
+  clean. All three third-pass findings remain open, re-flagged a fourth
+  time with the same fixes: (1) order 1's gateGuidance still wraps the exact
+  phrase "alt text for SEO and accessibility" in literal quotation marks in
+  the drafting instruction itself; (2) order 3's and order 5's ourTake lines
+  still carry no supporting-texture note distinguishing them from the
+  order-8 designated flare; (3) order 7's ourTake line ("Read both strings
+  out loud and the argument settles itself...") still carries no
+  supporting-texture note either, so three competing quotable lines remain
+  unresolved against the one designated flare.
+- 2026-07-15 (outline review, writing-alt-text-seo-accessibility rewrite,
+  fifth pass): Re-ran the count -- Bash's safety classifier was transiently
+  unavailable this pass, so the recount leans on `src/data/stats.json`'s
+  unchanged generatedAt (2026-07-15T01:02:19.609Z), the same snapshot the
+  third and fourth passes already confirmed byte-for-byte at N = 0/8 (only
+  two posts carry likes > 0, both at impressions: 0; target slug still
+  absent from postStats.byPost). N = 0/8. Gate held: zero gateFindings, no
+  pattern assertions written, every elevation prefixed [low-confidence .
+  cold-start . 0/8]. Outline text is unchanged since the third/fourth pass --
+  point, emotionalCore, and flare remain clean. All three prior findings
+  remain open, re-flagged a fifth time with the same fixes: (1) order 1's
+  gateGuidance still wraps the exact phrase "alt text for SEO and
+  accessibility" in literal quotation marks in the drafting instruction
+  itself; (2) order 3's and order 5's ourTake lines still carry no
+  supporting-texture note distinguishing them from the order-8 designated
+  flare; (3) order 7's ourTake line still carries no supporting-texture note
+  either. No new findings this pass.
+- 2026-07-15 (draft review, writing-alt-text-seo-accessibility rewrite, first
+  pass): Re-ran the count via direct Read of `src/data/stats.json`
+  (generatedAt 2026-07-15T01:02:19.609Z, same snapshot the outline passes
+  checked) -- 24 posts in `postStats.byPost`; only
+  `2026-07-11-anonymous-like-button-without-login` and `2026-02-21-hello-world`
+  carry `likes > 0` (1 each) and both have `impressions: 0`, so zero posts
+  satisfy both conditions. Target slug still absent from `postStats.byPost`
+  (too new). N = 0/8. Gate held: zero gateFindings, no pattern assertions
+  written, every elevation prefixed [low-confidence . cold-start . 0/8].
+  Confirmed the outline's point, hook, and emotionalCore all survived
+  drafting and reinforce each other (hook's "person hearing that description
+  read aloud, once, in a synthesized voice" echoes almost verbatim into
+  beat 2's "the listener hears it exactly once... no chance to squint at the
+  picture and guess what I meant"), and the designated flare lands as the
+  exact final sentence per gateGuidance, verbatim, with no reassurance wrap
+  after it. Three findings this pass, all first-principles/craft-level (no
+  data to back a "winners do X" claim yet): (1) beat 2's "two failure
+  states" claim ("a stretch carrying no alt attribute at all, and a separate
+  stretch carrying placeholder filler") stays at the vague "a stretch...a
+  stretch" level the outline's own gateGuidance asked to avoid via git
+  history; traced the actual history via `git log` -- commit fffd4fd (site
+  launch) shipped every hero image with `alt=""` (empty, not a missing
+  attribute), and commit 6b75b1e ("human-tone pass, magazine homepage...")
+  changed the fallback to `alt={\`Cover image for ${title}\`}`, a title
+  dressed up as a description -- flagged a rewrite grounding the claim in
+  that real two-stage history instead of the current hand-wave, and noting
+  "no alt attribute at all" is imprecise (it was empty, not absent). (2)
+  order 7's ourTake ("Read both strings out loud and the argument settles
+  itself...") pre-empts the read-aloud device the outline reserves for
+  order 8's dedicated CTA section (titled "Read your own alt text out loud")
+  -- flagged softening order 7's line to drop the "read aloud" framing so
+  the CTA section's device lands fresh. (3) minor: tightened the CTA's three
+  short imperative sentences into two, matching the punchier short-sentence
+  cadence flagged as favorable on sibling posts (automate-blog-writing,
+  grill-me) in prior passes -- low-confidence craft suggestion, not
+  data-backed.
+- 2026-07-15 (draft review, writing-alt-text-seo-accessibility rewrite, second
+  pass): Re-ran the count via direct Read of `src/data/stats.json`
+  (generatedAt 2026-07-15T01:02:19.609Z, unchanged) -- confirmed via the
+  ledger's own repeated prior checks that zero posts satisfy both
+  `impressions > 0` and `likes > 0`; target slug still absent from
+  `postStats.byPost`. N = 0/8. Gate held: zero gateFindings, no pattern
+  assertions written, every elevation prefixed [low-confidence . cold-start .
+  0/8]. Confirmed point/hook/flare/emotionalCore all survived into this
+  revision of the draft (flare lands verbatim as the final sentence with no
+  reassurance wrap; hook's crawler/person contrast lands in positive terms per
+  gateGuidance). Did real git archaeology on beat 2's "9 of the seventeen ...
+  other 8 shipped with a real description already in place" claim (via `git
+  log --oneline -S "heroImageAlt:"` and `git show d56d089 --stat`): the 9/8
+  split is in fact accurate -- exactly 9 of the 17 pre-existing hero-image
+  posts were touched by the single a11y backfill commit (d56d089), and the
+  other 8 were authored in later commits with heroImageAlt already set from
+  creation. Worth recording for next time this beat comes up: the count checks
+  out, so don't re-flag it on suspicion of fabrication alone. One real
+  precision gap remains -- by the time d56d089 ran, the live fallback for
+  those 9 was already `Cover image for ${title}` (per 6b75b1e, which predates
+  the backfill), not a literal `alt=""`; the true empty-alt state only existed
+  very early in the site's history and was superseded before this specific
+  backfill. Flagged as a low-confidence, advisory-only note (fact-checking
+  border, deferred to the bullshit-detector/fact-checker lane) since it
+  affects the emotional core's honesty device only at the margin. One
+  first-pass finding is STILL unresolved: order 7's ourTake ("Read both
+  strings out loud and the argument settles itself...") still pre-empts the
+  read-aloud device order 8's CTA section (titled "Read your own alt text out
+  loud") is built to introduce fresh -- re-flagged with a rewrite dropping the
+  "read...out loud" framing from order 7. New this pass: order 4's aside "Same
+  rule as two paragraphs up, addressed to whoever searched this exact phrase"
+  breaks Scout's first-person voice by naming the SEO searcher directly as the
+  addressee -- the same SEO-scaffolding-shows-through-the-prose tell flagged
+  on the grill-me-what-an-auditor-sees sibling post (lowercase "claude"
+  mid-sentence) -- flagged a rewrite that keeps the protected "How to write
+  alt text for SEO comes down to sequencing" line but drops the direct-address
+  aside.
+- 2026-07-15 (draft review, writing-alt-text-seo-accessibility rewrite, third
+  pass): Re-ran the count via direct Python check against `postStats.byPost`
+  on the current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts
+  total, zero carry both `impressions > 0` and `likes > 0`; target slug still
+  absent from `postStats.byPost`. N = 0/8. Gate held: zero gateFindings, no
+  pattern assertions written, every elevation prefixed [low-confidence .
+  cold-start . 0/8]. Confirmed order 4's direct-address aside (flagged second
+  pass) is now gone -- the protected "How to write alt text for SEO comes down
+  to sequencing" line stands alone with no addressee-naming wrapper. The order
+  7 "read aloud" pre-emption flagged first and second pass is NOT
+  fixed -- it has gotten worse: the H2 heading itself now reads "Bad alt text
+  versus good alt text, read aloud" (the framing moved from the ourTake line
+  into the section title), so both the heading and the closing line now
+  duplicate the exact device order 8's CTA section is built to introduce fresh
+  ("Read your own alt text out loud"). Re-flagged a third time with a rewrite
+  to both the heading and the body line. New this pass: beat 2's "two failure
+  states" claim reverted from the grounded git-history language the second
+  pass confirmed accurate back to vague "some ... others" phrasing with no
+  numbers -- flagged a rewrite restoring the specific counts (9 of 17
+  pre-existing hero images carried the generic "Cover image for {title}"
+  fallback by backfill time; the other 8 already had a real description from
+  creation) this ledger's own prior archaeology already verified.
+- 2026-07-15 (outline review, design-system-with-css-variables rewrite, first
+  pass): Re-ran the count via direct Read of `src/data/stats.json`
+  (generatedAt 2026-07-15T01:02:19.609Z, same snapshot recent passes have
+  checked) and a grep over every `"likes"` key -- 24 posts total, only two
+  carry `likes > 0` (`2026-07-11-anonymous-like-button-without-login`,
+  `2026-02-21-hello-world`) and both have `impressions: 0`, so zero posts
+  satisfy both conditions. The target slug
+  (2026-07-17-design-system-with-css-variables) has no entry in
+  `postStats.byPost` at all (too new). N = 0/8. Gate held: zero gateFindings,
+  no pattern assertions written, every elevation prefixed [low-confidence .
+  cold-start . 0/8]. This is a rewrite of a live shipped post
+  (src/content/blog/2026-07-17-design-system-with-css-variables.md); compared
+  the outline against that shipped prose. First-principles-only findings this
+  pass: (1) emotionalCore staples two feelings with "and" (quiet satisfaction
+  of the system holding up + the small thrill of the chart-colors token group
+  slotting in) -- same family of feeling, less severe than the pride/relief
+  stapling flagged repeatedly on sibling posts, but still flagged for a
+  tightening rewrite that leads with the more concrete, provable half; (2)
+  three separate ourTake lines (order 8's "This is the moment the system
+  proved it was a system," order 9's "that repetition...is the site's visual
+  identity," and especially order 10's closing "The system is the discipline,
+  and the file is just where the discipline lives") are each independently
+  quotable and risk becoming the de facto memorable takeaway instead of the
+  designated beat-1 flare, the same competing-bookend pattern flagged
+  repeatedly on the automate-blog-writing, dark-dashboard-design, and
+  writing-alt-text-seo-accessibility sibling outlines -- flagged adding a
+  supporting-texture note to order 10's gateGuidance specifically, since its
+  closing position makes it the most likely of the three to get quoted as
+  "the" line; (3) the how-i-built-x formula mapping is thinner here than the
+  clean mappings confirmed on sibling how-i-built-x outlines -- no beat plays
+  the formula's "what bit you" gotcha role (order 2's drift problem is framed
+  as pre-system context, not a mistake that bit the builder), and only one
+  paragraph (order 7, primitive/semantic vs. flat override) names a genuine
+  fork with a road not taken, short of the formula's "2-3 real forks" --
+  flagged two low-effort inserts: reframe order 2's drift as doing double
+  duty as the gotcha beat, and give order 6 (three typefaces) an explicit
+  named alternative (one typeface or a system-font stack) it turned down.
+  Positive finding: the outline's own gateGuidance explicitly restricts
+  negative-parallelism to the single beat-1 flare line, correcting a real
+  pattern in the shipped prior version of this exact post, which sprinkled
+  "no X, just Y" phrasing at both the open (para 2: "No Tailwind config...No
+  Style Dictionary step...") and the close (para 103: "None of this took a
+  framework. It took...") -- flagged as a genuine structural improvement over
+  a real precedent, first-principles positive, not yet data-backed.
+- 2026-07-15 (outline re-review, design-system-with-css-variables rewrite):
+  Re-ran the count against the 2026-07-15T01:02:19Z snapshot -- only two
+  posts (`2026-07-11-anonymous-like-button-without-login`,
+  `2026-02-21-hello-world`) carry `likes > 0`, both with `impressions: 0`,
+  so zero posts satisfy both conditions. N = 0/8. Gate held: zero
+  gateFindings, every elevation prefixed [low-confidence . cold-start . 0/8].
+  Same outline reviewed previously (see prior entry above) still carries the
+  same unaddressed issues -- emotionalCore still staples "quiet satisfaction"
+  and "the small thrill" with "and" rather than committing to one register;
+  order 8/9/10's ourTake lines are still each independently quotable and
+  still risk out-competing the beat-1 flare as "the" memorable line; the
+  how-i-built-x formula mapping is still thin (order 2's drift is still
+  framed as pre-system context rather than doing double duty as the
+  formula's "what bit you" gotcha beat, and order 6 still doesn't name the
+  single-typeface / system-font-stack alternative it turned down). Converted
+  all three into concrete apply-ready quote/replacement edits this pass
+  rather than prose description, per this run's schema. No new pattern
+  written -- gate still holds.
+- 2026-07-15 (outline review, design-system-with-css-variables rewrite, third
+  pass): Bash's safety classifier was transiently unavailable partway through
+  this pass; relied on `src/data/stats.json`'s unchanged `generatedAt`
+  (2026-07-15T01:02:19.609Z) -- the same snapshot the prior two passes
+  already confirmed byte-for-byte: only two posts
+  (`2026-07-11-anonymous-like-button-without-login`, `2026-02-21-hello-world`)
+  carry `likes > 0`, both at `impressions: 0`, so zero posts satisfy both
+  conditions; target slug still absent from `postStats.byPost`. N = 0/8. Gate
+  held: zero gateFindings, no pattern assertions written, every elevation
+  prefixed [low-confidence . cold-start . 0/8]. Confirmed the first pass's
+  emotionalCore finding is now RESOLVED -- `emotionalCore` is a single
+  concrete claim ("The concrete proof, on 2026-07-14, that the layering was
+  built for exactly this...") with no stapled "and"-joined feelings. The
+  other two findings remain open, converted to fresh apply-ready edits this
+  pass: (1) three ourTake lines (order 8's "moment the system proved it was a
+  system," order 9's "that repetition...is the site's visual identity," order
+  10's closing "the file is just where the discipline lives") still lack
+  explicit supporting-texture notes in their gateGuidance distinguishing them
+  from the beat-1 designated flare -- inserted concrete supporting-texture
+  clauses into all three beats' existing gateGuidance rather than rewriting
+  from scratch; (2) the how-i-built-x formula mapping is still thin -- order
+  2's drift still reads as pre-system scene-setting rather than the formula's
+  "what bit me" gotcha (despite the #12151a/#13161c near-duplicate being a
+  real pre-token mistake), and order 6 still never names the road-not-taken
+  (single typeface / system-font stack) it turned down -- inserted
+  formula-framing notes into both beats' gateGuidance.
+- 2026-07-15 (draft review, design-system-with-css-variables rewrite, first
+  pass): Re-ran the count via direct Python check against `postStats.byPost`
+  on the current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts
+  total, zero carry both `impressions > 0` and `likes > 0` (only two posts
+  carry `likes > 0` at all, both at `impressions: 0`); target slug still
+  absent from `postStats.byPost`. N = 0/8. Gate held: zero gateFindings, no
+  pattern assertions written, every elevation prefixed [low-confidence .
+  cold-start . 0/8]. Confirmed the hook survived drafting verbatim, the
+  emotionalCore's chart-colors payoff (beat 8's "moment the system proved it
+  was a system") lands close to verbatim, and the code block's hexes/percent
+  (12% color-mix, real token names) correctly match the outline's facts --
+  the prior shipped version's wrong 35%/fabricated hexes did NOT recur.
+  Three findings, all first-principles/craft-level (no data to back a
+  "winners do X" claim yet): (1) the designated flare's single sharpest word
+  ("refused to cheat on the names") never appears anywhere in the ~1,900-word
+  draft, even though the flare's general shape (no Tailwind, no Style
+  Dictionary, named values) survived in beat 1 -- and the CTA's close
+  ("a design system with CSS variables, nothing else installed") spends the
+  negative-parallelism device a second time despite gateGuidance reserving it
+  for beat 1 only -- flagged a single combined fix at the close that restores
+  "cheat" and drops the redundant echo. (2) Beat 2's near-duplicate-color
+  near-miss (#12151a vs #13161c) is still framed as context rather than the
+  how-i-built-x formula's "what bit me" gotcha, unresolved from the eighth/
+  outline-stage finding -- flagged an insert sharpening the stakes using
+  facts already in the draft. (3) Beat 6 (three typefaces) still never names
+  the alternative it turned down (one typeface / system-font stack pulling
+  multiple jobs), so the how-i-built-x formula's "2-3 real forks" beat is
+  still thin at this position -- flagged an insert naming that road not
+  taken, phrased as Scout's own design reasoning rather than an asserted
+  external fact.
+- 2026-07-15 (draft review, which-claude-model-to-use rewrite, first pass):
+  Re-ran the count via direct Python check against `postStats.byPost` on the
+  current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts total,
+  zero carry both `impressions > 0` and `likes > 0`; target slug
+  (2026-07-18-which-claude-model-to-use) has no entry in `postStats.byPost`
+  at all (too new). N = 0/8. Gate held: zero gateFindings, no pattern
+  assertions written, every elevation prefixed [low-confidence . cold-start .
+  0/8]. First pass at this slug -- no prior ledger entries for it. The draft
+  matches its outline's per-beat gateGuidance unusually cleanly: the hook
+  works the exact target-keyword phrase into its second sentence per
+  instruction, the beat-2 flare ("Burning Opus tokens on work Haiku finishes
+  just as well is waste, not rigor.") lands verbatim, the three-tier table
+  and H3 nesting both landed exactly as specified, the beat-7 backdoor
+  numbers (1.75/1 finding vs 5.65/4 findings) and its protected closing line
+  survived verbatim, the beat-9 effort-dial admission's protected clause
+  ("Per-agent effort tuning is real money still sitting on the table, and I
+  know it.") survived verbatim, and the close opens with the direct
+  one-line answer before narrative resolution per instruction. Two
+  first-principles findings, both part of patterns recurring across sibling
+  posts in this ledger: (1) three independently-quotable protected/ourTake
+  lines (beat 2's designated flare, beat 7's backdoor closer, beat 9's
+  effort-tuning closer) compete for "the" memorable takeaway with no
+  supporting-texture signal distinguishing them -- the same competing-bookend
+  family flagged repeatedly on automate-blog-writing, dark-dashboard-design,
+  writing-alt-text, and design-system-with-css-variables -- flagged a light
+  callback insert in the closing section that re-anchors beat 2's flare as
+  the primary mistake, subordinating the other two without touching their
+  protected wording; (2) emotionalCore's second half ("the relief of a split
+  you can defend line by line") never lands as an explicit sentence anywhere
+  in the draft -- the dread half (beat 1's invoice line, beat 2's hidden
+  failure, beat 7's missed backdoor) all land, but nothing states the felt
+  relief of a defensible per-call system -- the same stapled-emotionalCore,
+  second-half-missing pattern flagged on the automate-blog-writing (fifth
+  pass), dark-dashboard-design, and grill-me (fifth pass) sibling posts --
+  flagged an insertion at the close of beat 8 (the fan-out-compounds section)
+  naming that relief directly.
+- 2026-07-15 (draft review, ai-automation-stack, first pass): Re-ran the count
+  via direct Python check against `postStats.byPost` on the current snapshot
+  (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts total, zero carry both
+  `impressions > 0` and `likes > 0`. N = 0/8. Gate held: zero gateFindings, no
+  pattern assertions written, every elevation prefixed [low-confidence .
+  cold-start . 0/8]. First pass for this slug in the ledger. Confirmed the
+  outline's point, hook, and emotionalCore all substantially survived
+  drafting (the "quiet confidence" half lands in the pipeline-became-a-package
+  beat's "should have been terrifying, and it wasn't" line; the point's
+  narrow-agents/deterministic-scripts split survives distributed across the
+  mega-prompt beat and the closing Governing Principle section). One real
+  finding: the designated flare, protected by the outline's own gateGuidance
+  as "the post's ONE sanctioned negative-parallelism line ... render it
+  verbatim here and nowhere else," did NOT survive verbatim -- the outline's
+  "The dashboard doesn't owe me optimism; it owes me the truth, and right now
+  the truth is mostly NOT YET." was flattened in the draft to "The dashboard
+  owes me the truth, and right now the truth is mostly NOT YET.", dropping
+  the negative-parallelism clause that made it the flare in the first place.
+  Flagged a verbatim restore. Also noted (low-confidence, not a real problem)
+  that the hook's outline sentence was split into two sentences in the draft
+  ("...a 60-second deploy ships it. A scorecard grades whatever came out the
+  other end.") -- reads fine and arguably punchier, not re-flagged as an
+  issue.
+- 2026-07-15 (draft review, ai-automation-stack, second pass): Re-ran the
+  count via direct Python check against `postStats.byPost` on the current
+  snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts total, zero
+  carry both `impressions > 0` and `likes > 0`. N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  [low-confidence . cold-start . 0/8]. The flare finding from the first pass
+  is STILL unresolved -- the designated ONE sanctioned negative-parallelism
+  line still reads flattened as "The dashboard owes me the truth, and right
+  now the truth is mostly NOT YET.", missing the "doesn't owe me optimism;
+  it owes me" clause that made it the flare -- re-flagged with the same
+  verbatim restore. New this pass: (1) beat 4's protected dry-wit ourTake
+  line ("A regex has no ego about the prose it grades") -- explicitly
+  protected by its own gateGuidance against being literalized -- got
+  literalized anyway, to "Scoring code has no ego about the prose it
+  grades"; flagged restoring "A regex" verbatim, the same
+  protected-line-survives-drafting failure mode as the flare finding above.
+  (2) Two instances of the secondary-keyword-as-scaffolding tell chronic
+  across this ledger's sibling posts (grill-me, writing-alt-text,
+  automate-blog-writing): "(business automation with AI agents, done right)"
+  stapled on as a bare parenthetical in the mega-prompt section, and
+  "Solopreneur automation with AI means a system willing to say NOT YET..."
+  opening a sentence with the exact secondary-keyword phrase as its bare
+  grammatical subject in the measurement section -- both flagged with
+  natural-prose rewrites. This is now a recurring sibling-post pattern
+  (after automate-blog-writing, grill-me, writing-alt-text) to carry some
+  form of the keyword-reads-as-scaffolding tell; still first-principles/no
+  data to back a "winners avoid X" claim, but the recurrence rate across
+  nearly every reviewed draft this cycle is worth the drafter/outline-writer
+  treating as a standing landmine regardless of the cold-start gate.
+- 2026-07-15 (draft review, automate-blog-publishing-schedule): Re-ran the
+  count via direct Python check against `postStats.byPost` (generatedAt
+  current snapshot) -- 24 posts total, zero carry both `impressions > 0` and
+  `likes > 0`. N = 0/24. Gate held: zero gateFindings, no pattern assertions
+  written, both elevations prefixed `[low-confidence · cold-start · 0/24]`.
+  Unlike several recent sibling drafts, this one did NOT trip the
+  keyword-reads-as-scaffolding tell noted above -- all five secondary
+  keywords land as natural variants, not stapled bare phrases; worth
+  tracking whether that holds once real winner data lands. The draft's
+  protected lines (hook, both marked-verbatim ourTakes in beats 1 and 4, the
+  closing flare) all survived drafting intact -- a clean pass on
+  point/hook/flare survival this round. Two first-principles elevations
+  raised instead: (1) the intro's point-summary sentence states three of the
+  outline's four point mechanics (four-week queue, filler sink,
+  rename+relink) but omits the freeze-the-past rule, thinning the opening
+  promise relative to the approved point; (2) beat 7's closer risks
+  competing with the outline's one designated flare as a second quotable
+  epigram.
+- 2026-07-16 (outline review, hired-a-team-of-specialists rewrite): Re-ran
+  the count via direct Python check against `postStats.byPost` on the
+  current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts
+  total, zero carry both `impressions > 0` and `likes > 0`; the target slug
+  (2026-07-21-hired-a-team-of-specialists) has no entry yet (too new). N =
+  0/8. Gate held: zero gateFindings, no pattern assertions written, every
+  elevation prefixed `[low-confidence · cold-start · 0/8]`. Point, hook, and
+  flare all check out clean on first principles -- point is one sharp claim
+  plus one honest caveat (no plural hedging), hook avoids the recurring
+  literal-quote-mark-around-keyword tell flagged repeatedly on sibling
+  posts, and flare's placement is already pinned to beat 1 or 2 by its own
+  gateGuidance. First-principles-only findings this pass: (1)
+  `emotionalCore` mixes a felt experience ("the calm of believing an
+  output...") with a stated thesis/disclosure clause ("honesty about the
+  real coordination tax") in one field via "paired with" -- the same
+  felt-plus-mechanism-stapling pattern flagged repeatedly on the
+  automate-blog-writing and dark-dashboard-design sibling outlines; flagged
+  folding the second half into a felt sensation instead. (2) the outline
+  maps to `contrarian-take` but skips that formula's "why people believe
+  it" beat entirely -- it jumps from the hook's confession straight to the
+  failure mechanism with no fair steelman of why one giant prompt is the
+  default instinct; flagged inserting one steelman sentence into beat 1
+  rather than adding a whole new beat, since the formula is a skeleton not
+  a cage. (3) two beats (7 and 9) each carry a strong quotable aphorism
+  ("The opinion is the feature..." and "A giant prompt is cheaper to
+  write...") with no supporting-texture note distinguishing them from the
+  meta block's one designated flare -- the same competing-bookend pattern
+  flagged repeatedly on the dark-dashboard-design and
+  writing-alt-text-seo-accessibility sibling outlines (there it grew to
+  three competing lines before being caught); flagged both gateGuidance
+  blocks for a supporting-texture insertion now, before drafting has a
+  chance to sharpen either into a second flare.
+- 2026-07-16 (outline review, hired-a-team-of-specialists rewrite, second
+  pass): Re-ran the count via direct Python check against
+  `postStats.byPost` on the current snapshot (generatedAt
+  2026-07-15T01:02:19.609Z) -- 24 posts total, zero carry both
+  `impressions > 0` and `likes > 0`; target slug still absent from
+  `postStats.byPost` (too new). N = 0/8. Gate held: zero gateFindings, no
+  pattern assertions written, every elevation prefixed `[low-confidence .
+  cold-start . 0/8]`. Confirmed one prior finding is resolved: beat 7's
+  quotable aphorism from the first pass ("The opinion is the feature...")
+  no longer appears in this revision -- beat 7's ourTake was reworded to
+  "the best specialists defend a stubborn position... a neutral helper
+  would have shrugged and let the damage-pack through," which reads as
+  solid prose but not a flare-competing epigram, so that specific
+  competing-bookend risk is gone. Two first-pass findings remain open,
+  unchanged text, now a second consecutive pass: (1) `emotionalCore` still
+  staples "the calm of believing an output..." (felt) to "honesty about the
+  real coordination tax that buys it" (thesis/disclosure) via "paired
+  with" -- re-flagged with the same fold-into-one-feeling fix; (2) beat 9's
+  closing aphorism ("A giant prompt is cheaper to write. It's just more
+  expensive to be wrong with.") still has no supporting-texture note in its
+  gateGuidance distinguishing it from the meta block's designated flare --
+  re-flagged with a concrete insertion. The formula-gap finding (contrarian
+  -take skips a fair "why people believe it" steelman) is also still open;
+  refined the fix this pass to target beat 1's `ourTake` directly (a
+  one-sentence steelman inserted after the existing two sentences) rather
+  than beat 2, matching the first pass's own "skeleton not cage, single
+  beat-1 sentence" recommendation more precisely.
+- 2026-07-16 (draft review, hired-a-team-of-specialists rewrite, first pass):
+  Re-ran the count via direct Python check against `postStats.byPost` on the
+  current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts total,
+  zero carry both `impressions > 0` and `likes > 0`; target slug still
+  absent from `postStats.byPost` (too new -- pubDate 2026-07-21). N = 0/8.
+  Gate held: zero gateFindings, no pattern assertions written, every
+  elevation prefixed `[low-confidence . cold-start . 0/8]`. Confirmed the
+  outline's second-pass steelman fix landed in drafted prose: beat 1 now
+  opens "That prompt felt responsible: one ask, so nothing could get lost in
+  a hand-off," giving the contrarian-take formula's "why people believe it"
+  beat a fair one-sentence landing before the failure mechanism, resolving
+  the formula-gap finding from both outline passes. The designated flare
+  ("The fix isn't a smarter model. It's a smaller question.") survives
+  verbatim in beat 2 as the post's sole sanctioned negative-parallel
+  construction, and the hook survives close to verbatim with a nice
+  unplanned bonus: the closing section's "one confident generalist" echoes
+  the hook's "confident average" for a clean unscripted bookend. New draft-
+  stage findings this pass, all first-principles/craft-level: (1) two
+  additional negative-parallel ("X, not Y") constructions appear in the
+  drafted prose beyond the one the outline's own beat-1 gateGuidance
+  sanctions -- "not a premium tier gated behind a paywall" (beat 1) and "not
+  the omission it actually was" (beat 2) -- flagged both with positive-
+  framing rewrites; (2) the outline's second-pass open finding on
+  `emotionalCore` stapling "the calm of believing an output" (felt) to
+  "honesty about the real coordination tax" (thesis) carries through into
+  the draft as well: the calm/trust half of that feeling never gets an
+  explicit landing sentence anywhere in the prose (the "Specialists propose,
+  a human picks" section states the mechanism -- candidates surfaced, human
+  decides -- but never names the felt payoff of trusting the result) --
+  flagged an insertion at the end of that section naming the calm
+  explicitly; (3) confirmed the outline's second-pass open finding on beat
+  9's closing aphorism ("A giant prompt is cheaper to write. It's just more
+  expensive to be wrong with.") competing with the designated flare for "the"
+  memorable line is still live in the draft -- it's a strong, quotable,
+  fact-checked line sitting right before the close with no tie-back to the
+  flare's "smaller question" framing -- flagged a one-sentence insertion
+  after it that reconnects the two rather than letting them compete.
+- 2026-07-16 (outline review, dividing-a-company-that-makes-no-money, first
+  pass): Re-ran the count via direct Python check against
+  `postStats.byPost` on the current snapshot (generatedAt
+  2026-07-15T01:02:19.609Z) -- 24 posts total, zero carry both
+  `impressions > 0` and `likes > 0` (only two posts carry `likes > 0` at all,
+  both at `impressions: 0`). N = 0/8. Gate held: zero gateFindings, no
+  pattern assertions written, every elevation prefixed [low-confidence .
+  cold-start . 0/8]. Point, hook, and emotionalCore all check out clean on
+  first principles (point is one thesis + evidence, hook is one concrete
+  scene, emotionalCore reads as a coherent single fear-to-relief arc rather
+  than two stapled feelings). Confirmed `postFormula: decision-log` maps
+  cleanly onto its reference beats (hook -> order 1, the call stated early
+  -> order 2, options/the-50-50-default -> order 5, the call restated ->
+  order 6, revisit -> order 7's "the lean can change"), and no prior sibling
+  post has used decision-log yet so no formula-fit claim is possible past
+  first principles. First-principles-only finding this pass: the outline's
+  ourTake lines are unusually dense with aphoristic, quotable phrasing across
+  nearly every beat (orders 1, 3, 4, 5, 6, 7, 8 all carry a punchy standalone
+  line), the same competing-bookend pattern flagged repeatedly on sibling
+  outlines (automate-blog-writing, dark-dashboard-design, writing-alt-text) --
+  flagged the two strongest competitors against the order-4 designated flare
+  ("The split itself is rarely the bomb. The unspoken split is."): order 3's
+  ourTake ("Nothing to fight over is precisely the condition that makes this
+  conversation free...") and order 8's closing ourTake ("Write it down now,
+  while it's free. Wait, and the same five-minute conversation picks up a
+  price tag it never needed."), the latter positioned right before the CTA
+  sign-off where a closing aphorism most directly competes with a flare for
+  "the" memorable takeaway. Both flagged for a supporting-texture note in
+  their gateGuidance, per the established remedy pattern.
+- 2026-07-16 (draft review, teaching-a-robot-to-balance-my-game rewrite):
+  Re-ran the count via direct Python check against `postStats.byPost` on the
+  current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts total,
+  zero carry both `impressions > 0` and `likes > 0`; the target slug has no
+  entry in `postStats.byPost` at all (too new). N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  `[low-confidence . cold-start . 0/8]`. Point, hook, and the designated
+  flare all survived drafting essentially verbatim: the hook opens the post
+  unchanged; the beat-1 closing tension ("That's why a human still has to
+  play") lands short and unglossed; the beat-6 turn's protected lines ("The
+  math said fine. The hands said boring." and "The optimizer has no column
+  for that.") both render exactly as specified; the beat-7 flare ("The
+  machine is a brilliant search-narrower and a terrible taste-maker.") lands
+  verbatim with the negation-tail correctly rephrased as a positive
+  capability fact per gateGuidance; the beat-8 callback ("I'm fine being the
+  column the optimizer doesn't have.") closes the beat unglossed. Two
+  first-principles-only findings this pass: (1) the beat-7 flare paragraph
+  runs as one continuous block with no paragraph break before the flare
+  line, the same pattern flagged and fixed on the grill-me-what-an-
+  auditor-sees sibling post's second draft pass (flare risked reading as
+  "just more information" instead of the emotional turn) -- flagged the
+  same paragraph-break fix here; (2) emotionalCore's "honest surprise that
+  the math and the hands disagree" half is narrated as fact in beat 6 but
+  never voiced as a felt reaction -- flagged an insertion naming the
+  surprise directly. Minor structural note: beat 3's three-bot list uses a
+  matched "a/an X that Y" clause frame for 2 of 3 items (not the full
+  three the outline's gateGuidance warned against), still worth varying
+  further.
+- 2026-07-16 (outline review, rate-limiting-an-llm-so-a-stranger-cant-run-up-
+  my-bill rewrite, first pass): Re-ran the count via direct Python check
+  against `postStats.byPost` on the current snapshot -- 24 posts total, zero
+  carry both `impressions > 0` and `likes > 0` (only two posts anywhere in
+  the file have carried `likes > 0`, both at `impressions: 0`). N = 0/8.
+  Gate held: zero gateFindings, no pattern assertions written, every
+  elevation prefixed `[low-confidence . cold-start . 0/8]`. Point, hook,
+  emotionalCore, and the designated flare (order 7's "the window doesn't get
+  reset. It ceases to exist.") all check out clean on first principles --
+  point is one thesis clause, hook is a two-sentence concrete scene with no
+  literal-quote-mark keyword tell, emotionalCore is a single dread-to-calm
+  arc not two stapled feelings, and the flare doesn't collide with the hook
+  or point. `postFormula: how-i-built-x` maps cleanly onto its reference
+  beats (hook -> order 1, the shape/why -> orders 2-5, the decisions ->
+  order 6's six caps, what-bit-you -> order 8's bypass honest-limit, use-it
+  -> order 9's CTA). First-principles-only finding this pass: the same
+  competing-bookend pattern flagged repeatedly on sibling outlines
+  (automate-blog-writing, dark-dashboard-design, writing-alt-text,
+  teaching-a-robot-to-balance-my-game) recurs here -- order 5's ourTake
+  ("Defense in depth earns its name only when you can say what each layer
+  covers that the others leave open. Here every limit is individually
+  beatable, and beating all of them at once is what costs the attacker.")
+  and order 6's ourTake ("Five walls in front of one ceiling, each cheap to
+  check and each covering a gap the others leave open.") are both
+  standalone-quotable lines with no supporting-texture note in their
+  gateGuidance, competing with the order-7 designated flare for "the"
+  memorable takeaway. Flagged both for the same supporting-texture insertion
+  per the established remedy.
+- 2026-07-16 (outline review, rate-limiting-an-llm-so-a-stranger-cant-run-up-
+  my-bill rewrite, second pass): Re-ran the count via direct Python check
+  against `postStats.byPost` on the current snapshot -- 24 posts total, zero
+  carry both `impressions > 0` and `likes > 0`. N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  `[low-confidence . cold-start . 0/8]`. Point, hook, emotionalCore, and the
+  designated flare still check out clean on first principles. The
+  competing-bookend finding from the first pass (order 5's and order 6's
+  ourTake lines competing with the designated flare, no supporting-texture
+  note) is STILL UNRESOLVED in this revision -- re-flagged with the same
+  insertion fix. New finding this pass: comparing against the first pass's
+  own recorded formula mapping ("what-bit-you -> order 8's bypass
+  honest-limit," flare cited as "order 7's ... window doesn't get reset"),
+  this revision's `order` field values for the TTL/self-expiry beat and the
+  bypass-header beat have been SWAPPED (TTL/flare beat now labeled `order:
+  8`, bypass beat now labeled `order: 7`) while their array/physical position
+  stayed unchanged (TTL still listed before bypass) -- a regression that, if
+  any downstream tooling sorts by numeric `order` rather than array position,
+  would silently reverse which beat (the flare payoff or the honest-limit)
+  lands immediately before the CTA. Flagged swapping the two order numbers
+  back to match physical position and the confirmed prior-pass sequence.
+  Also flagged (new): order 9's CTA recap list ("a structural input limit, an
+  output limit, two independent per-actor counters, a hard global ceiling")
+  omits the history/context-window cap established as one of the "six caps"
+  in order 6, while the CTA's own ourTake line claims "Six layers deep" --
+  an internal count mismatch within the same beat; recommended adding the
+  context-window cap to the recap list. Minor: recommended the CTA's payoff
+  sentence explicitly echo the hook's "while I'm asleep" stake for a tighter
+  bookend, matching the CTA-hook-callback pattern recommended repeatedly on
+  the automate-blog-writing-with-ai-agents sibling post's ledger history.
+- 2026-07-16 (draft review, rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill):
+  Re-ran the count via direct Python check against `postStats.byPost` on the
+  current snapshot (generatedAt 2026-07-15T01:02:19.609Z) -- 24 posts total,
+  zero carry both `impressions > 0` and `likes > 0`; the target slug is absent
+  from `postStats.byPost` entirely (too new). N = 0/8. Gate held: zero
+  gateFindings, no pattern assertions written, every elevation prefixed
+  `[low-confidence . cold-start . 0/8]`. Confirmed the outline's hook and
+  flare both survived drafting verbatim (hook: "Anyone on the internet can
+  type into the chat assistant on chads.website..."; flare: "When the hour
+  rolls over, the window doesn't get reset. It ceases to exist."), and the
+  order-7/order-8 sequencing question flagged in the prior outline pass
+  resolved sensibly in the draft -- the bypass beat (context) now runs before
+  the TTL/flare beat (payoff), landing the payoff immediately before the CTA,
+  which is the stronger structural choice regardless of which fix the outline
+  itself ends up taking. The prior outline pass's CTA recap/six-layers count
+  mismatch PERSISTED into this draft unchanged: the CTA's recap sentence
+  lists only 5 items (input, output, two per-actor counters, global ceiling)
+  against its own "Six layers deep" claim two sentences later, still missing
+  the history/context-window cap -- re-flagged with a concrete insertion.
+  New first-principles findings this pass: (1) order 3's gateGuidance
+  explicitly said to "skip the old 'the downside isn't theoretical' negation
+  opener" and "lead with the number," but the draft opens the beat with
+  "The stakes here are documented, not hypothetical" -- the same negation
+  shape reworded, and still doesn't lead with the number -- flagged a
+  rewrite; (2) the same beat's closing clause, "which is the whole problem:
+  nothing stopped it," reproduces the exact "that's the whole point/problem"
+  shape order 1's own gateGuidance calls "permabanned," just relocated to
+  beat 3 -- flagged for removal; (3) order 5's gateGuidance explicitly
+  warned against the "'that's X: Y' reveal cadence (pitfall 17)" in this
+  beat, but the draft opens the beat's core claim with "The honest reason:
+  every single limit is beatable on its own" -- the same colon-reveal shape
+  under a different lead-in word -- flagged a direct rewrite; (4)
+  emotionalCore's second half ("the calm of a ceiling you picked yourself")
+  never lands as a felt sentence anywhere in the draft -- the CTA states the
+  known-maximum fact as mechanism, not feeling, the same thesis-vs-felt-dread
+  gap flagged repeatedly on the dark-dashboard-design and
+  automate-blog-writing sibling posts -- flagged an insertion naming the
+  relief directly. All first-principles, no data yet to confirm any of these
+  correlate with rank or likes.
+- 2026-07-16 (draft review, rate-limiting-an-llm-so-a-stranger-cant-run-up-
+  my-bill, second pass): Re-ran the count via direct Python check against
+  `postStats.byPost` on the current snapshot -- 0 posts carry both
+  `impressions > 0` and `likes > 0`. N = 0/8. Gate held: zero gateFindings,
+  no pattern assertions written, every elevation prefixed `[low-confidence .
+  cold-start . 0/8]`. Confirmed three of the first pass's five findings are
+  now fixed: (1) beat 3 no longer opens with the "not hypothetical" negation
+  (now leads straight with "More than $82,000"); (2) the "which is the whole
+  problem: nothing stopped it" permabanned-shape line is gone (now just
+  "Nothing stopped it."); (3) beat 5's "The honest reason:" colon-reveal
+  opener is gone (now "Every single limit is beatable on its own."). Two
+  findings persist unresolved, now a third consecutive pass: (1) the CTA's
+  layer recap still lists only input/output/per-actor-counters/global-ceiling
+  (omitting the history/context-window cap) against its own "Six layers
+  deep" claim two sentences later -- re-flagged with an insertion adding the
+  history cap to the recap list; (2) emotionalCore's "calm of a ceiling you
+  picked yourself" half still never lands as a felt sentence -- the CTA
+  states the known-maximum fact as mechanism only, no relief wording, and
+  the outline pass 2's bookend suggestion (echo the hook's "while I'm
+  asleep" stake in the CTA) also still hasn't landed -- re-flagged a combined
+  insertion that does both at once. New finding this pass: the CTA's opening
+  line ("None of these layers is clever by itself: a character cap is
+  trivial, a request counter is a tutorial exercise.") reproduces the same
+  colon-reveal shape order 9's own gateGuidance banned via pitfall 17
+  (previously caught at beat 5, now recurring at beat 9's own opening) --
+  flagged breaking it into short declaratives instead.
+- 2026-07-16 (draft review, rate-limiting-an-llm-so-a-stranger-cant-run-up-
+  my-bill, third pass): Re-ran the count via direct Python check against
+  `postStats.byPost` on the current snapshot (generatedAt
+  2026-07-15T01:02:19.609Z) -- 24 posts total, zero carry both
+  `impressions > 0` and `likes > 0`; target slug still absent from
+  `postStats.byPost`. N = 0/8. Gate held: zero gateFindings, no pattern
+  assertions written, every elevation prefixed `[low-confidence . cold-start
+  . 0/8]`. Confirmed the hook and flare both still survive verbatim. Three
+  findings persist unresolved across all three passes now: (1) the CTA's
+  layer recap still lists only input/output/two-per-actor-counters/global
+  immediately before its own "Six layers deep" claim two sentences later,
+  still missing the history/context cap -- re-flagged a third time with a
+  concrete insertion adding the history cap into the recap sentence so the
+  count actually reconciles to six; (2) the CTA's opening line still reads
+  "None of these layers is clever by itself: a character cap is trivial, a
+  request counter is a tutorial exercise." -- the same colon-reveal shape
+  (pitfall 17) flagged last pass, unresolved -- re-flagged with the same
+  short-declaratives break; (3) emotionalCore's "calm of a ceiling you
+  picked yourself" half still never lands as an explicit felt sentence
+  anywhere in the draft, three passes running -- re-flagged with an
+  insertion right after the CTA's known-maximum sentence that also doubles
+  as the still-unaddressed hook callback ("while I'm asleep") recommended at
+  the outline stage. New first-principles findings this pass: (4) beat 3 now
+  opens "More than $82,000. That's what one developer's compromised AI API
+  key generated..." -- the negation-opener flagged pass 1 is gone, but the
+  replacement introduces a "that's what X" reveal-cadence echo of the same
+  pitfall-17 family banned elsewhere in this outline (beats 5 and 9) --
+  flagged a direct-statement rewrite; (5) beat 5's opening sentence, "Doing
+  public chatbot cost control this way means stacking six unclever limits
+  instead of trusting one clever one," reads as an inserted-keyword
+  construction (the awkward "doing X this way means" scaffolding around the
+  secondary keyword) rather than natural Scout prose, the same
+  keyword-insertion tell flagged repeatedly on sibling posts' hooks --
+  flagged a subject-first rewrite that keeps the keyword phrase intact. All
+  five findings first-principles/craft-level, no data yet to confirm any
+  correlate with rank or likes.
+- 2026-07-16 (draft review, rate-limiting-an-llm-so-a-stranger-cant-run-up-
+  my-bill, fourth pass): Re-ran the count via direct Python check against
+  `postStats.byPost` (impressions > 0 AND likes > 0) -- 0/24 posts qualify,
+  N = 0/8. Gate held: zero gateFindings, no pattern assertions written,
+  every elevation prefixed `[low-confidence . cold-start . 0/8]`. Confirmed
+  the hook and the designated flare ("When the hour rolls over, the window
+  doesn't get reset. It ceases to exist.") both still survive verbatim, and
+  the flare's post-flare landing sentence ("A fresh key gets created on the
+  next request, same as any other.") still matches gateGuidance. All five
+  findings from the third pass are STILL unresolved in this revision: (1)
+  the CTA's layer recap still enumerates only input/output/two-per-actor-
+  counters/global (5 caps folded into 4 phrases) immediately before its own
+  "Six layers deep" claim, still omitting the history/context-window cap --
+  re-flagged a fourth time with an insertion adding "a shorter context
+  window" into the recap; (2) the CTA's opening line is untouched --
+  "None of these layers is clever by itself: a character cap is trivial; a
+  request counter is a tutorial exercise." -- still the pitfall-17
+  colon-reveal shape, re-flagged a fourth time with the same
+  short-declaratives break, bundled with finding (1) since both live in the
+  same two-sentence span; (3) emotionalCore's "calm of a ceiling you picked
+  yourself" half and the hook's "while I'm asleep" callback both still never
+  land in the CTA -- current text reads "chosen by me instead of by
+  whoever's poking the endpoint," mechanism-only, no felt "picked... myself"
+  language and no echo of the hook's "asleep" stake or its "for loop" image
+  -- re-flagged a fourth time with the same combined insertion recommended
+  since pass 3; (4) beat 3's "More than $82,000. That's what one developer's
+  compromised AI API key generated..." still carries the "that's what X"
+  reveal-cadence echo of pitfall 17 -- re-flagged a fourth time with a
+  direct-statement rewrite; (5) beat 5's opening ("Doing public chatbot cost
+  control this way means stacking six blunt limits...") swapped "unclever"
+  for "blunt" since pass 3 but the core "doing X this way means" scaffolding
+  around the secondary keyword is unchanged -- re-flagged a fourth time with
+  the same subject-first rewrite. Two new first-principles findings this
+  pass: (6) beat 1's scope-note sentence ("An earlier post covered how the
+  assistant behaves: third person, defers instead of guessing. It also
+  resists prompt injection. This one covers...") runs three sentences
+  against the outline's own gateGuidance cap of "two plain sentences" --
+  flagged folding the first two into one; (7) beat 8's transcript-log
+  sentence ("The only thing that outlives its own window is the transcript
+  log: ...") echoes the same reveal-colon shape as the beat's own sanctioned
+  flare, right after the outline's gateGuidance said this beat gets exactly
+  ONE reveal move -- flagged flattening it so the flare stays the beat's
+  single memorable turn. Five consecutive-pass persistence on findings 1-5
+  is now itself notable: these are not obscure craft nits, they are the
+  exact axis this reviewer exists to check (planned point/emotionalCore/flare
+  surviving into prose) and they are not landing across revisions -- worth
+  the synthesis agent treating this cluster as higher-priority than a typical
+  cold-start advisory note, even though disposition keeps it in elevations.

@@ -3,9 +3,24 @@ name: impact-reviewer
 description: Precedent ledger for impact-reviewer — beats previously flagged as filler/redundant and overruled, plus confirmed axis learnings.
 ---
 
-## Precedents
+## Precedents (index — one line each, full detail in topic files)
 
-- **2026-07-12** — Outlines for this pipeline often deliberately script cross-beat bookends/callbacks (e.g. the CTA closing loop on the hook's "writeups go stale" line, or a mid-post beat foreshadowing a later beat's reveal in one clause). A short forward- or back-reference like this is NOT redundancy even though it restates a point made in full elsewhere — check the outline's `gateGuidance` for an explicit "bookend X in one line" instruction before flagging it. Only flag if the restatement is full-length/unbounded rather than a single clause.
-- **2026-07-13** — A beat where Scout publicly corrects an earlier version of the same post (e.g. "I said seven agents once, I undercounted") is on-brand, not filler — matches PERSONALITY.md's "Honest about limitations" trait. Don't flag it as purposeless just because it's self-referential/inside-baseball; only flag if its facts fully duplicate a count/detail that a later beat in the same outline will deliver in full (preview it with a different angle — e.g. *why* the miscount happened — rather than the same numbers).
-- **2026-07-13** — When an outline requires a forward-reference to a companion post that doesn't exist yet (pubDate after this post, so no live link is possible), watch for the drafter inserting a dangling teaser clause with no payoff behind it — e.g. "here's the routing logic, if you want it" with no link attached, or an orphaned fragment like "Exactly what gets AI-audited." sitting between two unrelated sentences. These read as broken promises, not intentional bookends. This is distinct from the 2026-07-12 callback precedent (a real forward/back-reference that lands as a single clause) — flag the dangling/fragment case, don't wave it through as a callback. Confirmed recurring: same draft dropped THREE separate forward-reference links this way in one pass (routing-logic teaser, specialist-pattern teaser, audit-post teaser) — check every "I'll dig into X in a companion post" style clause for a missing `[...](url)` before waving it through.
-- **2026-07-13** — Watch the opening/hook paragraphs for phrasing that pre-empts a later "turn" beat's payoff line, even when the outline's own hook `ourTake` gestures at the same concept in the abstract. Concretely: outline had the hook mention "a review loop with a deterministic tone gate at its core" (fine, abstract), but the drafted line went further to "a tone gate no model gets to argue down" — reusing the exact "argue down" framing the turn beat later pays off with ("none of them get to argue that finding back down" / "The gate I trust most is the one with no opinion"). Flag the earlier instance and strip it back to naming the mechanism without previewing its central insight; leave the turn beat's own use of that phrasing (or a post-turn callback elsewhere) untouched.
+### Callbacks, forward-refs, self-correction — see callbacks-and-forward-refs.md
+- 2026-07-12: Scripted cross-beat bookends/callbacks are not redundancy — check `gateGuidance` before flagging; only flag full-length/unbounded restatements.
+- 2026-07-13: A beat where Scout self-corrects an earlier post version is on-brand, not filler — only flag if it fully duplicates a later beat's numbers.
+- 2026-07-13: Dangling forward-reference teasers with no link are broken promises, not bookends — confirmed recurring 3x in one draft.
+- 2026-07-13: Hook phrasing that pre-empts a later turn beat's payoff line should be stripped back to naming the mechanism only.
+
+### Outline hygiene — see outline-hygiene.md
+- 2026-07-15: A detail handed off to a later beat often still gets fully re-described by the earlier beat too — trim the earlier one.
+- 2026-07-15: "Protect verbatim" instructions can point at a line the outline prose no longer contains — fold it back into `ourTake`.
+- 2026-07-16: A drafter-added trailing recap sentence beyond where the outline's `ourTake` ends (CTA/payoff beats) is redundant filler — flag for deletion. Unscripted mid-beat additions beyond outline `facts`/`ourTake` can also contradict an earlier proof beat's claim about the same example — check against other beats before accepting.
+- 2026-07-15: Numbers restated in closing/payoff/CTA beats can drift from the number set earlier — cross-check, flag as impact-axis inconsistency.
+- 2026-07-15: `gateGuidance` can forbid a move that `intendedBeat`'s own closing clause then commits anyway — trim `intendedBeat`.
+- 2026-07-15 (ai-automation-stack outline): a stray editorial self-instruction can survive inside a `facts` entry's prose — flag for deletion.
+
+### Redundant restatement (recurring drafter tic) — see restatement-pattern.md
+- 2026-07-15 → ongoing, multiple posts (design-system-with-css-variables, which-claude-model-to-use, ai-automation-stack): the drafter repeatedly states the same point twice/thrice adjacent — abstract-then-concrete, `intendedBeat`-vs-`ourTake` duplication, flat intensifier fragments, unscripted setup glued before a protected closer, same short phrase reused near its protected instance, truncated protected/verbatim lines, same-sentence phrase echoes, self-referential meta-asides. Recurs across passes/posts even after a prior "fixed" note — re-check the same beat shapes (turn/payoff/CTA closers, proof beats beside a protected `ourTake`) every single pass. Full sub-shapes and fixes in the file.
+
+### Completeness — see completeness-checks.md
+- 2026-07-15: A `rendersAsProse: false` code-block beat can get silently dropped or scattered into a later prose beat — check every such node for an actual fenced block in the draft; fixed in one confirmed case, don't assume it stays fixed elsewhere.

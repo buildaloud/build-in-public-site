@@ -1,138 +1,40 @@
----
-name: synthesis
-description: Precedent ledger for synthesis — recurring gate-finding patterns across the review army and confirmed false-positive shapes it can pre-empt.
----
+# Memory index
 
-## Precedents
-
-- **Forward-reference timeline bug (recurring, 20th+ instance as of 2026-07-13
-  draft round #5, "review army" post — reviewers keep proposing to re-attach
-  forward-dated companion-post links even after synthesis has stripped them
-  from BOTH rendered prose and node metadata in FOUR prior rounds).** Confirmed
-  slugs, all post-dating this post's 2026-07-13 pubDate:
-  `/blog/2026-07-18-which-claude-model-to-use/`, `/blog/2026-07-19-ai-automation-stack/`,
-  `/blog/2026-07-21-hired-a-team-of-specialists/`, `/blog/2026-07-15-grill-me-what-an-auditor-sees/`.
-  Round 5: impact (3 elevations), technical-honesty (2 elevations), and
-  meta-content-signature (3 elevations) all independently re-proposed the same
-  three link-adds, again. Standing auto-reject, no case-by-case judgment
-  needed anymore: any proposed link add/keep pointing at an unpublished/future
-  slug (any axis, any tier) gets dropped on sight at every draft-round
-  synthesis, diffed against the current post's pubDate.
-
-- **A specific tricolon-shaped reshape of the outline node-description
-  sentence keeps getting re-proposed by a DIFFERENT reviewer every round (3rd
-  reviewer now, as of 2026-07-13 draft round #5).** The sentence "each one
-  carrying a goal and its facts and sources, plus gate guidance for what a
-  reviewer should check" was deliberately phrased in round 2 to avoid a
-  3-item "X, Y, and Z" tricolon. Round 3: wordsmith proposed "goal, facts,
-  sources, and gate guidance" — rejected. Round 4: structure independently
-  proposed the same 3-item shape via a sentence split — rejected. Round 5:
-  voice independently proposed the identical "a goal, its facts and sources,
-  and gate guidance" shape via its own run-on-split fix — rejected again.
-  Pre-empt: this span is protected against any reshape producing a 3-item "A,
-  B, and C" list, regardless of axis or framing — check the RESULT shape, not
-  whether it's literally the same finding as before. Three different
-  reviewers hitting the identical result shape independently means this is a
-  strong attractor in the sentence's phrasing space; expect a 4th.
-
-- **An auto-apply fix that fails to land isn't self-limiting to one field or
-  one round — escalated 2026-07-13 draft round #5.** meta.title's over-60-char
-  fix has now been reported broken 4 consecutive rounds (2, 3, 4, 5) despite
-  being re-applied each time. Previously logged as a metadata-only landing
-  gap "distinct from body prose, which lands reliably" — **that framing is now
-  WRONG.** Round 5 confirmed ALL SIX of round 4's body-prose GATE edits also
-  failed to land verbatim (checked every quote against the round-5 artifact
-  text directly; all six were still present unedited, character-for-character
-  identical to their pre-round-4 form), a jump from round 3's ~94% landing
-  rate to round 4's apparent 0%. This is no longer a metadata-vs-prose
-  distinction — it looks like an entire round's edit batch can silently fail
-  to apply at all. Pre-empt, standing now: at the START of every synthesis
-  round, before doing any new dedup/rank work, literal-match EVERY gate edit
-  (not just the historically-flaky meta.title) from the immediately prior
-  round's consolidatedEdits against the current artifact text. Treat ANY
-  mismatch as the round's top priority, ahead of new findings — and if the
-  landing rate for a whole round drops sharply (not just one field), flag to
-  Chad explicitly that this may be a pipeline/tooling bug (wrong file target,
-  edit-then-revert, etc.), not just "the editor missed a line."
-
-- **Absolute future-certainty claims about unbuilt features (recurring, 4th
-  contest as of 2026-07-12).** Drafter writes hard "will" claims about
-  software/features the post itself just said aren't fully built yet. Agreed
-  fix is the modal "should," not "will," not a flat assertion either. Any
-  reviewer (any tier) proposing to strip the modal on the not-yet-shipped-
-  marketplace claim should be rejected regardless of axis.
-
-- **negParallel ("X isn't/not — it's Y", "X, not Y", "I don't X. Y does.")
-  AND hedge tells ("worth saying/noting/revisiting") are systemic drafter
-  tics, not isolated slips (reconfirmed 2026-07-13 draft round #5).**
-  Confirmed at outline stage, drafted prose, reviewer-proposed elevations, AND
-  now inside a reviewer's own GATE-tier rewrite: round 5's voice GATE fix for
-  the "why the gate" flat-rhythm paragraph introduced a fresh "a focused
-  sample, not a verdict" negParallel tic that wasn't in the reviewer's stated
-  problem — synthesis caught and scrubbed it (dropped the trailing "not a
-  verdict") before finalizing. Pre-empt (standing, reinforced): re-scan EVERY
-  proposed replacement — gate, auto-apply, advisory alike, INCLUDING a
-  GATE-tier reviewer's own rewrite — for negParallel/em-dash/tricolon/hedge
-  shapes before finalizing, every round; being gate-tier does not exempt a
-  reviewer's own replacement text from carrying the same tics it's fixing
-  elsewhere. **technical-honesty's Osmani counter-argument elevation has now
-  been deferred 5 rounds running (1-5) — same axis, same proposal, and round
-  5's version STILL isn't self-scrubbed: it added a fresh "a bet, not a
-  proof" negParallel plus kept the "worth saying so plainly" hedge plus 2 new
-  em-dashes.** Continue treating re-proposals of this elevation as low-priority
-  churn until technical-honesty ships a version clean of its own tells.
-
-- **Cross-axis convergence on a dropped/malformed outline beat, and the
-  paragraph-stacking-avoidance rule that follows from it (reconfirmed
-  2026-07-13, round 5).** When N≥3 axes independently propose near-identical
-  restructuring of the same span, synthesize ONE consolidated edit at the
-  highest tier present. When a paragraph already carries a GATE-tier rewrite
-  this round, defer (don't stack) an otherwise-fine ADVISORY tweak to a
-  DIFFERENT sentence in that same paragraph — round 5 deferred four such
-  advisory items (structure's "Past topic approval" split, grammar's "them"
-  antecedent fix, link-opportunity's Anthropic-anchor move, structure's
-  misplaced-modifier opener fix) purely because each shared a paragraph with
-  a round-5 gate edit, re-checking them next round against the post-gate-edit
-  text instead.
-
-- **A gate-tier "wrong fact"/thesis-contradiction fix in one field can leave
-  the identical contradiction sitting unfixed, verbatim-ish, in a different
-  field of the same artifact (2026-07-13 outline round #2, "review army"
-  post).** Pre-empt: whenever a gate finding corrects a factual or
-  thesis-level contradiction, grep the rest of the artifact for the same
-  phrase/claim before finalizing the round's edit set.
-
-- **§1.5 cross-round suppression fires on genuinely fresh (not just
-  re-litigated) gate findings too (2nd instance, 2026-07-13 outline round
-  #3).** The rule keys off whether the SPAN was gated/touched last round, not
-  whether the specific finding is a literal repeat. Round 5 corollary: when a
-  prior round's gate edit never LANDED (see landing-gap entry above), the
-  span did not "pass" last round — an un-landed gate item is re-issued as
-  priority even if the current round's reviewers don't re-flag it themselves.
-
-- **Mechanical tone-gate em-dashes can hide entirely outside the body prose a
-  reviewer scopes to (2026-07-13 draft round #3, "review army" post,
-  aiScore=26, 7 dashes / 3.04 per 1k).** Fix for Sources captions: convert
-  " — " to ": " or "(...)" in the display text. Stay conservative once the
-  dash driver clears: only accept a dash-adding edit when it's the
-  tier-winning GATE-level resolution for a real, separate problem on that
-  span; skip otherwise-fine advisory edits solely because they add an
-  optional dash (round 5 skipped flatness's and structure's dash-adding
-  advisory rewrites on this basis, keeping semicolon/period alternatives
-  instead).
-
-- **Mechanical tone-gate driven purely by em-dash density + tricolon count,
-  zero banned phrases (2026-07-13 draft rounds #2-3, "review army" post).**
-  Fix pattern: convert em-dash pairs to colons/parens/periods, and break "X,
-  Y, and Z" parallel lists into asyndeton or a colon-led list. Always re-check
-  a proposed replacement against the dash count before accepting it when the
-  dash driver is live.
-
-- **A reviewer axis can silently be checking a stale/cached copy of the
-  draft, not the current one (2026-07-13 draft round #3, link-integrity).**
-  Pre-empt: when a reviewer's quoted span doesn't literal-match the artifact
-  text given to synthesis, don't apply that finding — drop it with a
-  one-line "quote doesn't match current draft, likely stale reviewer input"
-  note, but don't discard the reviewer's VERDICT wholesale.
-</content>
-</invoke>
+- [Forward-reference timeline bug](forward-reference-timeline-bug.md) — never re-link/re-gesture at unpublished future-dated posts; drop on sight, any axis/tier.
+- [Tricolon node-description reshape](tricolon-node-description-reshape.md) — "goal/facts/sources/gateGuidance" sentence is protected against any 3-item "A, B, and C" reshape.
+- [Auto-apply fix landing gap](auto-apply-fix-landing-gap.md) — literal-match every prior-round gate edit against the current artifact first; if the same quotes fail to land 3+ rounds, rewrite around the failing punctuation instead of reissuing verbatim.
+- [Absolute future-certainty claims](absolute-future-certainty-claims.md) — not-yet-shipped features get modal "should," never "will"; reject any reviewer stripping the modal.
+- [negParallel + hedge tics are systemic](negparallel-hedge-tics-systemic.md) — scan EVERY proposed replacement (any tier, any round type) for negParallel/em-dash/tricolon/hedge/reveal-cadence before finalizing; technical-honesty's Osmani elevation is a standing drop-on-sight.
+- [Cross-axis paragraph stacking](cross-axis-paragraph-stacking.md) — N≥3 axes on one span = one consolidated edit at the top tier, scrub surrounding sentences too. Confirmed on "claude-code-subagents..." r5, "2026-07-22-dividing..." draft r2, and "rate-limiting-an-llm..." draft r1 (the "$82,000 opener" negation and "which is the whole problem" reveal-cadence spans, each hit by 3+ axes independently). Also confirmed at auto-apply-tier density on "rate-limiting-an-llm..." draft r2 (grammar+wordsmith+structure all converged on the "keys expire" TTL sentence run, and wordsmith+structure converged on the closing-paragraph "sits on top of all of it" clause).
+- [Gate fix leaves contradiction elsewhere](gate-fix-leaves-contradiction-elsewhere.md) — a factual/mechanism/numeral gate fix must be grepped across the WHOLE artifact, not just the flagged field. Confirmed on 6+ posts.
+- [Cross-round suppression on fresh findings](cross-round-suppression-fresh-findings.md) — §1.5 keys off whether the SPAN was touched, not finding-novelty; a GATE axis self-escalating its own dropped elevation to gate next round still gets dropped.
+- [Tone-gate em-dash patterns](tone-gate-emdash-patterns.md) — track aiScore driver/headroom under 15 each draft round; outline rounds carry NO mechanical tone gate.
+- [Stale reviewer input](stale-reviewer-input.md) — if a reviewer's quoted span doesn't literal-match the current artifact, drop that finding but keep weighing the reviewer's verdict.
+- [Recurring self-tagged low-confidence inserts](recurring-self-tagged-low-confidence-inserts.md) — meta-content's "[low-confidence · cold-start · 0/8]" findings are a permanent drop-by-default signal, confirmed 7+ posts/rounds incl. both outline and draft rounds of "2026-07-22-dividing...", draft r3 of "teaching-a-robot-to-balance-my-game", and both draft r1 (5 findings in one round) and draft r2 of "rate-limiting-an-llm..." — dropped on sight every time, zero ever adopted across any post.
+- [factual-accuracy's recurring date-stamp request](factual-accuracy-recurring-date-stamp.md) — the "date this stat" ask recurs reworded; keep dropping unless the underlying stat changed. Confirmed 3+ rounds on "2026-07-22-dividing..." (Wasserman 65% stat).
+- [v0.2.0 citation, contradicting a confirmed 404](factual-accuracy-v0.2.0-citation-recurring.md) — drop on sight any form (linked/bare/footer) citing the unpublished `agentic-content-pipeline (v0.2.0)` tag, confirmed 404.
+- [Tier collision beats outline fidelity](tier-collision-beats-outline-fidelity.md) — same-span conflict resolves on TIER alone (gate > auto-apply > advisory); map unranked axis names to roster equivalents. Same-tier collisions still need a judgment call: pick whichever most fully resolves the flagged defect without reintroducing removed material.
+- [Conflicting gate-axis source claims](conflicting-gate-axis-source-claims.md) — when two gate axes disagree on a source's exact wording, drop both disputed specifics and keep only directly-quoted text.
+- [Advisory fix seeds next round's gate finding](advisory-fix-seeds-next-round-gate-finding.md) — a landed lower-tier (or even gate-tier) edit is not immune from a fresh gate finding next round, incl. from the SAME axis re-checking its own prior fix. Confirmed 10+ times across posts/stages; density-confirmed at draft stage on "2026-07-22-dividing..." r1→2 (3 simultaneous instances: voice, flatness, and technical-honesty each catching their own/another's round-1 gate-fix residue). Also confirmed at advisory-advisory density on "teaching-a-robot-to-balance-my-game" r2→3 (impact catching its own round-2 "kill that grind"→"get rid of that grind" fix's leftover redundancy). Also confirmed at advisory-advisory density on "rate-limiting-an-llm..." outline r2→3 (hook + emotion_impact both catching residue in their own round-2 ourTake trim on order 1). Confirmed again on "rate-limiting-an-llm..." draft r1→2: voice caught its OWN round-1 auto-apply-landed scope-note fix ("This one covers... It also covers...") as a fresh gate finding, splitting a 2-sentence cap into 3 sentences — the exact same span, one round later, same synthesis-approved text.
+- [Full-block reorder vs in-node gate fix](full-block-reorder-vs-in-node-gate-fix.md) — a whole-node reorder colliding with a same-round in-node edit goes stale; hold it, re-derive next round header-only, then physically move once nothing else touches those nodes.
+- [link-opportunity citation superseded by gate fix](link-opportunity-citation-superseded-by-gate-fix.md) — when a citation-add targets a claim a same/prior-round gate fix de-claimed, the gate fix supersedes, scoped to that claim only.
+- [Metadata field oscillation](metadata-field-oscillation.md) — a small fixed-vocabulary field flipped back next round is churn; drop unless it rebuts the prior round's specific rationale.
+- [links-array collision: self-promo vs citation](links-array-collision-self-promo-vs-citation.md) — a same-field links-array collision can be a false conflict when two axes police different link categories; merge (union), don't pick one array.
+- [Well-worn span attracts repeat rewrites](well-worn-span-repeat-rewrites.md) — a span that already went through one multi-way collision draws repeat re-litigation with zero rebuttal; tier only resolves a LIVE same-round collision, not a settled churn pattern — drop repeats regardless of tier, incl. cross-axis pickups and same-axis reversions. Confirmed 10+ instances across posts. **New wrinkle on "2026-07-22-dividing..." r1→2 (draft): relocating/paraphrasing a gate-cut phrase doesn't exempt it** — check the CUT's original rationale against the new proposal's effect, not just quote/location match. **Second wrinkle on "teaching-a-robot-to-balance-my-game" r3 (draft): a settled GATE-tier merge can still be reopened correctly if the reversal is backed by `bullshit-ledger.md`** — see `reviewer-reverification-vs-facts-md.md`'s third instance; "drop as churn" is the default, not an absolute, when a dated ledger entry says the prior round's own call was the mistake. **Third instance (2026-07-16, "rate-limiting-an-llm..." draft r1→2):** structure re-submitted a sentence-split rework of the "Haiku-class model... pennies per exchange" span the round immediately after voice-fidelity's gate-axis elevation won that exact span's collision (round 1) — same axis type (auto-apply) that lost the original collision, resubmitting with a differently-framed complaint (overpacked-sentence vs. minor-grammar) but the same underlying effect (fragmenting the locked sentence); dropped again, additive-only proposals (a bare link-add) on the same locked span still allowed through per the existing additive-vs-competing distinction.
+- [technical-honesty's footer/mitigations asks recur, always declined](technical-honesty-footer-mitigations-declined.md) — footer-disclosure/structural-mitigations inserts recur every round on one post, always non-gate; keep dropping by default.
+- [Banned-term self-reference inside gateGuidance is not a leak](banned-term-self-reference-not-a-leak.md) — a banned-term hit inside a non-rendering meta field is not a leak; only block hits in fields that render to the reader.
+- [Gate-axis elevations outrank advisory-axis elevations](gate-axis-elevation-outranks-advisory-elevation.md) — when two elevations collide on one span, the higher-disposition axis's version wins even though neither is blocking (confirmed gate>advisory and gate>auto-apply). Confirmed 2x on "2026-07-22-dividing..." r3, plus "rate-limiting-an-llm..." outline r3 (flatness's order-6 closing-line elevation beat AI-structural-crutches' and emotion_impact's competing versions; AI-structural-crutches' order-3 ourTake elevation beat emotion_impact's). Confirmed again on "rate-limiting-an-llm..." draft r1: voice-fidelity's "pennies per exchange" texture elevation beat structure's (auto-apply) and link-opportunity's (advisory) competing versions of the same span; flatness's "Count what actually costs money" elevation beat impact's (advisory) competing rewrite of the same span. Confirmed again on draft r2: flatness's "checked into code or committed" redundancy elevation beat structure's (auto-apply) competing 3-sentence merge on the same bypass-header paragraph.
+- [SEO duplicate-keyword-fill](seo-duplicate-keyword-fill.md) — SEO's "fill this empty keyword field" / keyword-personification inserts recur without checking the existing keyword→node map; drop as churn, weigh naturalness before applying. Confirmed recurring on "claude-code-subagents...", "2026-07-22-dividing...", and "rate-limiting-an-llm..." draft r1 AND r2 (same closing-section keyword-reinforcement rewrite resubmitted verbatim-in-spirit both rounds, lost to a gate-tier or auto-apply-tier fix on the same span both times) — now a 2-round-in-a-row same-post pattern on top of the cross-post one; drop on sight.
+- [technical-honesty's recurring unconfirmed-mechanism elevations](technical-honesty-vision-mechanism-unconfirmed.md) — alt-text outline's backfill-mechanism hedge and Penpot component-tokens ask are standing never-adopted elevations; surface for-consideration only.
+- [A gate axis's own re-verification claim can itself be stale](reviewer-reverification-vs-facts-md.md) — grep `docs/content-pipeline/facts.md` AND `docs/content-pipeline/bullshit-ledger.md` before trusting a gate axis's "I re-verified" claim that contradicts existing gateGuidance OR before defaulting to "drop as churn" when a gate finding reverses a PRIOR round's own settled fix, OR before accepting a gate finding that ESCALATES severity/fix-scope beyond what the ledger already approved. Osmani "3-5 teammates" finding on "claude-code-subagents..." is a standing drop-on-sight (confirmed stale 3 consecutive rounds). Third instance (2026-07-16, "teaching-a-robot-to-balance-my-game" r3): round 2 synthesis's own accepted fact-checker fix (ratio → frame-latency phrasing on the headless-rig speed claim) was itself the stale one; bullshit-ledger.md's dated entry confirmed the reversal back to the ratio phrasing was correct. Fourth instance (2026-07-16, "rate-limiting-an-llm..." outline r3): technical-honesty tried to escalate the global-ceiling TOCTOU caveat beyond a one-line note; bullshit-ledger.md's dated entry explicitly capped the fix scope at "one-line caveat... don't block the post on it" — dropped the escalation, kept the already-landed caveat as-is. Fifth instance (2026-07-16, "rate-limiting-an-llm..." draft r1): the same TOCTOU forward-pointer resubmitted at draft stage on the same landed sentence — the outline-round ledger scope ruling survives the outline→draft handoff; dropped again on the same citation. Sixth instance (2026-07-16, "rate-limiting-an-llm..." draft r2): identical TOCTOU/atomic-reserve dev.to pointer resubmitted a THIRD time overall (outline r3, draft r1, draft r2), zero new rationale each time — treat any further recurrence of this exact citation on this post as a standing drop-on-sight, no need to re-derive the ledger ruling each round.
+- [Round-cap-exhaustion with a confirmed multi-round landing failure surfaces immediately](round-cap-surface-on-confirmed-tooling-failure.md) — when the SAME GATE quotes fail to land 3+ consecutive rounds, SURFACE TO THE HUMAN OWNER rather than reissuing a blind Nth attempt.
+- [Code-derived numeric stats drift and duplicate across factual-accuracy + technical-honesty](code-derived-stat-drift-cross-axis.md) — a post citing a metric about the project's OWN code may be stale since an earlier fact-check; dedup into one merged edit per location, grep the current source yourself.
+- [Identical elevation resubmitted unchanged, no new rationale](identical-elevation-resubmission-no-new-rationale.md) — a SINGLE reviewer resubmitting the exact same quote+replacement on an untouched span, confirmed across 3 posts; link-opportunity's ai-automation-stack backlink and hook-reviewer's "2026-07-22-dividing..." hook-field trim are standing drop-on-sight items.
+- [Live queue-depth figure: reviewer arithmetic is unreliable, grep is ground truth](queue-depth-figure-reviewer-arithmetic-unreliable.md) — on "automate-blog-publishing-schedule," the "N days until target" figure gets mis-guessed by a different gate axis nearly every round; grep `pubDate` confirms 11 every time — reject ungrepped "wrong-fact" findings on this figure.
+- [link-opportunity self-reversal oscillation](link-opportunity-self-reversal-oscillation.md) — on "automate-blog-publishing-schedule," link-opportunity flip-flopped on its own prior-round reversal re: an inline Astro-docs link; treat as churn per metadata-field-oscillation's rule even though not a fixed-vocab field.
+- [technical-honesty's slug-migration ask recurs, never adopted](technical-honesty-slug-migration-never-adopted.md) — on "automate-blog-publishing-schedule," recurred rounds 2 and 3, never adopted; surface for-consideration only.
+- [A settled contradiction-cut is a well-worn span too](settled-contradiction-cut-repeat-attempts.md) — on "claude-code-subagents...," a prior-round cut resolving a named contradiction requires an explicit rebuttal, not just a rephrase, before reopening.
+- [A gate finding's misattribution catch should caution adjacent same-source citation-adds](adjacent-source-misattribution-caution.md) — on "2026-07-22-dividing..." r3, a gate axis's source-misattribution catch should raise skepticism of an advisory axis's same-round citation-add to the SAME source for a different, unverified claim.
+- [forward-reference-timeline-bug: hired-a-team-of-specialists recurs a third time](forward-reference-timeline-bug.md) — "teaching-a-robot-to-balance-my-game" r3 re-raised the identical `pnpm check` link-add to the same unpublished slug with no new justification; dropped again, same as r1/r2.
+- [voice-fidelity's per-token dollar-figure ask recurs, never adopted](voice-per-token-figure-recurs-never-adopted.md) — on "rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill" outline, recurred rounds 1-3 unchanged, never apply-ready (no live pricing-page access at synthesis time); surface for-consideration only.
+- [Keyword phrase fronted as bare-verb subject ("X, done this way, means Y")](seo-keyword-as-defining-verb-subject.md) — a targetKeyword phrase parked as the grammatical subject of a plain defining verb ("means"/"is") reads as landing-page copy, not something a person says. Confirmed 3x on "rate-limiting-an-llm..." (outline order 2, then the "Defense in depth" beat at both outline and draft stage) with only a numeral swap between recurrences — the underlying front-loading habit survives a same-round gate fix if the fix only reorders the clause rather than demoting the keyword phrase out of subject position entirely. On draft r2, voice's gate-tier fix ("Doing X this way means Y") only partially resolved this — still opens on the keyword phrase as object of a gerund. If a 4th recurrence surfaces, escalate to a full subject swap (e.g. "The design does Y") rather than another clause-reorder patch.

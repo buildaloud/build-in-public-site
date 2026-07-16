@@ -8,30 +8,33 @@
       "axis": "negative parallelism",
       "description": "Dismiss-then-reframe or 'I don't X, Y does' negation constructions in outline beats and draft prose.",
       "scope": "outline intendedBeat/ourTake fields; draft closing/summary sentences",
-      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
-      "count": 3,
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees", "2026-07-16-writing-alt-text-seo-accessibility", "2026-07-17-design-system-with-css-variables", "2026-07-19-ai-automation-stack", "2026-07-20-automate-blog-publishing-schedule", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 8,
       "promoted": true,
-      "note": "already covered by blog-drafter-pitfalls.md #1 Negative parallelism — tracked for provenance only, not re-promoted"
+      "note": "already covered by blog-drafter-pitfalls.md #1 Negative parallelism — tracked for provenance only, not re-promoted; rate-limiting instance: draft opened with an 'X, not Y' construction ('documented, not hypothetical') and separately re-negated a beat whose own gateGuidance sanctioned only one negation use"
     },
     {
       "key": "tricolon-rule-of-three",
       "axis": "rule-of-three / tricolon",
       "description": "Rule-of-three tricolons (A, B, and C; anaphoric 'its own X, its own Y, its own Z') in lists and prose.",
       "scope": "outline lists; draft prose lists and asides",
-      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees"],
-      "count": 2,
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees", "2026-07-16-writing-alt-text-seo-accessibility", "2026-07-18-which-claude-model-to-use", "2026-07-19-ai-automation-stack", "2026-07-20-automate-blog-publishing-schedule", "2026-07-21-hired-a-team-of-specialists", "2026-07-23-teaching-a-robot-to-balance-my-game", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 9,
       "promoted": true,
-      "note": "already covered by blog-drafter-pitfalls.md #2 Rule-of-three tricolons — tracked for provenance only, not re-promoted"
+      "note": "already covered by blog-drafter-pitfalls.md #2 Rule-of-three tricolons — tracked for provenance only, not re-promoted; hired-a-team-of-specialists round tripped this three separate times in the same draft (mandatory tone gate); teaching-a-robot-to-balance-my-game instance: draft inflated the outline's 2-clause sim:tune mechanism sentence into a 3-verb tricolon; rate-limiting-an-llm instance: outline tripped this twice in the same round (anaphoric 'no cron... no reset task' triad, 'no code, no commit, no blog post' triad)"
     },
     {
       "key": "pipeline-self-fact-drift",
       "axis": "factual accuracy about own pipeline",
       "description": "Outline/draft states a numeric or mechanical fact about our own pipeline (round caps, stage counts, checkpoints) that has drifted from the current value in blog-facts.md.",
       "scope": "outline facts/ourTake fields describing pipeline mechanics",
-      "posts": ["automate-blog-writing-with-ai-agents"],
-      "count": 1,
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-19-ai-automation-stack", "2026-07-20-automate-blog-publishing-schedule"],
+      "mediums": ["blog"],
+      "count": 3,
       "promoted": true,
-      "note": "already covered by blog-drafter-pitfalls.md #3 Overclaims about our own pipeline — tracked for provenance only, not re-promoted"
+      "note": "already covered by blog-drafter-pitfalls.md #3 Overclaims about our own pipeline — tracked for provenance only, not re-promoted (this round: outline gate edits #4-9, tone-bar baseline drift and TD-0038 package-parity overclaim, both fall under this same axis; ai-automation-stack round: outline order-10 impressions/clicks/avg-position stat gone stale between drafting and this round's fresh pull; automate-blog-publishing-schedule round: schedule.ts's ~150-line figure copied stale across 8 outline locations after the script grew to ~220 lines, plus the outline's live coverage-report day-count (19 vs. the actually-queued 11) stated as fixed instead of re-run at draft time)"
     },
     {
       "key": "future-dated-internal-link",
@@ -64,11 +67,13 @@
     {
       "key": "unhedged-absolute-contradicted-later-beat",
       "axis": "technical honesty / hedging",
-      "description": "States an absolute ('the only X', 'always Y') about our own system that a later beat in the same outline itself contradicts with a documented exception.",
+      "description": "States an absolute ('the only X', 'always Y', 'no judgment risk') about our own system that a later beat, or the actual spec of the component being described, contradicts with a documented exception.",
       "scope": "outline meta/facts fields making universal claims about pipeline behavior",
-      "posts": ["automate-blog-writing-with-ai-agents"],
-      "count": 1,
-      "promoted": false
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-17-design-system-with-css-variables", "2026-07-18-which-claude-model-to-use", "2026-07-19-ai-automation-stack", "2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 5,
+      "promoted": true,
+      "note": "promoted 2026-07-15 as drafter-pitfalls.md #12 Unhedged absolutes about our own pipeline behavior; hired-a-team-of-specialists tripped this twice in the draft (isolation-mechanic overclaim, 'costs nothing to try' vs. the post's own costs section)"
     },
     {
       "key": "thats-the-whole-point-crutch",
@@ -84,18 +89,22 @@
       "axis": "tone-gate / prose mechanics",
       "description": "Reaches for em-dashes by default for asides, contrast, and connectors, pushing draft em-dash density over the tone-gate threshold instead of varying with colons, parens, or sentence breaks.",
       "scope": "draft prose throughout, especially explanatory asides and reviewer/list descriptions",
-      "posts": ["automate-blog-writing-with-ai-agents"],
-      "count": 1,
-      "promoted": false
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-18-which-claude-model-to-use", "2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 3,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #15 Em-dash overreach; hired-a-team-of-specialists round tripped the mandatory tone-gate dash-density cap on 2 separate spans in one draft round"
     },
     {
       "key": "uniform-sentence-rhythm-run",
       "axis": "voice / rhythm",
       "description": "A run of several consecutive sentences — or consecutive list items sharing an identical syntactic frame (e.g. the same colon-tag shape repeated three times) — at a section's emotional or explanatory peak, flattening voice through monotone cadence.",
       "scope": "draft prose, especially mechanism-explanation and emotional-peak sections; draft findings/feature lists",
-      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
-      "count": 3,
-      "promoted": true
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees", "2026-07-16-writing-alt-text-seo-accessibility", "2026-07-18-which-claude-model-to-use", "2026-07-20-automate-blog-publishing-schedule", "2026-07-21-hired-a-team-of-specialists", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 8,
+      "promoted": true,
+      "note": "rate-limiting-an-llm instance: 'None of these layers is clever by itself. A character cap is trivial. A request counter is a tutorial exercise.' — three consecutive identical-shape short sentences"
     },
     {
       "key": "dropped-qualifier-overclaim",
@@ -112,19 +121,22 @@
       "axis": "outline structure / schema",
       "description": "An outline node meant to render as skimmable prose (e.g. a numbered stage rundown, a score list) is left with rendersAsProse set to false, silently dropping the whole beat before it ever reaches the draft.",
       "scope": "outline node fields controlling whether a beat's content reaches the draft",
-      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees"],
-      "count": 2,
-      "promoted": false,
-      "note": "3 separate beats hit this in the same outline round on grill-me — likely a default-false schema issue, not just a one-off slip; watch for promotion"
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-15-grill-me-what-an-auditor-sees", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 3,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #19 rendersAsProse left false on a beat that carries the payload; 3 separate beats hit this in the same outline round on grill-me — likely a default-false schema issue, not just a one-off slip; rate-limiting-an-llm instance: the outline's only non-rendering beat carried the article's entire concrete numeric payload (input cap, global ceiling), which a later beat's payoff referenced without it"
     },
     {
       "key": "redundant-claim-echo",
       "axis": "flatness / redundancy",
       "description": "Closes a paragraph by restating a claim already made in the immediately preceding sentence, in near-identical words, adding no new information — including a short decorative recap fragment that just repeats the prior sentence's point in fewer words.",
       "scope": "draft prose, closing lines of explanatory/mechanism beats",
-      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
-      "count": 3,
-      "promoted": true
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees", "2026-07-16-writing-alt-text-seo-accessibility", "2026-07-17-design-system-with-css-variables", "2026-07-18-which-claude-model-to-use", "2026-07-19-ai-automation-stack", "2026-07-20-automate-blog-publishing-schedule", "2026-07-21-hired-a-team-of-specialists", "2026-07-22-dividing-a-company-that-makes-no-money", "2026-07-23-teaching-a-robot-to-balance-my-game", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 12,
+      "promoted": true,
+      "note": "teaching-a-robot-to-balance-my-game instance: draft's headless-rig beat said 'it just sits there. It needs a player. So the rig needs bots to drive it.' — three sentences for one claim; rate-limiting-an-llm round tripped this three separate times (outline flare-line echo, draft's second-paragraph restatement, and the layered-defense closing line)"
     },
     {
       "key": "third-person-distancing-at-mistake-ownership",
@@ -132,6 +144,7 @@
       "description": "Frames an admitted mistake or an actively-owned pipeline decision in passive or third-person voice (a blog 'ran with' something, 'the orchestrator', 'the loop') instead of Scout's first person, diluting ownership right at the beat meant to carry it.",
       "scope": "draft prose describing self-caught mistakes; outline ourTake/intendedBeat fields personifying pipeline components",
       "posts": ["automate-blog-writing-with-ai-agents"],
+      "mediums": ["blog"],
       "count": 1,
       "promoted": false
     },
@@ -149,17 +162,20 @@
       "axis": "factual accuracy / grounding claims about our own product",
       "description": "Outline or draft states specific, checkable details about our own product's implementation (pixel measurements, exact UI copy/labels, which visual states change color) confidently, without verifying against the actual source code, and the invented specifics are wrong.",
       "scope": "outline facts/intendedBeat fields and draft prose describing our own product's UI/implementation",
-      "posts": ["2026-07-14-dark-dashboard-design"],
-      "count": 1,
-      "promoted": false
+      "posts": ["2026-07-14-dark-dashboard-design", "2026-07-17-design-system-with-css-variables", "2026-07-20-automate-blog-publishing-schedule", "2026-07-21-hired-a-team-of-specialists", "2026-07-23-teaching-a-robot-to-balance-my-game"],
+      "mediums": ["blog"],
+      "count": 5,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #13 Unverified implementation details; automate-blog-publishing-schedule instance: outline invented a 'reserved next-day slot' scheduling mechanism assignSlots() never implements, propagated across 6 outline fields, plus a draft claim that the coverage report lists moved dates when a separate move-list printout does that; hired-a-team-of-specialists instance: outline invented a nonexistent 'synthesis pass' agent and dropped the real 'threat-modeler' stage from security-kit's actual roster; teaching-a-robot-to-balance-my-game instance: draft described a deleted per-entity tower-upgrade mechanism (TD-0047) and an objective-function cross-strategy-dominance term that scoreObjective doesn't implement"
     },
     {
       "key": "unsupported-verification-claim",
       "axis": "technical honesty / unsupported claim of validation",
       "description": "Outline or draft claims a design choice underwent a formal verification step (e.g. 'colorblind-validated', 'tested', 'audited') when no such process exists anywhere in the codebase or docs — state the design intent/rationale instead of an unearned claim of verification.",
       "scope": "outline facts/intendedBeat fields asserting design rationale for a UI/product choice",
-      "posts": ["2026-07-14-dark-dashboard-design"],
-      "count": 1,
+      "posts": ["2026-07-14-dark-dashboard-design", "2026-07-17-design-system-with-css-variables"],
+      "mediums": ["blog"],
+      "count": 2,
       "promoted": false
     },
     {
@@ -167,19 +183,22 @@
       "axis": "technical honesty / citation accuracy",
       "description": "Outline or draft cites an external source as backing a specific design/technical choice or trend, but overstates or misstates what that source actually says, conflating the source's own position/framing with a stronger claim we then repeat as fact.",
       "scope": "outline/draft prose citing an external article or guidance to justify a decision or trend claim",
-      "posts": ["2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees"],
-      "count": 2,
-      "promoted": false,
-      "note": "grill-me instance: an 'industry is converging on X' claim attributed to a source that actually frames the same facts as attack-chain steps, not an industry trend — watch for promotion"
+      "posts": ["2026-07-14-dark-dashboard-design", "2026-07-15-grill-me-what-an-auditor-sees", "2026-07-17-design-system-with-css-variables", "2026-07-18-which-claude-model-to-use", "2026-07-21-hired-a-team-of-specialists", "2026-07-22-dividing-a-company-that-makes-no-money"],
+      "mediums": ["blog"],
+      "count": 6,
+      "promoted": true,
+      "note": "promoted 2026-07-15 as drafter-pitfalls.md #11 External-source overstatement; css-variables instance: CSS-Tricks source shows one dark-mode example generalized to 'usually' without support; which-claude-model-to-use instance: MindStudio's cost comparison called a 'worked example' when the source never walks a calculation; hired-a-team-of-specialists instance: AI21's writeup describes ensemble/best-of-n isolation, cited as backing task-decomposition isolation instead; dividing-a-company instance: outline invented a market/product-vs-conflict failure-cause comparison the Pillsbury source never makes, stating the 65% figure standalone instead"
     },
     {
       "key": "cross-post-reference-inaccuracy",
       "axis": "factual accuracy / cross-post grounding",
       "description": "Outline or draft references or links an earlier post of ours — for its current content/state, or as the origin of a feature/decision — without checking what that specific post actually says, producing a misstated current state or misattributed credit.",
       "scope": "outline/draft prose linking to or summarizing an earlier post in this blog",
-      "posts": ["2026-07-14-dark-dashboard-design"],
-      "count": 1,
-      "promoted": false
+      "posts": ["2026-07-14-dark-dashboard-design", "2026-07-18-which-claude-model-to-use", "2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 3,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #14 Cross-post reference inaccuracy; hired-a-team-of-specialists instance: an outline beat's game-post 'quote' about specialist candidates wasn't the post's actual verbatim line"
     },
     {
       "key": "own-taxonomy-definition-drift",
@@ -214,6 +233,347 @@
       "description": "Attributes ownership or authorship of a third-party skill, tool, or example to the researcher/publication that merely studied or cited it, implying they built what they only analyzed.",
       "scope": "draft prose citing third-party research examples",
       "posts": ["2026-07-15-grill-me-what-an-auditor-sees"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "dramatic-sequencing-inversion",
+      "axis": "AI structural crutches / performative register",
+      "description": "Uses a dramatic-sequencing inversion ('X happens/was true before Y') as a scene-setting or transition device more than once per post, most often at a decision/turn beat.",
+      "scope": "outline intendedBeat fields at turn/decision beats; draft transition sentences between major sections",
+      "posts": ["automate-blog-writing-with-ai-agents", "2026-07-18-which-claude-model-to-use"],
+      "mediums": ["blog"],
+      "count": 2,
+      "promoted": true,
+      "note": "already covered by drafter-pitfalls.md #7 (dramatic-sequencing inversions capped at one per post, plus the deterministic dramaticInversions tone-gate detector) — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "placeholder-slug-link-mismatch",
+      "axis": "link integrity / outline structure",
+      "description": "Outline's links field carries a fabricated or placeholder-looking internal slug that doesn't match the real canonical URL the same beat's own gateGuidance already names elsewhere.",
+      "scope": "outline links fields, checked against that beat's own gateGuidance for the intended target",
+      "posts": ["2026-07-16-writing-alt-text-seo-accessibility"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "generic-truism-filler-line",
+      "axis": "flatness",
+      "description": "Inserts a short generic truism sentence (e.g. 'The order matters.') as an unearned mid-paragraph capper between two sentences that already demonstrate the point, adding no new claim or evidence.",
+      "scope": "draft prose in explanatory beats, sandwiched between two demonstrative/example sentences",
+      "posts": ["2026-07-16-writing-alt-text-seo-accessibility"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "beat-opening-throat-clear-attribution",
+      "axis": "flatness / wordsmith",
+      "description": "Opens a paragraph citing an external source with a vague throat-clear phrase ('calls that out by name') instead of the draft's own established colon-attribution pattern for introducing a quote.",
+      "scope": "draft prose introducing an external citation or quote",
+      "posts": ["2026-07-16-writing-alt-text-seo-accessibility"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "verbatim-quote-punctuation-drift",
+      "axis": "link integrity / factual accuracy",
+      "description": "When quoting a data field's exact string value verbatim (e.g. a stored alt-text/label string) inside prose, appends punctuation such as a trailing period that isn't actually present in the source string, silently altering the quoted value.",
+      "scope": "draft prose quoting exact stored strings (alt text, config values, labels) verbatim",
+      "posts": ["2026-07-16-writing-alt-text-seo-accessibility"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "unverified-hedge-instead-of-fact-check",
+      "axis": "technical honesty / voice",
+      "description": "Ships a vague hedged quantity ('some', 'a stretch') for a fact that's mechanically checkable (e.g. via git log), defaulting to the abstraction instead of running the check the outline explicitly flagged as required.",
+      "scope": "draft prose reporting counts/splits derivable from repo history when the outline calls out the need to verify",
+      "posts": ["2026-07-16-writing-alt-text-seo-accessibility"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "cited-source-missing-from-footer",
+      "axis": "factual accuracy / link integrity",
+      "description": "Body prose names an external standard or source as authority for a claim, but the Sources footer list omits that same source, leaving the citation unbacked in the post's own bibliography.",
+      "scope": "draft body prose making claims backed by a named external source; Sources footer section",
+      "posts": ["2026-07-16-writing-alt-text-seo-accessibility"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "tidy-bow-ending",
+      "axis": "flatness / structure",
+      "description": "Closes a beat or post with a moral-wrap meta-summary line (e.g. 'that is the honest one-line summary of the entire build') restating the piece's takeaway instead of ending on the sharpest concrete point.",
+      "scope": "outline closing ourTake fields; draft closing paragraphs",
+      "posts": ["2026-07-17-design-system-with-css-variables", "2026-07-22-dividing-a-company-that-makes-no-money"],
+      "mediums": ["blog"],
+      "count": 2,
+      "promoted": true,
+      "note": "already covered by drafter-pitfalls.md #6 Tidy-bow endings — tracked for provenance only, not re-promoted; dividing-a-company instance: a protected honest fear-line ('neither of us loved being the one to bring it up') got immediately wrapped in a reassurance clause instead of landing bare"
+    },
+    {
+      "key": "outline-beat-dropped-from-draft",
+      "axis": "flatness / voice / link-integrity (multi-axis convergence)",
+      "description": "Draft silently omits an entire outlined beat — especially a dedicated code/data block the outline flagged as the section readers came for — with nothing in the outline blocking it from rendering.",
+      "scope": "draft body, beats carrying a fenced code block or concrete artifact called out in the outline's audienceNote",
+      "posts": ["2026-07-17-design-system-with-css-variables"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "unresolved-abstract-qualifier",
+      "axis": "flatness",
+      "description": "Appends a trailing qualifier clause to an otherwise complete sentence (e.g. 'the same way, just not in lockstep with X') that gestures at a contrast or exception without ever explaining it, adding words but no clarifying content.",
+      "scope": "draft prose, sentence endings in explanatory beats",
+      "posts": ["2026-07-17-design-system-with-css-variables"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "negation-tail-crutch",
+      "axis": "AI structural crutches / formulaic redundant negation",
+      "description": "Closes a sentence or clause with a trailing negated contrast ('not X', 'not just X, either', 'not a lookup to confirm what's there', 'not a one-time win') that restates or narrows a point the main clause already made, adding no new information. Distinct from negative parallelism's dismiss-then-reframe opener — this is a closing tic.",
+      "scope": "draft prose, sentence and clause endings in explanatory beats",
+      "posts": ["2026-07-18-which-claude-model-to-use", "2026-07-19-ai-automation-stack", "2026-07-21-hired-a-team-of-specialists", "2026-07-23-teaching-a-robot-to-balance-my-game", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 5,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #16 Negation-tail crutch; hired-a-team-of-specialists round tripped this twice in one draft ('not a neutral default', 'not one justifying the other'), both fixed by AI-structural-crutches; teaching-a-robot-to-balance-my-game instance: 'tells you how that strategy scores, not whether the game is balanced' duplicated the very next sentence's point; rate-limiting-an-llm instance: 'it covers every counter above, not just the last one' trailing negation tail"
+    },
+    {
+      "key": "half-hearted-admission-omits-cited-fix",
+      "axis": "technical honesty / follow-through",
+      "description": "Outline or draft honestly admits a limitation or gap, but stops at the vague admission instead of naming the concrete fix or next step that the same beat's own cited facts/sources already establish.",
+      "scope": "outline intendedBeat fields citing our own limitations alongside a source that names the fix",
+      "posts": ["2026-07-18-which-claude-model-to-use", "2026-07-22-dividing-a-company-that-makes-no-money"],
+      "mediums": ["blog"],
+      "count": 2,
+      "promoted": false,
+      "note": "dividing-a-company instance: honest-limit closing beat never named what replaces the informal written-sentence agreement if outside money shows up, though the beat's own cited Pillsbury/Stripe sources already name it (formal founders' agreement + vesting terms)"
+    },
+    {
+      "key": "cta-omits-operating-cost",
+      "axis": "technical honesty / omission",
+      "description": "A CTA promoting a one-command install/adoption path states ease of setup without naming the real resource or dollar cost of running it, leaving a cost-sensitive reader to find out the hard way.",
+      "scope": "outline/draft CTA facts and intendedBeat fields promoting our own tooling",
+      "posts": ["2026-07-19-ai-automation-stack", "2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 2,
+      "promoted": false,
+      "note": "hired-a-team-of-specialists instance: a cost-disclosure beat's dispatch-count fact omitted the README's rate-limit warning, though the beat's whole job is honest cost disclosure — broadened scope beyond CTA beats specifically to any beat promoting/costing our own tooling"
+    },
+    {
+      "key": "asyndeton-cascade-flattened-to-matched-clauses",
+      "axis": "voice / rhythm",
+      "description": "Takes an outline's single cascading asyndeton sentence (a run of short clauses with no conjunction, each handing off to the next) and drafts it as two symmetric, conjunction-joined clauses instead, flattening the momentum the cascade shape was built to carry.",
+      "scope": "draft prose rendering an outline hook/opening built as a cascading list-sentence",
+      "posts": ["2026-07-19-ai-automation-stack"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "keyword-phrase-as-sentence-subject",
+      "axis": "voice / SEO-keyword integration",
+      "description": "Uses the outline's target SEO keyword phrase verbatim as the literal grammatical subject of a sentence, making it read like landing-page copy or an AI-written citation lead-in instead of a person's own phrasing.",
+      "scope": "outline ourTake fields and draft prose introducing a section's core claim or citing a source, where the outline's keyword field gets embedded directly",
+      "posts": ["2026-07-19-ai-automation-stack", "2026-07-22-dividing-a-company-that-makes-no-money", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 3,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #18 Keyword phrase as literal sentence subject; 2 separate instances within the ai-automation-stack draft (Why-One-Mega-Prompt H2 opener, Governing-Principle external-research para); dividing-a-company instance: 3 separate copula tells in one draft ('X is one of the anxieties...', 'A cofounder equity split is easy to agree on...', 'Avoiding cofounder conflict is worth more than...') — same abstract-subject-plus-'is' shape recurring even where the subject isn't the literal SEO keyword; rate-limiting-an-llm instance: the outline's own order-1 ourTake opened with 'Rate limiting an llm api is a launch requirement...', the exact keyword-as-subject shape, in the outline stage this time rather than the draft"
+    },
+    {
+      "key": "repeated-thats-x-colon-y-reveal-template",
+      "axis": "AI structural crutches / formulaic template overuse",
+      "description": "Reaches for the same 'That's <label>: <explanation>' (or 'This is <label>...') sentence-final reveal template at multiple separate points spread across one post to land a section's point, reading as a templated tic once a reader hits the third or fourth instance. Distinct from the uniform-sentence-rhythm-run pitfall, which is about a consecutive run of matched sentences in one spot — this is the same template resurfacing non-consecutively across a whole draft.",
+      "scope": "draft prose, explanatory/closing sentences across multiple sections of the same post",
+      "posts": ["2026-07-19-ai-automation-stack", "2026-07-21-hired-a-team-of-specialists", "2026-07-22-dividing-a-company-that-makes-no-money", "2026-07-23-teaching-a-robot-to-balance-my-game", "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 5,
+      "promoted": true,
+      "note": "promoted 2026-07-16 as drafter-pitfalls.md #17 Repeated 'That's X: Y' reveal-cadence template; dividing-a-company instance: outline tripped this twice in one round (order-5 ourTake 'deferral instrument' reveal, order-6 intendedBeat 'that's the whole transaction' — a same-shaped substitute for the permabanned 'whole point' phrase, closing that loophole in gateGuidance too); teaching-a-robot-to-balance-my-game instance: outline ourTake used 'is the whole enabling decision' — the same near-banned 'whole X' family leaking into a declarative sentence outside the reveal-cadence template shape, in a beat whose sibling beat's own gateGuidance already bans it; rate-limiting-an-llm instance: draft's closing sentence used 'which is the whole problem: X' — another near-miss substitute for the permabanned phrase, alongside a separate 'The honest reason: X' reveal opener in the same draft"
+    },
+    {
+      "key": "protected-outline-line-flattened-in-draft",
+      "axis": "voice / verbatim-preservation",
+      "description": "Drafts a paragraph containing an outline field the outline explicitly flagged to render verbatim or protect its sharper phrasing (a mandated flare line, a protected ourTake sentence), but paraphrases it into softer, more generic wording, losing the deliberate edge the outline called out by name.",
+      "scope": "draft prose rendering outline ourTake/flare fields marked protected or verbatim in that beat's gateGuidance",
+      "posts": ["2026-07-19-ai-automation-stack"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false,
+      "note": "2 instances within this one draft — the Measurement section's protected ourTake verb ('perform' flattened to 'shows') and the post's ONE sanctioned flare line ('doesn't owe me optimism' contrast dropped) — the most-cited single finding across the whole army this round (7 reviewers); watch for promotion once it shows up on another post"
+    },
+    {
+      "key": "unpublished-version-tag-citation",
+      "axis": "link integrity / factual accuracy",
+      "description": "Cites or links a specific software version/release tag (e.g. a GitHub release) as already published when only an earlier version is actually live, producing a 404 or an unverifiable forward-dated claim.",
+      "scope": "draft Sources footer and body prose citing our own package's release/version",
+      "posts": ["2026-07-19-ai-automation-stack"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "filler-intensifier-word",
+      "axis": "AI structural crutches / formulaic filler",
+      "description": "Inserts an unnecessary intensifier or hedge-list filler word (e.g. 'genuinely', 'actually', 'truly', 'really') into a claim that reads just as strong, or stronger, without it.",
+      "scope": "outline ourTake/intendedBeat fields; draft prose making a direct claim",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "imperative-drumbeat-overrun",
+      "axis": "voice fidelity / rhythm",
+      "description": "Stacks more consecutive bare imperative sentences in a closing or highest-visibility beat than the outline's own gateGuidance caps for that beat, producing a listicle-style command cadence instead of a landed close.",
+      "scope": "outline ourTake fields at closing/CTA beats; draft closing paragraphs",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "repeated-opener-echo-startdiversity",
+      "axis": "tone-gate / prose mechanics (startDiversity)",
+      "description": "Two or more consecutive sentences open with the identical word, most often a pronoun ('It... It...', 'I... I...'), tripping the tone gate's start-word diversity check.",
+      "scope": "draft prose, consecutive sentence openers",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "avoided-contraction-tone-gate",
+      "axis": "tone-gate / prose mechanics (contractionsPer100)",
+      "description": "Defaults to the formal uncontracted form ('cannot', 'it is', 'you have') where a contraction reads identically, pulling the draft's contraction density below the tone gate's threshold.",
+      "scope": "draft prose throughout",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "quote-fidelity-drift",
+      "axis": "factual accuracy / quote fidelity",
+      "description": "Quotes an external source's exact wording but drops a qualifying word, swaps a noun, or mis-transcribes capitalization, changing what the source literally said while still presenting it inside quotation marks.",
+      "scope": "outline facts fields and draft prose quoting an external source verbatim",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "distant-verbatim-phrase-echo",
+      "axis": "AI structural crutches / repetition",
+      "description": "Repeats a distinctive phrase near-verbatim between the hook and the closing beat without it functioning as a deliberate bookend, reading as an accidental echo rather than a callback.",
+      "scope": "draft hook and closing paragraphs",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "near-synonym-weakens-confirmed-fact",
+      "axis": "technical honesty / word-choice fidelity",
+      "description": "Substitutes a near-synonym for a word in a confirmed hard rule or fact about our own product (e.g. a stated 'veto' softened to a 'vote') that quietly weakens or reinterprets the claim, undercutting the point the passage itself is making.",
+      "scope": "draft prose describing our own product's confirmed hard rules or constraints",
+      "posts": ["2026-07-21-hired-a-team-of-specialists"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "ourtake-overclaims-vs-cited-practice",
+      "axis": "technical honesty / overclaim",
+      "description": "An ourTake dismisses or downplays a formal practice (a written agreement, a documented process step) as unnecessary at our current small scale, when the cited source itself explicitly calls that formal practice standard or essential regardless of scale — the honest framing is 'this is the free/informal version, the formal one comes later,' not 'we don't need the formal one.'",
+      "scope": "outline ourTake fields citing an external best-practice source while describing our own lighter-weight substitute",
+      "posts": ["2026-07-22-dividing-a-company-that-makes-no-money"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "finance-jargon-off-voice",
+      "axis": "voice / word choice",
+      "description": "Reaches for domain jargon (finance/legal terms like 'deferral instrument') to land a reveal or definition, breaking the drafter's established plain-spoken register.",
+      "scope": "outline ourTake/reveal fields; draft prose introducing a concept via a labeled term",
+      "posts": ["2026-07-22-dividing-a-company-that-makes-no-money"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "own-product-numeric-fact-drift",
+      "axis": "factual accuracy / own-system config drift",
+      "description": "States a numeric or mechanical fact about one of our own live systems — not just the content pipeline, but a game, app, or other product we write about — sourced from its config or codebase, that has drifted from the current value between outline-authoring and draft time, without a re-verification step before drafting.",
+      "scope": "outline facts/ourTake fields and draft prose citing numeric constants or config values from our own live codebases",
+      "posts": ["2026-07-23-teaching-a-robot-to-balance-my-game"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false,
+      "note": "sibling habit to pipeline-self-fact-drift (already promoted as drafter-pitfalls.md #3) but scoped beyond blog-facts.md to any of our own live product configs — outline's HP_SCALING_BASE value (1.06 to 1.10) had already moved to 1.08 in game-core-pack's balance config by the time synthesis checked it; caught and gated before draft, watch for promotion if it recurs on a non-pipeline product again"
+    },
+    {
+      "key": "safeguard-completeness-overclaim",
+      "axis": "technical honesty / overclaim",
+      "description": "States a security or rate-limit control as fully closing an attack vector or race condition in absolute terms ('structurally impossible', 'the backstop'), when the mechanism actually covers a narrower case (e.g. checks only the newest message, not a padded history; reads a counter before writing it, leaving a race window) — the honest framing names the residual gap as a soft edge, not an airtight guarantee.",
+      "scope": "outline facts/intendedBeat/ourTake fields and draft prose describing our own system's security or rate-limit controls",
+      "posts": ["2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "meta-announcement-throat-clear-opener",
+      "axis": "flatness",
+      "description": "Opens a section or beat with a meta-announcement sentence describing what the section is about to explain ('Here's how the stack stops it.') instead of starting directly on the content.",
+      "scope": "draft prose, section/beat opening sentences",
+      "posts": ["2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "hedge-reintroduction",
+      "axis": "voice / hedging",
+      "description": "Adds a hedge word or phrase ('worth naming', 'worth noting', 'that said', 'arguably') on top of an already-plain statement, softening a direct claim into a qualified one.",
+      "scope": "outline/draft prose, sentence openers introducing a new point",
+      "posts": ["2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": true,
+      "note": "already covered by drafter-pitfalls.md #5 Hedge reintroduction — tracked for provenance only, not re-promoted"
+    },
+    {
+      "key": "premature-payoff-preecho",
+      "axis": "flatness / structure",
+      "description": "States a beat's closing/payoff point earlier in the same beat than intended, so that when the beat's actual closer restates the same point moments later, it lands as a rerun rather than a landing. Distinct from redundant-claim-echo, whose tell is an echo sitting immediately after the sentence it repeats — this is the opposite direction, a premature restatement that deflates a later, more distant payoff.",
+      "scope": "draft prose, mid-beat sentences that anticipate a beat's own designated closing line",
+      "posts": ["2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
+      "count": 1,
+      "promoted": false
+    },
+    {
+      "key": "listified-beat-drops-ourtake-opinion",
+      "axis": "voice / structure",
+      "description": "Renders an outline beat that carries a real ranked or opinionated ourTake as a bare bulleted/numbered list in the draft, stripping the opinion framing and leaving a view-from-nowhere list where a point of view was called for.",
+      "scope": "draft body, list-shaped sections rendering an outline beat with a substantive ourTake",
+      "posts": ["2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill"],
+      "mediums": ["blog"],
       "count": 1,
       "promoted": false
     }
@@ -250,6 +610,96 @@
       "finalAiScore": 0,
       "deTellPasses": 1,
       "date": "2026-07-15"
+    },
+    {
+      "slug": "automate-blog-writing-with-ai-agents",
+      "medium": "blog",
+      "outlineRounds": 5,
+      "draftRounds": 3,
+      "finalAiScore": 12,
+      "deTellPasses": 0,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-16-writing-alt-text-seo-accessibility",
+      "medium": "blog",
+      "outlineRounds": 5,
+      "draftRounds": 3,
+      "finalAiScore": 0,
+      "deTellPasses": 0,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-17-design-system-with-css-variables",
+      "medium": "blog",
+      "outlineRounds": 5,
+      "draftRounds": 3,
+      "finalAiScore": 1,
+      "deTellPasses": 1,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-18-which-claude-model-to-use",
+      "medium": "blog",
+      "outlineRounds": 2,
+      "draftRounds": 3,
+      "finalAiScore": 13,
+      "deTellPasses": 0,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-19-ai-automation-stack",
+      "medium": "blog",
+      "outlineRounds": 3,
+      "draftRounds": 5,
+      "finalAiScore": 4,
+      "deTellPasses": 1,
+      "date": "2026-07-15"
+    },
+    {
+      "slug": "2026-07-20-automate-blog-publishing-schedule",
+      "medium": "blog",
+      "outlineRounds": 4,
+      "draftRounds": 3,
+      "finalAiScore": 0,
+      "deTellPasses": 0,
+      "date": "2026-07-16"
+    },
+    {
+      "slug": "2026-07-21-hired-a-team-of-specialists",
+      "medium": "blog",
+      "outlineRounds": 3,
+      "draftRounds": 5,
+      "finalAiScore": 4,
+      "deTellPasses": 1,
+      "date": "2026-07-16"
+    },
+    {
+      "slug": "2026-07-22-dividing-a-company-that-makes-no-money",
+      "medium": "blog",
+      "outlineRounds": 3,
+      "draftRounds": 2,
+      "finalAiScore": 9,
+      "deTellPasses": 0,
+      "date": "2026-07-16"
+    },
+    {
+      "slug": "2026-07-23-teaching-a-robot-to-balance-my-game",
+      "medium": "blog",
+      "outlineRounds": 2,
+      "draftRounds": 3,
+      "finalAiScore": 8,
+      "deTellPasses": 0,
+      "date": "2026-07-16"
+    },
+    {
+      "slug": "2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill",
+      "medium": "blog",
+      "outlineRounds": 3,
+      "draftRounds": 4,
+      "finalAiScore": 8,
+      "deTellPasses": 0,
+      "date": "2026-07-16"
     }
   ]
 }

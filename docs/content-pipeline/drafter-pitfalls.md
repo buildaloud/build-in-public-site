@@ -128,3 +128,157 @@ _auto-derived · seen on 3 posts (automate-blog-writing-with-ai-agents,
 2026-07-14-dark-dashboard-design, 2026-07-15-grill-me-what-an-auditor-sees) ·
 2026-07-15_
 
+## 11. External-source overstatement — cite what the source actually shows
+Citing an external source's one example, single data point, or narrow framing
+as if it establishes a general trend or consensus ("X shows this is usually/
+typically the case", "the industry is converging on Y") when the source itself
+only demonstrates that one instance, or frames the same facts a different way.
+- **Before generalizing from a citation, check the source's actual scope.** One
+  worked example proves the technique exists, not that it's the norm — write
+  "shows exactly this pattern" instead of "usually" or "typically" when that's
+  all the source backs.
+- **No exemption** — a sourced claim should always match what the cited text
+  actually says. This isn't a voice trade-off; it's accuracy.
+_auto-derived · seen on 3 posts (2026-07-14-dark-dashboard-design,
+2026-07-15-grill-me-what-an-auditor-sees, 2026-07-17-design-system-with-css-variables)
+across [blog] · 2026-07-15_
+
+## 12. Unhedged absolutes about our own pipeline behavior
+Don't state an absolute ("the only X", "always Y", "no judgment risk") about how
+a pipeline component — a reviewer, a stage, a gate — behaves without checking it
+against that component's actual spec (its own agent file, or a later beat in the
+same outline). The clean absolute reads better in isolation, but it's the exact
+sentence a fact-check catches once someone checks the source of truth.
+- **Before writing an absolute claim about a stage or reviewer's behavior**,
+  check its agent file / facts doc for a named exception first.
+- **State the claim with its real boundary**, not the clean absolute: name what
+  the exception covers in one clause instead of dropping it because it reads
+  tighter without it (e.g. "verifiable" for most of a reviewer's checks, with the
+  one or two that still take judgment named alongside it).
+- No exemption — an incorrect universal claim about our own system is a
+  factual-accuracy problem, not a voice trade-off.
+_auto-derived · seen on 3 posts (automate-blog-writing-with-ai-agents,
+2026-07-17-design-system-with-css-variables, 2026-07-18-which-claude-model-to-use)
+across [blog] · 2026-07-15_
+
+## 13. Unverified implementation details about our own product
+Stating a specific, checkable detail about how our own code works — a pixel
+measurement, an exact UI label, which mechanism handles a case, which output
+field prints what — confidently, without checking it against the actual source
+file, when the invented specific turns out to be wrong (e.g. an outline
+describing a "reserved next-day slot" a scheduler's `assignSlots()` never
+implements, when the freeze rule already covers same-day publishing without
+one; or a draft claiming a status report lists moved dates when a separate
+move-list printout actually does that).
+- **Before writing a claim about how our own code behaves, read the source
+  file** and confirm the mechanism, function, or output field is really there
+  as described. A plausible-sounding specific isn't a substitute for checking.
+- **If you haven't verified it, state the design intent instead of a specific
+  mechanism** — intent doesn't need a citation; a fabricated mechanism does.
+- No exemption — an invented detail about our own implementation is a
+  factual-accuracy problem, not a voice trade-off.
+_auto-derived · seen on 3 posts (2026-07-14-dark-dashboard-design,
+2026-07-17-design-system-with-css-variables, 2026-07-20-automate-blog-publishing-schedule)
+across [blog] · 2026-07-16_
+
+## 14. Cross-post reference inaccuracy — check what an earlier post actually says
+Citing, quoting as "verbatim," or summarizing an earlier post of ours as backing
+for a beat, without opening that post to confirm the wording, figure, or credit
+is stated exactly as claimed.
+- **Before quoting an earlier post "verbatim" or citing what it established,
+  read that post's actual text.** A remembered paraphrase is not a quote.
+- **State it in your own words if you haven't verified the exact wording**;
+  reserve quotation marks for text you've confirmed against the source post.
+- No exemption — misquoting or misstating our own earlier work is a
+  factual-accuracy problem, not a voice trade-off.
+_auto-derived · seen on 3 posts (2026-07-14-dark-dashboard-design,
+2026-07-18-which-claude-model-to-use, 2026-07-21-hired-a-team-of-specialists)
+across [blog] · 2026-07-16_
+
+## 15. Em-dash overreach for asides and contrast
+Reaching for an em-dash by default whenever a sentence pairs an aside, a
+contrast, or two connected clauses — pushing draft em-dash density over the
+tone gate's threshold across several posts running.
+- **Try a period, a colon, or parentheses first** when a sentence needs an
+  aside or a contrast; save the em-dash for the one spot per section where the
+  interruption itself is the point.
+- **Break a long dash-linked sentence into two shorter sentences** instead of
+  bridging two full clauses with a dash.
+- No exemption — this is a mechanical tone-gate driver, not a voice call; the
+  gate scores em-dash density directly.
+_auto-derived · seen on 3 posts (automate-blog-writing-with-ai-agents,
+2026-07-18-which-claude-model-to-use, 2026-07-21-hired-a-team-of-specialists)
+across [blog] · 2026-07-16_
+
+## 16. Negation-tail crutch — don't close a sentence with a trailing "not X"
+Closing a sentence or clause with a trailing negated contrast ("not one
+justifying the other", "not a neutral default", "not just X, either") that
+only restates or narrows what the main clause already said. Distinct from
+negative parallelism's dismiss-then-reframe opener (§1) — this is a closing
+tic, not an opener.
+- **Land the sentence on its positive claim and stop.** If the trailing "not
+  X" clause doesn't add new information, cut it rather than tacking on a coda.
+- No exemption — the claim reads stronger without the redundant negation, and
+  the negation adds nothing the reader didn't already have.
+_auto-derived · seen on 3 posts (2026-07-18-which-claude-model-to-use,
+2026-07-19-ai-automation-stack, 2026-07-21-hired-a-team-of-specialists)
+across [blog] · 2026-07-16_
+
+## 17. Repeated "That's X: Y" reveal-cadence template
+Reaching for the same sentence-final reveal template — "That's <label>: <explanation>,"
+"That's the whole <X>," "This is <label>...," or a same-shaped substitute — at
+multiple separate points across one post to land a section's point. One
+instance reads as a deliberate move; three or four across a draft reads as a
+templated tic. This includes near-miss substitutes for the permabanned
+"that's the whole point" phrase (§0) — swapping in a same-shaped "that's the
+whole transaction" doesn't dodge the tell, it just relocates it.
+- **State the trade or point directly instead of labeling it as a reveal.**
+  "A few minutes of awkwardness bought us shared reality" — not "That's the
+  whole transaction: a few minutes of awkwardness for shared reality."
+- **One instance per post at most**, and only where the label-then-colon shape
+  is doing real work (an actual definitional reveal, not a rhetorical
+  flourish reached for by habit).
+- No exemption for repeat use — even where a single instance reads fine in
+  isolation, the *count* across one draft is what trips this; a reviewer sees
+  the whole post, so plan the outline that way too.
+_auto-derived · seen on 3 posts (2026-07-19-ai-automation-stack,
+2026-07-21-hired-a-team-of-specialists,
+2026-07-22-dividing-a-company-that-makes-no-money) across [blog] · 2026-07-16_
+
+## 18. Keyword phrase as literal sentence subject
+Using the outline's target SEO keyword phrase verbatim as the grammatical
+subject of a sentence — a bare copula construction like "Rate limiting an LLM
+API is a launch requirement..." — reads like landing-page copy, not a
+person's spoken opinion.
+- **Give the sentence a real subject** — a person, an action, a moment — and
+  let the keyword phrase land as an object or modifier instead of the subject
+  of an "X is Y" sentence.
+- **The keyword itself doesn't need to disappear** — SEO still wants it on
+  the page. The fix is where it sits grammatically, not whether it appears.
+- No exemption — this is a mechanical construction tell, not a voice
+  trade-off.
+_auto-derived · seen on 3 posts (2026-07-19-ai-automation-stack,
+2026-07-22-dividing-a-company-that-makes-no-money,
+2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill)
+across [blog] · 2026-07-16_
+
+## 19. rendersAsProse left false on a beat that carries the payload
+An outline node meant to render as skimmable prose — a numbered rundown, a
+score list, a caps-and-ceiling summary — left with `rendersAsProse: false`,
+silently dropping the whole beat before it ever reaches the draft, even when
+a later beat's payoff depends on content only this beat introduces.
+- **Before finalizing an outline, check every beat's `rendersAsProse` flag
+  against what later beats reference.** If a downstream beat's intendedBeat
+  text points back at numbers, a list, or a concrete detail, confirm the
+  beat that owns it is actually set to render.
+- **This isn't "always set it true"** — a beat that's genuinely structural
+  scaffolding, with nothing a later beat needs, is fine left false. Check the
+  downstream dependency, don't default either way.
+- No exemption for the specific failure mode (a beat other beats depend on
+  silently vanishing) — that's a schema bug producing a factual gap, not a
+  style choice.
+_auto-derived · seen on 3 posts (automate-blog-writing-with-ai-agents,
+2026-07-15-grill-me-what-an-auditor-sees,
+2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill)
+across [blog] · 2026-07-16_
+
