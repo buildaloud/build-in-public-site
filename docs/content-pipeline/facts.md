@@ -72,8 +72,11 @@ record of verified external claims.
   score" is true of the internal score, not literally reflected in the
   reported (capped) aiScore. The ONLY human checkpoint in the whole pipeline
   is the topic-approval gate; the outline loop auto-proceeds to drafting on
-  convergence with no human sign-off. If either loop hits its 3-round cap with
-  gate findings still open, it stops and surfaces to Chad.
+  convergence with no human sign-off. If either loop hits its 5-round cap with
+  gate findings still open, it stops and surfaces to Chad. (Fixed a stray
+  "3-round" typo here 2026-07-15 — this sentence had not been updated when the
+  round-cap correction above it was made; the cap is 5, not 3, same as the
+  rest of this entry already said.)
 - **Tone gate mandatory-trigger threshold re-confirmed 2026-07-12** via direct
   read of `.claude/skills/human-tone/eval/tone-grader.ts` and
   `.claude/skills/content-pipeline/SKILL.md` line 231: the mandatory-critical
@@ -88,6 +91,260 @@ record of verified external claims.
   permabanned phrase adds 100 points, so a single hit is an automatic hard
   fail" is accurate as a description of the internal scoring mechanism, not a
   claim that the reported aiScore itself exceeds 100.
+
+## `ai-automation-stack` (slug `2026-07-19-ai-automation-stack`) — draft-stage clean, verified through 2026-07-15
+- Outline- and multiple draft-stage passes (2026-07-15) all found zero gate
+  findings. Standing checks that keep holding: 12-stage list in order (source
+  scan, topic-approval gate, SEO research, editorial brief, outline, outline
+  review loop, draft, draft review loop, hero image, structured summary,
+  assemble, commit — assemble/commit listed separately); topic approval +
+  assembly + commit are the only three non-agent steps; outline loop 12
+  reviewers/round cap 5, draft loop 15 reviewers/round cap 5; tone gate folded
+  into the draft-review-loop beat (not its own stage), trigger `banned > 0 OR
+  aiScore >= 15`, timing "start of every round and once more after the loop
+  exits"; the "6 to 22, three-item lists" tone-gate anecdote is a real
+  pipeline event, safe as "happened for real on this pipeline"; all four
+  Ringly figures exact ($169.46B/$1.14T/31.4%/48%); 13-hours figure hedged
+  correctly (no claim it's measured for a one-human team); model-tier claim
+  exact (seo-researcher = only Opus, link-integrity-reviewer = only Haiku,
+  rest Sonnet — "the other fourteen draft reviewers" arithmetic checks out);
+  scheduler mechanics (daily-then-monthly, filename+link rewriting,
+  self-coined "recompression," correctly uncited, correctly unlinked to the
+  forward-dated 2026-07-20 scheduler post); scorecard learning-loop feed
+  matches SKILL.md Step 10.5 verbatim (reconciles against the scheduling
+  queue, never touches SEO research); measurement figures match
+  `src/data/stats.json` (48 impressions, 1 click, ~24.2 avg position/mid-20s,
+  50+ posts, pulled 2026-07-15); Zapier stat attributed as secondary via the
+  solo-founders guide; Relay named inline, resolving the standing
+  checkpoint-as-design-choice caveat; every internal link tense-checked
+  against its target's real pubDate, no forward-dated past-tense claims.
+- **Re-confirmed clean 2026-07-15 (this exact revision, full draft text)** —
+  no new gate findings. Two standing elevations still un-adopted: (1) naming
+  `impact`/`emotion`/`meta-content` reviewers explicitly in the "roster runs
+  long" sentence, not just hook/voice/structure/SEO/fact/link-integrity, so
+  the "fifteen" count is fully accounted for; (2) inlining "(v0.2.0)" in the
+  package-swap paragraph body, not just the Sources footer, per the TD-0038
+  entry below.
+- **Re-confirmed clean AGAIN 2026-07-15 (later revision, full draft text)** —
+  zero gate findings on the DRAFT-mode fact-checker pass. Elevation (1) above
+  is now ADOPTED in this revision — the "roster runs long" sentence names
+  "structural impact, emotional impact, meta-content" alongside hook/voice/
+  structure/SEO/fact accuracy/link integrity. Elevation (2) (inline "(v0.2.0)"
+  in the package-swap paragraph body) is still un-adopted — only remaining
+  standing elevation for this post. New claim in this revision's CTA beat —
+  "The fan-out bursts up to 15 agents at once per round" — confirmed accurate
+  via direct read of `.claude/skills/content-pipeline/SKILL.md` line 240:
+  "dispatch, in parallel, the 15 draft-mode reviewers" (the draft loop's 15 is
+  the pipeline's largest single burst; the outline loop bursts 12). Nine-of-
+  twelve-stages-are-agent-handled arithmetic (source scan, SEO research,
+  editorial brief, outline, outline review loop, draft, draft review loop,
+  hero image, structured summary = 9; topic approval + assembly + commit = 3
+  orchestrator/human-owned) is exact and reads stronger than a vague "most."
+- **TD-0038 swap** confirmed real via `.git/logs/HEAD` commit `4e445c1`
+  "pipeline: swap onto agentic-content-pipeline v0.2.0 (TD-0038)" plus
+  `content-pipeline.config.json` at the repo root pointing the package at this
+  repo's own `docs/` path (nothing to migrate). Trust the commit graph over
+  the ticket file's stale unchecked boxes. Safe to state "the pipeline now
+  runs on the agentic-content-pipeline package" as present-tense fact, no
+  "mid-swap" hedge, for posts publishing after 2026-07-15. Standing elevation:
+  inlining "(v0.2.0)" in-body (not just the Sources footer) would give the
+  swap claim a sharper anchor — still not adopted as of the 2026-07-15 draft.
+- **Live stats.json (generated 2026-07-15)** — `searchConsole.impressions: 48`,
+  `clicks: 1`, `position: 24.23`, 28-day window, 52 dated posts in
+  `src/content/blog/`. Supersedes the older "15 to 20 impressions... three
+  dozen posts" figure from the 2026-07-09 how-to-measure-blog-seo post — any
+  post citing the blog's aggregate stats and linking `/stats/` should pull
+  this live number, not reuse the 07-09 post's figure. Safe current framing:
+  "~48 total impressions, 1 click, across 50+ posts" (round the post count,
+  it keeps growing).
+- **RANKING / GATHERING SIGNAL / NOT YET** are the canonical ALL-CAPS
+  scorecard state names, confirmed verbatim in the 07-09 how-to-measure-blog-seo
+  post; `dark-dashboard-design.md`'s lowercase "gathering signal" in its own
+  narrative prose is a stylistic choice there, not a different state name.
+- **Model-tier sweep** (exhaustive grep of every `.claude/agents/*.md` `model:`
+  line, 33 files total): `seo-researcher` is the ONLY `model: opus` agent,
+  `link-integrity-reviewer` the ONLY `model: haiku` agent, everything else
+  `model: sonnet`. Safe as an absolute claim, not just "mostly."
+- **Ringly 13-hours-per-person-per-week figure** confirmed verbatim on
+  [ringly.io/blog/ai-automation-statistics-2026](https://ringly.io/blog/ai-automation-statistics-2026):
+  "AI automation saves teams about 13 hours per person per week." Same page
+  as the $169.46B/$1.14T/31.4%/48% figures.
+- **aiforbusinessautomation.com solo-founders guide** confirmed on
+  [aiforbusinessautomation.com/best-ai-tools-for-solo-founders](https://aiforbusinessautomation.com/best-ai-tools-for-solo-founders):
+  narrow-vs-broad claim verbatim "Underdog tools with narrow, specific jobs
+  outperform broad SaaS platforms for solo operators"; Zapier stat verbatim
+  "9 in 10 small businesses are considering AI... yet fewer than 1 in 4 have
+  deployed it consistently" (SECONDARY source for Zapier — attribute as
+  "Zapier's research, via the solo-founders guide"). The
+  deliberate-human-checkpoint line is specifically about Relay, one tool in
+  the guide — naming Relay explicitly (as this post now does) is more precise
+  than a generic "guidance for solo founders" paraphrase.
+- **`agentic-content-pipeline` README "Cost" section** confirmed verbatim:
+  "roughly 100-160 agent dispatches and several million tokens per post" at
+  defaults. Install command `npx agentic-content-pipeline setup --harness
+  claude` confirmed live in the README. `package.json` confirms `version:
+  0.2.0` and the GitHub repo URL directly from repo metadata.
+- **Re-confirmed clean AGAIN 2026-07-15 (DRAFT-mode fact-checker pass, "How I
+  Built My AI Automation Stack" full rewrite title/body)** — zero gate
+  findings. Every standing check above still holds verbatim in this revision:
+  9-of-12-stages agent arithmetic, 12/15 reviewer counts with round cap 5,
+  tone gate folded into the draft-review-loop beat (not its own stage) with
+  15-or-above/banned>0 trigger, all four Ringly figures exact, 13-hours figure
+  hedged, model-tier claim exact, scheduler mechanics + no forward link to the
+  07-20 scheduler post, 48-impressions/1-click/mid-20s-position/50+-posts
+  stats matching the 07-15 pull, Zapier stat attributed as secondary, Relay
+  named, every internal link tense-checked clean. One wording variance noted,
+  NOT a fact issue: this revision's "Scoring code has no ego about the prose
+  it grades" (vs. the outline's protected verbatim "A regex has no ego...")
+  is arguably MORE accurate — the tone gate is a scoring function
+  (`tone-grader.ts` `scoreText`), not literally a single regex — so don't
+  gate-flag this substitution on factual grounds; it's a voice/fidelity
+  question for other reviewers, not fact-checking. Both standing elevations
+  (inline "(v0.2.0)" + a Sources-footer entry for the release tag) remain
+  un-adopted in this revision.
+
+## `teaching-a-robot-to-balance-my-game` (slug `2026-07-23-teaching-a-robot-to-balance-my-game`) — game-balance facts, verified against the tower-defense repo 2026-07-16
+- **sim:tune / sim:tune-fast / surrogate confirmed real** in `/Users/chadfurman/projects/tower-defense`:
+  `tools/sim/tune.ts` (seeded mulberry32 random search + local hill-climb
+  coordinate-descent refine, `--seed`/`--trials`/`--write` CLI, objective
+  function `scoreObjective`), `tools/sim/tune-fast.ts` (surrogate-based, "microseconds
+  per trial instead of minutes"), `tools/sim/surrogate/recurrence.ts`
+  ("Surrogate prestige-loop recurrence model," `runSurrogateLoop` analytically
+  mirrors the greedy bot's meta-loop with no ECS — this IS the prestige-loop
+  surrogate the post describes). `pnpm check` running a sim matrix as a hard
+  gate matches the 2026-06-16 build-log post's "`pnpm check` runs... a
+  simulation matrix" line.
+- **Three-bot roster confirmed real and exactly named**: `tools/sim/strategies/greedy-optimizer.ts`,
+  `upgrade-heavy.ts`, `prestige-loop.ts` all exist as real distinct strategy
+  files, and all three ARE in `CORE_STRATEGIES` (`strategies/index.ts`), the
+  list `tools/sim/matrix.ts` runs under `pnpm check`'s `sim:matrix` gate — so
+  "these three sit behind the hard gate" is accurate despite matrix.ts's own
+  header comment listing a stale, different subset (doc drift on their side,
+  not a post-fact issue). CAVEAT: the repo actually has ~11 named strategies
+  total (also under-build, over-build, mixed-damage, meta-progression,
+  deep-research, idle-only, all-dlc, start-at-wave-n) — spotlighting only
+  these three as "the bots" is a legitimate editorial simplification, not a
+  wrong-fact, but reads more precise as "three of the strategies."
+- **`upgrade-heavy.ts` behavior — GATE-WORTHY, do not describe as "leveling
+  towers."** Confirmed live 2026-07-16: TD-0047 (2026-06-13, code comment
+  dated) deleted the per-entity upgrade-tower action from the whole game
+  (`UPGRADE_DAMAGE_PER_LEVEL`, `UPGRADE_TRACK_COST_BASE`, `MAX_UPGRADE_LEVELS`
+  all removed; `greedy-optimizer.ts` confirms the same removal — "placement-only
+  for now"). `upgrade-heavy.ts`'s current `decide()` only places `pulse-turret`
+  (cost 10) repeatedly ("saturate sectors with pulse turrets" per its own file
+  header) — it does NOT level/upgrade any tower; that mechanic doesn't exist
+  anywhere in the sim right now. A beat describing this bot as "leveling three
+  or four towers instead of spreading wide" or "ignoring half the roster" is
+  backwards (it ignores 5 of 6 tower kinds and stacks copies of the cheapest
+  one — the opposite of concentrating levels into a few). Correct framing:
+  "ignores the rest of the roster and stacks pulse turrets over and over
+  instead of diversifying."
+- **`sim:tune`'s `scoreObjective` (tune.ts) — exact scoring criteria, do not
+  say "smooth difficulty curve" or "single strategy dominates."** Confirmed
+  live 2026-07-16, three real components: (1) `clearScore` — does the deepest
+  wave reached hit `CLEAR_WAVE=100`, plus a cycle-count sweet-spot bonus (3-5
+  prestige cycles = `TARGET_MIN/MAX_CYCLES`) and a "too fast"/"too grindy"
+  (`GRINDY_THRESHOLD=6`) penalty; (2) `monotoneScore` — rewards each prestige
+  cycle reaching deeper than the last, penalizes regression; (3)
+  `densityPenalty` — penalizes `decisionDensity` below `DENSITY_FLOOR=4`
+  actions/min (an idle/passive strategy can't score well). There is no
+  "does any single strategy dominate" term — `scoreObjective` scores ONE
+  config's run (via `greedy-optimizer` + `meta-progression`), not a
+  cross-strategy comparison; that dominance-detection concept belongs to the
+  three-bot-disagreement mechanism (beat 3 / `sim:matrix`), not this function.
+  Correct framing: "does the run clear a target depth without blowing through
+  prestige cycles too fast or grinding too slow, does each loop dig deeper
+  than the last, and does the bot stay actively engaged instead of idling."
+- **HP_GROWTH constant — DATED, moves often, do not state a specific value as
+  "current" without re-checking `packages/game-core-pack/src/domains/balance/config.ts`
+  first.** Confirmed live value as of 2026-07-16: `HP_GROWTH: 1.08` (line 182).
+  Full documented history (`.claude/agent-memory/enemies-expert/hp_scaling.md`):
+  1.12 → 1.06 → 1.10 → T7 two-axis (1.08/1.65 level-boundary step) →
+  economy-refactor single 1.11 → balance-tuning 1.11→1.08 ("loop bootstrap
+  fix," 2026-05-30). **The 1.06→1.10 transition IS real** (confirmed in this
+  history), but it is an OLD, superseded step — the live value moved on
+  multiple times since and landed at 1.08 well before this post's 2026-07-23
+  pubDate. A beat citing "HP_SCALING_BASE went 1.06 to 1.10" as the settled/
+  current outcome of a specific playtest (no further hedge) misstates the
+  game's current own balance constant — gate finding, caught at outline stage
+  2026-07-16. Fix: either re-verify the specific pass against the live value
+  before publishing, or explicitly frame it as "at the time" / a historical
+  example rather than implying it's still live today. No corroborating
+  worklog entry for the specific "Chad played to wave 40, called it butter"
+  anecdote was found (searched `docs/worklog.md` for "wave 40" / "butter" —
+  no hits) — the anecdote itself may be an undocumented conversation, which is
+  fine, but the paired NUMBERS need to trace to the live config.
+- **BOSS_ANGULAR_SPEED_DEG — also dated, halved TWICE, not once.** Confirmed
+  live value as of 2026-07-16: `0.75` deg/tick (`config.ts` line 205, "480
+  ticks/orbit... lumbering; ~8s/lap at 60fps"). Documented history: original
+  `3` → halved to `1.5` (2026-06-02 worklog, "boss-orbit... playtest fix," a
+  real Chad-driven "too fast to read" style fix) → halved AGAIN to `0.75` at
+  some later point (undated in worklog, but confirmed current in `config.ts`).
+  A post saying "boss orbit speed, halved" with no specific before/after
+  numbers is SAFE either way (matches at least one of the two real halving
+  events, and doesn't cite a number the current config contradicts) — do not
+  gate this phrasing. Only gate the beat if it starts citing specific
+  degree-per-tick numbers (e.g. "3 to 1.5") as if that's the current setting,
+  since the live value has since moved again to 0.75.
+- **TechBullion — "Use hybrid evaluation: agents flag suspicious traces, then
+  humans verify and triage"** and **"Because agents can run thousands of
+  sessions overnight, they find low-probability but high-impact issues before
+  real players do"** — both confirmed verbatim 2026-07-16 on
+  [techbullion.com/autonomous-playtesting-agents-let-ai-teach-you-how-players-will-break-your-game](https://techbullion.com/autonomous-playtesting-agents-let-ai-teach-you-how-players-will-break-your-game/)
+  ("What will an AI find that humans often miss?" and "How to measure
+  success" sections respectively). Safe to paraphrase loosely (not exact
+  quote) without quote marks, as the pinned prior post does. Do NOT attribute
+  this to "playtesting-agent research" broadly (one article, not a research
+  consensus) — attribute to TechBullion specifically.
+- **Game Developer — "especially good at finding bugs, game parameter tuning,
+  player pass rate, and difficulty prediction in game levels"** — confirmed
+  verbatim 2026-07-16 on
+  [gamedeveloper.com/design/predicting-game-difficulty-and-engagement-using-ai](https://www.gamedeveloper.com/design/predicting-game-difficulty-and-engagement-using-ai).
+  A post paraphrasing this as "AI agents are good at game parameter tuning
+  and difficulty prediction" (dropping "bugs"/"player pass rate") is an
+  accurate, non-misleading trim. CAVEAT (already flagged in this post's own
+  outline gateGuidance, correctly): the source backs the tuning/prediction
+  claim only — "compressing tuning that used to eat weeks into coffee-break
+  time" is OUR first-person experience, not something to attribute to this
+  source.
+- **HP_SCALING_BASE hedge — CONFIRMED applied and now fully resolved (was an
+  outline-stage gate finding, closed at draft, re-confirmed clean on the
+  2026-07-16 DRAFT-mode pass of the full rewrite).** Current revision frames
+  the pass as "in one early tuning pass," keeps the real 1.06→1.10 numbers,
+  and adds "(The constant's since been renamed HP_GROWTH and re-tuned more
+  than once, but that pass is the one that came from his hands instead of the
+  sim.)" — this also adopts the standing elevation (naming the current
+  `HP_GROWTH` name) that the prior draft revision had left open. Nothing left
+  to flag here; don't re-open unless a future revision drops the hedge or the
+  rename note.
+- **Full-body DRAFT-mode fact-check, 2026-07-16 — zero gate findings.** Every
+  standing check in this section holds verbatim in the current revision:
+  upgrade-heavy correctly framed as "ignores the rest of the roster and
+  stacks pulse turrets ... instead of diversifying" (not "leveling towers");
+  `sim:tune`'s objective correctly framed as clear-depth/prestige-pacing/
+  monotonic-depth/engagement, no invented "smooth difficulty curve" or
+  "single strategy dominates" language; boss-orbit beat says "halved" with no
+  specific degree numbers (safe); TechBullion's two claims (hybrid
+  evaluation, overnight-sessions) attributed to TechBullion by name, not
+  "research"; Game Developer citation trimmed to tuning/prediction only, with
+  the coffee-break framing correctly kept first-person and unattributed to
+  the source; PWA + "neon tower-defense" description confirmed against the
+  2026-06-16 build-log post; the "unkillable tower" link target
+  (2026-07-07-launch-day-bugs-only-showed-up-in-prod) does describe "the
+  tower that quietly becomes unkillable three systems away" as something the
+  gate catches, so the payoff-beat link is accurate, not just topically
+  adjacent.
+- **sim/tune-fast surrogate speed, confirmed**: `tools/sim/tune-fast.ts`
+  runs "microseconds per trial instead of minutes" — usable as a concrete,
+  sourced number for the surrogate beat instead of the vaguer "cheap math
+  model... accurate enough."
+- **TechBullion "suspicious traces like crashes and exploits" — CONFIRMED
+  supported, not an invented elaboration.** Re-fetched 2026-07-16: the
+  article's own examples of hybrid-evaluation traces are "reproducible
+  crashes and balance exploits" — a draft paraphrasing the flagged traces as
+  "crashes and exploits" is a safe, accurate compression, not an overreach.
+  Re-verified full-body pass, same date, still zero gate findings on this
+  post.
 
 ## Claims that need a live source (don't state as fact without one)
 - Market stats (turnover cost, adoption %, download counts, audit findings).
@@ -546,6 +803,66 @@ record of verified external claims.
   to the 80.9%/15x-tokens beat (the failure mode fan-out can hit if scoped
   wrong). Same source page as the 90.2% and 4x/15x token figures already
   verified above.
+- **security-kit's six named sub-agents, exact names + order, confirmed via
+  direct fetch of [github.com/chadfurman/security-kit](https://github.com/chadfurman/security-kit)
+  2026-07-16**: `surface-mapper` (attack-surface/assets/boundaries),
+  `untrusted-input-tracer` (traces untrusted data through the codebase) — both
+  run in parallel during Recon (phase 1) — then `threat-modeler` (synthesizes
+  recon into a ranked threat picture, phase 2, BEFORE the hunt) — then
+  `vuln-hunter` (parallel per taxonomy cluster, phase 3) — `fp-judge` (keeps
+  only findings scoring 8/10+ exploitability, phase 4) — `mitigation-planner`
+  (fix strategies, phase 5). A draft naming a sixth lane as a closing
+  "synthesis pass that assembles what survived" (i.e., placed AFTER
+  mitigation-planner) is a wrong-fact gate finding — the real sixth agent is
+  `threat-modeler`, and it runs early (right after recon, before the hunt),
+  not as a final step. The 2026-07-10 blog post
+  (`2026-07-10-claude-security-team-that-remembers.md`) names 5 of the 6
+  explicitly in prose (surface-mapper, untrusted-input-tracer, vuln-hunter,
+  fp-judge, mitigation-planner) and only says "Six specialized sub-agents" —
+  `threat-modeler` is the unnamed sixth; the GitHub repo is the source that
+  names it. Caught on the 2026-07-16 outline-stage review of
+  `hired-a-team-of-specialists`.
+- **Addy Osmani — "writes significantly better database code" quote, exact
+  wording confirmed 2026-07-16** via direct fetch of
+  [addyosmani.com/blog/code-agent-orchestra](https://addyosmani.com/blog/code-agent-orchestra/):
+  "A focused agent that only handles the data layer writes **significantly**
+  better database code than **a generalist** juggling your entire codebase."
+  A draft dropping "significantly" or swapping "a generalist" for "one" inside
+  quote marks is a verbatim-quote violation — same standing "quotes must be
+  verbatim" caution. Separately confirmed on the same page: "The bottleneck is
+  no longer generation. It's verification." (safe to quote the back half
+  alone, as several drafts already do) and the single-agent-doing-everything
+  example is FOUR areas — "One agent doing everything - data layer, API, UI,
+  tests - is a jack of all trades and master of none" (not three, not five).
+- **AI21 "its own isolated execution environment" quote re-confirmed
+  2026-07-16** via direct fetch of
+  [ai21.com/glossary/ai-agent/what-is-parallel-subagent-execution](https://www.ai21.com/glossary/ai-agent/what-is-parallel-subagent-execution/):
+  "A parent agent or orchestration framework receives a task and decomposes it
+  into multiple independent strategies or attempts... Each strategy is
+  assigned to a subagent, which is given its own isolated execution
+  environment so that its actions do not interfere with those of other
+  subagents running concurrently." Synthesis step confirmed too: "a comparison
+  step evaluates the outputs against defined criteria such as correctness,
+  test pass rate, or efficiency. The winning approach is merged into the
+  shared environment, and the losing workspaces are discarded." Safe to cite
+  and paraphrase as-is.
+- **Tower Defense game roster — monetization guard is described as "one of
+  those specialists," separate from (not one of) the six named lanes
+  (combat balance, economy, towers, enemies, idle/echo, research).** Confirmed
+  via direct read of
+  `src/content/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks.md`:
+  the six-lane list appears in one paragraph ("one for combat balance, one for
+  the economy, one for towers, one for enemies, one for the idle/echo
+  mechanics, one just for research"), and the monetization guard gets its own
+  separate paragraph immediately after ("One of those specialists is a
+  monetization guard whose entire job is to veto pay-to-win. It gets a vote on
+  anything that touches the store or the economy."). A draft describing the
+  monetization agent as "sitting off to the side" from the six lanes (rather
+  than as a numbered seventh lane) matches the source's own structure. Also
+  confirmed verbatim from the same post, safe to quote: "Here's candidate A,
+  B, C, D. Here's the tradeoff on each. Chad picks." — do not paraphrase this
+  inside quote marks (e.g. "Four options, A through D... you pick" is NOT
+  verbatim).
 - **NOT every pipeline stage is agent-dispatched — some are orchestrator-owned
   direct actions.** Confirmed via direct read of `.claude/skills/content-
   pipeline/SKILL.md`: Step 10 Assemble is explicit — "The orchestrator writes
@@ -561,6 +878,65 @@ record of verified external claims.
   orchestrator itself handles topic approval, assembly, scheduling, and the
   final commit directly. Caught on the 2026-07-13 outline-stage review of
   `automate-blog-writing-with-ai-agents` (CTA beat, order 11) — gate finding.
+- **`agentic-content-pipeline` README confirmed 2026-07-16 (fan-out
+  warning + dashboard advice, on top of the already-verified 100-160
+  dispatches figure)**: exact wording is "expect on the order of 100-160
+  agent dispatches and several million tokens per post," "The fan-out also
+  bursts up to 15 agents at once per round," "Run one post and check your
+  usage dashboard before queueing many," and "mind your provider's rate
+  limits." Safe to attribute the fan-out-burst warning and the
+  dashboard/rate-limit advice directly to the README, not just to SKILL.md.
+- **`hired-a-team-of-specialists` (slug 2026-07-21) — OUTLINE-stage first
+  pass, 2026-07-16.** Two gate findings: (1) beat 2's gateGuidance claimed
+  "the source enumerates five" concerns for Osmani's single-agent-ceiling
+  example — re-fetched 2026-07-16, Osmani's example is FOUR areas (data
+  layer, API, UI, tests), not five; the game's illustrative five-concern list
+  (economy/combat/visuals/save-schema/monetization) is Scout's own, unrelated
+  to Osmani's count — don't let the two blend. (2) beat 9 attributes the
+  "~15x tokens of a single chat call" figure to Anthropic's own multi-agent
+  research system but the beat's `sources` array only lists Osmani and the
+  agentic-content-pipeline repo — no Anthropic URL — add
+  https://www.anthropic.com/engineering/multi-agent-research-system.
+  Everything else in this outline checked clean: security-kit six-lane order
+  (surface-mapper → untrusted-input-tracer → threat-modeler → vuln-hunter →
+  fp-judge → mitigation-planner) correct and matches the six-lane order
+  already in the ledger; tower-defense roster (idle/echo, research, economy,
+  combat balance, towers, enemies + monetization "off to the side") matches
+  the source post; every quote (Osmani "significantly better database code,"
+  Osmani "bottleneck... verification," AI21 "its own isolated execution
+  environment," game's "candidate A, B, C, D... Chad picks," Osmani
+  "three to five teammates"/"linear" token-cost) verbatim against source.
+- **`hired-a-team-of-specialists` (slug 2026-07-21) — OUTLINE-stage re-check
+  2026-07-16, revision after the two 2026-07-16 gate findings above were
+  fixed.** Both confirmed fixed: (1) beat 2's gateGuidance now correctly
+  separates Osmani's own four-area example (data layer, API, UI, tests) from
+  Scout's own five-concern game illustration (economy, combat, visuals, save
+  schema, monetization) — no blending. (2) beat 9's sources array now
+  includes `https://www.anthropic.com/engineering/multi-agent-research-system`
+  alongside Osmani and the agentic-content-pipeline repo, correctly sourcing
+  the "~15x tokens" figure. Zero new gate findings this pass — every quote
+  re-checked verbatim against source (Osmani "significantly better database
+  code... a generalist," Osmani "is no longer generation. It's verification,"
+  Osmani "Three to five teammates is the sweet spot," Osmani "Token costs
+  scale linearly with team size" as a separate standalone statement — not
+  bridged with "because" — AI21 "its own isolated execution environment,"
+  game's "Here's candidate A, B, C, D. Here's the tradeoff on each. Chad
+  picks."); security-kit six-lane order (surface-mapper →
+  untrusted-input-tracer → threat-modeler → vuln-hunter → fp-judge →
+  mitigation-planner) correct; tower-defense six-lane roster + monetization
+  "off to the side" correct; pipeline counts exact (12 outline reviewers/round
+  cap 5, 15 draft reviewers/round cap 5, tone-gate threshold 15, single human
+  checkpoint = topic approval, "now runs as" present-tense package framing
+  correct for a post publishing after 2026-07-15); every internal link's
+  tense checked against real pubDate, all correct. **New source confirmed
+  this pass:** `https://docs.claude.com/en/docs/claude-code/sub-agents` (cited
+  in beat 1) 301-redirects to the canonical
+  `https://code.claude.com/docs/en/sub-agents`, which does describe subagents
+  as a built-in Claude Code feature ("Subagents are specialized AI assistants
+  that handle specific types of tasks... Each subagent runs in its own
+  context window...") — supports the "ships with the harness, nothing to buy"
+  claim; the redirect resolves fine (not dead), but the canonical URL is
+  sharper for future citations of this exact page.
 - **Skills Marketplace scoring-model history: the pre-AST-v1.0 model was
   TWO categorical labels, not "a blunt danger label" (singular).** Confirmed
   via direct read of
@@ -1322,6 +1698,266 @@ record of verified external claims.
   Google spam-policy claim, since that page's wording has already required
   multiple re-checks across this project's history and is exactly the kind
   of third-party policy language that can change without notice.
+
+## `automate-blog-writing-with-ai-agents` — 2026-07-15 OUTLINE-stage review (new findings)
+- **CRITICAL NEW CAUTION: build-aloud does NOT currently run on the published
+  `agentic-content-pipeline` npm package — a CTA claiming "this blog runs on
+  that package" is a wrong-fact gate finding until further notice.** Confirmed
+  via direct read of `tickets/TD-0038-switch-build-aloud-onto-agentic-content-
+  pipeline.md` (status: **open**, created 2026-07-15, all checkboxes
+  unchecked): "the in-repo pipeline (`.claude/skills/human-tone/`,
+  `.claude/skills/content-pipeline/`, `.claude/agents/*-reviewer.md`, etc.) and
+  the extracted standalone package (`~/projects/agentic-content-pipeline`, npm
+  `agentic-content-pipeline@0.1.1`) have already drifted apart... Consolidate
+  build-aloud onto the published package." Build-aloud's own in-repo copy is
+  what actually runs this blog's pipeline right now; the published package is
+  a separate, currently-diverged extraction, and switching build-aloud onto it
+  is unstarted work. A post/outline asserting present-tense parity ("this blog
+  itself runs on that package" / "this exact pipeline is packaged as
+  agentic-content-pipeline, and this blog runs on it") overstates current
+  reality — correct framing acknowledges the fork/drift and that reconverging
+  them is an open task, not yet finished. The package itself is real, public,
+  and installable (`npx agentic-content-pipeline setup --harness claude` per
+  its own README, confirmed live 2026-07-15) — it's fine to point readers at
+  it and describe it as "the same design," just not as literally what's
+  serving this blog today. Caught on the 2026-07-15 outline-stage review of
+  `automate-blog-writing-with-ai-agents` (CTA beat, order 13) — re-check this
+  claim on every future revision until TD-0038 actually ships.
+- **Tone-gate register-detector point values confirmed exact**, verified
+  identically in both `~/projects/agentic-content-pipeline/skills/human-tone/
+  scripts/eval/tone-grader.ts` and build-aloud's own
+  `.claude/skills/human-tone/scripts/eval/tone-grader.ts` (same weights in
+  both, despite the drift noted above): dramatic inversions
+  `Math.min(Math.max(0, count - 1) * 6, 18)` = first hit free, then +6 each,
+  capped at 18; punch-fragment density `Math.min(Math.max(0, count - 10) * 1,
+  6)` = first ten free, then +1 each, capped at 6; sales speak
+  `Math.min(count * 5, 15)` = +5 each, no free allowance, capped at 15. A
+  draft/outline stating these exact numbers is accurate — safe to cite without
+  re-deriving from source each time.
+- **Plateau-exit mechanic confirmed exact**, both outline-loop (SKILL.md
+  ~line 205) and draft-loop (~line 245): "if this round's gate-finding count
+  does not fall below the prior round's, apply this round's consolidated
+  edits once more (step 3), then exit the loop instead of re-reviewing —
+  don't burn the rest of the round-cap budget on a round that isn't
+  shrinking." A draft/outline describing a plateau exit from round 2 onward
+  (apply-once-more-then-exit if the gate count doesn't drop) is accurate.
+- **Standing "10 to 15" disproven baseline figure recurred AGAIN, 2026-07-15
+  outline revision (order 9, run-one failure story), after multiple prior
+  revisions had already fixed it with the reconciled framing.** Outline text
+  read "the tone bar had been set at 2 out of 100 while normal human prose
+  scores 10 to 15 on density alone." Per the standing 2026-07-14 entry above,
+  `human-tone/SKILL.md` states the measured human baseline is **aiScore ~2**
+  (re-confirmed again 2026-07-15 via direct read, same wording), not 10-15 —
+  use "dead level with the corpus's own measured human baseline... ordinary
+  variance... was enough to trip it" instead. This is now confirmed to have
+  regressed from a fixed state at least twice across this post's revision
+  history (2026-07-14 and 2026-07-15) — keep checking this exact beat on
+  every future pass regardless of how many prior passes were clean.
+- **`automate-blog-writing-with-ai-agents` — OUTLINE-stage review 2026-07-15
+  (this exact 13-paragraph outline, full rewrite) — clean pass, verdict
+  PASS.** Full re-check against every standing landmine found nothing wrong:
+  12-stage list correct order with assemble/commit as separate items; "most
+  handed to an AI agent" (not "an AI agent running each one"); order-2 stays
+  vague about the pre-redesign review layer, no exact count, no "single
+  review pass"/"one cold reader"/"combined into one read" in any field; 12
+  outline reviewers / 15 draft reviewers (all 15 named, grouped 5
+  structural/5 craft/5 integrity), both round-capped at five (never three);
+  tone gate folded into the draft-review-loop beat, not listed as its own
+  stage; threshold "15 or above out of 100," banned-adds-100 framed as the
+  internal pre-clamp mechanism; register-detector point values exact
+  (dramatic inversions first free/+6/cap 18, punch-fragments first ten
+  free/+1/cap 6, sales speak +5/cap 15); plateau-exit mechanic described
+  correctly (round 2+, apply-once-more-then-exit); disposition classifier
+  correct; order-9 run-one/run-two failure story uses the RECONCILED "dead
+  level with the corpus's own measured human baseline" framing — the "10 to
+  15" figure flagged as a fresh regression earlier the same day (entry
+  above) is NOT present in this revision; numbers exact (42, 35 em-dashes,
+  2,000 words, bar 2→15; 6→22; gate-count oscillation 10/5/7); Anthropic
+  90.2% + all four elements + "June 2025" dated framing correct, no causal
+  "because," no "NOT responsible for" gloss; Google Research 80.9%/"39 to 70
+  percent" and Augment's "+81 percent/up to 70 percent worse" both correctly
+  ranged with the confirmed-correct primary URL; Anthropic 4x/15x tokens
+  correct; Google spam-policy paraphrased with no quotation marks, matching
+  the live page; Rankability 83% kept with the directional caveat;
+  security-kit "six sub-agents across eight phases" correct; Haiku-missed-a-
+  backdoor Skills Marketplace analogy correct, past tense correct (source
+  predates); model-tier claim (14 sonnet, 1 haiku on link-integrity)
+  correct; the CTA (order 13) correctly applies the 2026-07-15 TD-0038
+  caution — describes the published `agentic-content-pipeline` package as
+  "the same design... extracted from this exact repo" with build-aloud
+  explicitly still "mid-swap onto it, not fully there yet," never claiming
+  present-tense parity ("this blog runs on that package"). No gate findings.
+  **Newly verified this pass:** (1) the outline-builder and editor each
+  having their own dated memory ledger is confirmed accurate —
+  `.claude/skills/content-pipeline/SKILL.md` line 113: "`outline-builder`
+  (Step 4.5) and `editor` (the Edit step in Steps 4.6 and 6) are ad hoc
+  dispatches with no dedicated agent file... seed
+  `.claude/agent-memory/outline-builder/MEMORY.md` and
+  `.claude/agent-memory/editor/MEMORY.md` explicitly." (2) The
+  `agentic-content-pipeline` GitHub repo and its README were re-confirmed
+  live 2026-07-15 via WebFetch: install command `npx agentic-content-pipeline
+  setup --harness claude` (or `--harness codex`), dropping `--harness`
+  dispatches agents "from reference files, fully functional" (a fair gloss
+  as "prompt-file dispatch"), 12/15 reviewer counts confirmed in the
+  README's own text, and the Provenance section states verbatim "this
+  package is a point-in-time fork, not a live mirror" — directly supports
+  the outline's "mid-swap onto it, not fully there yet" framing. Two
+  elevations offered (not gate findings): (1) order 10 still cites "June
+  2025" rather than Anthropic's exact publish date (June 13, 2025); (2)
+  order 6's Haiku-backdoor recap drops the exposure-score jump (1.75 → 5.65)
+  and shim path (`~/.codex/bin/codex`) that made the miss/catch contrast
+  concrete in earlier revisions — worth restoring for sharper credibility.
+- **`automate-blog-writing-with-ai-agents` — OUTLINE-stage review 2026-07-15
+  (this exact 13-paragraph outline, order-3 "most handed to an AI agent"
+  wording) — clean pass, verdict PASS, zero gate findings.** Re-verified
+  several load-bearing facts directly against source rather than memory
+  alone: (1) GitHub URL `https://github.com/buildaloud/agentic-content-pipeline`
+  confirmed exact via `~/projects/agentic-content-pipeline/package.json`
+  `repository.url` field (stronger than a WebFetch — this is the actual repo
+  metadata); (2) tone-grader.ts register-detector formulas re-confirmed by
+  direct read of `.claude/skills/human-tone/scripts/eval/tone-grader.ts`:
+  `dramaticInversions` = `Math.min(Math.max(0, count-1)*6, 18)`,
+  `punchFragments` = `Math.min(Math.max(0, count-10)*1, 6)`, `salesSpeak` =
+  `Math.min(count*5, 15)`, `bannedHits.length*100` uncapped internal add,
+  reported `aiScore = Math.round(Math.min(score,100))` — all match the
+  outline's stated numbers exactly; (3) mandatory gate trigger
+  `banned > 0 OR aiScore >= 15` re-confirmed verbatim at
+  `.claude/skills/content-pipeline/SKILL.md` line 229; (4) the 12-stage
+  canonical list re-mapped directly against SKILL.md's own step headings:
+  1 (Gather Context), 2 (Topic-Approval Gate), 3 (SEO Research), 4 (Brief),
+  4.5 (Outline), 4.6 (Outline Review Loop), 5 (Draft), 6 (Draft Review Loop),
+  8 (Hero Image — no step 7, tone gate lives inside step 6), 9 (Structured
+  Summary), 10 (Assemble), 12 (Build and Commit) = 12 counted steps; 10.5
+  (Score & Schedule), 11 (Bookkeeping), 11.5 (Capture product-learnings), and
+  11.7 (Learn) are the uncounted padding, confirmed by their own step
+  numbers, not just prose description; (5) TD-0038 re-confirmed **still
+  open, all checkboxes unchecked** via direct read of
+  `tickets/TD-0038-switch-build-aloud-onto-agentic-content-pipeline.md` —
+  the outline's CTA (order 13) correctly avoids present-tense parity
+  ("build-aloud itself is still finishing its own swap onto the published
+  version"), matching the standing caution. All other standing landmines
+  held clean on this revision: assemble/commit listed as separate items;
+  order-2 pre-redesign layer stays unquantified; 12 outline reviewers/15
+  draft reviewers (all 15 named, grouped 5/5/5) both round-capped at five
+  (re-confirmed exact at SKILL.md lines 199 and 238, "round cap 5" in both
+  loops); run-one/run-two numbers exact using the reconciled "dead level
+  with the corpus's own measured human baseline" framing (no "10 to 15"
+  regression); Anthropic 90.2%/four-elements/June-2025 framing, Google
+  Research 80.9%/"39 to 70 percent", Augment's "+81 percent/up to 70
+  percent", Anthropic 4x/15x tokens, Rankability 83% with directional
+  caveat, and the Google spam-policy paraphrase (no quote marks) all
+  correct and unchanged from the prior 2026-07-15 clean pass. Two
+  elevations re-offered (not gate findings, same two as the immediately
+  prior pass — neither has been incorporated yet across two consecutive
+  outline revisions): (1) order 10's Anthropic dated-framing sentence
+  still says "June 2025," not the exact June 13, 2025 publish date; (2)
+  order 6's Haiku-backdoor recap still doesn't restore the exposure-score
+  jump (1.75 → 5.65) or shim path (`~/.codex/bin/codex`).
+- **`automate-blog-writing-with-ai-agents` — OUTLINE-stage review 2026-07-15
+  (this exact 13-paragraph outline, third consecutive clean pass on the same
+  content) — verdict PASS, zero gate findings.** Re-checked every standing
+  landmine on this post one more time and found nothing new: 12-stage list
+  correct order with assemble/commit as explicitly separate items; order-2
+  heading reads "Twelve stages, most handed to an AI agent" (not "an AI agent
+  running each one"); order-3 correction beat states "eight stages with seven
+  agents" for the earlier version of this post and never quantifies the
+  pre-redesign review layer or calls it "one review pass"/"single pass"/
+  "combined into one read"; 12 outline reviewers/15 draft reviewers (all 15
+  named, grouped 5 structural/5 craft/5 integrity), both round-capped at five,
+  never three; tone gate folded into the draft-review-loop beat (order 8), not
+  a separate stage; threshold "15 or above out of 100," banned-adds-100 framed
+  as the internal pre-clamp mechanism; register-detector values exact
+  (dramatic inversions first free/+6/cap 18, punch-fragments first ten
+  free/+1/cap 6, sales speak +5/cap 15); plateau-exit mechanic (round 2+,
+  apply-once-more-then-exit) and the deterministic disposition classifier
+  both described correctly; order-9 run-one/run-two story uses the
+  RECONCILED "dead level with the corpus's own measured human baseline"
+  framing, NOT the disproven "10 to 15" figure, with numbers exact (42, 35
+  em-dashes, 2,000 words, bar 2→15; 6→22; gate-count oscillation 10/5/7);
+  Anthropic 90.2%/all-four-elements/June-2025 framing correct, no causal
+  "because," no "NOT responsible for" gloss; Google Research 80.9%/"39 to 70
+  percent" and Augment's "+81 percent/up to 70 percent" both correctly ranged
+  with the confirmed-correct primary URL; Anthropic 4x/15x tokens correct;
+  Google spam-policy paraphrased with no quotation marks, matching the live
+  page; Rankability 83% kept with the directional caveat; security-kit "six
+  sub-agents across eight phases" correct; Haiku-missed-a-backdoor Skills
+  Marketplace analogy correct, past tense correct; model-tier claim (14
+  sonnet, 1 haiku on link-integrity) correct; CTA (order 13) correctly applies
+  the TD-0038 caution — package described as "the same design... extracted
+  from this exact repo," build-aloud "still finishing its own swap onto the
+  published version," and explicitly hedges that the tone gate's three newest
+  register detectors haven't landed in the package yet (matches TD-0038's
+  detector-parity gap, not just the operational mid-swap gap). No gate
+  findings. The same two elevations remain open, unaddressed across three
+  consecutive revisions now: (1) order 10 still says "June 2025" rather than
+  Anthropic's exact June 13, 2025 publish date; (2) order 6's Haiku-backdoor
+  recap still omits the exposure-score jump (1.75 → 5.65) and shim path
+  (`~/.codex/bin/codex`).
+- **`automate-blog-writing-with-ai-agents` — DRAFT-stage fact-check, 2026-07-15
+  (this exact rendering: "Decision one/two/three" H2 pattern, "This post broke
+  the machine that wrote it" as its own H2, opening "Publishing this post
+  takes twelve pipeline stages...").** Zero gate findings, verdict PASS. Full
+  line-by-line check against every standing landmine for this post: 12-stage
+  numbered list correct order with assemble/commit as separate items (11/12);
+  "twelve stages, most handed to an AI agent" heading (not "an agent running
+  each one"); "by default" hedge present on the topic-gate/no-human-downstream
+  claim ("Past that one topic gate, I'm out of the room by default until the
+  post is live"); order-3 stale-description correction ("eight stages with
+  seven agents" for the earlier version, no exact count or "single pass" for
+  the pre-redesign layer) folded into the same section as order 2 (no separate
+  H2, a structure note not a fact issue); 12 outline reviewers / 15 draft
+  reviewers (all 15 named, grouped 5 structural/5 craft/5 integrity), both
+  round-capped at five; tone gate folded into the draft-review-loop list item,
+  not its own stage; register detectors named without inventing point values;
+  plateau-exit and disposition-classifier mechanics both correct; threshold
+  "15 or above out of 100," banned-adds-100 framed as the internal pre-clamp
+  mechanism; model-tier claim (14 sonnet, 1 haiku on link-integrity) correct;
+  link-integrity described as "mostly binary," not "no judgment call"; Skills
+  Marketplace Haiku-backdoor story used only as evidence in the model-tier
+  beat, never as a CTA pitch; run-one/run-two story uses the RECONCILED "dead
+  level with the corpus's own measured human baseline" framing (no "10 to 15"
+  regression), numbers exact (42, 35 em-dashes, 2,000 words, bar 2→15; 6→22;
+  gate-count oscillation 10/5/7), and the make-ai-writing-sound-human link is
+  threaded onto the bar-2-to-15 detail specifically, not a bare see-also;
+  Anthropic 90.2%/four-elements ("research the semiconductor shortage" example
+  paraphrase confirmed accurate)/June-2025 dated framing, no causal "because,"
+  no "NOT responsible for" gloss; Google Research 80.9%/"39 to 70 percent" and
+  Augment's "+81 percent/up to 70 percent," both correctly ranged, correct
+  primary URL (the `...when-and-why-agent-systems-work/` suffix) used both
+  inline and in the Sources footer; Anthropic 4x/15x tokens correct; Google
+  spam-policy paraphrased with no quote marks, generative AI framed as inside
+  the same scaled-content-abuse section (not "separately named"); Rankability
+  83% kept with the directional caveat; security-kit "six sub-agents across
+  eight phases" correct; CTA (order 13) correctly applies the TD-0038 caution
+  — package described as "the same design... extracted from this exact repo,"
+  Build Aloud "still finishing its own swap," and explicitly hedges that the
+  tone gate's three newest register detectors haven't landed in the package
+  yet; setup command and GitHub URL both exact; every internal link's tense
+  checked against its real pubDate, all correct, no regression on the
+  historical link-tense bug. **Two elevations re-offered, still unaddressed
+  across many consecutive revisions:** (1) "June 2025" instead of Anthropic's
+  exact June 13, 2025 publish date; (2) the Haiku-backdoor recap still omits
+  the exposure-score jump (1.75 → 5.65) and shim path (`~/.codex/bin/codex`).
+- **NEW 2026-07-15 (DRAFT-stage fact-check): "1.75 out of 10 on exposure" is a
+  wrong-fact regression — AST v1.0 exposure is a 0-100 scale, not out of 10.**
+  Confirmed via direct read of `src/content/blog/2026-02-22-we-rewrote-the-
+  security-scoring-here-s-why.md`: "each audit now produces three numeric
+  scores on a 0–100 scale" combining into a single Overall Exposure number
+  (example: "a powerful-but-honest file manager... gets around 4.6," "credential
+  exfiltration gets an overall exposure around 80" — both read naturally on a
+  0-100 scale, not 0-10). The prior elevation asking the Haiku-backdoor recap to
+  restore the exposure-score jump (1.75 → 5.65) and shim path has now been
+  incorporated (good), but this revision paired the restored number with an
+  invented denominator: "Haiku scored a skill 1.75 out of 10 on exposure." No
+  prior "clean pass" entry for this post ever approved an "out of 10" framing —
+  every previously-confirmed revision states the bare number ("1.75 exposure" /
+  "1.75/1 finding to 5.65/4 findings"), so this is a fresh error, not a
+  recurrence. Fix: drop "out of 10" — "Haiku scored a skill 1.75 on exposure."
+  If a draft wants an explicit scale reference, "out of 100" is the accurate
+  one, but the bare number matches this post's own prior approved phrasing.
+  Watch for "out of 10" specifically recurring on this beat in future revisions,
+  same as the "10 to 15" baseline landmine — add it to the standing checklist
+  for this post's Haiku-backdoor analogy.
 
 ## /stats/ dark dashboard — implementation facts (verified 2026-07-15 against source)
 - **Colors, confirmed exact in `src/styles/global.css`:** background `#0c0e12`
@@ -2132,3 +2768,1012 @@ record of verified external claims.
   proof-of-concept skill and disguised it as ordinary testing guidance");
   Mitiga's own post names it "Testing-Validator" — naming it adds a concrete
   specific that reads sharper without changing any fact.
+
+- **`automate-blog-writing-with-ai-agents` — DRAFT-stage fact-check pass
+  confirmed 2026-07-15 (this exact "Publishing this post takes twelve
+  pipeline stages" opener, "Decision one/two/three" H2s, "This post broke the
+  machine that wrote it" as its own H2).** Zero gate findings, verdict PASS.
+  Every standing landmine held clean: 12-stage numbered list, correct order,
+  assemble/commit as separate items (11/12), tone gate folded into item 8
+  ("Draft review loop, which runs the tone gate at the start of every round
+  and once more after the loop exits"), never listed separately; heading/prose
+  say "most handed to an AI agent," never "an AI agent running each one";
+  "By default" hedge present on both "I sign off on exactly one" (hook) and
+  "I'm out of the room by default until the post is live" (stage-list beat) —
+  no unhedged "only human checkpoint" claim anywhere; "eight stages with seven
+  agents" for the earlier version of this post, accurate; order-3 turn beat
+  stays vague about the pre-redesign review layer ("a handful of
+  generalists"), no exact count, no "single review pass"/"one cold reader"/
+  "combined into one read"; protected order-3 ourTake line ("the most
+  on-brand bug I could have shipped") present verbatim; 12 outline reviewers /
+  15 draft reviewers (all 15 individually named, grouped 5 structural/5
+  craft/5 integrity), both round-capped at five, no "three rounds" anywhere;
+  no "blind to its own lane" language — reviewers correctly described as
+  reading "the entire draft but grades exactly one axis"; security-kit "six
+  sub-agents across eight phases" accurate, correctly kept distinct from the
+  Skills Marketplace (no conflation — security-kit cited for the
+  narrow-beats-mega bet, Skills Marketplace cited separately for the
+  Haiku/Sonnet model-tier precedent); Haiku-backdoor analogy exact (1.75
+  exposure/1 finding → 5.65/4 findings, shim path `~/.codex/bin/codex`),
+  correct past tense (source predates); link-integrity described as "mostly
+  binary" (URL resolves, anchor matches, dated before this post), never "no
+  judgment call"; model-tier claim (14 sonnet, 1 haiku on link-integrity)
+  correct; the Anthropic "research the semiconductor shortage" quote
+  re-verified verbatim by direct WebFetch this pass — exact match, correctly
+  quoted (only the actual quoted phrase in quote marks, not the surrounding
+  paraphrase); all four subagent elements present, no causal "because" tying
+  them to 90.2%, no "NOT responsible for" gloss; Anthropic 90.2% + "June 2025"
+  dated framing correct; plateau-exit mechanic and disposition classifier both
+  described correctly; tone-gate threshold "15 or above out of 100,"
+  banned-adds-100 correctly framed as the internal pre-clamp mechanism only;
+  register-detector values correct (dramatic inversions capped 18, punch
+  fragments 10 free then capped 6, sales speak capped 15); flare line "The
+  gate I trust most is the one with no opinion" present in body prose (not
+  heading-only); run-one/run-two failure story uses the RECONCILED "dead level
+  with the corpus's own measured human baseline" framing — the disproven
+  "10 to 15" figure (regressed twice before, 2026-07-14 and 2026-07-15) is
+  NOT present in this revision; numbers exact (42, 35 em-dashes, 2,000 words,
+  bar 2→15; 6→22; gate-count oscillation 10/5/7); make-ai-writing-sound-human
+  link correctly threaded onto the bar-2-to-15 detail itself, not a bare
+  see-also; protected flare line "Telling an editor what was wrong never
+  converged. Handing it the fix did." present verbatim; outline-builder/editor
+  dated memory-ledger claim accurate; Google Research 80.9%/"39 to 70 percent"
+  and Augment's "+81 percent/up to 70 percent" both correctly ranged, correct
+  primary URL (the "...when-and-why-agent-systems-work/" suffix); Anthropic
+  4x/15x token figures correct; Google spam-policy paraphrased with no
+  quotation marks, matching the live page, generative AI correctly framed as
+  named "in that same policy section" (not "separately"); Rankability 83% kept
+  with the directional caveat; CTA correctly applies the TD-0038 caution —
+  describes the published package as "the same design," explicitly says
+  build-aloud "is still finishing its own swap onto the published version,"
+  and explicitly flags that the tone gate's three newest register detectors
+  "haven't landed in the package yet either" (addresses both facets of the
+  TD-0038 caution: operational lag AND missing-mechanism parity); no Skills
+  Marketplace mention in the CTA; protected CTA clause "That's why I get to
+  touch the draft least of anyone and still trust what ships" present
+  verbatim; GitHub URL and setup command both correct. Three elevations
+  offered (not gate findings): (1) cite Anthropic's exact publish date (June
+  13, 2025) instead of "June 2025"; (2) the "a few more steps" aside names
+  only "SEO scoring, bookkeeping, a log of what worked and what didn't" —
+  omits "scheduling," which a stricter, previously-confirmed-accurate framing
+  included ("SEO scoring and scheduling, bookkeeping notes, plus a rolling
+  log of what worked"); (3) the Google spam-policy claim still lacks an "as of
+  this writing" hedge, worth adding since that page's wording has already
+  required multiple re-checks across this project's history.
+- **`isPublished()` is the site's actual "published" cutoff — `!draft &&
+  pubDate <= now`** (confirmed via direct read of `src/utils/posts.ts`).
+  Cloudflare auto-deploys within ~60s of a push, and future-dated non-draft
+  posts already sit committed in `src/content/blog/`, so a post file existing
+  in the repo does NOT mean it's "published" — only `pubDate <= now` (or, for
+  a post narrating its own history, `pubDate <= that post's own pubDate`)
+  does. **Use this cutoff any time a post states a running total ("N posts/
+  images published so far")** — count only entries with `pubDate` on or
+  before the citing post's own `pubDate`, not every file that happens to
+  exist in the repo.
+- **`writing-alt-text-seo-accessibility` (pubDate 2026-07-16) — "15 hero
+  images" is a miscount; the real number is 17.** Counted every post in
+  `src/content/blog/` with a `heroImage` field AND `pubDate <=
+  2026-07-16T15:00:00Z`, excluding this post itself: 17 posts qualify
+  (2026-02-21-i-have-a-face-now [pubDate 02-22], 2026-06-16-building-a-game-
+  with-claude-code-in-3-weeks, 2026-06-19-redesigned-my-own-site-animation-
+  rabbit-hole, 2026-06-23-chad-starts-a-lot-of-circles,
+  2026-06-26-ai-on-my-site-told-it-to-defer,
+  2026-07-01-ticket-tracker-where-ai-does-the-ticketing,
+  2026-07-07-launch-day-bugs-only-showed-up-in-prod,
+  2026-07-08-cloudflare-pages-functions-404-custom-domain,
+  2026-07-09-can-an-ai-run-a-business, 2026-07-09-how-to-measure-blog-seo,
+  2026-07-10-claude-security-team-that-remembers,
+  2026-07-10-gpt-5-6-vs-claude-for-coding-agents,
+  2026-07-11-anonymous-like-button-without-login,
+  2026-07-12-make-ai-writing-sound-human,
+  2026-07-13-automate-blog-writing-with-ai-agents,
+  2026-07-14-dark-dashboard-design, 2026-07-15-grill-me-what-an-auditor-sees).
+  All 17 already carry a filled-in `heroImageAlt`. Every outline/draft beat
+  citing "15 hero images" (hook, the opening paragraph, the "Backfilling N
+  hero images" heading, its facts bullets) must say **17**, not 15 — flag as
+  a wrong-fact gate finding wherever it recurs on this post, and re-run this
+  same count on any later revision since the true number climbs as new posts
+  publish.
+- **Alt-text-post's four external sources all confirmed live 2026-07-15:**
+  (1) [w3.org/WAI/tutorials/images](https://www.w3.org/WAI/tutorials/images/)
+  — "Images must have text alternatives that describe the information or
+  function represented by them." Safe to paraphrase (no quote marks) as
+  "conveys an image's information or function." (2)
+  [developers.google.com/search/docs/appearance/google-images](https://developers.google.com/search/docs/appearance/google-images)
+  — confirmed verbatim both "results in a negative user experience and may
+  cause your site to be seen as spam" (re: keyword stuffing) and the example
+  "Dalmatian puppy playing fetch." Safe to quote both exactly. (3)
+  [yoast.com/image-seo-alt-tag-and-title-tag-optimization](https://yoast.com/image-seo-alt-tag-and-title-tag-optimization/)
+  — confirmed: "We're not saying you should spam your focus keyphrase into
+  every alt tag," supporting a paraphrase of "work a keyphrase in only when
+  genuinely relevant, never spam it into every alt attribute" (no quote
+  marks needed, it's a paraphrase). (4)
+  [yatil.net/blog/there-is-no-character-limit-for-alt-text](https://yatil.net/blog/there-is-no-character-limit-for-alt-text/)
+  — confirmed: no HTML/WCAG character limit on `alt`; the 125-character myth
+  traces to JAWS *splitting* long alt text across multiple graphics, which
+  people misread as truncation — "some people have observed JAWS' behavior
+  and assumed that the text was truncated where it was only split up." Safe
+  to cite as "a misread of old JAWS behavior." ELEVATION (not gate): yatil.net
+  is a personal blog, not a spec — citing WCAG's own Success Criterion 1.1.1
+  (Non-text Content) directly alongside it would make the "neither HTML nor
+  WCAG sets a limit" half of the claim more directly sourced.
+- **Alt-text-post's two quoted example `heroImageAlt` strings confirmed
+  verbatim against live frontmatter (2026-07-15):**
+  `2026-07-09-how-to-measure-blog-seo.md` →  "A dark telemetry panel with a
+  mint signal line running nearly flat past one faint early blip, a ghosted
+  zero glowing behind it, the SEO scorecard's gathering-signal readout."
+  `2026-07-08-cloudflare-pages-functions-404-custom-domain.md` → "Two black
+  server racks, one glowing teal, one dark with an unplugged cable above it ·
+  the Cloudflare Pages Functions 404 bug." Both match character-for-character
+  against frontmatter. NOTE for future draft-stage passes (not an outline
+  issue — this outline quotes it correctly capitalized): the currently-live
+  draft body at this slug lowercases the opening of the quote ("...this alt
+  text: 'a dark telemetry panel...'") where the frontmatter itself is
+  capitalized ("A dark telemetry panel..."). Watch for that case mismatch
+  resurfacing in a rewritten draft.
+  Also confirmed: `2026-06-19-redesigned-my-own-site-animation-rabbit-hole.md`
+  (pubDate 2026-06-19, predates 07-16, past tense correct) really does
+  describe an `aria-label` and a `focus-visible:ring-brand` outline — safe to
+  cite as "aria-labels and focus rings."
+- **`writing-alt-text-seo-accessibility` — all outline-stage gate findings
+  resolved as of the 2026-07-15 outline pass.** Fixed and held across
+  revisions: Yoast never called "an SEO agency" (correct: "the SEO side of
+  the fence" / makers of the Yoast SEO plugin); the "only include it when
+  genuinely useful" Yoast line rendered as an unquoted paraphrase, not a
+  literal quote (closest real text: "We're not saying you should spam your
+  focus keyphrase into every alt tag... include it in the alt tag if you
+  can."); order-2's alt-text-filler description softened to unspecified
+  ("placeholder filler that didn't describe the image") rather than inventing
+  a specific form like "hero image" or a bare filename with no commit
+  evidence; Sources footer lists all seven URLs (Google image SEO, W3C
+  general images, W3C decorative, W3C informative, WCAG SC 1.1.1, Yoast,
+  yatil.net). Two extra sources confirmed verbatim: W3C decorative
+  ([w3.org/WAI/tutorials/images/decorative](https://www.w3.org/WAI/tutorials/images/decorative/))
+  — decorative images get `alt=""`; W3C informative
+  ([w3.org/WAI/tutorials/images/informative](https://www.w3.org/WAI/tutorials/images/informative/))
+  — alt text should convey meaning, not literal appearance, example "We're
+  family-friendly." WCAG SC 1.1.1
+  ([w3.org/WAI/WCAG21/Understanding/non-text-content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html))
+  confirmed verbatim: "All non-text content that is presented to the user has
+  a text alternative that serves the equivalent purpose" — no length language
+  anywhere in the criterion.
+- **WHATWG HTML living standard alt-text section
+  (html.spec.whatwg.org/multipage/images.html#alt) independently re-verified
+  2026-07-15**: confirms no character-limit language anywhere in the
+  "Requirements for providing text to act as an alternative for images"
+  section (4.8.4.4) — safe to cite for the "no character limit" claim's
+  HTML-spec half, alongside WCAG SC 1.1.1 for the accessibility half.
+- **yatil.net's "phone test" line confirmed verbatim** 2026-07-15: "would I
+  picture an approximation of the image when it was described to me over the
+  phone using the alternative text." A draft paraphrasing this without quote
+  marks is accurate but undersells it — this is a quotable litmus-test line,
+  worth rendering as a direct quote for more punch (elevation, not gate).
+- **`writing-alt-text-seo-accessibility` — DRAFT-stage fact-check pass
+  2026-07-15, one gate finding.** Body text attributes the no-character-limit
+  claim's HTML-spec half to "the WHATWG HTML living standard's alt-text
+  section" but the Sources footer only lists the 7 URLs above and omits the
+  WHATWG spec link — an inline-named source with no traceable citation
+  anywhere in the post. Fix: add
+  `- [WHATWG HTML Living Standard: Requirements for providing text to act as an alternative for images](https://html.spec.whatwg.org/multipage/images.html#alt)`
+  to the footer, next to the WCAG SC 1.1.1 entry. Everything else clean: all
+  quoted strings verbatim (Google spam-warning + Dalmatian example, W3C
+  family-friendly example, WCAG SC 1.1.1 full sentence, both `heroImageAlt`
+  strings — measuring-blog-seo and cloudflare-404, re-checked directly
+  against live frontmatter); Yoast paraphrase unquoted, correctly framed as
+  SEO-plugin-maker not agency; 17-hero-image count re-verified 2026-07-15 by
+  direct file count of every post with `heroImageAlt` and a pubDate before
+  this post's 2026-07-16T15:00:00Z — still exactly the same 17 slugs; every
+  internal link tense-correct against real pubDates.
+- **`writing-alt-text-seo-accessibility` — DRAFT-stage pass 2026-07-15 (later
+  revision): prior WHATWG-footer gate finding fixed (8 sources now listed,
+  WHATWG included); ONE NEW gate finding.** A newly-added sentence in the
+  "Who alt text is for" beat asserts a specific split not present in any
+  earlier verified revision of this post: "9 of the seventeen carried an
+  empty alt="" ... The other 8 shipped with a real description already in
+  place." No commit/git-log source is cited or checkable by this
+  fact-checker (no Bash/git tool available this pass), and this specific
+  9/8 split — especially "8 shipped with a real description already in
+  place" — is a materially stronger claim than every prior verified
+  revision, which used only the unspecified, ledger-approved framing ("some
+  hero images carrying no alt text at all, and others with generic filler
+  that described nothing" — never claiming any of them were already good).
+  Flag this exact split as unsourced/unverified on every future pass unless
+  a drafter with git access confirms it directly against the commit that
+  introduced `heroImageAlt` (e.g. `git log --oneline -- 'src/content/blog/*.md'`
+  around that field's introduction) and cites/notes that check. Safe
+  fallback if unconfirmed: revert to the two-failure-state unspecified
+  framing above. Everything else in this revision re-confirmed clean:
+  17-count correct; all quoted strings verbatim (Google spam-warning +
+  Dalmatian, W3C family-friendly example, WCAG SC 1.1.1, both `heroImageAlt`
+  quotes correctly capitalized this time — no lowercase regression); Yoast
+  correctly "the SEO side of the fence" / "an SEO plugin's house rules," not
+  "an SEO agency"; WHATWG cited both inline and in the footer; all protected
+  ourTake lines present verbatim (including the flare line as the final
+  sentence); every internal link tense-correct against real pubDates
+  (wiring-up-the-machine 02-22, automate-blog-writing-with-ai-agents 07-13,
+  how-to-measure-blog-seo 07-09, cloudflare-404 07-08,
+  redesigned-my-own-site-animation-rabbit-hole 06-19 — all predate this
+  post's 07-16 pubDate). Minor elevation (not gate): the WCAG SC 1.1.1 quote
+  is embedded mid-sentence with a lowercased "all" where the source reads
+  "All non-text content..." — a verbatim quote technically shouldn't silently
+  change source capitalization; restructure to quote it as its own sentence
+  or bracket the letter (e.g. "[a]ll").
+- **`writing-alt-text-seo-accessibility` — DRAFT-stage pass 2026-07-15 (later
+  revision), ONE gate finding, everything else re-confirmed clean.** Prior
+  WCAG-capitalization elevation fixed (this revision quotes "All non-text
+  content..." correctly capitalized as its own standalone sentence). The
+  9/8-split gate finding from the earlier revision is gone — this revision
+  uses the safe unspecified two-failure-state framing ("some carried no alt
+  attribute at all... and others carried placeholder filler that didn't
+  describe the image either"), correctly with no invented commit-derived
+  split. NEW finding: the yatil.net "phone test" quote is rendered with a
+  trailing question mark — `"...using the alternative text?"` — but the
+  source's actual sentence is **"My litmus test is 'would I picture an
+  approximation of the image when it was described to me over the phone
+  using the alternative text.'"**, ending in a period, not a question mark
+  (re-fetched and confirmed directly 2026-07-15, full-sentence context, not
+  just the clause). A verbatim quote must match source punctuation exactly —
+  flag any future revision that renders this quote with a "?" instead of a
+  period. Everything else clean: both Google quotes (spam-warning +
+  Dalmatian) verbatim; both `heroImageAlt` quotes verbatim against live
+  frontmatter; Yoast paraphrase unquoted, correctly "the SEO side of the
+  argument" / "an SEO plugin's house rules," never "an SEO agency"; WCAG SC
+  1.1.1 quoted verbatim and correctly capitalized; W3C "We're family-friendly"
+  quoted verbatim; WHATWG cited both inline and in the 8-source Sources
+  footer; 17-hero-image count correct; flare line present verbatim as the
+  final sentence; every internal link tense-correct against real pubDates
+  (wiring-up-the-machine 02-21, automate-blog-writing-with-ai-agents 07-13,
+  how-to-measure-blog-seo 07-09, cloudflare-404 07-08,
+  redesigned-my-own-site-animation-rabbit-hole 06-19 — all predate this
+  post's 07-16 pubDate).
+
+## `2026-07-17-design-system-with-css-variables` — token facts (verified 2026-07-15 against live source files)
+- All primitive/semantic/font/layout token names+values confirmed exact against
+  `src/styles/global.css`:
+  `--ink-900:#0c0e12, --ink-800:#13161c, --ink-700:#1a1e27, --ink-600:#262c38,
+  --ink-500:#3a4258; --paper:#e8e6e1, --paper-dim:#9ca3af,
+  --paper-faint:#6b7280; --mint:#a3f7bf`. Semantic: `--color-bg:var(--ink-900),
+  --color-bg-elevated:var(--ink-800), --color-text:var(--paper),
+  --color-text-secondary:var(--paper-dim), --color-muted:var(--paper-faint),
+  --color-accent:var(--mint), --color-accent-dim:color-mix(in srgb, var(--mint)
+  12%, transparent)` (12%, not 35%). Fonts: `--font-display:'Instrument
+  Serif', Georgia, serif; --font-body:'DM Sans', -apple-system, sans-serif;
+  --font-mono:'JetBrains Mono', 'Fira Code', monospace`. Layout:
+  `--max-width:52rem; --max-width-wide:75rem; --gutter:1.5rem`. Series:
+  `--series-green:#1ea855` (`#1ea855`) maps to `--color-series-views`;
+  `--series-blue:#4c78dd` maps to THREE semantic names —
+  `--color-series-sessions`, `--color-series-search`, AND
+  `--color-series-organic` (triple duty, confirmed global.css lines 42-46).
+  A much-earlier revision of this post used fabricated simplified
+  names/hexes (`--bg`, `--panel`, `--mint-dim` at 35%) that don't exist in
+  the source — always use the real names/hexes above.
+- Un-tokenized exceptions confirmed live via direct grep 2026-07-15: the
+  header SVG logo mark hardcodes `fill="#13161c"` on both its `<ellipse>` and
+  `<path>` elements (`src/components/Header.astro` lines 15, 19); the
+  stale-data amber `#e0a94c` is duplicated verbatim in
+  `src/pages/stats.astro:255` and `src/layouts/BlogPost.astro:428`; the
+  homepage headline gradient `#7df0a8` is in `src/pages/index.astro:292`.
+  None read from a `--color-*` token.
+- Panel top-border is 2px (`border-top: 2px solid var(--color-accent)`,
+  confirmed via grep across `stats.astro`, `BlogPost.astro`,
+  `projects/[slug].astro`, `TrafficChart.astro`, `HomeScorecard.astro`, and
+  chart panel components) — never "one or two pixels." The `// ` prefix is
+  panel-level only (`// telemetry` in `stats.astro`/`BlogPost.astro`/
+  `projects/[slug].astro`, `// traffic (28d)` in `TrafficChart.astro`) — never
+  applied to individual metric labels.
+- No colorblind-safety/contrast validator tool exists anywhere in this repo.
+  The only true, sourced claim: green `#1ea855` / blue `#4c78dd` "also
+  happens to sidestep" the red-green pairing that trips up the most common
+  form of color blindness — WebAIM verbatim: "red-green deficiencies are the
+  most common, meaning that certain shades of the colors red and green may
+  appear very similar"
+  ([webaim.org/articles/visual/colorblind](https://webaim.org/articles/visual/colorblind/)).
+  Don't invent a validation process or "categorical lightness band" jargon
+  (never appeared in the repo).
+- No token-file/design-system-file email lead magnet exists anywhere in the
+  codebase (the newsletter, `NewsletterSignup.astro`/`subscribe-flow.ts`, is
+  a generic "stay in the loop" signup). Correct CTA framing: view-source /
+  the public CSS itself, not a fictional emailed file.
+- CSS-Tricks demonstrates dark-mode-via-variable-override as ONE example; it
+  never generalizes this as "usually"/"typically" how theming works — cite
+  the example directly, don't attribute a frequency claim to the source.
+- Penpot confirmed: "Create themes by remapping semantics to different
+  primitives" —
+  [penpot.app/blog/the-developers-guide-to-design-tokens-and-css-variables](https://penpot.app/blog/the-developers-guide-to-design-tokens-and-css-variables/).
+- MDN confirmed: `:root`-scoped custom properties are globally available and
+  inherit down the DOM —
+  [developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
+  MDN doesn't itself analogize to `color`/`font-family`, but that's a fair
+  unquoted paraphrase, not a misattributed quote.
+- `color-mix()` is correctly attributable to the CSS Color 5 spec (MDN lists
+  it under Level 4/5) if a draft wants a sharper name-drop — optional, not
+  required.
+- **Note, not a gate finding: the "#12151a vs #13161c" pre-token panel-color
+  drift anecdote has no live source** (not in `global.css`, not in the cited
+  `dark-dashboard-design` post) — it's this post's own git-history
+  recollection. Elevation-only across every pass so far (hedge as
+  recollection, don't treat as a checkable diff); never gate on it unless a
+  future revision claims it's still visible in a diff somewhere.
+- **Multiple outline- and draft-stage passes across 2026-07-15 converged
+  clean.** Early rounds caught and got fixed: a fabricated colorblind-
+  validator/"categorical lightness band" claim, a fabricated token-file-by-
+  email CTA, and the CSS-Tricks "usually" overclaim (each recurred once more
+  in a sibling `facts` bullet after being fixed in `intendedBeat` — when a
+  fabrication is fixed in one field, re-check sibling fields on the same
+  beat). Every pass since has been clean, including the current full Scout-
+  voice prose draft reviewed 2026-07-15 ("A Design System With CSS Variables
+  (No Framework)") — zero gate findings, every fact above re-verified
+  line-by-line against live source files, not just this ledger.
+
+## `which-claude-model-to-use` (slug `2026-07-18-which-claude-model-to-use`) — routing/pricing facts, verified 2026-07-15
+- **Anthropic model pricing re-confirmed live** on
+  [platform.claude.com/docs/en/about-claude/models/overview](https://platform.claude.com/docs/en/about-claude/models/overview):
+  Opus 4.8 $5/input MTok, $25/output MTok; Sonnet 5 $3/$15 list with footnote-4
+  **introductory $2/$10 through August 31, 2026** (exact wording: "Introductory
+  pricing of $2 / $10 per MTok applies to Claude Sonnet 5 through August 31,
+  2026"); Haiku 4.5 $1/$5. A NEW pricier tier now exists alongside these three:
+  **Claude Fable 5** (`claude-fable-5`) at $10/$50, "most capable widely
+  released model," GA since June 9, 2026, with an invitation-only sibling
+  Claude Mythos 5. A post about the Opus/Sonnet/Haiku three-tier routing table
+  doesn't need to cover Fable 5, but flag it as an elevation opportunity (a
+  fourth, pricier tier now exists) so the piece reads current — don't treat
+  omitting it as a gate-level dating problem.
+- **Effort parameter confirmed live** on the same overview page and on
+  [choosing-a-model](https://platform.claude.com/docs/en/about-claude/models/choosing-a-model):
+  "the `effort` parameter defaults to `high` on all surfaces" for Opus 4.8;
+  defaults to `high` on the API and Claude Code for Sonnet 5. Choosing-a-model
+  states verbatim "Tuning effort is often a better lever than switching
+  models," and recommends `xhigh` (a level "between `high` and `max`") for
+  "most coding and agentic use cases" on Opus 4.8/4.7. A post citing "every
+  agent pins effort: high" is accurate as a description of OUR roster and
+  doesn't contradict Anthropic's own high-vs-xhigh guidance as long as it
+  doesn't call "high" the ceiling — safe framing: "high" as the uniform
+  setting, not "the max." The dedicated
+  [/docs/en/build-with-claude/effort](https://platform.claude.com/docs/en/build-with-claude/effort)
+  page is a sharper, more specific citation than the general choosing-a-model
+  page if a draft wants one.
+- **Choosing-a-model's Haiku use-case matrix confirmed verbatim**: "Near-
+  frontier performance with lightning-fast speed and extended thinking at the
+  most economical price point | Claude Haiku 4.5 | Real-time applications,
+  high-volume intelligent processing, cost-sensitive deployments needing
+  strong reasoning, sub-agent tasks." Safe to cite "sub-agent tasks and
+  high-volume, cost-sensitive processing" as Haiku's named fit. Opening line
+  of the same doc confirms the match-capability/speed/cost-to-task framing:
+  "Selecting the optimal Claude model for your application involves balancing
+  three key considerations: capabilities, speed, and cost."
+- **MindStudio's Claude Code sub-agents piece confirmed** on
+  [mindstudio.ai/blog/claude-code-sub-agents-explained](https://www.mindstudio.ai/blog/claude-code-sub-agents-explained):
+  describes an orchestrator/sub-agent cost-delegation pattern verbatim — "If
+  your orchestrator costs $15 per million output tokens and your sub-agents
+  cost $0.25 per million output tokens, the math adds up quickly in your
+  favor," with the routing principle "Orchestrator: ...Claude Opus or Claude
+  Sonnet... Sub-agents: ...Claude Haiku or smaller models often work fine
+  here." Safe to cite as the general orchestrator/cheap-sub-agent economics
+  pattern; MindStudio's own example numbers ($15 vs $0.25) are THEIRS, not
+  our pipeline's — don't blend them with our Sonnet/Haiku output prices
+  ($15 vs $5) as if one source.
+- **Dev.to "pick the right Claude Code model for every task" piece confirmed**
+  on
+  [dev.to/klement_gunndu/pick-the-right-claude-code-model-for-every-task-1p6a](https://dev.to/klement_gunndu/pick-the-right-claude-code-model-for-every-task-1p6a):
+  states the match-tier-to-task-difficulty framing verbatim — "The goal isn't
+  to use the cheapest model everywhere. It's to use the right model for each
+  task, so you get faster answers on simple work and deeper reasoning on hard
+  problems" — paired with a Haiku/Sonnet/Opus-by-task-type table.
+- **Full agent roster model + effort grep re-confirmed 2026-07-15** across
+  every file in `.claude/agents/` (36 files, not just the 15 draft-mode
+  reviewers): exactly two outliers on `model:` — `seo-researcher` (`opus`)
+  and `link-integrity-reviewer` (`haiku`) — every other file (`brief-writer`,
+  `drafter`, `synthesis`, `digest-expert`, all outline/draft reviewers, plus
+  non-pipeline "expert" agents like `tower-defense-expert`/`website-expert`/
+  `ticket-kit-expert`) pins `model: sonnet`. Separately, **all 36 files** pin
+  `effort: high` with zero exceptions — so "every agent file pins
+  effort: high" is true repo-wide, not just within the blog content pipeline.
+- **`seo-researcher.md` confirmed**: "Researches the SEO + market angle for
+  blog-post topics," two modes (discovery/refinement), and states its own
+  model choice reasoning verbatim: "deep SEO/market research warrants it,
+  unlike the rest of the pipeline (Sonnet)." `SKILL.md` labels it "3. SEO
+  Research — `seo-researcher` agent (Opus, refinement mode)" — confirms it
+  runs at Step 3, ahead of brief/outline/draft. "Competitive positioning" is
+  a fair paraphrase of "market angle," not a literal quote.
+- **`link-integrity-reviewer.md` confirmed**: single axis "every rendered
+  link resolves and points at the right place," using "a persistent canonical
+  link map" (`link-map.md`) it "keeps... and get[s] sharper each run" —
+  matches a draft describing this as the pipeline's one Haiku slot with a
+  verifiable, checkable output.
+- **Blog posting cadence sanity-checked** via `pubDate` grep across
+  `src/content/blog/`: July 2026 posts run at roughly daily-to-every-few-days
+  cadence (e.g. 07-07, 07-08, 07-09, 07-10, 07-11, 07-12, 07-13, 07-14,
+  07-16, 07-18, 07-19...). "More than one post a week" is a safe, conservative
+  framing — the real cadence is faster.
+- **Zero gate findings on the 2026-07-15 outline-stage fact-check pass** of
+  this post: pricing (with intro-rate caveat and date), the 5x Opus/Haiku
+  output multiplier, the effort-parameter claim, the full agent roster
+  breakdown (1 Opus / 1 Haiku / rest Sonnet, all effort: high), the
+  seo-researcher/link-integrity-reviewer descriptions, the fan-out counts
+  (12 outline reviewers / 15 draft reviewers / round cap 5 both loops), and
+  the Haiku-missed-a-backdoor audit numbers (1.75/1 finding vs 5.65/4
+  findings, `~/.codex/bin/codex` shim) all checked out clean against live
+  sources and this ledger.
+- **`/docs/en/build-with-claude/effort` "low" row confirmed verbatim**
+  (re-checked 2026-07-15 via direct fetch): the effort-levels table's
+  "Typical use case" cell for `low` reads exactly "Simpler tasks that need
+  the best speed and lowest costs, such as subagents." A draft quoting "low
+  effort is built for 'simpler tasks that need the best speed and lowest
+  costs, such as subagents'" is a verbatim-supported quote. Same page also
+  confirms Claude Fable 5's comparison-table **Description** cell as "Next-
+  generation intelligence for long-running agents" (distinct from the
+  overview page's separate "most capable widely released model" line) — a
+  draft calling Fable 5 the tier "for long-running agentic work" is an
+  accurate paraphrase of that Description cell, not an invented use case.
+- **Second outline-stage clean pass confirmed 2026-07-15** on a later
+  revision of this outline (same beat structure: one-Opus/one-Haiku hook,
+  lazy-default-fails-both-ways turn, pricing-with-Fable-5-aside proof beat,
+  seo-researcher/Sonnet-floor/link-integrity-reviewer beats, the effort-left-
+  alone honest-limit beat, the fan-out-compounds beat citing MindStudio, the
+  Haiku-missed-a-backdoor turn, payoff, and single build-log CTA). Every
+  fact re-verified against live sources and this ledger with zero gate
+  findings: agent-roster model grep (seo-researcher/opus,
+  link-integrity-reviewer/haiku, everyone else sonnet — including
+  brief-writer, drafter, synthesis, digest-expert confirmed individually),
+  link-integrity-reviewer's "right target among plausible ones" +
+  "anchor sanity" checks confirmed against its own agent file (not just the
+  single-axis summary), pricing/Fable-5/effort claims all reconfirmed live,
+  fan-out counts and round caps correct, MindStudio's $15/$0.25 numbers kept
+  as MindStudio's own (not blended with our $15/$5 Sonnet/Haiku output
+  prices), and the build-log CTA target's pubDate (2026-07-13) confirmed to
+  predate this post (2026-07-18).
+- **Anthropic overview page's comparison-table "Description" cell for Sonnet 5
+  confirmed verbatim** (2026-07-15 live fetch of
+  [platform.claude.com/docs/en/about-claude/models/overview](https://platform.claude.com/docs/en/about-claude/models/overview)):
+  "The best combination of speed and intelligence." A draft paraphrasing this
+  unquoted as "the tier that balances speed and intelligence best" is a fair,
+  accurate paraphrase. Same fetch re-confirms the full comparison table:
+  Fable 5 $10/$50 ("Next-generation intelligence for long-running agents"),
+  Opus 4.8 $5/$25 ("For complex agentic coding and enterprise work"), Sonnet 5
+  $3/$15 list with the footnote-4 intro-rate caveat, Haiku 4.5 $1/$5 ("The
+  fastest model with near-frontier intelligence"); Fable 5 GA "beginning June
+  9, 2026."
+- **`2026-07-10-gpt-5-6-vs-claude-for-coding-agents` confirmed as a real,
+  live cross-post target that actually discusses Claude Fable 5 vs GPT-5.6**
+  (checked 2026-07-15): the post states "This blog still runs on Claude, and
+  I'm still Fable 5 under the hood" and runs a full Fable-5-vs-GPT-5.6-Sol
+  benchmark comparison (Artificial Analysis Coding Agent Index, Agents' Last
+  Exam, SWE-Bench Pro). A `which-claude-model-to-use` draft linking to it with
+  "the same tier I weighed against GPT-5.6 for coding agents a few weeks back"
+  is accurately described and correctly past-tense (target pubDate 2026-07-10
+  predates 2026-07-18). Note: that post's "I'm still Fable 5 under the hood"
+  is about Scout's own narrator-level model, a separate claim from this
+  post's per-agent content-pipeline routing table — not a contradiction, just
+  don't conflate the two if a future draft tries to merge them.
+- **DRAFT-stage fact-check pass confirmed 2026-07-15, now three independent
+  passes on this exact draft text, zero gate findings every time** (initial
+  pass, a document-review fan-out re-pass that independently re-grepped
+  `model:`/`effort:` frontmatter rather than trusting the ledger, and a third
+  confirming pass). Every claim covered by this post's standing ledger
+  entries held across all three: pricing table with intro-rate caveat and
+  July-2026 date stamp, 5x Opus/Haiku output multiplier, Fable 5 aside
+  accurate and correctly scoped as "outside the three-way split," effort-
+  parameter claims, full agent-roster breakdown incl. "fourteen of the
+  fifteen draft reviewers" on Sonnet, seo-researcher at Step 3 description,
+  link-integrity-reviewer's checkable-axis + judgment-call nuance,
+  Haiku-missed-a-backdoor numbers verbatim, fan-out counts with round-cap-5
+  on both loops, MindStudio's $15/$0.25 numbers kept as MindStudio's own,
+  "low effort... such as subagents" quoted verbatim, both protected sentences
+  ("Per-agent effort tuning is real money still sitting on the table, and I
+  know it" / "Haiku missed a backdoor. That's the gap that killed the
+  cheap-tier shortcut for anything judgment-shaped") verbatim, Sonnet 5
+  tagline and GPT-5.6 cross-post target confirmed, all internal link tenses
+  correct against real pubDates. This draft is stable — treat any further
+  identical-text pass as a formality unless the draft text actually changes.
+  Standing elevation not yet taken: name Fable 5's GA date ("GA since June 9,
+  2026") in the Fable 5 aside to sharpen that citation's currency.
+
+## `automate-blog-publishing-schedule` (slug `2026-07-20-automate-blog-publishing-schedule`) — scheduler ground truth + outline-stage findings
+- **`schedule.ts` (`.claude/skills/content-pipeline/scripts/schedule.ts`) is
+  219 lines total as of 2026-07-15**, not ~150. It grew since the already-
+  published 2026-07-20 post's "about 150 lines" estimate — the current file
+  includes folder-post support (`isFolder`/`BLOGPOST_FILE` handling, ~15
+  references) and a `--status` flag that likely weren't there when 150 was
+  measured. Correct current hedge: "about 220 lines." Re-check this line
+  count on every future revision of this post — the script is still actively
+  changing.
+- **Scheduler mechanics confirmed by direct read of `schedule.ts`**:
+  `DAILY_DAYS = 28` (exactly 4 weeks) then `MONTHLY_GAP = 30`-day spacing;
+  posts dated `> today` are the only ones re-slotted (today-or-earlier is
+  frozen, matches the "freeze" claim); `filler: true` in frontmatter sorts to
+  the tail via `assignSlots`'s comparator; default mode is dry-run, `--apply`
+  writes changes, `--status` prints coverage only; `apply()` rewrites
+  `pubDate`, renames the file (or folder), then rewrites every `/blog/<slug>`
+  link in every other post/blogpost.md that pointed at the moved slug. All of
+  this matches the outline/post's descriptions.
+- **The coverage report's "days out" number (e.g. "19 days") is a LIVE,
+  dynamically-computed value (`coverage()` in `schedule.ts`), not a fixed
+  constant like the 28-day target or 4-week cadence.** It depends on
+  whatever's actually queued in `src/content/blog/` at the moment the script
+  runs. An outline/draft instructing "keep numbers exact" or asserting a
+  specific day-count as fixed is a gate finding — the day-count must be
+  re-pulled by actually running the scheduler at draft/generation time
+  (`npx tsx schedule.ts --status`) and framed as "at the time of writing,"
+  not assumed to match an earlier post's reading. The 28-day target and
+  4-week/monthly cadence ARE fixed code constants and are safe to state as
+  exact.
+- **`dark-dashboard-design` pubDate confirmed 2026-07-14** (before this
+  post's 2026-07-20) — past/neutral tense on that link is fine.
+- **Astro content collections filename-as-slug claim confirmed against
+  Astro's own docs** —
+  [docs.astro.build/en/guides/content-collections](https://docs.astro.build/en/guides/content-collections/):
+  "A unique id for each entry will be automatically generated from its file
+  name." Elevation: cite this directly rather than resting the claim only on
+  the post's own authority.
+- **WordPress.com/HubSpot/Search Engine Journal cadence claims re-confirmed
+  live 2026-07-15** (all three already used in the published 2026-07-20 post
+  and the `ai-automation-stack` post):
+  [wordpress.com/go/content-blogging/how-to-schedule-and-automate-wordpress-blog-post-publishing](https://wordpress.com/go/content-blogging/how-to-schedule-and-automate-wordpress-blog-post-publishing/)
+  — "half of all bloggers publish weekly or several times a month. Very few
+  manage to publish every day," plus "this leaves less space for human
+  error";
+  [blog.hubspot.com/marketing/blogging-frequency-benchmarks](https://blog.hubspot.com/marketing/blogging-frequency-benchmarks)
+  — "if your blog isn't at least a year old, you should aim to publish 6-8
+  posts a month around a few important and promising topic clusters";
+  [searchenginejournal.com/how-often-should-you-blog-tips-for-ideal-posting-frequency/530884](https://searchenginejournal.com/how-often-should-you-blog-tips-for-ideal-posting-frequency/530884/)
+  — "Google appreciates sites that update consistently," and abandoning an
+  aggressive posting schedule "does you more harm than good." Elevation: these
+  are marketing benchmark pages that get refreshed periodically — frame as
+  "as of 2026" if this post's cadence numbers get revisited later.
+- **OUTLINE-stage pass 2026-07-15 — gate findings on the stale 150-line
+  figure (see above) and the "numbers are fixed" framing applied to the live
+  19-day coverage reading.** Everything else checked clean: twelve-stage
+  pipeline count correct (not the old post's stale "eight-stage/seven-agent"
+  figure — the outline explicitly steers away from it), fifteen-reviewer
+  claim and "each grades one axis" framing correct, tone gate correctly
+  folded into the draft review loop rather than listed as its own stage, the
+  `ai-automation-stack` link's now-published status correctly handled (no
+  stale "coming soon" framing), package name/install command/repo URL all
+  match `agentic-content-pipeline` facts above.
+- **OUTLINE-stage pass 2026-07-15 (later revision, the "queue kept hitting
+  zero" title) — one new gate pattern: "rewrite links across the whole site"
+  overstates `apply()`'s actual scope.** Direct read of `schedule.ts` confirms
+  `apply()` only calls `linkBearingFiles(blogDir)`, which scans
+  `src/content/blog/` (flat `.md` files + each folder post's `blogpost.md`)
+  — it does NOT touch `src/pages/`, `src/components/`, or any other part of
+  the site. Grepped `src/pages/` and `src/components/` for hardcoded
+  `/blog/2026-...` links and found none — every current internal blog-to-blog
+  link already lives inside `content/blog`, so in practice nothing outside
+  that directory currently needs rewriting, but the CODE's actual reach is
+  scoped to `content/blog`, not "the whole site." An outline/draft describing
+  the rename step as rewriting links "across the whole site" is a gate
+  finding — correct phrasing is "every other post in content/blog" (this
+  post's own beat-5 facts bullet already uses the accurate phrasing; beat-1's
+  facts bullet and intendedBeat used the overstated "whole site" version —
+  keep both consistent going forward). Everything else in this revision holds:
+  219-line count (confirmed again via direct line-count read of
+  `schedule.ts`, "about 220" hedge correct), DAILY_DAYS=28/MONTHLY_GAP=30
+  mechanics, freeze rule (`future = posts.filter(p => p.date > today)`),
+  filler-sinks-to-tail comparator, dry-run/--apply/--status behavior, the
+  19-day coverage figure correctly hedged "at the time of writing" (not
+  asserted as fixed) in both beat 4 and the CTA, WordPress.com/HubSpot/SEJ
+  quotes and URLs matching the already-confirmed 2026-07-15 re-check exactly,
+  12-stage/15-reviewer/tone-gate-folded-in pipeline facts correct, GitHub repo
+  URL correct, link tenses all correct (dark-dashboard-design 07-14 past,
+  automate-blog-writing-with-ai-agents 07-13 past, ai-automation-stack 07-19
+  present/no "coming soon"). Elevation still open: the Astro
+  filename-as-slug claim (beat 3) has no citation in the outline — Astro's own
+  docs page confirms it verbatim (see entry above), worth citing inline
+  instead of resting on the post's own authority.
+- **NEW claim confirmed 2026-07-15 — Astro's `slug` frontmatter field overrides
+  the filename-derived id.** Direct WebFetch of
+  [docs.astro.build/en/guides/content-collections](https://docs.astro.build/en/guides/content-collections/)
+  confirms verbatim: "You can override a single entry's generated `id` by
+  adding your own `slug` property to the file frontmatter or data object for
+  JSON files." A beat-3 addition ("Astro actually documents a way around
+  this... I could've kept pubDate as the only thing that moves... I didn't
+  build it that way") is accurate and well-sourced (the outline already lists
+  the same content-collections URL in `sources`). Elevation: quote the doc's
+  own line directly ("You can override a single entry's generated id by
+  adding your own slug property...") rather than only paraphrasing, for a
+  sharper citation.
+- **`schedule.ts` re-confirmed 219 lines / "about 220" hedge still correct,
+  and `assignSlots`'s no-reserved-slot behavior re-confirmed by direct code
+  read 2026-07-15**: `assignSlots` starts at `addDays(today, i + 1)` for the
+  first future post (i=0 → tomorrow) with no gap between consecutive slots —
+  there is no reserved/empty buffer day at rest. This directly supersedes the
+  already-published 2026-07-20 post's "One slot stays open on purpose" /
+  "the open slot is why 'automated' doesn't mean 'rigid'" framing, which does
+  NOT match the current code. A rewrite beat describing a same-day post as
+  riding the freeze rule (today-or-earlier untouched) rather than a reserved
+  slot, and describing a same-day future-queue jump as bumping the ENTIRE
+  future queue back a day (not just one reserved slot), is the historically
+  accurate rewrite — this is a correction of the live post, not a mistake in
+  the new outline.
+- **Search Engine Journal posting-frequency piece — "daily for a few weeks
+  then dark for months" scenario confirmed verbatim** (2026-07-15) via direct
+  WebFetch of
+  [searchenginejournal.com/how-often-should-you-blog-tips-for-ideal-posting-frequency/530884](https://searchenginejournal.com/how-often-should-you-blog-tips-for-ideal-posting-frequency/530884/):
+  "Let's say you start with a very aggressive content schedule, publishing
+  daily for a few weeks, but then completely forget about your blog for
+  several months. That inconsistent approach does you more harm than good,"
+  plus "Google appreciates sites that update consistently, establishing a
+  rhythm of high-quality new information to share." A draft paraphrase like
+  "publishing daily for weeks and then going dark for months does more harm
+  than holding a slower, steady pace" (no quote marks) is accurately
+  supported — this was previously only loosely approved via the outline's
+  facts bullet; now independently re-verified against the live source text.
+- **DRAFT-stage pass 2026-07-15 ("Queue Hit Zero, I Automated My Blog's
+  Publishing Schedule") — clean, zero gate findings.** Full-prose draft (not
+  outline) checked against every standing landmine for this post and held:
+  "about 220 lines" (not the stale "150"), DAILY_DAYS=28/MONTHLY_GAP=30
+  mechanics stated correctly, freeze rule (today-or-earlier untouched) stated
+  correctly, filler-sinks-to-tail correct, dry-run/--apply/--status behavior
+  correct, link-rewrite scope correctly stated as "every other post in
+  `content/blog`" throughout (no "whole site" overstatement anywhere in this
+  revision — the beat-1 landmine flagged at outline stage did not recur),
+  no-reserved-slot same-day framing correct (freeze rule, not "one slot stays
+  open"), 19-day coverage figure hedged "at the time of writing" / "right
+  now" in both beat 4 and the closing beat (not asserted as a fixed constant),
+  28-day target and 4-week/monthly cadence stated as exact constants
+  (correct), Astro filename-as-slug and slug-override claims both accurate
+  and both hyperlinked to docs.astro.build, all three cadence-source quotes
+  (WordPress.com/HubSpot/SEJ) match live re-checks including the newly
+  re-verified SEJ scenario above, 12-stage pipeline count correct, GitHub repo
+  URLs correct (agentic-content-pipeline + build-in-public-site), all internal
+  link tenses correct (dark-dashboard-design 07-14 past,
+  automate-blog-writing-with-ai-agents 07-13 past, ai-automation-stack 07-19
+  present/no "coming soon", how-to-measure-blog-seo 07-09 past). Two standing
+  elevations remain un-adopted: (1) quote Astro's slug-override doc line
+  verbatim instead of only paraphrasing; (2) date-frame the WordPress.com/
+  HubSpot/SEJ cadence stats as "as of 2026."
+- **DRAFT-stage pass 2026-07-15 (later same-day revision, "Queue Hit Zero, I
+  Automated My Blog's Publishing Schedule") — ONE gate finding: stale coverage
+  figure.** This revision states "about 11 days" (twice: beat 4 and the CTA)
+  for the live coverage reading. No Bash tool was available this pass, so
+  the figure was independently re-derived by direct computation: enumerated
+  every file in `src/content/blog/` (52 files, no folder posts —
+  `**/blogpost.md` glob returned zero matches), filtered to `date > 2026-07-15`
+  (today), and got exactly 16 future-dated posts, one per day, contiguous
+  2026-07-16 through 2026-07-31 with no gaps. Per `assignSlots`'s actual logic
+  (reassigns future posts to consecutive days starting `today+1` by index,
+  ignoring their original filenames' dates), `coverage()`'s `dailyOut` for a
+  contiguous 16-post future queue is exactly 16 (breaks the first day it finds
+  a gap; here that's day 17). **The correct live figure as of this check is
+  "about 16 days," not "about 11."** This also supersedes the "about 19 days"
+  reading recorded in the two entries directly below/above this one from
+  earlier the same day — the queue composition changed between those checks
+  and this one (expected and fine per the standing "live, not fixed" rule;
+  what's NOT fine is a draft asserting a number that doesn't match ANY actual
+  state, past or present, of the live queue). Flag "about 11 days" as a gate
+  finding on any revision that still carries it; the fix is "about 16 days,"
+  re-verified against a fresh file enumeration + `assignSlots`/`coverage`
+  logic each time this post is re-checked (the true fix is running
+  `npx tsx schedule.ts --status` directly when a Bash tool is available —
+  prefer that over manual enumeration when possible). Everything else in this
+  revision held clean: "about 220" line count, DAILY_DAYS=28/MONTHLY_GAP=30
+  mechanics, freeze rule, filler-sinks-to-tail, dry-run/--apply behavior,
+  link-rewrite scope correctly "content/blog" (not "whole site") throughout,
+  no-reserved-slot same-day framing, all three cadence-source quotes
+  (WordPress.com/HubSpot/SEJ) accurate, Astro filename-as-slug + slug-override
+  claims both accurate and hyperlinked, 12-stage pipeline count correct, all
+  internal link tenses correct, GitHub repo URLs correct. Two standing
+  elevations still open: (1) quote Astro's slug-override doc line verbatim;
+  (2) date-frame the WordPress.com/HubSpot/SEJ cadence stats as "as of 2026."
+- **OUTLINE-stage pass 2026-07-15 (title "Queue Hit Zero, So I Automated My
+  Blog's Publishing Schedule") — clean, zero gate findings.** Confirmed:
+  "about 220" line-count hedge, DAILY_DAYS=28/MONTHLY_GAP=30 mechanics, freeze
+  rule, filler-sinks-to-tail, dry-run/--apply/--status behavior, "content/blog"
+  (not "whole site") scoping for link rewrites throughout, 19-day coverage
+  figure correctly hedged "at the time of writing" with re-run instructions in
+  gateGuidance (not asserted fixed), no-reserved-slot same-day framing (see
+  above), all three cadence-source quotes (WordPress.com/HubSpot/SEJ) match
+  live re-checks, 12-stage/15-reviewer/tone-gate-folded-in pipeline facts
+  correct, GitHub repo URLs correct (`agentic-content-pipeline` for the
+  pipeline, `buildaloud/build-in-public-site` — confirmed public and live via
+  WebFetch — for "steal the ruleset"), all internal link tenses correct
+  (dark-dashboard-design 07-14 past, automate-blog-writing-with-ai-agents
+  07-13 past, ai-automation-stack 07-19 present/no "coming soon",
+  how-to-measure-blog-seo 07-09 past). New Astro `slug`-override claim (see
+  entry above) is new content in this revision and independently confirmed
+  true. Two open elevations: (1) date-frame the WordPress.com/HubSpot/SEJ
+  cadence stats as "as of 2026" since marketing benchmark pages refresh
+  periodically; (2) quote Astro's own slug-override doc line verbatim instead
+  of only paraphrasing it.
+- **DRAFT-stage pass 2026-07-16 ("Queue Hit Zero, I Automated My Blog's
+  Publishing Schedule") — ONE gate finding: stale coverage figure again, this
+  time "about 11 days" (both instances) is wrong for a DIFFERENT reason than
+  the 2026-07-15 check.** No Bash tool available this pass either; re-derived
+  by direct enumeration of `src/content/blog/` (grepped every `pubDate`, no
+  folder posts present). With today = 2026-07-16 (one day later than the prior
+  check), the post dated 2026-07-16 itself (`writing-alt-text-seo-accessibility`)
+  is now frozen (`date > today` is false for it), and the future queue is
+  exactly 15 contiguous posts, one per day, 2026-07-17 through 2026-07-31, no
+  gaps (this post's own file, `2026-07-20-automate-blog-publishing-schedule.md`,
+  is one of the 15). Per `assignSlots`/`coverage` logic (consecutive daily
+  slots from `today+1`, no gaps introduced by the filler-sorts-to-tail
+  comparator), `dailyOut` for a contiguous 15-post future queue is exactly 15.
+  **The correct live figure as of this check is "about 15 days," not "about
+  11."** This is a rollover of the prior "about 16 days" reading (2026-07-15
+  check) — one day passed, one post rolled from future into frozen-today,
+  16 → 15. Confirms the standing rule: re-derive this figure fresh on every
+  pass, don't reuse a prior pass's number even if it's from only a day earlier.
+  Everything else in this revision held clean: "about 220" line count,
+  DAILY_DAYS=28/MONTHLY_GAP=30 mechanics, freeze rule, filler-sinks-to-tail,
+  dry-run/--apply behavior, link-rewrite scope correctly "content/blog" (not
+  "whole site") throughout, no-reserved-slot same-day framing, all three
+  cadence-source quotes (WordPress.com/HubSpot/SEJ) accurate, Astro
+  filename-as-slug + slug-override claims both accurate and hyperlinked,
+  12-stage pipeline count correct, all internal link tenses correct, GitHub
+  repo URLs correct. Two standing elevations still open: (1) quote Astro's
+  slug-override doc line verbatim; (2) date-frame the WordPress.com/HubSpot/SEJ
+  cadence stats as "as of 2026." Prefer running `npx tsx schedule.ts --status`
+  directly over manual enumeration whenever a Bash tool is actually available
+  in a future pass — manual enumeration works but is slower and more
+  error-prone than letting the script report its own number.
+- **`hired-a-team-of-specialists` (slug 2026-07-21) — DRAFT-stage first pass,
+  2026-07-16.** One gate finding: the quote "token costs scale linearly with
+  team size" renders Osmani's sentence with a lowercase "t" — every rendering
+  on his page (prose, the "Right-size your team" bullet, and the "key
+  takeaways" standalone line) capitalizes it as "Token costs scale linearly
+  with team size." (it opens a sentence in all three places). Fix by
+  capitalizing "Token" inside the quote marks. Everything else in this draft
+  checked clean against the outline-stage-clean and standing-landmine
+  entries above: security-kit six-lane order and names correct
+  (surface-mapper → [untrusted-]input-tracer → threat-modeler → vuln-hunter →
+  false-positive judge → mitigation-planner — draft shortens
+  "untrusted-input-tracer" to "input-tracer" and expands "fp-judge" to
+  "false-positive judge," neither is a wrong-fact, flagged as an elevation
+  for precision only); tower-defense six-lane roster + monetization "off to
+  the side" correct; "Here's candidate A, B, C, D. Here's the tradeoff on
+  each. Chad picks." verbatim; Osmani "significantly better database code...
+  a generalist" verbatim; Osmani "is no longer generation. It's
+  verification." verbatim; Osmani "3-5 teammates is the sweet spot." verbatim
+  (matches the digit-form bullet, not just the spelled-out prose form); AI21
+  "its own isolated execution environment" verbatim, correctly caveated as
+  "parallel attempts... rather than parallel specialties"; pipeline counts
+  exact (12 outline reviewers/round cap 5, 15 draft reviewers/round cap 5,
+  tone gate folded into the draft-review-loop beat with the 15-or-above
+  threshold, timing "start of every round and once more after the loop
+  exits," single human checkpoint = topic approval, "now runs as"
+  present-tense package framing correct for a post publishing 2026-07-21);
+  Anthropic 90.2% figure accurate (unquoted paraphrase) and Anthropic 15x
+  token figure accurate (unquoted paraphrase) — neither carries "as of June
+  2025" dated framing in this revision, flagged as an elevation, not a gate,
+  per the datedness axis being advisory rather than a hard-gate trigger;
+  agentic-content-pipeline README 100-160-dispatches/15-agent-burst figures
+  accurate (unquoted paraphrase); install command verbatim; every internal
+  link's tense correct (game 06-16, security post 07-10, automate-blog-
+  writing 07-13, all predate this post's 07-21 pubDate — past/implicit-past
+  framing is fine, no false "written before" claim). Sources footer complete
+  and uses the canonical `code.claude.com/docs/en/sub-agents` URL.
+- **`hired-a-team-of-specialists` — DRAFT-stage second pass, 2026-07-16 (this
+  exact revision). Prior gate finding (lowercase "token") is FIXED — this
+  revision correctly capitalizes "Token costs scale linearly with team size."
+  New gate finding: the monetization-guard beat conflates two DIFFERENT
+  sentences from the source game post into one, swapping the source's own
+  word.** Confirmed via direct read of
+  `src/content/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks.md`
+  lines 74 and 98: the source says, in two separate places, "It gets a **vote**
+  on anything that touches the store or the economy" (line 74) and, later,
+  regarding the guard overall, "It has **veto**. It uses it." (line 98) — the
+  source itself distinguishes "vote" (scope: anything touching store/economy)
+  from "veto" (the guard's specific power). This draft's rendering — "It gets a
+  **veto** on anything touching the store or the economy, and it uses it." —
+  substitutes "veto" for "vote" in the store/economy clause, misquoting the
+  source and overstating the guard's blanket reach. Fix: use "vote" for that
+  clause, matching the source's own wording, while keeping "veto pay-to-win"
+  for the mandate sentence (that half is already correct). Everything else in
+  this revision re-confirmed clean against the draft-stage-first-pass and
+  outline-stage entries above: all quotes (Osmani "significantly better
+  database code... a generalist," Osmani "is no longer generation. It's
+  verification.," Osmani "3-5 teammates is the sweet spot.," Osmani "Token
+  costs scale linearly with team size." now correctly capitalized, AI21 "its
+  own isolated execution environment," game's "Here's candidate A, B, C, D...
+  Chad picks.") verbatim; security-kit six-lane order/names correct
+  (surface-mapper, untrusted-input-tracer — full name this time, not shortened
+  — threat-modeler, vuln-hunter, false-positive judge, mitigation-planner);
+  pipeline counts exact (12/15 reviewers, round cap 5, tone-gate threshold 15,
+  single human checkpoint = topic approval); Anthropic 90.2% dated to "the June
+  2025 model lineup it tested" in-body (elevation from the prior pass now
+  adopted); Anthropic 15x-token figure still undated in this beat (standing
+  elevation, not gate); agentic-content-pipeline README figures + install
+  command accurate; every internal link tense-checked correct against real
+  pubDate. Standing elevation still open: no inline "(v0.2.0)" tag for the
+  package swap.
+- **`hired-a-team-of-specialists` — DRAFT-stage third pass, 2026-07-16 (this
+  exact revision, "What the team costs" section expanded).** Zero gate
+  findings. Both prior landmines (lowercase "token," veto/vote conflation)
+  remain fixed. Anthropic 15x-token figure now ALSO dated in-body ("the same
+  June 2025 study") — the prior pass's standing elevation is adopted here.
+  New content this pass, both verified: (1) a new internal link, "I laid out
+  the routing table, tier by tier with current pricing, in its own post" →
+  `/blog/2026-07-18-which-claude-model-to-use/` — past tense is correct,
+  that post's pubDate (07-18) predates this post's pinned pubDate (07-21).
+  (2) A new Anthropic paraphrase: "its own multi-agent write-up admits most
+  coding tasks don't parallelize as cleanly as its research use case does,
+  and that domains needing shared context or tight dependencies between
+  agents aren't a good fit for the technique today" — confirmed via direct
+  fetch 2026-07-16 of
+  [anthropic.com/engineering/multi-agent-research-system](https://www.anthropic.com/engineering/multi-agent-research-system):
+  "most coding tasks involve fewer truly parallelizable tasks than research,
+  and LLM agents are not yet great at coordinating and delegating to other
+  agents in real time" + "some domains that require all agents to share the
+  same context or involve many dependencies between agents are not a good
+  fit for multi-agent systems today." Accurate paraphrase, not quoted, no
+  gate issue. This post's sourcing style is footer-only (no inline citation
+  links per claim, e.g. Osmani/AI21 quotes aren't inline-linked either) —
+  consistent throughout, not a gate finding. Elevations offered (not gate):
+  (a) the Osmani "3-5 teammates" quote appears here in spelled-out prose form
+  ("Three to five teammates is the sweet spot") rather than the digit-form
+  bullet the outline specified — both are verbatim-correct against the
+  source (confirmed both forms exist), so purely a style note; (b) the
+  "roughly fifteen" reviewer-axes sentence names only 6 of 15 axes (hook,
+  voice, structure, SEO, fact accuracy, link integrity) — same standing
+  elevation as other posts, naming impact/emotion/meta-content would fully
+  account for the count; (c) "with current pricing" on the which-claude-
+  model-to-use link could be dated ("pricing as of publish") per the
+  standing model-name/price datedness caution.
+- **`hired-a-team-of-specialists` — DRAFT-stage fourth pass, 2026-07-16 (this
+  exact revision).** Zero gate findings. Elevation (c) from the pass-3 entry
+  above is now ADOPTED — the which-claude-model-to-use link reads "pricing as
+  of that post" instead of "current pricing." All prior-fixed landmines still
+  hold: "Token costs scale linearly with team size." capitalized; monetization
+  guard correctly uses "vote" (not "veto") for the store/economy clause,
+  reserving "veto" for the pay-to-win mandate; Anthropic 90.2% dated "the June
+  2025 model lineup it tested"; Anthropic 15x-token figure dated "the same
+  June 2025 study"; all quotes re-checked verbatim (Osmani "significantly
+  better database code... a generalist," Osmani "is no longer generation.
+  It's verification.," Osmani "3-5 teammates is the sweet spot." digit form,
+  Osmani "Token costs scale linearly with team size.," AI21 "its own isolated
+  execution environment," game's "Here's candidate A, B, C, D. Here's the
+  tradeoff on each. Chad picks."); security-kit six-lane order/names correct;
+  tower-defense roster + monetization "off to the side" correct, and the
+  "candidate A, B, C, D" pattern appears only in beat 8, not beat 4; Anthropic
+  parallelize-poorly paraphrase (coding tasks vs. research, shared-context/
+  tight-dependency domains) accurate; README 100-160-dispatches/15-agent-burst
+  figures and install command accurate; every internal link's tense correct
+  against real pubDate (game 06-16, security post 07-10, automate-blog-writing
+  07-13, which-claude-model-to-use 07-18, all predate this post's 07-21
+  pubDate). Two standing elevations still open, not gates: (a) the "axes
+  include hook, voice, structure, SEO, fact accuracy and link integrity"
+  sentence still names only 6 of 15 draft-reviewer axes — naming
+  impact/emotion/meta-content would fully account for "fifteen"; (b) the
+  90.2% figure could cite Anthropic's exact publish date (June 13, 2025)
+  instead of "the June 2025 model lineup it tested" for a sharper anchor.
+- **`hired-a-team-of-specialists` — DRAFT-stage fifth pass, 2026-07-16 (this
+  exact revision).** Zero gate findings. Elevation (b) from the pass-4 entry
+  above is now ADOPTED — the 90.2% sentence reads "tested against the June
+  13, 2025 model lineup, it outperformed a single Opus 4 agent by 90.2
+  percent," citing Anthropic's exact publish date directly (confirmed dateline
+  "Published Jun 13, 2025" per the standing entry above). All prior-fixed
+  landmines still hold: "Token" capitalized in the linear-cost quote;
+  monetization guard uses "vote" for the store/economy clause and "veto" only
+  for the pay-to-win mandate; every quote re-checked verbatim (Osmani
+  "significantly better database code... a generalist," Osmani "is no longer
+  generation. It's verification.," Osmani "3-5 teammates is the sweet spot."
+  digit form, Osmani "Token costs scale linearly with team size.," AI21 "its
+  own isolated execution environment," game's "Here's candidate A, B, C, D.
+  Here's the tradeoff on each. Chad picks." in beat 8 only); security-kit
+  six-lane order/names correct (surface-mapper, untrusted-input-tracer,
+  threat-modeler, vuln-hunter, false-positive judge, mitigation-planner);
+  tower-defense six-lane roster + monetization "off to the side" correct;
+  Anthropic parallelize-poorly paraphrase accurate; Anthropic 15x-token figure
+  dated "the same June 2025 study"; README 100-160-dispatches/15-agent-burst
+  figures and install command accurate; pipeline counts exact (12/15
+  reviewers, round cap 5, tone-gate threshold 15, timing "start of every round
+  and once more after the loop exits," single human checkpoint = topic
+  approval, present-tense package framing correct); new axes-naming sentence
+  now lists 9 of 15 ("hook, voice, structure, SEO, fact accuracy, link
+  integrity, structural impact, emotional impact and meta-content") — improved
+  from the pass-4 revision's 6, but still not exhaustive (flatness, formulaic,
+  wordsmith, grammar, link-opportunity, bullshit-detector unnamed) — elevation
+  (a) above is partially adopted, not fully; keep offering it. Every internal
+  link's tense correct against real pubDate (game 06-16, security post 07-10,
+  automate-blog-writing 07-13, which-claude-model-to-use 07-18, all predate
+  this post's 07-21 pubDate). New elevation this pass: no inline "(v0.2.0)"
+  version tag on the agentic-content-pipeline mention in "What the team
+  costs" — same standing elevation open on the `ai-automation-stack` post
+  above, now also open here.
+
+## `dividing-a-company-that-makes-no-money` (slug `2026-07-22-dividing-a-company-that-makes-no-money`) — verified clean through DRAFT stage, latest check 2026-07-16
+- **Pillsbury Propel 65% Wasserman stat** — live on
+  [pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends](https://www.pillsburypropel.com/guidance/how-to-split-equity-between-co-founders-and-stay-friends):
+  "In his 2012 book, *The Founder's Dilemmas*, Noam Wasserman estimated that
+  around 65% of high-potential startups fail due to conflict among
+  co-founders." Scope: high-potential startups; cause: co-founder conflict.
+  Standing elevation (not yet adopted): date-anchor as "2012 book" per
+  Pillsbury's own framing, instead of a bare "roughly 65%."
+- **Stripe "might not hold true over time" quote** — live on
+  [stripe.com/resources/more/how-to-split-equity-among-cofounders-in-a-startup](https://stripe.com/resources/more/how-to-split-equity-among-cofounders-in-a-startup):
+  "It assumes each founder will contribute equally to the company's growth,
+  which might not hold true over time." Safe verbatim quote; safe paraphrase
+  "assumes both people contribute equally forever."
+- **Pillsbury also supports**: "Drafting a written founders' agreement is
+  essential," and separately warns that granting equity once value has been
+  created "introduces its own tax complications" (QSBS holding period) —
+  supports the draft's "the kind Pillsbury calls essential to draft before
+  value gets created... waiting too long adds tax complications."
+- **Stripe also supports**: names "institutional vesting mandates, governance
+  rules, and preferred share classes" as standard once a seed round closes —
+  supports "Stripe treats it as standard once funding actually shows up."
+- **Own-project facts**: `src/data/projects.ts` lists
+  `builders: ['Chad', 'Andrew']`; `/projects` route and `src/pages/rss.xml.ts`
+  both exist — the buildaloud.ai / /projects / RSS-feed CTA claims are
+  accurate.
+- **This post is a rewrite of an already-published post** — the
+  two-thirds/one-third decision lean and $0-revenue framing are already
+  public claims, not new disclosures.
+- Checked clean across outline stage (multiple passes) and full-prose draft
+  stage (multiple passes, latest 2026-07-16) — zero gate findings every time.
+  Only open item: the standing date-anchor elevation above.
+
+## `rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill` (slug `2026-07-24-rate-limiting-an-llm-so-a-stranger-cant-run-up-my-bill`) — OUTLINE stage clean, verified 2026-07-16
+- **This is a rewrite of an already-published post** (same slug/pubDate is
+  live in `src/content/blog/`). The live post is a reliable ground truth for
+  the assistant's own architecture facts and matches the outline throughout:
+  99-char input cap, 300-token output cap, 10-message history cap, 5/hour +
+  20/day per-visitor and per-IP caps, 500,000-token/day global ceiling, all
+  caps in one `ratelimit.ts` module on Upstash Redis, time-bucket keys (hourly
+  key expires in 1h, daily in 24h, token budget on a 48h key), 30-day TTL on
+  transcripts, `CHAT_BYPASS_TOKEN` bypass concept (name only, never a value),
+  cheap Haiku-class model via the Vercel AI Gateway.
+- **dev.to token-cost quotes confirmed verbatim** (2026-07-16) on
+  [dev.to/pranay_batta/rate-limiting-in-llm-applications-why-you-need-it-and-how-to-build-it-5gf4](https://dev.to/pranay_batta/rate-limiting-in-llm-applications-why-you-need-it-and-how-to-build-it-5gf4):
+  "A single API call with a 200,000-token context window costs as much as 50
+  calls with 4,000-token prompts." and "Request-count limits do nothing to
+  prevent a single runaway call from consuming your entire daily budget." One
+  article, one author — always attribute as "one write-up," never "the
+  industry."
+- **$82k stolen-key incident confirmed** (2026-07-16) on
+  [pointguardai.com/blog/when-a-stolen-ai-api-key-becomes-an-82-000-problem](https://www.pointguardai.com/blog/when-a-stolen-ai-api-key-becomes-an-82-000-problem):
+  "a developer found that a stolen Gemini API key had been used to generate
+  more than $82,000 in usage charges in roughly 48 hours," against "a normal
+  monthly spend that hovered around a couple hundred dollars." **First
+  reported by The Register** (per pointguardai's own attribution), with
+  follow-on coverage from Tom's Hardware and TechSpot — safe to cite "first
+  reported by The Register" as the outline does. The underlying key was
+  specifically a Gemini key; the outline/post correctly keeps this generic
+  ("a compromised AI key") rather than implying it involved our own stack.
+  Elevation on file: linking The Register's original story directly (in
+  addition to or instead of the pointguardai secondary write-up) would be a
+  stronger primary-source citation.
+- **Redis EXPIRE/TTL page confirmed live** (2026-07-16) at
+  [redis.io/docs/latest/commands/expire](https://redis.io/docs/latest/commands/expire/):
+  "Set a timeout on `key`. After the timeout has expired, the key will
+  automatically be deleted." Accurately supports "Redis's own TTL/EXPIRE
+  mechanism does that work natively."
+- **chads.website input counter confirmed live** (2026-07-16): the "Ask my
+  work" box shows a live character counter ("0/99", ticking up as you type)
+  next to the 99-char hard cap — supports the outline's "the counter's right
+  there on the page, ticking up as you type" line.
+- **Cross-post facts confirmed**: `2026-06-26-ai-on-my-site-told-it-to-defer`
+  (pubDate 2026-06-26, before this post) is accurate ground truth for "third
+  person, defers instead of guessing, resists prompt injection."
+  `2026-07-11-anonymous-like-button-without-login` (pubDate 2026-07-11, before
+  this post) accurately backs the "layered device id, no single layer
+  trusted" callback. Both links use correct past-tense framing (targets
+  predate this post's 2026-07-24 pubDate).
+- No gate findings at outline stage. Every sourced claim traces to a live,
+  fetched source; every own-project fact matches the already-published
+  version of this same post.
+- **DRAFT stage checked clean, 2026-07-16 (four passes)**: full prose matches
+  every number above verbatim (99/300/10/5/20/500,000/30-day/48h/1h/24h),
+  both dev.to quotes verbatim, Redis EXPIRE quote accurate, own-project facts
+  consistent with the live post. Point Guard AI's "the attacker did not need
+  to exploit a software vulnerability... they simply used the service as
+  intended, and the billing system faithfully recorded every request"
+  directly supports the draft's "no bug was involved, the service ran
+  exactly as designed" framing — re-confirmed via fetch. Zero gate findings
+  all four passes. The Register's exact figure: $82,314.44 in ~48 hours
+  against normal spend of $180/month (a compromised Gemini key, Feb 11-12),
+  first reported at
+  [theregister.com/2026/03/03/gemini_api_key_82314_dollar_charge](https://www.theregister.com/2026/03/03/gemini_api_key_82314_dollar_charge/).
+  **Fourth pass (this dispatch): The Register is now hyperlinked inline AND
+  in the Sources list — the prior standing elevation (link it directly) is
+  resolved, drop it.** Open elevation instead: "More than $82,000" could
+  tighten to the source's exact "$82,314.44" for a sharper citable figure.
+
+## `grill-me` — REAL skill, real audit ground truth (2026-07-16, for the correction rewrite of slug `2026-07-15-grill-me-what-an-auditor-sees`)
+- **grill-me is Matt Pocock's real skill** at github.com/mattpocock/skills (path `skills/productivity/grill-me`), a Socratic "relentless interview to sharpen a plan or design" (its own SKILL.md frontmatter description). The 2026-07-15 post's footnote calling it "a rhetorical stand-in invented for this post" was FALSE — founding defect of the assertion-audit stage.
+- **Our AST v1.0 audit (published, live)**: maliciousIntent 0, inherentCapability 0, misuseSurface 0, overallExposure 0; findings: [] (none); dangerLevel "low"; all 10 AST types explicitly cleared in notDetected (e.g. AST-04: "no hidden instructions, injected system-prompt text, or disguised payloads"; AST-10 notes `disable-model-invocation: true` requires explicit user invocation). Audit summary quote: "The security posture is effectively risk-free." Skill contents at audited commit 9603c1c: SKILL.md (147 bytes) + agents/openai.yaml (137 bytes) — no scripts, no network, no filesystem, no credentials.
+- **Live listing**: https://marketplace.buildaloud.ai/api/skills/mattpocock--grill-me (full JSON, 200) and searchable on https://marketplace.buildaloud.ai/skills. There are NO standalone per-skill pages — /skills/:slug 308-redirects to the grid; never link a per-skill page.
+- **Model tiering (honest description)**: docs-only skills route to Haiku triage by default (Haiku returned clean, did not escalate, ~$0.09); the published verdict was re-run with forced Sonnet (claude-sonnet-5, ~$0.41). Both agreed all-zero. Say "Sonnet-class audits run where there's a capability surface; trivial docs-only skills get Haiku triage" — do NOT claim every audit is Sonnet.
+- **Independent auditors agree**: skills.sh security page for grill-me shows Snyk **Pass / LOW risk / no issues** (audited 2026-05-19), plus **Socket: Pass** and **Gen Agent Trust Hub: Pass** — https://www.skills.sh/mattpocock/skills/grill-me/security/snyk. grill-me is NOT in Snyk's ToxicSkills malicious set. ToxicSkills study (2026-02): 3,984 skills scanned, ~36% flawed, 534 (13.4%) critical, 76 confirmed malicious — https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/.
+- **Dogfood beat (true, citable)**: publishing this listing surfaced a real marketplace bug — deploys had failed since ~2026-07-12 because `public/_data/skills.json` grew to 33.8 MiB, over Cloudflare Pages' 25 MiB per-file limit; fixed by capping the RSS feed data to 150 items (224 KB) in `site/scripts/generate-skills-data.ts`. Total pipeline cost for the grill-me audit ~$0.50.
+- **Listing fields NOT to cite as grill-me-specific**: `stars` (173,499 = the whole mattpocock/skills repo), `description` (repo-level, not the skill's own), `auditor` (model-authored, unreliable — a Haiku run once wrote "claude-sonnet-4-6"), `hasSkillMd` (false negative — root-only check, monorepo subpath missed).
