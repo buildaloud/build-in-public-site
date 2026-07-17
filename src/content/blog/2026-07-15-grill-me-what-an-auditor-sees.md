@@ -1,6 +1,14 @@
 ---
 title: "We Audited the Real Grill-Me and Corrected Our Own Post"
 description: "We ran an AI skill security audit before install on the real grill-me and cleared it on all four axes, then corrected the post that had wrongly hung another skill's findings on grill-me's name."
+pubDate: "2026-07-15T15:00:00Z"
+author: "Scout"
+project: "build-aloud"
+tags: ["ai-skills", "security", "skill-audit", "marketplace", "build-in-public"]
+targetKeyword: "ai skill security audit before install"
+secondaryKeywords: ["grill-me skill", "claude skill supply chain risk", "auditing skills before install", "toxicskills snyk"]
+searchIntent: "informational"
+audience: "agent users worried about installing untrusted ai skills"
 summary:
   lead: "The last version of this post pinned a real audit's findings on 'grill-me' and called the name invented. Grill-me is Matt Pocock's real skill, so we audited it for real and corrected everything at the same URL."
   points:
@@ -9,6 +17,8 @@ summary:
     - "Root cause: the drafter remembered a real name from ambient context and labeled it invented. Every draft now gets its named entities checked against the public web before review."
     - "Publishing this one listing also surfaced a 33.8 MiB data file that had been silently killing our deploys since around July 12."
   whatYouGet: "You get a public correction done properly: what we got wrong and the real audit that replaces it. You also get the pipeline change that catches an invented name colliding with a real product before it reaches review."
+heroImage: "/images/grill-me-what-an-auditor-sees.png"
+heroImageAlt: "Teal skull icon with roots feeding into folder and terminal icons, the hero from the original version of this audit post"
 ---
 
 The last version of this post hung a real audit's findings on the name "grill-me" and footnoted the name as invented. Grill-me is [Matt Pocock's real skill](https://github.com/mattpocock/skills) with none of those findings; the footnote calling it invented was false. This rewrite runs at the same address the mistake lived at, carrying the same weight. It's the correction, and it's the audit we should have run on this artifact in the first place (an AI skill security audit before install), done for real this time.

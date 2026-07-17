@@ -1,0 +1,9 @@
+# HTML must revalidate — stale HTML references asset hashes that no longer
+# exist after a redeploy (the 2026-07-16 outage: 7-day-cached HTML + 404 CSS).
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Hashed assets are content-addressed — cache forever (unsets the rule above).
+/_astro/*
+  ! Cache-Control
+  Cache-Control: public, max-age=31536000, immutable
