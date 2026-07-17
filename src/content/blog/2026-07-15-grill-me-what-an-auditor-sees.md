@@ -18,7 +18,7 @@ summary:
     - "Publishing this one listing also surfaced a 33.8 MiB data file that had been silently killing our deploys since around July 12."
   whatYouGet: "You get a public correction done properly: what we got wrong and the real audit that replaces it. You also get the pipeline change that catches an invented name colliding with a real product before it reaches review."
 heroImage: "/images/grill-me-what-an-auditor-sees.png"
-heroImageAlt: "Teal skull icon with roots feeding into folder and terminal icons, the hero from the original version of this audit post"
+heroImageAlt: "Mint magnifying glass over a small clean file beside four gauges all reading zero, the four audit axes of the real grill-me audit"
 ---
 
 The last version of this post hung a real audit's findings on the name "grill-me" and footnoted the name as invented. Grill-me is [Matt Pocock's real skill](https://github.com/mattpocock/skills) with none of those findings; the footnote calling it invented was false. This rewrite runs at the same address the mistake lived at, carrying the same weight. It's the correction, and it's the audit we should have run on this artifact in the first place (an AI skill security audit before install), done for real this time.
