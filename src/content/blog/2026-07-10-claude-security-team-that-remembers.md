@@ -1,15 +1,15 @@
 ---
 title: "I Gave Claude an Agentic Security Review Team That Remembers"
-description: "security-kit is an agentic security review plugin for Claude Code: whole-repo, precision over recall, dated artifacts so every pass is smarter."
+description: "security-kit is a Claude Code security review plugin that scans your whole repo and keeps dated case files, so every pass starts smarter."
 pubDate: "2026-07-10T15:00:00Z"
 summary:
-  lead: "security-kit is a Claude Code plugin that reviews your whole repo for security holes, not just a pull request diff, and keeps a memory of what it found so the next pass starts smarter."
+  lead: "security-kit is a Claude Code plugin that reviews your whole repository for security holes and keeps a memory of what it found, so the next pass starts smarter."
   points:
-    - "Six sub-agents split across eight phases: refresh, recon, threat map, hunt, judge, plan, write-up, tickets."
-    - "fp-judge keeps a finding only if it scores 8/10 or higher on exploitability. Zero findings counts as a win, not a failure."
-    - "The bet is that dated precedents in `docs/security/` push the false-positive rate down as the repo's case law grows. It's early, and I haven't run enough passes to prove that curve yet."
-    - "Built on Anthropic's claude-code-security-review, but scoped to the whole repo instead of a single PR diff."
-  whatYouGet: "The reasoning behind a security reviewer that gets sharper on your codebase with every run instead of starting over each time."
+    - "Six specialized sub-agents split across eight phases: refresh, recon, threat map, hunt, judge, plan, write-up, tickets."
+    - "fp-judge keeps a finding only if it scores at least 8/10 on exploitability, and zero findings counts as a legitimate result."
+    - "Dated precedents in docs/security/ are the bet: the false-positive rate should drop as the case law grows. Too few passes so far to prove that curve."
+    - "Extends Anthropic's claude-code-security-review beyond PR-diff scope into a whole-repo vulnerability scan."
+  whatYouGet: "The reasoning behind an AI security scanner with memory built to get sharper on your codebase with every run."
 author: "Scout"
 project: "build-aloud"
 tags: ["claude-code", "claude-code-plugin", "ai-agents", "security-review", "build-in-public"]
@@ -22,53 +22,69 @@ searchIntent: "informational"
 audience: "developers wanting automated whole-repo security review on their own codebase"
 ---
 
-I gave Claude a security team that remembers what it found last time. It's called security-kit: an agentic security review plugin for Claude Code, pointed at your *own* repositories. It maps the attack surface, hunts for vulnerabilities, then writes down what it found so the next review starts smarter. Most security tooling forgets everything the second it exits. This one keeps a case file, and the next run reads it before it starts.
+I gave Claude a security team that remembers what it found last time. I call it security-kit, a Claude Code security review plugin I point at repositories I own. It maps the attack surface and hunts vulnerabilities across six specialized sub-agents, then writes down what it found so the next review starts smarter. Memory is the feature I wanted. Every one-shot review tool I've run has flagged the same false alarm twice, because it never remembered clearing it the first time. Most security tooling forgets everything the second it exits. This one keeps a case file.
 
-## Inspired by Anthropic's reviewer, pointed at the whole repo
+## Borrowed Openly From Anthropic's Reviewer
 
-I didn't invent the idea of Claude reading code for security bugs. Anthropic ships [claude-code-security-review](https://github.com/anthropics/claude-code-security-review), a GitHub Action that runs Claude over a pull request and comments on what it finds. It's good. I borrowed from it openly. Two things stood out. It does **diff-aware scanning**: for PRs, it only looks at the changed files. And it ships an opinionated exclusion list, dropping low-impact, false-positive-prone categories like denial of service, rate limiting, generic input validation with no proven impact.
+I didn't invent the idea of Claude reading code for security bugs. Anthropic ships [claude-code-security-review](https://github.com/anthropics/claude-code-security-review), a GitHub Action that runs Claude over a pull request and comments on what it finds. Anthropic proved agentic security review works on a diff; security-kit turns the same read on the whole repository instead. Two design calls in that tool stood out. For pull requests, it does diff-aware scanning, reading only the files that changed in that PR. And it ships an [opinionated exclusion list](https://github.com/anthropics/claude-code-security-review#false-positive-filtering), dropping five categories prone to false positives: denial of service, rate limiting, memory and CPU exhaustion, generic input validation with no proven impact, and open redirects. I borrowed from it openly.
 
-Both of those calls are right. I just wanted a different scope. A PR diff tells you whether *this change* is safe. It can't tell you whether the repo you've been growing for a year has a soft underbelly nobody's looked at, because nobody touched it recently. security-kit takes the same instincts and points them at the whole repository. Instead of a PR comment that scrolls away and gets forgotten, it writes findings to `docs/security/`, dated, so the review accumulates instead of evaporating.
+Both calls are right, especially the exclusion list. It encodes the judgment that an unexploitable finding costs more attention than it returns. Anthropic layers a second filter on top of that list too: a semantic pass through the Claude API that can waive a finding case by case. security-kit's 8/10 score plus its dropped-findings audit table is the same instinct, just numeric and logged instead of tunable and unrecorded.
 
-## The eight phases
+## A Whole-Repo Vulnerability Scan
 
-A run is a pipeline, not one big prompt. Six specialized sub-agents, each with one job, orchestrated across eight phases:
+A PR diff answers one question: is this change safe. I wanted a second question answered too: does the repo I've been growing for a year have a soft underbelly nobody's checked, because nobody touched it recently. security-kit takes the same instincts and runs a whole-repo vulnerability scan instead of stopping at one PR. Two different jobs, diff scope and repo scope. They happen to work well together anyway. The untouched code is exactly what a recent-diff reviewer never sees, and that's where the stale assumptions take root.
 
-1. **Refresh**: scope the work to the diff since `last_reviewed_sha`, so a re-run reviews what actually changed, not the whole world again.
-2. **Recon**: `surface-mapper` and `untrusted-input-tracer` run in parallel. One maps the attack surface, the other traces where untrusted input enters and how far it travels.
-3. **Threat map**: assemble recon into a single picture of what an attacker would actually go after.
-4. **Hunt**: `vuln-hunter` runs once per taxonomy cluster, in parallel. Injection, auth, whatever's left, each gets its own hunter instead of one model holding the whole taxonomy in its head.
-5. **Judge**: `fp-judge` scores every candidate finding for exploitability and keeps only the ones that clear 8 out of 10. Plausible but not exploitable doesn't survive this phase.
-6. **Plan**: `mitigation-planner` turns survivors into concrete fixes.
-7. **Write-up**: the run's findings and the calls it made get recorded to `docs/security/` as dated precedents, plus the rolling data the next run reads back.
-8. **Tickets**: auto-detects your tracker and files the work, whether that's [ticket-kit](https://github.com/chadfurman/ticket-kit), Jira, or plain markdown.
+The first pass has no history to diff against yet, so it reads everything. Every pass after that scopes to what changed since the last one, so the review keeps compounding instead of re-reading code nothing touched. Findings land in docs/security/, dated, so the review accumulates. A PR comment scrolls away; these files stay.
 
-The parallelism isn't for speed bragging rights. It's because a sub-agent with a tight scope makes sharper calls than a generalist asked to hold the whole repo in its head. Same lesson the Tower Defense build taught me. Applies here too.
+## Six Specialists, One Job Each
 
-## Precision over recall, on purpose
+A run moves through eight phases in order. Six of them belong to a named specialist.
 
-security-kit is tuned to miss things rather than cry wolf, and I'll defend that choice.
+1. **Refresh**: scope the run to the diff since `last_reviewed_sha`, so a re-run reviews what changed instead of starting over.
+2. **Recon**: surface-mapper and untrusted-input-tracer run in parallel, one mapping the attack surface, the other tracing where untrusted input enters and how far it travels.
+3. **Threat map**: threat-modeler assembles recon into one picture of what an attacker would go after, the single view fp-judge scores against two phases later.
+4. **Hunt**: vuln-hunter runs once per taxonomy cluster, in parallel, one hunter per category (injection and auth included).
+5. **Judge**: fp-judge scores every candidate for exploitability; only 8/10 or better survives.
+6. **Plan**: mitigation-planner turns survivors into concrete fixes. Not vague advice, actual steps someone can act on.
+7. **Write-up**: findings and the calls made land in docs/security/ as dated entries plus rolling data the next run reads back.
+8. **Tickets**: security-kit auto-detects your tracker, whether that's [ticket-kit](https://github.com/chadfurman/ticket-kit) (a build I've [written up before](/blog/2026-07-01-ticket-tracker-where-ai-does-the-ticketing/)), Jira, or plain markdown. It offers to file the work, and it always asks before creating anything.
 
-That sounds backwards until you've watched a noisy scanner train a team to ignore it. There's a real failure mode in code-only review. The team at ProjectDiscovery named it well: code can look plausible on the page and still not survive contact with how the framework actually behaves. Same for validation. Same for whatever runtime controls are already running. True but unreachable is still noise. And noise is how a security tool loses its credibility.
+The [Tower Defense build](/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks/) taught me the same lesson: a domain-expert sub-agent with a tight scope makes better calls than a generalist holding the whole thing in its head. security-kit splits the review into six specialists for that reason, and the speed of running them in parallel comes along for free.
 
-So the exploitability gate is hard. The `fp-judge` phase keeps a finding only if it scores at least 8/10 on whether someone could actually exploit it. Everything else gets dropped, not deleted. Dropped findings go into an audit table with the reason they were cut, so "we looked at this and decided it didn't matter" is recorded, not silently forgotten. And **zero findings is a legitimate result.** A clean run that says "I found nothing exploitable" is the tool working, not failing. I'd rather ship that than a list of twelve maybes.
+## The False Positive Exploitability Gate
 
-## Case law: the part that remembers
+### Tuned to Miss Things, on Purpose
 
-Every repo accumulates its own precedents. Call it case law. The first time a review sees raw SQL in a codebase that uses Prisma everywhere, it has to reason about whether that's exploitable. The answer gets written down as a precedent: *we use Prisma; SQL injection is only valid for `$queryRaw`.* The next review reads that precedent before it starts, so it doesn't re-litigate a settled question. Over a few passes the repo teaches the reviewer its own shape: which patterns are real risks here, which are just framework noise. The bet is that the false-positive rate drops as the tool stops being a stranger to your code. It's early, though, and I haven't run enough passes to prove that curve yet.
+security-kit is tuned to miss things rather than cry wolf. I'll defend that choice. It sounds backwards until you've watched a noisy scanner train a team to ignore it. [ProjectDiscovery's write-up on AI code review](https://projectdiscovery.io/blog/ai-code-review-vs-neo) describes findings that look plausible in code and still turn out unexploitable once you account for how the framework actually behaves and validates input at runtime. True but unreachable is still noise, and noise is how a security tool loses its credibility.
 
-That's the compounding part. The dated artifacts in `docs/security/` aren't a report you read once. They're the memory the next run stands on. Most scanners are amnesiacs that re-derive everything from scratch every time. This one keeps a case file.
+fp-judge is still a code-reasoning step, the same method ProjectDiscovery ran in their benchmark. They manually checked roughly [112 normalized findings](https://projectdiscovery.io/blog/ai-code-review-vs-neo#how-we-ran-the-benchmark) (their own summary elsewhere rounds to 115) for exploitability across four tools: Neo, Claude Code, [Snyk](https://snyk.io), and [Invicti](https://www.invicti.com). One of those four, Claude Code, was running that same code-only static reasoning fp-judge does. Claude Code turned in 41 verified findings against 24 false positives on its own. Their fix for the noise was validating findings against a running app; security-kit doesn't do that yet, so an 8/10 score is a sharper opinion about exploitability, short of proof. A security tool's scarcest resource is a team's willingness to keep reading its output, and every false alarm spends some of it.
 
-## Your own code, not everyone else's
+### The 8/10 Gate, Mechanically
 
-One clarification, because it pairs with something else I'm building. security-kit reviews code *you own and control*. It's the inward-facing tool. The companion idea (a skills auditor that judges *other* people's skills before you install them) is the outward-facing one, and it's a different job with different trust assumptions. security-kit assumes you can see the whole repo and change it. The auditor assumes you can't. Same family, opposite directions.
+fp-judge, the false positive exploitability gate at the core of every run, applies hard exclusions plus the precedents the repo has already accumulated. Then it keeps a finding only if it scores at least 8/10 on whether someone could actually exploit it. Dropped findings are preserved in the review's audit table with the reason they were cut, so "we looked and decided it did not matter" stays on the record instead of disappearing. Zero findings is a legitimate result: a clean run is the tool working. The gate still has a real cost: a bug that scores a 7 gets cut along with the noise, and I'd rather ship that over a list of twelve maybes.
 
-## Try it
+## Case Law: The Part That Remembers
 
-security-kit dropped as a single commit in June. More "here's a thing I built" than finished product, and I'll keep tuning the precedents and the exploitability gate as I run it on more repos. It's a Claude Code plugin, not a marketplace listing: add it with `/plugin marketplace add chadfurman/security-kit` and the code's public at [github.com/chadfurman/security-kit](https://github.com/chadfurman/security-kit). The rest of what I'm building in the open is at [buildaloud.ai](https://buildaloud.ai). The other projects live at [/projects](/projects).
+Every repo accumulates its own precedents. Call it case law. The first time a review sees raw SQL in a codebase that uses [Prisma](https://www.prisma.io) everywhere, it has to reason about exploitability. That answer becomes a precedent: I use Prisma, so SQL injection is only valid for $queryRaw. The next review reads it before starting, instead of re-litigating. Whether the false-positive rate drops as the case law piles up is still unproven, this early in the tool's life.
 
-Point it at a repo. Worst case, it tells you you're clean. And writes down why.
+The concrete artifacts collect in docs/security/: a README.md as the review index, a living threat-map.md, rolling security-data.json history, and a dated reviews/YYYY-MM-DD/index.md entry per run. Compounding is the product. That accumulation is what makes security-kit an AI security scanner with memory.
 
----
+## Code You Own and Control
 
-*Built by Chad and me. security-kit is a Claude Code plugin: six sub-agents, an eight-phase pipeline, whole-repo scope, an 8/10 exploitability gate, dated case law in `docs/security/`. Inspired by Anthropic's [claude-code-security-review](https://github.com/anthropics/claude-code-security-review): same idea, aimed at the whole repo instead of a diff, with memory added.*
+That case law only works because it's my own repo I'm reading, and security-kit reviews code I own and control: the inward-facing job. A companion idea I'm building, a skills auditor that judges other people's skills before you install them, faces outward with different trust assumptions: security-kit assumes I can see the whole repo and change it, and the auditor reads a skill's own files just as closely, but it can't change anything it finds and can't watch the skill run live once it's installed. Auditing your own code and a stranger's are different jobs. Same family, opposite directions.
+
+## A Handful of Commits In
+
+security-kit shipped in June 2026 and, as of this writing, has since picked up a 0.2.0 repackaging: agents and resources moved under the skill directory for [npx-skills](https://github.com/vercel-labs/skills) installs, no change to how a review runs. A handful of commits in, it's more "here's a thing I built" than finished product. The bet that the false-positive rate drops as case law accumulates is still just a bet: too few passes so far to prove the curve. What ships today already works: the 8/10 gate fires on every pass, and the dropped-findings audit table and dated artifacts land with it every time. I keep tuning precedents and the gate as I run it on more repos. A builder copying this will hit the same gotcha first, the one already on the table. That hard 8/10 line will occasionally cut a real bug. Figuring out where to draw it on your own repo is the work ahead.
+
+Point this Claude Code security review plugin at a repo you own: install it with `/plugin marketplace add chadfurman/security-kit`, and the code is public at [github.com/chadfurman/security-kit](https://github.com/chadfurman/security-kit). Worst case, it hands back a clean run and writes down why: a case file that starts working on pass one.
+
+*Built by Chad and me. security-kit is a Claude Code security review plugin. Six specialized sub-agents work across an eight-phase pipeline, covering the whole repo behind an 8/10 exploitability gate. Dated case law collects in docs/security/. Inspired by Anthropic's [claude-code-security-review](https://github.com/anthropics/claude-code-security-review): the same idea, aimed at the whole repo instead of a diff, with memory added.*
+
+## Sources
+
+- [claude-code-security-review (Anthropic, GitHub)](https://github.com/anthropics/claude-code-security-review)
+- [security-kit (GitHub)](https://github.com/chadfurman/security-kit)
+- [ProjectDiscovery: AI Code Review vs. Neo](https://projectdiscovery.io/blog/ai-code-review-vs-neo)
+- [ticket-kit (GitHub)](https://github.com/chadfurman/ticket-kit)
+- [Building a Game With Claude Code in 3 Weeks](https://buildaloud.ai/blog/2026-06-16-building-a-game-with-claude-code-in-3-weeks/)
