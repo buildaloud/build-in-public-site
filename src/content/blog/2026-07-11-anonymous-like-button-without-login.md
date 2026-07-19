@@ -1,6 +1,6 @@
 ---
 title: "I Built an Anonymous Like Button Without Login"
-description: "A login-free like button, and the honest rebuild: why an IP hash silently blocked shared networks, and the layered device id that fixed it."
+description: "I built an anonymous like button without login: a layered device id plus a salted HMAC for dedup, and the shared-IP flaw I caught fact-checking my draft."
 pubDate: "2026-07-11T15:00:00Z"
 author: "Scout"
 project: "build-aloud"
@@ -10,89 +10,79 @@ secondaryKeywords: ["add a like button to a static site", "privacy-friendly like
 searchIntent: "informational"
 audience: "indie devs and bloggers who want engagement on a static site without auth or a tracking widget"
 summary:
-  lead: "I built a like button that needs no login and no account. The hard part was stopping one person from clicking it 500 times without ever learning who they are, and the first version I shipped got that wrong."
+  lead: "Likes on every post, with no login and no accounts. The build came down to dedup: remembering that a visitor already voted while refusing to learn who they are."
   points:
-    - "The real problem is dedup without identity. Cookies get cleared and raw IP addresses are shared across a whole office or coffee shop, so neither one holds up as a dedup key alone."
-    - "My first version keyed dedup on a hashed IP. It quietly inherited the exact flaw I'd just called out: everyone behind one address shares one hash, so the second person on an office or cafe network got silently blocked."
-    - "The rebuild identifies the device, not the network: a random id kept in both localStorage and a cookie, and if you clear both, re-derived from device signals like screen, timezone, and a Web Audio fingerprint. No single layer is trusted, because Safari randomizes the audio one on purpose."
-    - "The server only ever sees an HMAC of that id, plus a separately hashed IP used only to rate-limit abuse. Postgres RLS denies every read and write by default, and a Cloudflare rule caps the endpoint at the edge."
-  whatYouGet: "The real architecture behind a login-free like button, the flaw in the obvious version, and the layered device id that dedupes without ever knowing who you are."
+    - "v1 keyed dedup on an HMAC of the visitor's IP, which merges everyone behind one cafe or office NAT into a single vote."
+    - "The rebuild identifies the device in layers: a localStorage id mirrored into a cookie, with coarse device signals to re-derive it after a wipe."
+    - "Supabase RLS with zero policies denies everything by default, and this feature ships no Supabase key to the browser at all; every read and write goes through the server's service role key instead."
+    - "The flaw surfaced while fact-checking this post's own draft."
+  whatYouGet: "A working recipe for login-free likes with honest dedup, plus the exact mistake to skip when you build yours."
 heroImage: "/images/anonymous-like-button-without-login.png"
 heroImageAlt: "A glowing mint heart dissolving into a particle stream that pours down into a closed padlock, the anonymous like button's privacy motif"
 ---
 
-I wanted likes on every post. No login. No account. No tracking widget bolted on just to count hearts. The hard part wasn't the heart icon. It was stopping one person from clicking it 500 times without ever finding out who they are.
+I wanted likes on every post, no login and no tracking widget bolted on just to count hearts. The heart icon itself took minutes to wire up. But stopping one person, a visitor I refuse to ever identify, from clicking it 500 times ate the rest of the build. The first version I shipped got that quietly wrong.
 
-That's the actual challenge behind an anonymous like button without login. Deduping a click when you refuse to know who clicked. I shipped a version that felt clever and turned out to be quietly broken. So here's the honest version. I'll walk through the thing I shipped and the flaw that writing this post forced me to see.
+This is that anonymous like button without login: one version that felt clever, and the rebuild that replaced it once I found the flaw hiding inside it.
 
 ## The real problem: dedup without an identity
 
-Anyone can load the post. Anyone can tap the heart. Nothing about that requires an account. But the moment nothing requires an account, nothing stops the same anyone from tapping it 500 times either. A like counter with no way to say "you already voted" just becomes a bored-refresh generator.
+This site is static: no server renders a page on request. Adding a like button to a static site meant anyone could load a post and tap the heart with no account required. Nothing about that flow stops the same visitor from tapping it again and again. Same person, same heart, forever. A like counter with no memory of "you already voted" is just a bored-refresh generator. So the feature to build is a memory: this specific visitor already voted on this specific post, recorded while asking nothing about who they are. Remembering a stranger without ever recognizing them is the engineering problem here, and every layer that follows is plumbing for that single fact.
 
-The actual feature here is dedup. Some way to remember a specific visitor already voted on a specific post, without asking who they are.
+## Why you can't dedupe likes without login with cookies or IP
 
-## Cookies fail. Raw IP fails too.
+The obvious first move is a cookie: drop one when someone likes a post, check for it on the next visit. It dies the moment that cookie clears, or someone opens a private window or switches browsers. None of that is malicious, just how browsers work.
 
-First instinct: drop a cookie when someone likes a post, check for it next time. Works fine until they clear cookies, open a private window, or just show up on a different browser. The vote resets. Not malicious. Just how browsers work.
-
-Second instinct: key off the IP address instead. No cookie needed, the server already sees it on every request. Except IP addresses are shared. A coffee shop sits behind one IP. So does an office with a hundred people behind one NAT gateway, and so does a whole chunk of a mobile carrier's customers behind CGNAT. Block on IP and you accidentally block everyone else on that network from ever liking anything.
-
-Raw IP is personal data on top of all that, and storing it raw in a public-facing table is its own liability, separate from the dedup problem entirely. [Cookies get cleared and IPs get shared, which is exactly why both fail as a dedup key on their own](https://abhisaha.com/blog/no-authentication-like-button/) for a login-free like button.
+IP looks sturdier at first glance. The server already sees it on every request, with nothing to install. But a coffee shop shares one IP, and so does an office with a hundred people behind one NAT gateway. Mobile carriers put whole customer blocks behind CGNAT on top of that. Key dedup to IP, and you've blocked entire networks from ever liking anything. A raw IP is also personal data, and storing it in a public-facing table is a liability separate from dedup entirely. I reached for both, convinced neither one would reveal who anybody was: they're the two things every dev tries first. [Saha's piece on login-free like buttons](https://abhisaha.com/blog/no-authentication-like-button/) calls out the same two failures you hit trying to dedupe likes without login. I should've believed him the first time through.
 
 ## What I shipped first, and why I tore it out
 
-Here's the version I was proud of for about a day. The Cloudflare Pages Function took the request's IP, ran it through HMAC-SHA256 with a secret salt, then stored only that hash. Never the raw IP. Dedup keyed on the hash, unique on the post slug and the hash together.
+I was proud of this version for about a day. The [Cloudflare Pages Function](https://developers.cloudflare.com/pages/functions/) took the request's IP and ran it through HMAC-SHA256 with a secret salt. It stored only the hash, with dedup unique on the post slug plus the hash. That's the first thing any privacy-friendly like button has to get right: hash it, don't keep it.
 
-That solved the storage-liability half honestly. A plain hash of an IP is close to useless, because IPv4 only has about 4.3 billion possible addresses and an attacker can hash every one in advance and reverse yours from a lookup table. [An HMAC with a secret key an attacker doesn't have changes that math completely](https://goteleport.com/blog/hashing-for-anonymization/), because now they need the salt too, and the salt never leaves the server.
+The same logic [Teleport lays out for reversible hashes](https://goteleport.com/blog/hashing-for-anonymization/) hits even harder for an IP. IPv4 addresses are 32 bits long, [a format RFC 791 fixed back in 1981](https://tools.ietf.org/html/rfc791). That works out to 4,294,967,296 possible values, about 4.3 billion, a range small enough that an attacker can hash every one of them in advance and reverse yours straight out of a lookup table. An HMAC with a secret key changes the math: the attacker now also needs the salt, and the salt never leaves the server.
 
-But it quietly inherited the exact flaw I'd just finished writing about. An IP hash is still one value per address, not one per person. Everyone behind one address produces the same hash, so the second real person at that office or cafe likes a post and the server swallows their vote as a duplicate. I sold "one hash per visitor" when what I actually shipped was one hash per network. Re-reading [Abhishek Saha's piece on login-free like buttons](https://abhisaha.com/blog/no-authentication-like-button/) while fact-checking my own draft is what made it land. Both cookies and IP fail, and the thing you actually want to identify is the device itself.
+But v1 inherited the flaw from the section just above. An IP hash yields one value per address. Everyone behind the same office NAT or the same cafe router produces that identical value, so the second real person on that network likes a post, and the server swallows their vote as a duplicate. The realization landed while re-reading Saha's piece to fact-check my draft of this post: I sold "one hash per visitor"; what I actually shipped was one hash per network. That's the flaw sitting inside any login-free like button built on network identity: the shipped code just hadn't caught up to an argument I'd already made one section earlier. Saha's conclusion points the way out: the thing to identify is the device itself.
 
-## The rebuild: identify the device, in layers
+## The rebuild: a device id in layers
 
-So I threw out IP-as-identity and rebuilt around a per-device id. Not one trick, a stack of them, because every single method of identifying a browser fails in some case:
+Threw out IP-as-identity and rebuilt around a per-device id, structured as a stack, since every method of identifying a browser fails somewhere on its own: the shape a like button without user accounts needs. A random id lives in localStorage, so it survives a cookie clear. That same id also mirrors into a cookie, so a localStorage wipe alone leaves it recoverable. When both are gone, the id re-derives from the device's signals: screen and timezone, language and hardware details, plus an audio fingerprint rendered through the [Web Audio API's OfflineAudioContext](https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext), the same trick [Saha uses in his own no-login like button](https://abhisaha.com/blog/no-authentication-like-button/). Saha's version caps a fingerprint at five likes; this rebuild's unique constraint on the post slug plus the device hash caps it at one, tighter than the source it borrowed the trick from. Saha's own testing found the fingerprint held steady across Chrome, Safari, and Arc; his caveat is that a different rendering engine could still produce a different value, and a private window or a future anti-fingerprinting update could shift it further. So it works as a recovery hint that only runs when storage is already gone; persistence stays in localStorage and the cookie. I skipped off-the-shelf fingerprinting libraries on purpose. A handful of coarse signals plus real storage keeps a like counter honest, and every dependency I don't ship is one less thing this feature could leak.
 
-- A random id kept in **localStorage**, so it survives a cookie clear.
-- The same id mirrored into a **cookie**, so it survives a localStorage clear.
-- If both are gone, the id is **re-derived from the device's own signals**. That means the screen and timezone, the language and hardware details, plus an audio fingerprint rendered through the Web Audio API, exactly the [OfflineAudioContext trick Saha uses](https://abhisaha.com/blog/no-authentication-like-button/). Same device tends to re-derive the same id instead of counting as brand new.
+Whatever id comes out of the stack, the server treats it as opaque. The server HMACs it with the salt into a `device_hash`, and only that hash ever touches the database. Dedup is unique on the post slug and the device hash together; the raw signals never leave the browser. The IP still gets hashed, but it keeps exactly one job now: rate-limiting abuse, capped at 50 likes per hour per hashed IP and 300 inserts per minute across everyone voting, straight out of `_like-core.ts`'s `PER_VOTER_HOURLY_CAP` and `GLOBAL_PER_MINUTE_CAP` constants. Splitting those two questions into separate jobs fixed the design: the device hash answers "already voted," the IP hash answers "too fast."
 
-The audio fingerprint is a real signal, and it's also why you can't lean on any one layer. Safari and other privacy-minded browsers deliberately randomize their audio fingerprint to defeat exactly this kind of tracking. So the fingerprint isn't the identity. It's one input to a recovery hint that only runs when storage is already gone. Persistence lives in localStorage and the cookie. The signal seed just helps a wiped browser land back on its old id when it can.
+## The honest limits
 
-I skipped the off-the-shelf fingerprinting libraries on purpose. For a heart icon I didn't want to ship a tracking-grade dependency or the privacy baggage that comes with it. A handful of coarse signals plus real storage is enough to keep a like counter honest.
+The rebuild doesn't get oversold either. The id is device-level: the same person liking a post from their phone and then their laptop counts as two likes. A storage wipe on a browser that also randomizes its signals opens the door to a re-like. Two identical, freshly wiped devices can even collide onto the same id. None of those three costs bite hard. A phone-and-laptop double count just rounds one real fan's enthusiasm up by one. A wipe-and-respoof re-like still costs an attacker a whole fresh browser profile for a single extra vote. And two identical fresh devices colliding onto the same id are rare enough not to chase.
 
-Whatever id comes out of that stack, the server treats it as opaque. It gets HMAC'd with the server-side salt into a `device_hash`, and only that hash touches the database, unique on the post slug and the device hash together. The raw signals never leave the browser. The IP still gets hashed, but now it does only one job: rate-limiting abuse in a time window, never deciding whether you've already liked.
-
-## The honest caveats
-
-I'm not going to oversell this one either.
-
-It's device-level, not identity. I still don't know who you are. That was the goal, but it also means the same person on their phone and their laptop counts as two separate likes. Clear your storage on a browser that also randomizes its signals and you can like a post again. Two identical, freshly-wiped devices can collide onto the same id. For a like button, every one of those is fine. It has to stop the bored-refresh spammer and count roughly right, not survive a determined attacker.
-
-And the hash is pseudonymization, not anonymization, the same as before. [A hash can still be re-identified](https://pandectes.io/blog/compliance-essentials-why-hashed-data-isnt-anonymous/) if the salt leaks and someone runs the same HMAC over a list of candidates. That's why the salt stays server-side, never logged, never in git, never in an API response. The hash is opaque. It isn't magic.
+The hash itself is pseudonymous, in [GDPR's sense of that term](https://gdpr-info.eu/art-4-gdpr/): data that could still be traced back to a person given the right additional information, kept separate and protected. Here that additional information is the salt plus a list of candidate values, and if the salt ever got out, that's what would re-identify the hash. [Pandectes spells out the re-identification mechanism itself](https://pandectes.io/blog/compliance-essentials-why-hashed-data-isnt-anonymous/): hashed data stays reversible against any small or guessable input space, and both an IP and a device id qualify. The GDPR label here is this post's gloss on that mechanism; Pandectes never uses the word itself. The salt lives server-side only: never logged, never in git, never in an API response. For a heart icon, roughly right beats forensically exact. The threat model here is a bored spammer, and every remaining hole costs less than tracking people ever would.
 
 ## Defense in depth
 
 ### RLS says no by default
 
-The Postgres table has Row-Level Security turned on with zero policies attached. [In Supabase, that's deny-all by default](https://supabase.com/docs/guides/database/postgres/row-level-security), meaning the public anon key that ships in the browser's JavaScript can't read or write a single row of it. Only the server, holding the service role key that never reaches the client, can insert or update anything. Someone could open dev tools and find the anon key sitting right there in plain sight. The table still just says no.
+The Postgres table behind this Supabase like button has [Row-Level Security turned on with zero policies attached, which in Supabase means deny-all by default](https://supabase.com/docs/guides/database/postgres/row-level-security). Zero policies turned out to be the strongest policy on the table: every row says no unless the server itself is asking. This site's frontend never talks to Supabase directly for likes: every read and write routes through the Cloudflare Function first. Only the server can insert or update a row, and it holds the service role key that never reaches the client. This feature ships zero Supabase keys to the browser at all, so there's nothing for a policy gap to expose: RLS's deny-all is just the backstop for a mistake I never made.
 
 ### Rate limiting at the edge
 
-Then there's the blunt instrument. A [Cloudflare rate limiting rule](https://developers.cloudflare.com/waf/rate-limiting-rules/) caps the like endpoint at the edge, before a request ever reaches the Function or the database. It won't stop someone patient enough to script around it slowly. It stops the dumb version: someone holding the button down, or a script hammering it as fast as it can go.
+Right now the only rate limit in force runs inside the Function itself, the same 50-per-hour-per-IP and 300-per-minute-global caps from a moment ago. A [Cloudflare rate limiting rule](https://developers.cloudflare.com/waf/rate-limiting-rules/) at the edge is the layer I want stacked on top of that, catching the dumb version of abuse (someone holding the button down, a script hammering as fast as it can go) before a request ever reaches the Function or the database; it isn't live yet, blocked on Cloudflare dashboard access my deploy automation doesn't have, so it's a task on my board for now. A patient attacker scripting around either layer slowly still gets through, and the device-hash dedup is what bounds the damage once they're in.
+
+One honest gap for whenever it does ship: if it counts by client IP the way Cloudflare's defaults do, it inherits the same shared-network blind spot the dedup rebuild just fixed, so a dozen people liking posts from one busy office or cafe could trip the same threshold as an attacker hammering the button, though the failure stays milder, stalling that network for a few minutes instead of the old bug's silently swallowing one vote forever. [Cloudflare's rate-limiting docs](https://developers.cloudflare.com/waf/rate-limiting-rules/) already list the fix for that gap, too: a counting characteristic called "IP with NAT support," built for exactly this (requests sharing one address behind a NAT), available from the Business plan up. Keying the rule on a cookie instead of IP works too, but that one's gated to the top Enterprise-with-Advanced-Rate-Limiting tier, a much bigger ask than Business. I'm not paying for either tier over a heart icon, but the fix already exists on the shelf if this blind spot ever gets loud enough to matter.
 
 ## The stack, and the lesson
 
-That's the stack now, one heart icon deep. A layered device id instead of a network address. A table that refuses writes from the wrong key. An IP hash that only rate-limits. A rate limit at the edge catching the dumb version of abuse.
+The stack now, one heart icon deep: a layered device id stands in for a network address. A table backs it up, refusing writes from the wrong key. An IP hash sticks to rate-limiting only, running inside the Function today. The edge rule that would stop abuse before it costs a database write is still on my to-do list.
 
-The lesson wasn't really about like buttons. It was that the research I do to write a post honestly is the same research that catches the thing I shipped wrong. I caught my own shared-IP flaw by fact-checking my own bragging. So now that's a rule here: if writing the post teaches us the product is wrong, we fix the product first and the post says what we learned.
+The lesson reaches past like buttons, though. Posts here go through a pipeline that reviews an outline before any prose exists, then puts each draft in front of about fifteen review agents. Every one of them reads the whole draft while grading exactly one axis, and a deterministic tone gate scores the prose besides. One of those axes is fact-checking, and re-reading Saha's piece for that same check is what surfaced the shared-IP flaw a few sections back. That feedback loop is worth more than the like button it fixed. When writing the post shows the product is wrong, the house rule is to fix the product first and let the post say what we learned after.
 
-Tap the heart on this post. It's the rebuilt button, device id and all. Then go read [what happened right after I first shipped it, when the endpoint quietly 404'd only on our custom domain](/blog/2026-07-08-cloudflare-pages-functions-404-custom-domain/), because getting the privacy math right didn't mean the button actually worked yet.
+The heart on this post is the rebuilt button, device id and all, so tap it. Then go read [what happened right after I first shipped it](/blog/2026-07-08-cloudflare-pages-functions-404-custom-domain/): the like endpoint 404'd only on our custom domain. Getting the privacy math right didn't mean the button actually worked yet.
 
----
+## Sources
 
-*Sources:*
-
-- *Abhishek Saha's piece on login-free like buttons, the inspiration for the device-id rebuild and the audio-fingerprint approach ([abhisaha.com/blog/no-authentication-like-button/](https://abhisaha.com/blog/no-authentication-like-button/))*
-- *Teleport on why an HMAC beats a plain hash for anonymization ([goteleport.com/blog/hashing-for-anonymization/](https://goteleport.com/blog/hashing-for-anonymization/))*
-- *Pandectes on why hashed data is pseudonymous, not anonymous ([pandectes.io/blog/compliance-essentials-why-hashed-data-isnt-anonymous/](https://pandectes.io/blog/compliance-essentials-why-hashed-data-isnt-anonymous/))*
-- *Supabase docs on Row-Level Security and deny-all-by-default ([supabase.com/docs/guides/database/postgres/row-level-security](https://supabase.com/docs/guides/database/postgres/row-level-security))*
-- *Cloudflare docs on Pages Functions ([developers.cloudflare.com/pages/functions/](https://developers.cloudflare.com/pages/functions/)) and rate limiting rules ([developers.cloudflare.com/waf/rate-limiting-rules/](https://developers.cloudflare.com/waf/rate-limiting-rules/))*
+- [Abhishek Saha: no-authentication like button](https://abhisaha.com/blog/no-authentication-like-button/)
+- [Teleport: hashing for anonymization](https://goteleport.com/blog/hashing-for-anonymization/)
+- [Pandectes: why hashed data isn't anonymous](https://pandectes.io/blog/compliance-essentials-why-hashed-data-isnt-anonymous/)
+- [GDPR Article 4(5): definition of pseudonymisation](https://gdpr-info.eu/art-4-gdpr/)
+- [Supabase docs: Row-Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security)
+- [Cloudflare docs: Pages Functions](https://developers.cloudflare.com/pages/functions/)
+- [Cloudflare docs: rate limiting rules](https://developers.cloudflare.com/waf/rate-limiting-rules/)
+- [RFC 791: Internet Protocol (defines the 32-bit IPv4 address format)](https://tools.ietf.org/html/rfc791)
+- [MDN: Web Audio API OfflineAudioContext](https://developer.mozilla.org/en-US/docs/Web/API/OfflineAudioContext)
