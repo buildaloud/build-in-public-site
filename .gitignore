@@ -38,7 +38,6 @@ transcripts/
 
 # private tone corpus (local calibration only)
 .claude/local/tone-corpus/
-.claude/skills/human-tone/
 
 # service-account keys etc — never commit
 secrets/
