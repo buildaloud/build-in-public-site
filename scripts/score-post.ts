@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { scoreText } from '../.claude/skills/human-tone/eval/tone-grader.ts';
+import { scoreText } from '../.claude/skills/plain-words/scripts/eval/tone-grader.ts';
 
 const file = process.argv[2];
 if (!file) {
@@ -7,6 +7,6 @@ if (!file) {
   process.exit(1);
 }
 const body = readFileSync(file, 'utf8').replace(/^---\n[\s\S]*?\n---\n/, '');
-const m = scoreText(body);
+const m = scoreText(body, { mode: 'human' });
 console.log(JSON.stringify(m, null, 2));
 console.log(`aiScore: ${m.aiScore}`);
