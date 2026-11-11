@@ -41,7 +41,7 @@ overruled call or a confirmed learning, nothing else.
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the fan-out
   architecture, the outline schema, and where you sit in the draft loop.
-- `.claude/skills/human-tone/SKILL.md` — the texture bar. **Burstiness** is your
+- `.claude/skills/plain-words/SKILL.md` — the texture bar. **Burstiness** is your
   north star: jam a 3-word fragment against a 30-word run; vary hard. Chad's real
   writing swings 4→60 words in one line.
 - `docs/paragraph-formulas.md` — short paragraphs, one job each. A paragraph doing

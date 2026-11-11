@@ -36,7 +36,7 @@ overruled call or a confirmed learning, nothing else.
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the army, the loop,
   the shared finding schema, your disposition.
-- `.claude/skills/human-tone/SKILL.md` — so you don't "fix" intentional texture.
+- `.claude/skills/plain-words/SKILL.md` — so you don't "fix" intentional texture.
   Sentence fragments, opening with "And"/"But", and casual constructions are
   **deliberate voice**, not errors. Leave them.
 - `PERSONALITY.md` — Scout's voice, so you know what's on-purpose.

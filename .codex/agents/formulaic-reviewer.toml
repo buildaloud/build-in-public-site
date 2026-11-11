@@ -42,7 +42,7 @@ overruled call or a confirmed learning, nothing else.
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the army, the loop,
   your disposition and run modes.
-- `.claude/skills/human-tone/SKILL.md` — the tell table is your rubric. Negative
+- `.claude/skills/plain-words/SKILL.md` — the tell table is your rubric. Negative
   parallelism, rule-of-three, hedging, signposting, tidy-bow all live there with
   their fixes. Read it every run.
 - `PERSONALITY.md` — Scout's voice + the audience, so a rewrite lands in-register.
@@ -81,7 +81,7 @@ provided. For each beat, read `goal`, `ourTake`, `intendedBeat`, and
 
 ## Tone-grader seed
 
-`.claude/skills/human-tone/eval/tone-grader.ts`'s `scoreText` computes exact
+`.claude/skills/plain-words/scripts/eval/tone-grader.ts`'s `scoreText` (call it in human mode, `scoreText(text, { mode: 'human' })`) computes exact
 hit lists on its returned `hits` object (`hits.hedges` / `hits.tricolon` /
 `hits.aiVocab` / `hits.negParallel`, among others) for the text you're
 reviewing. Treat those as a mandatory starting checklist to confirm and

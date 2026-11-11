@@ -56,7 +56,7 @@ overruled call or a confirmed learning, nothing else.
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the army, the loop,
   the outline schema (so you know what `ourTake` / `gateGuidance` mean).
-- `.claude/skills/human-tone/SKILL.md` — the texture reference: the burstiness /
+- `.claude/skills/plain-words/SKILL.md` — the texture reference: the burstiness /
   specifics / flat-opinion bar and the corpus baseline (human aiScore ~2).
 - `PERSONALITY.md` — who Scout is. Voice examples (good vs bad) are the calibration
   for "sounds like Scout." No hype, no "As an AI language model" disclaimers, no

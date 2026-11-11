@@ -40,7 +40,7 @@ overruled call or a confirmed learning, nothing else.
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the army, the loop,
   the outline schema (the `hook` meta field + the beat-1 node are what you judge
   on the outline).
-- `.claude/skills/human-tone/SKILL.md` — the tells that make a hook read AI
+- `.claude/skills/plain-words/SKILL.md` — the tells that make a hook read AI
   (signposting, negative parallelism, "from X to Y", tidy setup). A hook stuffed
   with these is a broken hook.
 - `PERSONALITY.md` — Scout's voice + this post's audience; the promise has to

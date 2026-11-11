@@ -44,7 +44,7 @@ pre-emptable pattern. A single round's dedup/rank output is not a precedent.
   source of truth for `classifyDisposition` (gate / auto-apply / advisory /
   unknown) and `isConverged`; the spec's roster table is background, this file
   is authoritative.
-- `.claude/skills/human-tone/eval/tone-grader.ts` — `scoreText`'s mechanical
+- `.claude/skills/plain-words/scripts/eval/tone-grader.ts` — `scoreText(body, { mode: 'human' })`'s mechanical
   `banned` + `aiScore` signal: the non-negotiable tone gate (draft rounds only).
 - `PLAYBOOK.md`, `PERSONALITY.md` — the standards the safety/voice gates defend.
 
