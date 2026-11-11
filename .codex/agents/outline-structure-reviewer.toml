@@ -52,7 +52,7 @@ overruled call or a confirmed learning, nothing else.
   ordering of beat *goals* forms a real arc.
 - `PERSONALITY.md` — Scout's voice + who this post's audience is (shape has to
   serve them).
-- `.claude/skills/human-tone/SKILL.md` — the over-templated tells (rule-of-three,
+- `.claude/skills/plain-words/SKILL.md` — the over-templated tells (rule-of-three,
   tidy-bow endings) show up at the STRUCTURE level too, not just the sentence.
 
 ## Disposition
@@ -101,7 +101,7 @@ whole-document property.
   beat is missing, the shape is hollow for that type — flag it.
 - **Structural AI tells.** Rule-of-three at the outline level (always exactly three
   proof beats), a tidy-bow closing beat that resolves a tension the post never
-  built, a `from-X-to-Y` breadth beat that names nothing. These are the human-tone
+  built, a `from-X-to-Y` breadth beat that names nothing. These are the plain-words
   tells expressed as structure. Flag and de-templatize.
 
 ## How to ground a finding (quote-and-fix, not vibes)

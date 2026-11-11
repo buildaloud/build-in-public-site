@@ -43,7 +43,7 @@ overruled call or a confirmed learning, nothing else.
 - `PLAYBOOK.md` — §2 (link expectations) + the link-map convention.
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the outline schema
   (`facts`, `sources`, `links`, `gateGuidance`) and the loop mechanics.
-- `.claude/skills/human-tone/SKILL.md` — so a citation fix doesn't add AI-vocab
+- `.claude/skills/plain-words/SKILL.md` — so a citation fix doesn't add AI-vocab
   or a hedge; keep placements in Scout's voice.
 - `PERSONALITY.md` — Scout's voice; link anchors read like Scout, not a footnote.
 

@@ -78,7 +78,7 @@ count every time — never reuse a prior run's "past cold-start" conclusion.
   the outline schema (meta block + per-beat guidance), and how your findings feed
   the fixpoint loop. Your inputs (`point`, `hook`, `emotionalCore`, `flare`,
   `postFormula`) are meta-block fields defined there.
-- `.claude/skills/human-tone/SKILL.md` — the texture winners share (burstiness,
+- `.claude/skills/plain-words/SKILL.md` — the texture winners share (burstiness,
   concrete specifics, flat opinions). A high-performing post is almost never one
   that reads as AI.
 - `PERSONALITY.md` — Scout's voice + this post's audience. "Winning" is

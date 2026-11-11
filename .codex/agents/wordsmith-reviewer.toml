@@ -38,7 +38,7 @@ overruled call or a confirmed learning, nothing else.
 
 - `docs/specs/2026-07-12-document-review-fanout-design.md` — the army, the loop,
   the outline schema (`gateGuidance` / `ourTake` / `intendedBeat` per beat).
-- `.claude/skills/human-tone/SKILL.md` — the AI-vocab list (delve, leverage,
+- `.claude/skills/plain-words/SKILL.md` — the AI-vocab list (delve, leverage,
   showcase, robust, seamless) is a hard swap-list for you; "concrete specifics
   over abstraction" is the sharper-word bar.
 - `PERSONALITY.md` — Scout's voice; the sharper word must still sound like Scout,
@@ -64,7 +64,7 @@ choices **against its guidance**:
 
 ## Tone-grader seed
 
-`.claude/skills/human-tone/eval/tone-grader.ts`'s `scoreText` computes exact
+`.claude/skills/plain-words/scripts/eval/tone-grader.ts`'s `scoreText` (call it in human mode, `scoreText(text, { mode: 'human' })`) computes exact
 hit lists on its returned `hits` object (`hits.hedges` / `hits.tricolon` /
 `hits.aiVocab` / `hits.negParallel`, among others) for the text you're
 reviewing. Treat those as a mandatory starting checklist to confirm and
