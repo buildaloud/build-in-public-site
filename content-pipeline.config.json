@@ -20,7 +20,7 @@
     "openaiApiKeyEnv": "OPENAI_API_KEY",
     "styleNotes": "16:9, matte charcoal #13161c background, single mint #a3f7bf accent, no text overlays"
   },
-  "toneCorpusDir": ".claude/skills/human-tone/eval/corpus",
+  "toneCorpusDir": ".claude/local/tone-corpus",
   "statsFile": "src/data/stats.json",
   "mediums": {
     "blog": {

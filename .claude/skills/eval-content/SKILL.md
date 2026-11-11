@@ -49,12 +49,12 @@ Given a `<brief-file>.brief.md` produced by the pipeline:
 - The deterministic graders are the gate; the content-judge is advisory (it answers
   binary yes/no, no flaky 1–5 scores).
 - Grading a full draft/post rather than just the Brief? Use
-  `.claude/skills/human-tone/eval` too — `tone-grader.ts` gates at **aiScore < 15**
-  (required, unchanged). `judge.ts` adds advisory axes on top: `authenticity`,
+  `.claude/skills/plain-words/scripts/eval` too — `tone-grader.ts` gates at **aiScore < 15**
+  in human mode (required, unchanged): `.claude/skills/plain-words/bin/tone --mode human <post>`. `judge.ts` adds advisory axes on top: `authenticity`,
   `emotion_impact`, and `ai_crutches` (quoted structural AI tells), with a
   code-enforced crutch-density cap on `score` (3-4 crutches → ≤6, 5+ → ≤4). These
   are additive to the aiScore gate, not a replacement. See
-  `.claude/skills/human-tone/SKILL.md`.
+  `.claude/skills/plain-words/SKILL.md`.
 - `EVAL_OFFLINE=1` skips the network source-URL probe — use it in CI / unit runs;
   run the online step (2) when you need to validate real citations.
 - The Brief contract lives in `.claude/skills/content-pipeline/lib/brief-schema.ts`;

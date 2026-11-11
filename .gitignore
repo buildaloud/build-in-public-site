@@ -37,11 +37,11 @@ transcripts/
 .claude/agent-memory/change-factory-*/
 
 # private tone corpus (local calibration only)
-.claude/skills/human-tone/eval/corpus/
+.claude/local/tone-corpus/
+.claude/skills/human-tone/
 
 # service-account keys etc — never commit
 secrets/
 scripts/video/.venv/
 scripts/video/models/
 scripts/video/out/
-.claude/skills/human-tone/eval/.venv/
